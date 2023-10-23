@@ -17,6 +17,6 @@ Si tratta di un'applicazione web che permette di giocare alla variante Reconnass
 todo
 
 ## Info
-Here goes alcune info secondarie come linguaggi di programmazione, scrum, etc... todo
+Come sistema di comunicazione interno al team abbiamo preferito garantire la totale proprietá dei nostri dati utilizzando il servizio Matrix attraverso il client Element, opportunamente hostato su un server di nostra proprietá.
 
 

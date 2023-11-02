@@ -6,8 +6,8 @@ ENV PYTHONUNBUFFERED 1
 
 #set work directory
 COPY ./requirements.txt /requirements.txt
-COPY ./app /app
-WORKDIR /app
+COPY ./django /django
+WORKDIR /django
 
 EXPOSE 8000
 

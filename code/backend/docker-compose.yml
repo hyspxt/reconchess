@@ -8,4 +8,13 @@ services:
       - "433:433"
     volumes:
       - ./Caddyfile:/etc/caddy/
+      
+  django: 
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - "./app:/app"
+
+
 

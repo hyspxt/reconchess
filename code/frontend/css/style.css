@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body{
+    background-color: #E7ECEF;
+    color: #274C77;
+    font-family: 'Poppins', sans-serif;
+}
+header{
+    font-size: 25px;
+    font-weight: 600;
+    color: #274C77;
+    text-align: center;
+}
+.navbar{
+    background-color: #274C77;
+}
+.navbar button{
+    background-color: #E7ECEF;
+    color: #274C77;
+    border-radius: 8px;
+    border-color: #274C77;
+    margin-left: 10px;
+}
+.navbar button:hover{
+    background-color: #6096BA;
+    border-color: #274C77;
+}
+a{
+    color: #D5DBBE;
+    
+}
+a:hover{
+    color: #FFF;
+
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ma{
+    margin-top: 200px;
+}
+.black-3c85d{
+    background-color: #6096BA;
+}
+.white-1e1d7{
+    background-color: #FFF;
+}
+.notation-322f9{
+    color: #274C77;
+}
+.board-b72b1{
+    border-color: #274C77;
+}
+.form{
+    margin-top: 100px;
+    max-width: 430px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #FFF;
+}
+.field{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+.field input,
+.field button{
+    height: 100%;
+    width:100%;
+    border: none;
+    font-size: 17px;
+    font-weight: 400;
+    border-radius: 10px;
+}
+.field input{
+    outline: none;
+    padding: 0 15px;
+    border: 1px solid #CACACA;
+}
+.field input:focus{
+    border: 2px solid #CACACA;
+}
+.field button{
+    background-color: #6096BA;
+}
+.field button:hover{
+    background-color: #274C77;
+    font-size: 18px;
+}
+.line{
+    position: relative;
+    height: 1px;
+    width: 100%;
+    margin: 35px 0;
+    background-color: #6096BA;
+}
+.line::before{
+    content: " Or ";
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFF;
+    color: #6096BA;
+    padding: 0 15px;
+}
+.eye-icon{
+    color: #274C77;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 17px;
+    cursor: pointer;
+    padding: 5px;
+}

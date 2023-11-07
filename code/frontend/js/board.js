@@ -38,6 +38,7 @@ function makeRandomMove () {
   }  
 
 function onDrop (source, target) {
+    document.body.style.overflow = 'visible';
     removeGreySquares()
 
     // see if the move is legal

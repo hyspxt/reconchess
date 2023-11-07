@@ -38,7 +38,6 @@ function makeRandomMove () {
   }  
 
 function onDrop (source, target) {
-    document.body.style.overflow = 'visible';
     removeGreySquares()
 
     // see if the move is legal
@@ -49,7 +48,10 @@ function onDrop (source, target) {
     })
 
     // illegal move
-    if (move === null) return 'snapback'
+    if (move === null) {
+        document.body.style.overflow = 'visible';
+        return 'snapback'
+    }
 
     // make random legal move for black
     window.setTimeout(makeRandomMove, 250)

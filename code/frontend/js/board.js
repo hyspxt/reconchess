@@ -19,6 +19,7 @@ function greySquare (square) {
 }
 
 function onDragStart (source, piece) {
+    document.body.style.overflow = 'hidden';
     // do not pick up pieces if the game is over
     if (game.game_over()) return false
 
@@ -77,6 +78,7 @@ function onMouseoutSquare (square, piece) {
 }
 
 function onSnapEnd () {
+    document.body.style.overflow = 'visible';
     board.position(game.fen())
 }
 

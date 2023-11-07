@@ -9,7 +9,9 @@ def index(request):
 
 @csrf_exempt
 def register(request):
+	print(request.method)
 	if( request.method == 'POST' ):
+		print('post received')
 		form = RegisterForm(request.POST)
 		if(form.is_valid()):
 			form.save()

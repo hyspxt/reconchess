@@ -199,6 +199,10 @@ a:hover{
     padding-top: 37px;
 }
 
+.board{
+    width: 550px;
+}
+
 @media (max-width: 1180px) {
     .container_x{
         flex-direction: column;
@@ -214,6 +218,8 @@ a:hover{
 
     .board{
         order: 1;
+        width: 400px;
+
     }
 
     .btn_tbl{
@@ -222,28 +228,32 @@ a:hover{
     }
 
     .btn_quit{
-        padding-left: 118px;
-        padding-right: 118px;
+        padding-left: 79px;
+        padding-right: 79px;
         margin-right: 5px;
+        padding-top: 6px;
+        padding-bottom: 6px;
     }
 
     .btn_rematch{
-        padding-left: 90px;
-        padding-right: 90px;
+        padding-left: 51px;
+        padding-right: 51px;
         margin-left: 5px;
+        padding-top: 6px;
+        padding-bottom: 6px;
     }
 
     .btn_tbl{
         flex-direction: row;
     }
+
+    .scroll_History,
+    .scroll_Rules,
+    .scroll_Players{
+        margin-bottom: 20px;
+    }
+
+    .ma{
+        margin-top: 100px;
+    }
 }
-/*
-
-
-.container_f{
-    order: 3;
-}
-
-.container_y{
-    order: 1;
-}*/

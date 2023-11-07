@@ -25,10 +25,10 @@ SECRET_KEY = 'django-insecure-!qog!vd-xf)9v_2zmg#vks=sr(9z)i%w(v!z3mfpp97tk(s1n0
 #SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['silverbullets.rocks']
-CSRF_TRUSTED_ORIGINS = ['https://silverbullets.rocks']
+ALLOWED_HOSTS = ['silverbullets.rocks', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://silverbullets.rocks', 'https://localhost']
 
 
 # Application definition

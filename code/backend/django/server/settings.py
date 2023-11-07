@@ -27,8 +27,8 @@ SECRET_KEY = 'django-insecure-!qog!vd-xf)9v_2zmg#vks=sr(9z)i%w(v!z3mfpp97tk(s1n0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://localhost',]
+ALLOWED_HOSTS = ['silverbullets.rocks']
+CSRF_TRUSTED_ORIGINS = ['https://silverbullets.rocks']
 
 
 # Application definition

@@ -9,6 +9,7 @@
         <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="icon" type="png" href="img/other/logo.png">
         <Title>Silver Bullets</Title>
     </head>
     <body>
@@ -28,9 +29,9 @@
             </form>
         </nav>
         <div class="container_x ma">
-            <div class="container_y">
-                <div class="scroll_bar">
-                    <div class="heder_scroll" >History</div>
+            <div class="container_y" >
+                <div class="scroll_History">
+                    <div class="heder_scroll">History</div>
                     <div class="text_scroll">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
@@ -38,7 +39,7 @@
                     Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </div>
                 </div>
-                <div class="scroll_bar">
+                <div class="scroll_Rules">
                     <div class="heder_scroll" style="padding-right: 230px">Rules</div>
                     <div class="text_scroll">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
@@ -48,9 +49,9 @@
                     </div>
                 </div>
             </div>
-            <div id="myBoard" style="width: 550px"></div>
-            <div class="container_y">
-                <div class="scroll_bar">
+            <div id="myBoard" class="bord" style="width: 550px"></div>
+            <div class="container_f">
+                <div class="scroll_Players">
                     <div class="heder_scroll" style="padding-right: 181px">Top Players</div>
                     <div class="text_scroll">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
@@ -59,12 +60,15 @@
                     Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </div>
                 </div>
-                <button type="submit" class="btn_body btn_quit" onclick="rematch()">QUIT</button>
-                <button type="submit" class="btn_body" onclick="rematch()">RE-MATCH</button>
+                <div class="btn_tbl">
+                    <button type="submit" class="btn_quit" onclick="rematch()">QUIT</button>
+                    <button type="submit" class="btn_rematch" onclick="rematch()">RE-MATCH</button>
+                </div>
             </div>
 
         </div>
         <script src="js/board.js"></script>
     </body>
 </html>
+
 

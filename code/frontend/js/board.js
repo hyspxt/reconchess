@@ -81,3 +81,7 @@ var config = {
 }
 board = Chessboard('myBoard', config)
 
+function rematch(){
+    game.reset(),
+    board.start()
+}

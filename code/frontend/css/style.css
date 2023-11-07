@@ -33,19 +33,22 @@ a:hover{
     color: #FFF;
 
 }
-.container_x{
+.container_x,
+.container_y,
+.container_z{
     display: flex;
-    flex-direction: row;
     align-items: center;
+}
+.container_x{
+    flex-direction: row;
     justify-content: space-around;
-
 }
 .container_y{
-    display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-around;
+}
+.container_z{
     justify-content: center;
-
 }
 .ma{
     margin-top: 200px;

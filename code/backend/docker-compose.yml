@@ -8,13 +8,31 @@ services:
       - "433:433"
     volumes:
       - ./Caddyfile:/etc/caddy/
-      
+      - .:/srv
+
   django: 
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_USER=myuser
+      - DB_PASSWORD=123
+      - DB_NAME=mydb
+      - DB_HOST=postgres
     volumes:
       - "./django:/django"
+    command: gunicorn server.wsgi:application --bind 0.0.0.0:8000
+    image: app:django
+    depends_on:
+      - postgres
 
-
-
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=mydb
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

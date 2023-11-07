@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     eyeIcons.forEach(eyeIcon => {
         eyeIcon.addEventListener("click", () => {
-            const passwordFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+            const passwordFields = eyeIcon.parentElement.querySelectorAll(".password");
 
             passwordFields.forEach(password => {
                 if (password.type === "password") {

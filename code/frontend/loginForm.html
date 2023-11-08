@@ -22,16 +22,16 @@
         <div class="container_z">
             <div class="form">
                 <header>Sign in</header>
-                <form action="#"> <!-- Manda i dati in input-->
+                <form onsubmit="handleLogin(event)"> <!-- Manda i dati in input-->
                     <div class="field input-field">
-                        <input name="email" type="email" placeholder="Email" class="input">
+                        <input name="email" type="email" placeholder="Email" class="input" required>
                     </div>
                     <div class="field">
-                        <input name="password" type="password" placeholder="Create password" class="password">
+                        <input name="password" type="password" placeholder="Create password" class="password" required>
                         <i class="bx bx-hide eye-icon"></i>
                     </div>
                     <div class="field">
-                        <button type="submit" class="btn btn-primary" id="signup">Sign up</button>
+                        <button type="submit" class="btn btn-primary" id="signin">Sign in</button>
                     </div>
                 </form>
                 <div class="line"></div>

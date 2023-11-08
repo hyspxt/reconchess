@@ -17,3 +17,81 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+function handleRegistration(event) {
+    event.preventDefault();
+
+    //get form data
+    const formData = new FormData(event.target);
+    //get csfttoken value from cookie
+    const csrftoken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
+
+    fetch("/api/register/", {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-CSRFToken": csrftoken
+        },
+    }).then(response => {
+        const alert = document.createElement("div");
+        alert.classList.add("alert", "mt-3", "text-center");
+
+        if (response.ok) {
+            alert.classList.add("alert-success");
+        } else {
+            alert.classList.add("alert-danger");
+        }
+
+        response.text().then(data => {
+            alert.innerHTML = data;
+        });
+
+        const nextElement = event.target.nextElementSibling;
+        if (nextElement.classList.contains("alert")) {
+            nextElement.remove();
+        }
+        event.target.after(alert);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
+
+function handleLogin(event) {
+    event.preventDefault();
+
+    alert("login");
+
+    //get form data
+    const formData = new FormData(event.target);
+    //get csfttoken value from cookie
+    const csrftoken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
+
+    fetch("/api/login/", {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-CSRFToken": csrftoken
+        },  
+    }).then(response => {
+        const alert = document.createElement("div");
+        alert.classList.add("alert", "mt-3", "text-center");
+
+        if (response.ok) {
+            alert.classList.add("alert-success");
+        } else {
+            alert.classList.add("alert-danger");
+        }
+
+        response.text().then(data => {
+            alert.innerHTML = data;
+        });
+
+        const nextElement = event.target.nextElementSibling;
+        if (nextElement.classList.contains("alert")) {
+            nextElement.remove();
+        }
+        event.target.after(alert);
+    })
+}

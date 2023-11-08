@@ -19,3 +19,26 @@ def register(request):
 	else:
 		return HttpResponseBadRequest(content='Invalid request method!', content_type='text/plain')
 
+def userLogin(request):
+	if( request.method == 'POST' ):
+		try:
+			email = request.POST['email']
+			password = request.POST['password']
+			#find the username associated with the unique email in the database
+			user = User.objects.get(email=email)
+			user = authenticate(request, username=user.username, password=password)
+			if user is not None:
+				login(request, user)
+				return HttpResponse('User logged in successfully!', content_type='text/plain')
+			else:
+				return HttpResponseBadRequest(content='Invalid email or password!', content_type='text/plain')
+		except Exception as e:
+			error = str(e)
+			return HttpResponseBadRequest(content=error, content_type='text/plain')
+	else:
+		return HttpResponseBadRequest(content='Invalid request method!', content_type='text/plain')
+
+
+def checkLogin(request, username:str):
+	if User.objects.get(username=username).is_authenticated:
+		return HttpResponse('User is logged in!', content_type='text/plain')

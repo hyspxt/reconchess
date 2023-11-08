@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
+@csrf_exempt
 def register(request):
 	if( request.method == 'POST' ):
 		try:
@@ -13,12 +14,13 @@ def register(request):
 				form.save()
 				return HttpResponse('User created successfully!', content_type='text/plain')
 			#send error message
-			return HttpResponseBadRequest(content=form.errors.as_ul())
+			return HttpResponseBadRequest(content=form.errors.as_text())
 		except Exception:
 			return HttpResponseBadRequest(content="something went wrong, please try again", content_type='text/plain')
 	else:
 		return HttpResponseBadRequest(content='Invalid request method!', content_type='text/plain')
 
+@csrf_exempt
 def userLogin(request):
 	if( request.method == 'POST' ):
 		try:

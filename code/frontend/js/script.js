@@ -20,18 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function handleRegistration(event) {
     event.preventDefault();
-
     //get form data
     const formData = new FormData(event.target);
     //get csfttoken value from cookie
-    const csrftoken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
 
     fetch("/api/register/", {
         method: "POST",
         body: formData,
-        headers: {
-            "X-CSRFToken": csrftoken
-        },
     }).then(response => {
         const alert = document.createElement("div");
         alert.classList.add("alert", "mt-3", "text-center");
@@ -61,19 +56,13 @@ function handleRegistration(event) {
 function handleLogin(event) {
     event.preventDefault();
 
-    alert("login");
-
     //get form data
     const formData = new FormData(event.target);
     //get csfttoken value from cookie
-    const csrftoken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
 
     fetch("/api/login/", {
         method: "POST",
         body: formData,
-        headers: {
-            "X-CSRFToken": csrftoken
-        },  
     }).then(response => {
         const alert = document.createElement("div");
         alert.classList.add("alert", "mt-3", "text-center");

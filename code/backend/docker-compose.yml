@@ -1,15 +1,6 @@
 version: '3.7'
 
 services:
-  caddy:
-    image: caddy:latest
-    ports:
-      - "8080:80"  # Porta per il traffico HTTP
-      - "433:433"
-    volumes:
-      - ./Caddyfile:/etc/caddy/
-      - .:/srv
-
   django: 
     build: .
     ports:

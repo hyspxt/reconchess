@@ -72,6 +72,7 @@ a:hover{
 }
 .board-b72b1{
     border-color: #274C77;
+    margin-right: 0px;
 }
 .form{
     margin-top: 100px;
@@ -148,7 +149,7 @@ a:hover{
     border-radius: 4px;
     margin-bottom: 40px;
     height: 250px;
-    width: 300px;
+    width: 316px;
     border: #274C77 1px solid;
     overflow: auto;
     background-color: #FFF;
@@ -190,6 +191,7 @@ a:hover{
 }
 
 .heder_scroll{
+    width: 299px;
     background-color: #CACACA;
     font-weight: bold;
     display: block;
@@ -205,13 +207,13 @@ a:hover{
 }
 
 .board{
-    width: 550px;
+    width: 550px
 }
 
 @media (max-width: 1180px) {
     .container_x{
         flex-direction: column;
-        justify-content: center;
+        align-items: center;
     }
     .container_y {
         order: 3;
@@ -224,8 +226,14 @@ a:hover{
 
     .board{
         order: 1;
-        width: 320px;
+        width: 316px;
+        height: 316px;
 
+    }
+
+    .chessboard-63f37{
+        width: 316px;
+        height: 316px;
     }
 
     .btn_tbl{
@@ -256,6 +264,7 @@ a:hover{
     .scroll_History,
     .scroll_Rules,
     .scroll_Players{
+        width: 316px;
         margin-bottom: 20px;
     }
 

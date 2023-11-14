@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body{
+    background-color: #E7ECEF;
+    color: #274C77;
+    font-family: 'Poppins', sans-serif;
+}
+header{
+    font-size: 25px;
+    font-weight: 600;
+    color: #274C77;
+    text-align: center;
+}
+.navbar{
+    background-color: #274C77;
+}
+.navbar-brand{
+    margin: 0;
+}
+.navbar button{
+    background-color: #E7ECEF;
+    color: #274C77;
+    border-radius: 8px;
+    border-color: #274C77;
+}
+.navbar button:hover{
+    background-color: #6096BA;
+    border-color: #274C77;
+}
+a{
+    color: #D5DBBE;
+    
+}
+a:hover{
+    color: #FFF;
+
+}
+.container_x,
+.container_y,
+.container_f,
+.container_z{
+    display: flex;
+    align-items: center;
+}
+.container_x{
+    flex-direction: row;
+    justify-content: space-around;
+}
+.container_y,
+.container_f{
+    flex-direction: column;
+    justify-content: space-around;
+}
+.container_z{
+    justify-content: center;
+}
+.ma{
+    margin-top: 200px;
+}
+.btn_tbl{
+    display: flex;
+    flex-direction: column;
+}
+.black-3c85d{
+    background-color: #6096BA;
+}
+.white-1e1d7{
+    background-color: #FFF;
+}
+.notation-322f9{
+    color: #274C77;
+}
+.board-b72b1{
+    border-color: #274C77;
+    margin-right: 0px;
+}
+.form{
+    margin-top: 100px;
+    max-width: 430px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #FFF;
+}
+.field{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+.field input,
+.field button{
+    height: 100%;
+    width:100%;
+    border: none;
+    font-size: 17px;
+    font-weight: 400;
+    border-radius: 10px;
+}
+.field input{
+    outline: none;
+    padding: 0 15px;
+    border: 1px solid #CACACA;
+}
+.field input:focus{
+    border: 2px solid #CACACA;
+}
+.field button{
+    background-color: #6096BA;
+}
+.field button:hover{
+    background-color: #274C77;
+    font-size: 18px;
+}
+.line{
+    position: relative;
+    height: 1px;
+    width: 100%;
+    margin: 35px 0;
+    background-color: #6096BA;
+}
+.line::before{
+    content: " Or ";
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFF;
+    color: #6096BA;
+    padding: 0 15px;
+}
+.house-icon{
+    color: #274C77;
+}
+.eye-icon{
+    color: #274C77;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 17px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.scroll_History,
+.scroll_Rules,
+.scroll_Players {
+    border-radius: 4px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    height: 250px;
+    width: 316px;
+    border: #274C77 1px solid;
+    overflow: auto;
+    background-color: #FFF;
+}
+
+.btn_rematch,
+.btn_quit{
+    background-color: #6096BA;
+    color: #FFF;
+    border-radius: 8px;
+    border-color: #274C77;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding-top: 8px ;
+    padding-bottom: 8px ;
+    transition: color 0.1s, background-color 0.1s ;
+}
+
+.btn_rematch{
+    padding-left: 107px;
+    padding-right: 107px;
+}
+
+.btn_rematch:hover,
+.btn_quit:hover{
+    background-color: #274C77;
+    color: #FFF;
+}
+
+.btn_quit{
+    padding-left: 130px;
+    padding-right: 130px;
+}
+
+.btn_rematch:active,
+.btn_quit:active{
+    opacity: 0.7;
+}
+
+.heder_scroll{
+    width: 299px;
+    background-color: #CACACA;
+    font-weight: bold;
+    display: block;
+    position: absolute;
+    margin: 0px;
+    padding: 7px;
+    padding-right: 217px;
+}
+
+.text_scroll{
+    padding: 7px;
+    padding-top: 37px;
+}
+
+.board{
+    width: 550px
+}
+
+@media (max-width: 1180px) {
+    .container_x{
+        flex-direction: column;
+        align-items: center;
+    }
+    .container_y {
+        order: 3;
+    }
+
+    .container_f{
+        order: 2;
+        flex-direction: column-reverse;
+    }
+
+    .board{
+        order: 1;
+        width: 316px;
+        height: 316px;
+
+    }
+
+    .chessboard-63f37{
+        width: 316px;
+        height: 316px;
+    }
+
+    .btn_tbl{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn_quit{
+        padding-left: 59px;
+        padding-right: 59px;
+        margin-right: 5px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    .btn_rematch{
+        padding-left: 31px;
+        padding-right: 31px;
+        margin-left: 5px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    .btn_tbl{
+        flex-direction: row;
+    }
+
+    .scroll_History,
+    .scroll_Rules,
+    .scroll_Players{
+        width: 316px;
+        margin-bottom: 20px;
+    }
+
+    .ma{
+        margin-top: 100px;
+    }
+}

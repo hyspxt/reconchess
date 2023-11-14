@@ -1,0 +1,29 @@
+img{
+    width: 10vw;
+}
+
+p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #151515;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 1000;
+    font-size: 5vw;
+    text-align: center;
+    line-height: 1;
+    white-space: pre;
+}
+
+.up{
+    margin-top: 15%;
+    margin-bottom: 0;
+}
+
+.down{
+    margin-top: 0;
+}
+
+.otherstuff{
+    color: coral;
+}

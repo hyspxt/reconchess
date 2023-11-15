@@ -72,7 +72,6 @@ a:hover{
 }
 .board-b72b1{
     border-color: #274C77;
-    margin-right: 0px;
 }
 .form{
     margin-top: 100px;
@@ -149,7 +148,7 @@ a:hover{
     border-radius: 4px;
     margin-bottom: 40px;
     height: 250px;
-    width: 316px;
+    width: 300px;
     border: #274C77 1px solid;
     overflow: auto;
     background-color: #FFF;
@@ -191,7 +190,6 @@ a:hover{
 }
 
 .heder_scroll{
-    width: 299px;
     background-color: #CACACA;
     font-weight: bold;
     display: block;
@@ -207,13 +205,91 @@ a:hover{
 }
 
 .board{
-    width: 550px
+    width: 550px;
+}
+
+
+#promotion-dialog {
+    display: none;
+}
+
+.ui-dialog {
+    padding: 0 !important;
+    width: 272px !important;
+    height: 68px !important;
+    border: 0 !important;
+    position: absolute !important;
+    top: 110px !important;
+    left: 50% !important;
+    transform: translate(-50%, 0) !important;
+}
+
+.ui-dialog-content {
+    padding: 0 !important;
+    width: 272px !important;
+    height: 68px !important;
+    border: 0 !important;
+}
+
+.ui-corner-all {
+    border-radius: 0;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 0 !important;
+}
+
+#promote-to .ui-selecting {
+    background: #274C77;
+}
+
+#promote-to .ui-selected {
+    background: #274C77;
+    color: #274C77;
+}
+
+#promote-to {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 272px;
+    height: 68px;
+}
+
+#promote-to li {
+    margin: 0;
+    padding: 0;
+    width: 68px;
+    height: 68px;
+    cursor: pointer;
+    float: left !important;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 0;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.noTitleStuff .ui-dialog-titlebar {
+    display: none;
+}
+
+.promotion-piece {
+    width: 68px;
+    height: 68px;
+}
+
+.piece-name {
+    display: none;
 }
 
 @media (max-width: 1180px) {
     .container_x{
         flex-direction: column;
-        align-items: center;
+        justify-content: center;
     }
     .container_y {
         order: 3;
@@ -226,14 +302,8 @@ a:hover{
 
     .board{
         order: 1;
-        width: 316px;
-        height: 316px;
+        width: 320px;
 
-    }
-
-    .chessboard-63f37{
-        width: 316px;
-        height: 316px;
     }
 
     .btn_tbl{
@@ -264,7 +334,6 @@ a:hover{
     .scroll_History,
     .scroll_Rules,
     .scroll_Players{
-        width: 316px;
         margin-bottom: 20px;
     }
 

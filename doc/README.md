@@ -17,7 +17,8 @@ Si tratta di un'applicazione web che permette di giocare alla variante Reconnass
 ## Content
 
 Materiale nelle sottocartelle:
+- /analysis -> documenti di fine sprint.
 - /architecture -> Schema dell'architettura e mockup generali dell'aspetto dell'applicazione.
-- /retrospective -> Documentazione generale di fine sprint.
+- /retrospective -> Documentazione generale riguardo al team-working a seguito degli sprint.
 - /review -> Video e documentazione riguardo product backlog.
 - /teambuilding -> Relazioni sulle attivitá complementari del team.

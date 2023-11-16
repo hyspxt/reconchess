@@ -12,7 +12,7 @@ T8 Silver Bullets
 ## Description
 Questa repository contiene il progetto di Ingegneria del Software, CdL Informatica 23/24. 
 Si tratta di un'applicazione web che permette di giocare alla variante Reconnassaince Blind Chess degli scacchi eterodossi in modalitá HumanVsComputer, a livelli di difficoltá crescenti.  
-Reconnassaince Blind Chess é una variante degli scacchi (piú precisamente, una famiglia di varianti) formulata come progetto di ricerca e sviluppo al Johns Hopkins Applied Physics Laboratory (JHU/APL). Sebbene la challenge scientifica in sé si concentri sullo sviluppo di bot, il progetto vuole rappresentare un'implementazione classica e giocabile della variante.
+**Reconnassaince Blind Chess** é una variante degli scacchi (piú precisamente, una famiglia di varianti) formulata come progetto di ricerca e sviluppo al Johns Hopkins Applied Physics Laboratory (JHU/APL). Sebbene la challenge scientifica in sé si concentri sullo sviluppo di bot, il progetto vuole rappresentare un'implementazione classica e giocabile della variante.
 
 RBC aggiunge i seguenti elementi agli scacchi classici:
 - Sensing.
@@ -20,15 +20,18 @@ RBC aggiunge i seguenti elementi agli scacchi classici:
 - Scelte su condizioni di insicurezza.
 
 ReconChess é un paradigma e banco di prova per capire e sperimentare il decision making autonomo strategico attraverso una serie di iterazioni di sensing.
-
-
+Piú informazioni a riguardo si possono trovare direttamente nell'applicazione.
 
 ## Dependencies, Testing, Running
 ....
 
 ## Info
 ### Communicating
-Come sistema di comunicazione interno al team, abbiamo preferito garantire la totale proprietá dei nostri dati utilizzando il servizio decentralizzato Matrix, completamente self-hostato attraverso una droplet dedicata DigitalOcean e un dominio apposito. Il servizio é accessibile mediante il client Element, che fornisce un interfaccia intuitiva e funzionale per le comunicazioni del gruppo.
+Come sistema di comunicazione interno al team, abbiamo preferito garantire la totale proprietá e controllo dei nostri dati utilizzando il servizio decentralizzato **Matrix**, completamente self-hostato attraverso una droplet dedicata DigitalOcean e un dominio apposito. Il servizio é accessibile mediante il client **Element**, che fornisce un interfaccia intuitiva e funzionale per le comunicazioni del gruppo.
+
+Il server é organizzato in stanze, in modo da poter facilitare e organizzare i topic di cui si parla.
+
+### Scrum 
 
 
 

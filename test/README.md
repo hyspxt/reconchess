@@ -10,5 +10,9 @@ T8 Silver Bullets
 - Giulia Torsani | @giulia-t | giulia.torsani@studio.unibo.it | Developer
 
 ## Description
-Questa repository contiene il progetto di Ingegneria del Software, CdL Informatica. 
-Si tratta di un'applicazione web che permette di giocare alla variante ReconnassainceBlind degli scacchi eterodossi, sia in modalitá HumanVsHuman, sia HumanVsComputer. Qui é possibile trovare le regole del gioco -> https://rbc.jhuapl.edu/gameRules.
+Questa repository contiene il progetto di Ingegneria del Software, CdL Informatica 23/24. 
+Si tratta di un'applicazione web che permette di giocare alla variante Reconnassaince Blind Chess degli scacchi eterodossi in modalitá HumanVsComputer, a livelli di difficoltá crescenti.  
+**Reconnassaince Blind Chess** é una variante degli scacchi (piú precisamente, una famiglia di varianti) formulata come progetto di ricerca e sviluppo al Johns Hopkins Applied Physics Laboratory (JHU/APL). Sebbene la challenge scientifica in sé si concentri sullo sviluppo di bot, il progetto vuole rappresentare un'implementazione classica e giocabile della variante.
+
+## Content
+Questa directory contiene i vari test di unitá per il codice sviluppato. I test sono stati poi attraverso il software **SonarQube**.

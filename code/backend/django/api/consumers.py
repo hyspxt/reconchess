@@ -62,9 +62,11 @@ class HumanPlayer(Player):
 	async def handle_move_result(self, requested_move: chess.Move | None, taken_move: chess.Move | None, captured_opponent_piece: bool, capture_square: Square | None):
 		return await self.consumer.send(text_data=json.dumps({'test':'test'}))
 	
+
 	async def handle_game_end(self, winner_color: Optional[Color], win_reason: Optional[WinReason], game_history: GameHistory):
 		self.finished = True
 		switch(WinReason):
+		
 			case KING_CAPTURE:
 				return await self.consumer.send(text_data=json.dumps({
 					'message': 'game over: the king was captured',

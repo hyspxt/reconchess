@@ -12,7 +12,9 @@ T8 Silver Bullets
 ## Description
 Questa repository contiene il progetto di Ingegneria del Software, CdL Informatica 23/24. 
 Si tratta di un'applicazione web che permette di giocare alla variante Reconnassaince Blind Chess degli scacchi eterodossi in modalitá HumanVsComputer, a livelli di difficoltá crescenti.  
-Reconnassaince Blind Chess é una variante degli scacchi (piú precisamente, una famiglia di varianti) formulata come progetto di ricerca e sviluppo al Johns Hopkins Applied Physics Laboratory (JHU/APL). RBC aggiunge i seguenti elementi agli scacchi classici:
+Reconnassaince Blind Chess é una variante degli scacchi (piú precisamente, una famiglia di varianti) formulata come progetto di ricerca e sviluppo al Johns Hopkins Applied Physics Laboratory (JHU/APL). Sebbene la challenge scientifica in sé si concentri sullo sviluppo di bot, il progetto vuole rappresentare un'implementazione classica e giocabile della variante.
+
+RBC aggiunge i seguenti elementi agli scacchi classici:
 - Sensing.
 - Informazione incompleta iniziale.
 - Scelte su condizioni di insicurezza.
@@ -20,7 +22,6 @@ Reconnassaince Blind Chess é una variante degli scacchi (piú precisamente, una
 ReconChess é un paradigma e banco di prova per capire e sperimentare il decision making autonomo strategico attraverso una serie di iterazioni di sensing.
 
 
-Qui é possibile trovare le regole del gioco -> https://rbc.jhuapl.edu/gameRules.
 
 ## Dependencies, Testing, Running
 ....

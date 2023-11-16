@@ -27,11 +27,10 @@ Piú informazioni a riguardo si possono trovare direttamente nell'applicazione.
 
 ## Info
 ### Communicating
-Come sistema di comunicazione interno al team, abbiamo preferito garantire la totale proprietá e controllo dei nostri dati utilizzando il servizio decentralizzato **Matrix**, completamente self-hostato attraverso una droplet dedicata DigitalOcean e un dominio apposito. Il servizio é accessibile mediante il client **Element**, che fornisce un interfaccia intuitiva e funzionale per le comunicazioni del gruppo.
+Come sistema di comunicazione interno al team, abbiamo preferito garantire la totale proprietá e controllo dei nostri dati utilizzando il servizio decentralizzato **Matrix**, completamente self-hostato attraverso una droplet dedicata DigitalOcean e un dominio apposito. Il servizio é accessibile mediante il client **Element**, che fornisce un interfaccia intuitiva e funzionale per le comunicazioni del gruppo. Il server é organizzato in stanze, in modo da poter facilitare e organizzare i topic di cui si parla.
 
-Il server é organizzato in stanze, in modo da poter facilitare e organizzare i topic di cui si parla.
-
-### Scrum 
+### Agile/Scrum 
+Il team ha sviluppato il progetto seguento la metodologia e i principi agili, in particolare attraverso gli eventi Scrum quali Sprint Review, Sprint Planning, Sprint Retrospective. Piuttosto che seguire la filosofia Daily Scrum (uno Scrum Meeting al giorno), si é optato per Weekly Scrum in modo da venire incontro agli impegni individuali di tutti i membri.
 
 
 

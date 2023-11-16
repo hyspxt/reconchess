@@ -16,6 +16,7 @@ Reconnassaince Blind Chess é una variante degli scacchi (piú precisamente, una
 - Sensing.
 - Informazione incompleta iniziale.
 - Scelte su condizioni di insicurezza.
+
 ReconChess é un paradigma e banco di prova per capire e sperimentare il decision making autonomo strategico attraverso una serie di iterazioni di sensing.
 
 

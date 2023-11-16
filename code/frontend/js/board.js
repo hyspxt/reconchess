@@ -2,6 +2,10 @@ var board = null
 var game = new Chess()
 var whiteSquareGrey = '#A3CEF1'
 var blackSquareGrey = '#274C77'
+var fen, piece_theme, promote_to, promoting, promotion_dialog;
+piece_theme = 'img/chesspieces/wikipedia/{piece}.png';
+promotion_dialog = $('#promotion-dialog');
+promoting = false;
 
 function removeGreySquares () {
     $('#myBoard .square-55d63').css('background', '')
@@ -39,22 +43,60 @@ function makeRandomMove () {
 
 function onDrop (source, target) {
     removeGreySquares()
-
-    // see if the move is legal
-    var move = game.move({
+    move_cfg = {
         from: source,
         to: target,
-        promotion: 'q' // NOTE: always promote to a queen for example simplicity
-    })
+        promotion: 'q'
+      };
+
+      // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
+      // so the promotion dialog doesn't pop up unnecessarily
+      // e.g. (p)d7-f8
+      var move = game.move(move_cfg);
 
     // illegal move
     if (move === null) {
-        document.body.style.overflow = 'visible';
+        //document.body.style.overflow = 'visible';
         return 'snapback'
+    } else {
+        game.undo(); //move is ok, now we can go ahead and check for promotion
     }
 
+    var source_rank = source.substring(2,1);
+    var target_rank = target.substring(2,1);
+    var piece = game.get(source).type;
+
+    if (piece === 'p' && ((source_rank === '7' && target_rank === '8') || (source_rank === '2' && target_rank === '1'))) {
+        promoting = true;
+
+        // get piece images
+        $('.promotion-piece-q').attr('src', getImgSrc('q'));
+        $('.promotion-piece-r').attr('src', getImgSrc('r'));
+        $('.promotion-piece-n').attr('src', getImgSrc('n'));
+        $('.promotion-piece-b').attr('src', getImgSrc('b'));
+
+        //show the select piece to promote to dialog
+        promotion_dialog.dialog({
+            modal: true,
+            height: 46,
+            width: 184,
+            resizable: true,
+            draggable: false,
+            close: onDialogClose,
+            closeOnEscape: false,
+            dialogClass: 'noTitleStuff'
+        }).dialog('widget').position({
+            of: $('#board'),
+            my: 'middle middle',
+            at: 'middle middle',
+        });
+        
+        //the actual move is made after the piece to promote to
+        //has been selected, in the stop event of the promotion piece selectable
+        return;
+    }
+    makeMove(game, move_cfg);
     // make random legal move for black
-    window.setTimeout(makeRandomMove, 250)
 }
 
 function onMouseoverSquare (square, piece) {
@@ -81,9 +123,36 @@ function onMouseoutSquare (square, piece) {
 }
 
 function onSnapEnd () {
+    if (promoting) return;
+    updateBoard(board);
     document.body.style.overflow = 'visible';
     board.position(game.fen())
 }
+
+function getImgSrc(piece) {
+    return piece_theme.replace('{piece}', game.turn() + piece.toLocaleUpperCase());
+  }
+
+  function updateBoard(board) {
+    board.position(game.fen(), false);
+    promoting = false;
+  }
+
+  var onDialogClose = function() {
+    console.log(promote_to);
+    move_cfg.promotion = promote_to;
+    makeMove(game, move_cfg);
+  }
+
+  function makeMove(game, config) {
+    // see if the move is legal
+    var move = game.move(config);
+    // illegal move
+    if (move === null) return 'snapback'
+    else {
+        window.setTimeout(makeRandomMove, 250)
+    }
+  }
 
 var config = {
     draggable: true,
@@ -99,4 +168,29 @@ board = Chessboard('myBoard', config)
 function rematch(){
     game.reset(),
     board.start()
+}
+
+$("#promote-to").selectable({
+    stop: function() {
+      $( ".ui-selected", this ).each(function() {
+        var selectable = $('#promote-to li');
+        var index = selectable.index(this);
+        if (index > -1) {
+          var promote_to_html = selectable[index].innerHTML;
+          var span = $('<div>' + promote_to_html + '</div>').find('span');
+          promote_to = span[0].innerHTML;
+        }
+        promotion_dialog.dialog('close');
+        $('.ui-selectee').removeClass('ui-selected');
+        updateBoard(board);
+      });
+    }
+  });
+
+
+function undoMove(){
+    game.undo(),
+    game.undo(),
+    game.load(game.fen()),
+    board.position(game.fen())
 }

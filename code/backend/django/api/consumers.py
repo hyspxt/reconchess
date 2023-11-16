@@ -62,13 +62,54 @@ class HumanPlayer(Player):
 	async def handle_move_result(self, requested_move: chess.Move | None, taken_move: chess.Move | None, captured_opponent_piece: bool, capture_square: Square | None):
 		return await self.consumer.send(text_data=json.dumps({'test':'test'}))
 	
-	
 	async def handle_game_end(self, winner_color: Optional[Color], win_reason: Optional[WinReason], game_history: GameHistory):
 		self.finished = True
-		return await self.consumer.send(text_data=json.dumps({
-			'message': 'game over',
-			'winner': winner_color,
+		switch(WinReason):
+			case KING_CAPTURE:
+				return await self.consumer.send(text_data=json.dumps({
+					'message': 'game over: the king was captured',
+					'winner': winner_color,
+				}))
+				break
+			case TIMEOUT:
+				return await self.consumer.send(text_data=json.dumps({
+					'message': 'game over: timeout',
+					'winner': winner_color,
+				}))
+				break
+			case RESIGN:
+				return await self.consumer.send(text_data=json.dumps({
+					'message': 'game over: resign',
+					'winner': winner_color,
+				}))
+				break
+			case TURN_LIMIT:
+				return await self.consumer.send(text_data=json.dumps({
+					'message': 'game over: full turn limit exceeded',
+					'winner': winner_color,
+				}))
+				break
+			case MOVE_LIMIT:
+				return await self.consumer.send(text_data=json.dumps({
+					'message': 'game over: full move limit exceeded',
+					'winner': winner_color,
+				}))
+				break
+			case default:
+				return await self.consumer.send(text_data=json.dumps({
+					'message': 'game over',
+					'winner': winner_color,
+				}))
+
+	def print_time_left(self, color: Optional[Color]):
+		await self.consumer.send(text_data=json.dumps({
+			'message': 'time left',
+			'player color': color,
 		}))
+		 while not self.game.is_over():
+			return self.game.get_seconds_left()
+##
+
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):

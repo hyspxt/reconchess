@@ -3,8 +3,9 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 import chess
 from reconchess import Player, LocalGame, chess
+from reconchess.bots.attacker_bot import AttackerBot
 from reconchess.bots.random_bot import RandomBot
-from reconchess.types import Color, List, Optional, Square, Tuple, WinReason
+from reconchess.types import Color, List, Optional, Square, WinReason
 from reconchess.history import GameHistory
 
 class HumanPlayer(Player):
@@ -18,20 +19,25 @@ class HumanPlayer(Player):
 	async def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
 		color_name = 'white' if color == chess.WHITE else 'black'
 		return await self.consumer.send(text_data=json.dumps({
+			'message': 'game started',
 			'board': board.fen(),
-			'color': color_name
+			'color': color_name,
+			'opponent_name': opponent_name,
 		}))
 	
 	async def handle_opponent_move_result(self, captured_my_piece: bool, capture_square: Optional[chess.Square]):
-		return await self.consumer.send(text_data=json.dumps({
-				'message': 'opponent_capture',
-				'capture_square': capture_square
-			}))
+		return """ await self.consumer.send(text_data=json.dumps({
+			'message': 'opponent capture',
+			'capture_square': capture_square,
+			'board': self.game.board.fen()
+		})) """
 	
-	async def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> Square | None:
+	async def choose_sense(self) -> chess.Square | None:
 		await self.consumer.send(text_data=json.dumps({
 			'message': 'your turn to sense'
 		}))
+
+		#waits for the client to send a sense action
 		while self.sense is None:
 			await asyncio.sleep(0.1)
 
@@ -40,15 +46,18 @@ class HumanPlayer(Player):
 		return chess.parse_square(sense)
 	
 	#the client should already know where the pieces are, so this is just to implement the interface
-	def handle_sense_result(self, sense_result: List[Tuple[Square, chess.Piece | None]]):
+	def handle_sense_result(self):
 		pass
 
-	async def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> chess.Move | None:
+	async def choose_move(self, move_actions: List[chess.Move]) -> chess.Move | None:
 		await self.consumer.send(text_data=json.dumps({
-			'message': 'your turn to move'
+			'message': 'your turn to move',
+			'move_actions': [str(move) for move in move_actions]
 		}))
 		
+		#waits for the client to send a valid move
 		while self.move is None or chess.Move.from_uci(self.move) not in move_actions:
+			#if the move is invalid send a message to the client and keep waiting
 			if self.move is not None:
 				await self.consumer.send(text_data=json.dumps({
 					'message': 'invalid move'
@@ -60,62 +69,53 @@ class HumanPlayer(Player):
 		return chess.Move.from_uci(move)
 	
 	async def handle_move_result(self, requested_move: chess.Move | None, taken_move: chess.Move | None, captured_opponent_piece: bool, capture_square: Square | None):
-		return await self.consumer.send(text_data=json.dumps({'test':'test'}))
+		#finish the turn
+		self.finished = True
+		#send the move results to the client
+		return await self.consumer.send(text_data=json.dumps({
+			'message': 'move result',
+			'requested_move': str(requested_move),
+			'taken_move': str(taken_move),
+			'captured_opponent_piece': captured_opponent_piece,
+			'capture_square': str(capture_square)
+		}))
 	
 	async def handle_game_end(self, winner_color: Optional[Color], win_reason: Optional[WinReason], game_history: GameHistory):
 		self.finished = True
-		switch(WinReason):
-			case KING_CAPTURE:
-				return await self.consumer.send(text_data=json.dumps({
-					'message': 'game over: the king was captured',
-					'winner': winner_color,
-				}))
-				break
-			case TIMEOUT:
-				return await self.consumer.send(text_data=json.dumps({
-					'message': 'game over: timeout',
-					'winner': winner_color,
-				}))
-				break
-			case RESIGN:
-				return await self.consumer.send(text_data=json.dumps({
-					'message': 'game over: resign',
-					'winner': winner_color,
-				}))
-				break
-			case TURN_LIMIT:
-				return await self.consumer.send(text_data=json.dumps({
-					'message': 'game over: full turn limit exceeded',
-					'winner': winner_color,
-				}))
-				break
-			case MOVE_LIMIT:
-				return await self.consumer.send(text_data=json.dumps({
-					'message': 'game over: full move limit exceeded',
-					'winner': winner_color,
-				}))
-				break
-			case default:
-				return await self.consumer.send(text_data=json.dumps({
-					'message': 'game over',
-					'winner': winner_color,
-				}))
-
-	def print_time_left(self, color: Optional[Color]):
+		if win_reason ==  WinReason.KING_CAPTURE:
+			message = 'game over: the king was captured'
+		elif win_reason ==  WinReason.TIMEOUT:
+			message = 'game over: timeout'
+		elif win_reason ==  WinReason.RESIGN:
+			message = 'game over: resign'
+		elif win_reason ==  WinReason.TURN_LIMIT:
+			message = 'game over: full turn limit exceeded'
+		elif win_reason ==  WinReason.MOVE_LIMIT:
+			message = 'game over: full move limit exceeded'
+		else:
+			message = 'game over'
+		
+		return await self.consumer.send(text_data=json.dumps({
+			'message': 'game over',
+			'winner': winner_color,
+			'reason': win_reason.name,
+		}))
+	
+	async def print_time_left(self, color: Optional[Color]):
 		await self.consumer.send(text_data=json.dumps({
 			'message': 'time left',
 			'player color': color,
 		}))
-		 while not self.game.is_over():
+		
+		while not self.game.is_over():
 			return self.game.get_seconds_left()
-##
 
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
 		self.game = LocalGame()
 		self.player = HumanPlayer(self, self.game)
-		self.bot = RandomBot()
+		self.bot = AttackerBot()
 		self.lock = asyncio.Lock()
 		await self.accept()
 
@@ -143,8 +143,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print('invalid action')
 	
 	async def start_game(self):
-		players = [self.bot, self.player]
-
 		white_name = self.player.__class__.__name__
 		black_name = self.bot.__class__.__name__
 		self.game.store_players(white_name, black_name)
@@ -155,32 +153,17 @@ class GameConsumer(AsyncWebsocketConsumer):
 		self.game.start()
 
 		while not self.game.is_over():
-			#wait for the player to finish their turn before continuing
-			while not self.player.finished:
-				await asyncio.sleep(0.1)
-			
-			current_player = players[self.game.turn]
-			if current_player == self.player:
-				self.player.finished = False
-
 			#get possible actions on this turn
 			sense_actions = self.game.sense_actions()
 			move_actions = self.game.move_actions()
 
-			#update the game for the current player
+			#get the result of the opponent's move, only returns a square if a piece was captured
 			capture_square = self.game.opponent_move_results()
-			await current_player.handle_opponent_move_result(capture_square is not None, capture_square)
-			#let the current player choose a sense action
-			sense = await current_player.choose_sense(sense_actions, move_actions, self.game.get_seconds_left())
-			sense_result = self.game.sense(sense)
-			current_player.handle_sense_result(sense_result)
 
-			#let the current player choose a move action
-			move = await current_player.choose_move(move_actions, self.game.get_seconds_left())
-			taken_move, captured_opponent_piece, capture_square = self.game.move(move)
-			await current_player.handle_move_result(move, taken_move, captured_opponent_piece, capture_square)
-
-			self.game.end_turn()
+			if(self.game.turn == chess.WHITE):
+				await self.play_human_turn(capture_square=capture_square, move_actions=move_actions)
+			else:
+				self.play_bot_turn(capture_square=capture_square, sense_actions=sense_actions, move_actions=move_actions)
 
 		self.game.end()
 		winner_color = self.game.get_winner_color()
@@ -190,5 +173,39 @@ class GameConsumer(AsyncWebsocketConsumer):
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
 
+	async def play_human_turn(self, capture_square, move_actions):
+		player = self.player
+		#the human player has started their turn
+		player.finished = False
 
+		#update the game for the player	
+		await player.handle_opponent_move_result(capture_square is not None, capture_square)
+
+		#let the player choose a sense action
+		sense = await player.choose_sense()
+		self.game.sense(sense)
+
+		#let the current player choose a move action
+		move = await player.choose_move(move_actions)
+		_, taken_move, capture_square = self.game.move(move)
+		await player.handle_move_result(move, taken_move, capture_square is not None, capture_square)
+
+		while(not player.finished):
+			await asyncio.sleep(0.1)
 			
+		self.game.end_turn()
+
+	def play_bot_turn(self, capture_square, sense_actions, move_actions):
+		#update the game for the bot
+		self.bot.handle_opponent_move_result(capture_square is not None, capture_square)
+
+		#let the bot choose a sense action
+		sense = self.bot.choose_sense(sense_actions, move_actions, self.game.get_seconds_left())
+		self.game.sense(sense)
+
+		#let the bot choose a move action
+		move = self.bot.choose_move(move_actions, self.game.get_seconds_left())
+		_, taken_move, capture_square = self.game.move(move)
+		self.bot.handle_move_result(move, taken_move, capture_square is not None, capture_square)
+
+		self.game.end_turn()

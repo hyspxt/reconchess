@@ -1,0 +1,12 @@
+    32	hyspxt <patrick.alfieri@studio.unibo.it>
+    14	Kmoon7 <kaori.jiang@studio.unibo.it>
+    14	sgrunf <davide.luccioli@studio.unibo.it>
+    13	Patrick Alfieri <patrick.alfieri@studio.unibo.it>
+    13	Sofy_zan <sofia.zanelli3@studio.unibo.it>
+     9	Kaori Jiang <kaori.jiang@studio.unibo.it>
+     5	Sofia Zanelli <sofia.zanelli3@studio.unibo.it>
+     4	Kaori <kaori.jiang@studio.unibo.com>
+     4	S9runf <davideluccioli@gmail.com>
+     1	giulia-t <giulia.torsani@studio.unibo.it>
+co-authored commits:110
+Co-author list:

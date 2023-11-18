@@ -27,8 +27,11 @@ class TestGameConsumer(TestCase):
 		#simulate a game between a human player and a bot
 		#the human chooses legal moves ranodmly
 		while True:
-			self.assertEqual(response['message'], 'your turn to sense')
-
+			self.assertTrue(response['message'] == 'your turn to sense' or response['message'] == 'opponent capture')
+			if(response['message'] == 'opponent capture'):
+				response = await communicator.receive_json_from()
+				self.assertEqual(response['message'], 'your turn to sense')	
+				
 			sense = random.choice(chess.SQUARE_NAMES)
 			await communicator.send_json_to(({'action': 'sense', 'sense': sense}))
 

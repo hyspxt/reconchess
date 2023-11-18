@@ -23,22 +23,28 @@ class HumanPlayer(Player):
 			'board': board.fen(),
 			'color': color_name,
 			'opponent_name': opponent_name,
+			'time': self.game.get_seconds_left()
 		}))
 	
 	async def handle_opponent_move_result(self, captured_my_piece: bool, capture_square: Optional[chess.Square]):
-		return """ await self.consumer.send(text_data=json.dumps({
-			'message': 'opponent capture',
-			'capture_square': capture_square,
-			'board': self.game.board.fen()
-		})) """
+		if(captured_my_piece):
+			return await self.consumer.send(text_data=json.dumps({
+				'message': 'opponent capture',
+				'capture_square': capture_square,
+				'board': self.game.board.fen()
+			}))
+		
+		return
 	
 	async def choose_sense(self) -> chess.Square | None:
 		await self.consumer.send(text_data=json.dumps({
-			'message': 'your turn to sense'
+			'message': 'your turn to sense',
 		}))
 
 		#waits for the client to send a sense action
 		while self.sense is None:
+			if(self.game.get_seconds_left() <= 0):
+				raise TimeoutError('player ran out of time')
 			await asyncio.sleep(0.1)
 
 		sense = self.sense
@@ -62,6 +68,8 @@ class HumanPlayer(Player):
 				await self.consumer.send(text_data=json.dumps({
 					'message': 'invalid move'
 				}))
+			if(self.game.get_seconds_left() <= 0):
+				raise TimeoutError('player ran out of time')
 			await asyncio.sleep(0.1)
 
 		move = self.move
@@ -116,7 +124,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 		self.game = LocalGame()
 		self.player = HumanPlayer(self, self.game)
 		self.bot = AttackerBot()
-		self.lock = asyncio.Lock()
 		await self.accept()
 
 	async def disconnect(self, close_code):
@@ -152,16 +159,22 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 		self.game.start()
 
+		first_ply = True
+
 		while not self.game.is_over():
 			#get possible actions on this turn
 			sense_actions = self.game.sense_actions()
 			move_actions = self.game.move_actions()
 
 			#get the result of the opponent's move, only returns a square if a piece was captured
-			capture_square = self.game.opponent_move_results()
+			capture_square = self.game.opponent_move_results() if not first_ply else None
 
 			if(self.game.turn == chess.WHITE):
-				await self.play_human_turn(capture_square=capture_square, move_actions=move_actions)
+				try:
+					await self.play_human_turn(capture_square=capture_square, move_actions=move_actions)
+					first_turn = False
+				except TimeoutError:
+					break
 			else:
 				self.play_bot_turn(capture_square=capture_square, sense_actions=sense_actions, move_actions=move_actions)
 

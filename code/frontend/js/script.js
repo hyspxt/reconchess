@@ -93,16 +93,22 @@ function createWebSocket() {
     socket.addEventListener("message", (event) => {
         switch(event.data.message){
             case 'opponent_capture','capture_square':
+                //handleOpponentCapture();    
                 break;
             case 'your turn to sense': // prendi da lib front chess.js e forse chessboard.js
+                //handleYourTurnToSense();
                 break;
             case 'your turn to move':
+                makeMove(game,config);
                 break;
             case 'invalid move':
+                undoMove();
                 break;
             case 'game over','game over: the king was captured','game over: timeout','game over: resign','game over: full turn limit exceeded','game over: full move limit exceeded':
+                game.game_over();
                 break;
             case 'time left':
+                //handleTimeLeft(event.data.time);
                 break;
             default:
             break;

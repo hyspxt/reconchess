@@ -24,11 +24,11 @@ function createWebsocket() {
 				break;
 			case 'your turn to move':
 				console.log('your turn to move')
-				makeMove(game,config);
+				setTimeout(socket.send(JSON.stringify({ action: 'move', move: ''})))
 				break;
 			case 'invalid move':
 				console.log('invalid move')
-				undoMove();
+				game.undoMove();
 				break;
 			case 'opponent_capture':
 				console.log('opponent_capture')
@@ -38,6 +38,8 @@ function createWebsocket() {
 				break;
 			case 'time left':
 				console.log('time left')
+				set_timer(game.get_seconds_left())
+				start_timer()
 			case 'game over':
 				console.log('game over')
 				game.game_over();

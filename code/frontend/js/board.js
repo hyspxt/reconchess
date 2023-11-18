@@ -3,6 +3,7 @@ var game = new Chess()
 var whiteSquareGrey = '#A3CEF1'
 var blackSquareGrey = '#274C77'
 var fen, piece_theme, promote_to, promoting, promotion_dialog;
+var socket = createWebsocket();
 piece_theme = 'img/chesspieces/wikipedia/{piece}.png';
 promotion_dialog = $('#promotion-dialog');
 promoting = false;
@@ -97,6 +98,7 @@ function onDrop (source, target) {
     }
     makeMove(game, move_cfg);
     // make random legal move for black
+    socket.send('move result');
 }
 
 function onMouseoverSquare (square, piece) {

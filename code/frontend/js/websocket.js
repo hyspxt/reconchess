@@ -28,7 +28,7 @@ function createWebsocket() {
 				break;
 			case 'invalid move':
 				console.log('invalid move')
-				game.undoMove();
+				data.game.undoMove();
 				break;
 			case 'opponent_capture':
 				console.log('opponent_capture')
@@ -38,11 +38,12 @@ function createWebsocket() {
 				break;
 			case 'time left':
 				console.log('time left')
-				set_timer(game.get_seconds_left())
+				set_timer(data.game.get_seconds_left())
 				start_timer()
+				break;
 			case 'game over':
-				console.log('game over')
-				game.game_over();
+				console.log('game over'+ data.game.reason)
+				data.game.game_over();
 				break;
 			default:
 				break;

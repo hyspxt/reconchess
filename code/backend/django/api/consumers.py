@@ -2,7 +2,7 @@ import asyncio
 import json 
 from channels.generic.websocket import AsyncWebsocketConsumer
 import chess
-from reconchess import Player, LocalGame, chess
+from reconchess import Player, LocalGame, chess, game
 from reconchess.bots.attacker_bot import AttackerBot
 from reconchess.bots.random_bot import RandomBot
 from reconchess.types import Color, List, Optional, Square, WinReason

@@ -98,7 +98,7 @@ function onDrop (source, target) {
     }
     makeMove(game, move_cfg);
     // make random legal move for black
-    socket.send('move result');
+    socket.send(JSON.stringify({ action: 'move' }))
 }
 
 function onMouseoverSquare (square, piece) {

@@ -26,11 +26,12 @@ function greySquare (square) {
 function onDragStart (source, piece) {
     document.body.style.overflow = 'hidden';
     // do not pick up pieces if the game is over
-    if (game.game_over()) return false
+    if (game.game_over() || game.is_over) return false
 
     if (piece.search(/^b/) !== -1) return false
 }
 
+//TODO: if this isn't needed remove it
 function makeRandomMove () {
     var possibleMoves = game.moves()
   
@@ -40,7 +41,15 @@ function makeRandomMove () {
     var randomIdx = Math.floor(Math.random() * possibleMoves.length)
     game.move(possibleMoves[randomIdx])
     board.position(game.fen())
-  }  
+}  
+  
+//update the game board with the move made by the opponent
+function makeOpponentMove(board_conf) {
+    //load the board fen sent by the backend
+    game.load(board_conf);
+    //updte the board shown to the user
+    board.position(game.fen());
+}
 
 function onDrop (source, target) {
     removeGreySquares()
@@ -75,7 +84,7 @@ function onDrop (source, target) {
         $('.promotion-piece-r').attr('src', getImgSrc('r'));
         $('.promotion-piece-n').attr('src', getImgSrc('n'));
         $('.promotion-piece-b').attr('src', getImgSrc('b'));
-
+        
         //show the select piece to promote to dialog
         promotion_dialog.dialog({
             modal: true,
@@ -87,7 +96,7 @@ function onDrop (source, target) {
             closeOnEscape: false,
             dialogClass: 'noTitleStuff'
         }).dialog('widget').position({
-            of: $('#board'),
+            of: $('#myBoard'),
             my: 'middle middle',
             at: 'middle middle',
         });
@@ -97,8 +106,6 @@ function onDrop (source, target) {
         return;
     }
     makeMove(game, move_cfg);
-    // make random legal move for black
-    socket.send(JSON.stringify({ action: 'move' }))
 }
 
 function onMouseoverSquare (square, piece) {
@@ -109,7 +116,7 @@ function onMouseoverSquare (square, piece) {
     })
 
     // exit if there are no moves available for this square
-    if (moves.length === 0) return
+    if (moves.length === 0 || game.is_over) return
 
     // highlight the square they moused over
     greySquare(square)
@@ -143,17 +150,26 @@ function getImgSrc(piece) {
   var onDialogClose = function() {
     console.log(promote_to);
     move_cfg.promotion = promote_to;
-    makeMove(game, move_cfg);
+    makeMove(game, move_cfg, true);
   }
 
-  function makeMove(game, config) {
+function makeMove(game, config, promotion=false) {
     // see if the move is legal
     var move = game.move(config);
     // illegal move
-    if (move === null) return 'snapback'
+    if (move === null)
+        return 'snapback';
     else {
-        window.setTimeout(makeRandomMove, 250)
+        //convert move to UCI format
+        move = move_cfg.from + move_cfg.to
+        //add promotion to the move only if it actually includes a promotion
+        if (promotion)
+            move += move_cfg.promotion;
+        //send the chosen move to the backend
+        socket.send(JSON.stringify({ action: 'move', move: move}));
+        console.log('you moved: ' + move_cfg.from + move_cfg.to);
     }
+
   }
 
 var config = {

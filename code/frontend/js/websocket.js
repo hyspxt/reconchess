@@ -1,5 +1,5 @@
 function createWebsocket() {
-	const socket = new WebSocket('ws://localhost:8000/ws/game') //'silverbullets.rocks/ws/game'
+	const socket = new WebSocket('wss://silverbullets.rocks/ws/game') //'silverbullets.rocks/ws/game'
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
 		socket.send(JSON.stringify({ action: 'start_game' }))
@@ -16,8 +16,6 @@ function createWebsocket() {
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')
-				//TODO: this is a test, remove it when it's possible to sense from frontend
-				socket.send(JSON.stringify({ action: 'sense', sense: 'a1' }))
 				start_timer()
 				break;
 			case 'your turn to move':

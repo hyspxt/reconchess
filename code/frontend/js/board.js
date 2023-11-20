@@ -208,6 +208,10 @@ function lightsOn(){
             config.draggable = true;
             light = true;
         }
+
+        //send the sense message to the backend
+        socket.send(JSON.stringify({ action: 'sense', sense: position }));
+
     }, {passive:false});
 }
 

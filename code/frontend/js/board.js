@@ -28,7 +28,7 @@ function onDragStart (source, piece) {
     // do not pick up pieces if the game is over
     if (game.game_over() || game.is_over) return false
 
-    if (piece.search(/^b/) !== -1) return false
+    if (piece.search(/^b/) !== -1) return fa
 }
 
 //TODO: if this isn't needed remove it

@@ -10,7 +10,8 @@ function createWebsocket() {
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js
 			case 'game started':
 				console.log('start game')
-				set_timer(data.time)
+				game.is_over = false;
+				set_timer(data.time);
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')
@@ -47,6 +48,7 @@ function createWebsocket() {
 				set_timer(Math.floor(data.time));
 				break;
 			case 'game over':
+				console.log('game over ' + data.reason)
 				stop_timer();
 				//tell the frontend library to stop the game
 				game.is_over = true;

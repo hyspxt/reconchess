@@ -59,8 +59,7 @@ class HumanPlayer(Player):
 		}))
 
 		#waits for the client to send a valid move
-		while self.move is None or chess.Move.from_uci(self.move) not in move_actions:
-			#if the move is invalid send a message to the client and keep waiting
+		while self.move is None or (self.move != 'pass' and chess.Move.from_uci(self.move) not in move_actions):
 			if self.move is not None:
 				await self.consumer.send(text_data=json.dumps({
 					'message': 'invalid move'
@@ -73,9 +72,15 @@ class HumanPlayer(Player):
 			#wait for the client to send a move
 			await asyncio.sleep(0.1)
 		
-		#convert the received move to a chess.Move object
-		move = chess.Move.from_uci(self.move)
+	
+		if self.move != 'pass': 
+			#convert the received move to a chess.Move object
+			move = chess.Move.from_uci(self.move)
+		else:
+			move = None
+		
 		self.move = None
+
 		return move
 	
 	async def handle_move_result(self, requested_move: chess.Move | None, taken_move: chess.Move | None, captured_opponent_piece: bool, capture_square: Square | None):
@@ -121,9 +126,9 @@ class HumanPlayer(Player):
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
-		self.game = LocalGame()
-		self.player = HumanPlayer(self, self.game)
-		self.bot = RandomBot()
+		self.game = None
+		self.player = None
+		self.bot = None
 		await self.accept()
 
 	async def disconnect(self, close_code):
@@ -146,10 +151,17 @@ class GameConsumer(AsyncWebsocketConsumer):
 			self.game.end()
 			await self.player.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
 			self.bot.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
+			#restart the game if the player wants to rematch
+			if data['rematch']: 
+				await self.start_game()
 		else:
 			print('invalid action')
 	
 	async def start_game(self):
+		#initialize the game
+		self.game = LocalGame()
+		self.player = HumanPlayer(self, self.game)
+		self.bot = RandomBot()
 		white_name = self.player.__class__.__name__
 		black_name = self.bot.__class__.__name__
 		self.game.store_players(white_name, black_name)

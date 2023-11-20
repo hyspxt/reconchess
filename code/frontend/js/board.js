@@ -51,6 +51,18 @@ function makeOpponentMove(board_conf) {
     board.position(game.fen());
 }
 
+//taken fron https://github.com/jhlywa/chess.js/issues/382
+function passTurn() {
+    //get the current fen and split it in tokens
+    let tokens = game.fen().split(/\s/)
+    //change the turn token
+    tokens[1] = game.turn() == game.WHITE ? game.BLACK : game.WHITE
+    tokens[3] = '-' // reset the en passant square 
+    game.load(tokens.join(' '))
+    if (game.turn() == game.WHITE)
+        socket.send(JSON.stringify({ action: 'move', move: 'pass'  }));
+}
+
 function onDrop (source, target) {
     removeGreySquares()
     move_cfg = {
@@ -183,9 +195,11 @@ var config = {
 }
 board = Chessboard('myBoard', config)
 
-function rematch(){
-    game.reset(),
-    board.start()
+function resign(rematch = false) {
+    console.log(rematch)
+    game.reset();
+    board.start();
+    socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
 $("#promote-to").selectable({

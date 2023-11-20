@@ -1,5 +1,5 @@
 function createWebsocket() {
-	const socket = new WebSocket('wss://silverbullets.rocks/ws/game') //'silverbullets.rocks/ws/game'
+	const socket = new WebSocket('ws://localhost:8000/ws/game') //'silverbullets.rocks/ws/game'
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
 		socket.send(JSON.stringify({ action: 'start_game' }))
@@ -7,6 +7,7 @@ function createWebsocket() {
 
 	socket.onmessage = function (event) {
 		data = JSON.parse(event.data)
+		console.log(data)
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js
 			case 'game started':
 				console.log('start game')
@@ -33,6 +34,8 @@ function createWebsocket() {
 				break;
 			case 'move result':
 				console.log('move result')
+				if (data.taken_move === 'None')
+					console.log('pass')
 				//TODO: the information that comes from is possibly useless since the board updates itself
 				//it could still be used to show captures in the frontend though
 				break;

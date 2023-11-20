@@ -75,7 +75,8 @@ a:hover{
     flex-direction: column;
 }
 
-.btn_qr{
+.btn_qr,
+.btn_ur{
     display: flex;
     flex-direction: column;
 }
@@ -190,7 +191,8 @@ a:hover{
 
 .btn_rematch,
 .btn_quit,
-.btn_undo{
+.btn_undo,
+.btn_rules{
     background-color: #6096BA;
     color: #FFF;
     border-radius: 8px;
@@ -203,13 +205,15 @@ a:hover{
     transition: color 0.1s, background-color 0.1s ;
 }
 
-.btn_rematch{
-    padding-left: 107px;
-    padding-right: 107px;
+.btn_undo{
+    padding-left: 130px;
+    padding-right: 130px;
 }
 
 .btn_rematch:hover,
-.btn_quit:hover{
+.btn_quit:hover,
+.btn_undo:hover,
+.btn_rules:hover{
     background-color: #274C77;
     color: #FFF;
 }
@@ -220,7 +224,9 @@ a:hover{
 }
 
 .btn_rematch:active,
-.btn_quit:active{
+.btn_quit:active,
+.btn_undo:active,
+.btn_rules:active{
     opacity: 0.7;
 }
 

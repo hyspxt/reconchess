@@ -37,43 +37,30 @@
           </div>
         <div class="container_x ma">
             <div class="container_y" >
-                <div class="scroll_History">
-                    <div class="heder_scroll">History</div>
-                    <div class="text_scroll">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                <div class="btn_tbl">
+                    <div class="btn_qr">
+                        <button type="submit" class="btn_quit" onclick="rematch()">QUIT</button>
+                        <button type="submit" class="btn_rematch" onclick="rematch()">RE-MATCH</button>
                     </div>
+                    <div class="btn_ur">
+                        <button type="submit" class="btn_undo" onclick="undoMove()">UNDO</button>
+                        <button type="submit" class="btn_rules" onclick="openHtmlFile()">RULES</button>
                 </div>
-                <div class="scroll_Rules">
-                    <div class="heder_scroll" style="padding-right: 230px">Rules</div>
-                    <div class="text_scroll">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                </div>
+            </div>
             </div>
             <div id="myBoard" class="board"></div>
             <div class="container_f">
-                <div class="scroll_Players">
-                    <div class="heder_scroll" style="padding-right: 181px">Top Players</div>
-                    <div class="text_scroll">
+                <div class="scroll_History">
+                    <div class="heder_scroll">Umpire</div>
+                    <div id="History" class="text_scroll">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
                     Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </div>
                 </div>
-                <div class="btn_tbl">
-                    <button type="submit" class="btn_quit" onclick="resign()">QUIT</button>
-                    <button type="submit" class="btn_rematch" onclick="resign(true)">RE-MATCH</button>
-                    <button type="submit" class="btn_rematch" onclick="passTurn()">PASS</button>
-                </div>
                 <div id="timer" class="timer">00:00</div>
-            </div>
+                
         </div>
         <script src="js/timer.js"></script>
         <script src="js/websocket.js"></script>

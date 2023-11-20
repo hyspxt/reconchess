@@ -60,6 +60,9 @@ function passTurn() {
     game.load(tokens.join(' '))
     if (game.turn() == game.WHITE)
         socket.send(JSON.stringify({ action: 'move', move: 'pass'  }));
+        if(light) lightsOff()
+        lightsOn()
+        config.draggable = false
 }
 
 function onDrop (source, target) {

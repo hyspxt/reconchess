@@ -250,10 +250,6 @@ function undoMove(){
 }
 
 function resign(rematch = false) {
-    console.log(rematch)
-    game.reset();
-    board.start();
-    socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
     config.draggable = false;
     if (light) lightsOff();
     lightsOn();
@@ -268,7 +264,12 @@ function resign(rematch = false) {
         var squareTarget = $('#myBoard .square-' + square);
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
-    })
+    });
+    console.log(rematch);
+    game.reset();
+    board.start();
+    socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
+    
 }
 
 var config = {

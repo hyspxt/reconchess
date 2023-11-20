@@ -1,5 +1,5 @@
 function createWebsocket() {
-	const socket = new WebSocket('ws://silverbullets.rocks/ws/gamegit ') //'silverbullets.rocks/ws/game'
+	const socket = new WebSocket('ws://silverbullets.rocks/ws/game') //'silverbullets.rocks/ws/game'
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
 		socket.send(JSON.stringify({ action: 'start_game' }))

@@ -1,34 +1,26 @@
 var board = null
 var game = new Chess()
-var whiteSquareGrey = '#A3CEF1'
-var blackSquareGrey = '#274C77'
-var fen, piece_theme, promote_to, promoting, promotion_dialog;
+var fen, promote_to
 var socket = createWebsocket();
-piece_theme = 'img/chesspieces/wikipedia/{piece}.png';
-promotion_dialog = $('#promotion-dialog');
-promoting = false;
-
-function removeGreySquares () {
-    $('#myBoard .square-55d63').css('background', '')
-}
-
-function greySquare (square) {
-    var $square = $('#myBoard .square-' + square)
-
-    var background = whiteSquareGrey
-    if ($square.hasClass('black-3c85d')) {
-        background = blackSquareGrey
-    }
-
-    $square.css('background', background)
-}
+var piece_theme = 'img/chesspieces/wikipedia/{piece}.png';
+var promotion_dialog = $('#promotion-dialog');
+var promoting = false;
+var light = false
+var letters, part2 = null
+var count = 0
 
 function onDragStart (source, piece) {
     document.body.style.overflow = 'hidden';
     // do not pick up pieces if the game is over
     if (game.game_over() || game.is_over) return false
 
-    if (piece.search(/^b/) !== -1) return fa
+    if (piece.search(/^b/) !== -1) return false
+    //turn off light
+    if (light) {
+        count = 0;
+        lightsOff();
+        light = false;
+    }
 }
 
 //TODO: if this isn't needed remove it
@@ -39,8 +31,15 @@ function makeRandomMove () {
     if (possibleMoves.length === 0) return
   
     var randomIdx = Math.floor(Math.random() * possibleMoves.length)
-    game.move(possibleMoves[randomIdx])
+    var move = game.move(possibleMoves[randomIdx])
     board.position(game.fen())
+
+    if (move) {
+        var target = move.to;
+        var squareTarget = $('#myBoard .square-' + target);
+        squareTarget.css('opacity', 0.4);
+        squareTarget.css('filter', 'grayscale(50%) blur(2px) brightness(0.8))');
+    }
 }  
   
 //update the game board with the move made by the opponent
@@ -64,25 +63,22 @@ function passTurn() {
 }
 
 function onDrop (source, target) {
-    removeGreySquares()
     move_cfg = {
         from: source,
         to: target,
         promotion: 'q'
       };
 
-      // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
-      // so the promotion dialog doesn't pop up unnecessarily
-      // e.g. (p)d7-f8
-      var move = game.move(move_cfg);
+    // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
+    // so the promotion dialog doesn't pop up unnecessarily
+    var move = game.move(move_cfg);
 
     // illegal move
     if (move === null) {
-        //document.body.style.overflow = 'visible';
+        document.body.style.overflow = 'visible';
+        config.draggable = true;
         return 'snapback'
-    } else {
-        game.undo(); //move is ok, now we can go ahead and check for promotion
-    }
+    } else game.undo(); //move is ok, now we can go ahead and check for promotion
 
     var source_rank = source.substring(2,1);
     var target_rank = target.substring(2,1);
@@ -118,59 +114,48 @@ function onDrop (source, target) {
         return;
     }
     makeMove(game, move_cfg);
-}
 
-function onMouseoverSquare (square, piece) {
-    // get list of possible moves for this square
-    var moves = game.moves({
-        square: square,
-        verbose: true
-    })
-
-    // exit if there are no moves available for this square
-    if (moves.length === 0 || game.is_over) return
-
-    // highlight the square they moused over
-    greySquare(square)
-
-    // highlight the possible squares for this piece
-    for (var i = 0; i < moves.length; i++) {
-        greySquare(moves[i].to)
+    //change the opacity of the squares
+    if (piece.search(/^w/)) {
+        var squareSource = $('#myBoard .square-' + source);
+        var squareTarget = $('#myBoard .square-' + target);
+        squareTarget.css('opacity', 1);
+        squareTarget.css('filter', 'none');
+        squareSource.css('opacity', 0.4);
+        squareSource.css('filter', 'grayscale(50%) blur(2px) brightness(0.8)');
     }
-}
-
-function onMouseoutSquare (square, piece) {
-    removeGreySquares()
 }
 
 function onSnapEnd () {
     if (promoting) return;
     updateBoard(board);
-    document.body.style.overflow = 'visible';
-    board.position(game.fen())
 }
 
 function getImgSrc(piece) {
     return piece_theme.replace('{piece}', game.turn() + piece.toLocaleUpperCase());
-  }
+}
 
-  function updateBoard(board) {
+function updateBoard(board) {
     board.position(game.fen(), false);
     promoting = false;
-  }
+    config.draggable = false;
+    lightsOn();
+}
 
-  var onDialogClose = function() {
+var onDialogClose = function() {
     console.log(promote_to);
     move_cfg.promotion = promote_to;
     makeMove(game, move_cfg, true);
-  }
+}
 
 function makeMove(game, config, promotion=false) {
     // see if the move is legal
     var move = game.move(config);
     // illegal move
-    if (move === null)
+    if (move === null){
+        config.draggable = true;
         return 'snapback';
+    }
     else {
         //convert move to UCI format
         move = move_cfg.from + move_cfg.to
@@ -180,27 +165,122 @@ function makeMove(game, config, promotion=false) {
         //send the chosen move to the backend
         socket.send(JSON.stringify({ action: 'move', move: move}));
         console.log('you moved: ' + move_cfg.from + move_cfg.to);
+        config.draggable = false;
     }
 
-  }
-
-var config = {
-    draggable: true,
-    position: 'start',
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onMouseoutSquare: onMouseoutSquare,
-    onMouseoverSquare: onMouseoverSquare,
-    onSnapEnd: onSnapEnd
 }
-board = Chessboard('myBoard', config)
+
+
+function lightsOn(){
+    window.addEventListener("click", function(event) {
+        if ((event.target.classList.contains("square-55d63")) && (light == false)) {
+            var position = event.target.getAttribute("data-square");
+            var part1 = position.substring(0, 1);
+            var part1Ascii = part1.charCodeAt(0);
+            var prec
+            var suc = String.fromCharCode(part1Ascii + 1);
+
+            if (part1 != 'a') prec = String.fromCharCode(part1Ascii - 1);
+            else prec = null;
+
+            letters = [prec, part1, suc];
+            part2 = position.substring(position.length - 1);
+            //turn on light
+            var i = 0;
+            part2--;
+            while (i < 3){
+                j = 0;
+                while (j < 3){
+                    var square = $('#myBoard .square-' + letters[j] + part2);
+                    square.css('opacity', 1);
+                    square.css('filter', 'none');
+                    
+                    var pieceImage= square.find('img[data-piece]');
+                    pieceImage.css('opacity', 1);
+                    j++;
+                }
+                part2++;
+                i++;
+            }
+            config.draggable = true;
+            light = true;
+        }
+    }, {passive:false});
+}
+
+function lightsOff(){
+    var i = 0;
+    part2 = part2 - 3;
+    while (i < 3){
+        j = 0; 
+        while (j < 3){
+            var square = $('#myBoard .square-' + letters[j] + part2);
+            console.log("output: " + letters[j] + part2);
+            square.css({
+                'opacity': 0.4,
+                'filter': 'grayscale(50%) blur(2px) brightness(0.8)' 
+            });
+
+            var piece = square.find('img[data-piece]');
+            if (piece.length > 0) {
+                var dataPieceValue = piece.attr('data-piece');
+                
+                //check for white pieces
+                if (dataPieceValue && dataPieceValue.startsWith('w')) {
+                    console.log("output: " + square);
+                    square.css({
+                        'opacity': 1,
+                        'filter': 'none'
+                    });
+                }else piece.css('opacity', 0); //opacity for black pieces
+            }
+            j++;
+        }
+        part2++;
+        i++;
+    }
+}
+
+
+function undoMove(){
+    game.undo(),
+    game.undo(),
+    game.load(game.fen()),
+    board.position(game.fen())
+}
 
 function resign(rematch = false) {
     console.log(rematch)
     game.reset();
     board.start();
     socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
+    config.draggable = false;
+    if (light) lightsOff();
+    lightsOn();
+
+    //reset fog
+    var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
+
+    $('#myBoard .square-55d63').css('opacity', 0.4)
+    $('#myBoard .square-55d63').css('filter', 'grayscale(50%) blur(2px) brightness(0.8)')
+
+    squares.forEach(function(square){
+        var squareTarget = $('#myBoard .square-' + square);
+        squareTarget.css('opacity', 1);
+        squareTarget.css('filter', 'none');
+    })
 }
+
+var config = {
+    draggable: true,
+    position: 'start',
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onSnapEnd: onSnapEnd
+}
+
+board = Chessboard('myBoard', config)
+resign()
 
 $("#promote-to").selectable({
     stop: function() {
@@ -218,11 +298,3 @@ $("#promote-to").selectable({
       });
     }
   });
-
-
-function undoMove(){
-    game.undo(),
-    game.undo(),
-    game.load(game.fen()),
-    board.position(game.fen())
-}

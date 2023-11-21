@@ -34,6 +34,7 @@ CSRF_TRUSTED_ORIGINS = ['https://silverbullets.rocks', 'https://localhost']
 # Application definition
 
 INSTALLED_APPS = [
+	'daphne',
 	'api.apps.ApiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -71,16 +72,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'server.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_DB'),
+        'NAME': os.environ.get('DB_NAME'),
 		'USER': os.environ.get('DB_USER'),
 		'PASSWORD': os.environ.get('DB_PASSWORD'),
 		'HOST': os.environ.get('DB_HOST'),
@@ -130,3 +128,5 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ASGI_APPLICATION = 'server.asgi.application'

@@ -1,0 +1,32 @@
+{
+    "name": "reconnassaince-chess",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "",
+    "main": "board.js",
+    "scripts": {
+        "test": "jest --watchAll"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "chess.js": "^1.0.0-beta.6",
+        "chessboard": "^2.0.0",
+        "jest": "^22.4.3",
+        "jquery": "^3.7.1",
+        "jquery-ui": "^1.13.2",
+        "jsdom": "^22.1.0",
+        "util": "^0.12.5"
+    },
+    "jest": {
+        "testEnvironment": "jsdom",
+        "verbose": true,
+        "testURL": "http://localhost/"
+    },
+    "dependencies": {
+        "babel-preset-env": "^1.7.0",
+        "text-encoding": "^0.7.0",
+        "utile": "^0.3.0"
+    }
+}

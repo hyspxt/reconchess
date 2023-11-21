@@ -14,8 +14,9 @@ def register(request):
 				form.save()
 				return HttpResponse('User created successfully!', content_type='text/plain')
 			#send error message
-			return HttpResponseBadRequest(content=form.errors.as_text())
-		except Exception:
+			return HttpResponseBadRequest(content=form.errors.as_text(), content_type='text/plain')
+		except Exception as e:
+			print(str(e))
 			return HttpResponseBadRequest(content="something went wrong, please try again", content_type='text/plain')
 	else:
 		return HttpResponseBadRequest(content='Invalid request method!', content_type='text/plain')
@@ -35,12 +36,19 @@ def userLogin(request):
 			else:
 				return HttpResponseBadRequest(content='Invalid email or password!', content_type='text/plain')
 		except Exception as e:
-			error = str(e)
-			return HttpResponseBadRequest(content=error, content_type='text/plain')
+			print(str(e))
+			return HttpResponseBadRequest(content="something went wrong, please try again", content_type='text/plain')
 	else:
 		return HttpResponseBadRequest(content='Invalid request method!', content_type='text/plain')
 
 
-def checkLogin(request, username:str):
-	if User.objects.get(username=username).is_authenticated:
-		return HttpResponse('User is logged in!', content_type='text/plain')
+def userLogout(request):
+	logout(request)
+	return HttpResponse('User logged out successfully!', content_type='text/plain')
+
+#cheks if user a user is currently logged in returns the username if so
+def checkLogin(request):
+	if request.user.is_authenticated:
+		return HttpResponse(f'user {request.user.username} is currently logged in', content_type='text/plain')
+	else:
+		return HttpResponse('No user logged in', content_type='text/plain')

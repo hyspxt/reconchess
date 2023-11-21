@@ -62,17 +62,24 @@ function makeOpponentMove(board_conf) {
 
 //taken fron https://github.com/jhlywa/chess.js/issues/382
 function passTurn() {
+    console.log('pass turn')
+    console.log(game.WHITE)
     //get the current fen and split it in tokens
     let tokens = game.fen().split(/\s/)
     //change the turn token
     tokens[1] = game.turn() == game.WHITE ? game.BLACK : game.WHITE
     tokens[3] = '-' // reset the en passant square 
     game.load(tokens.join(' '))
-    if (game.turn() == game.WHITE)
-        socket.send(JSON.stringify({ action: 'move', move: 'pass'  }));
-        if(light) lightsOff()
-        lightsOn()
-        config.draggable = false
+    config.draggable = false
+    if(light) lightsOff()
+    lightsOn()
+    //TODO: change this to check for the player's turn not just white
+    if (game.turn() === game.BLACK) {
+        socket.send(JSON.stringify({ action: 'pass' }));
+        console.log('you passed');
+        light = false
+    }
+
 }
 
 function onDrop (source, target) {
@@ -188,7 +195,7 @@ function makeMove(game, config, promotion=false) {
 
 
 function lightsOn(){
-    window.addEventListener("click", function(event) {
+    window.addEventListener("click", function (event) {
         if ((event.target.classList.contains("square-55d63")) && (light == false)) {
             var position = event.target.getAttribute("data-square");
             var part1 = position.substring(0, 1);
@@ -220,7 +227,10 @@ function lightsOn(){
             }
             config.draggable = true;
             light = true;
+            //send the sense message to the backend
+            socket.send(JSON.stringify({ action: 'sense', sense: position }));
         }
+
     }, {passive:false});
 }
 
@@ -274,10 +284,11 @@ function resign(rematch = false) {
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
     });
-    console.log(rematch);
     game.reset();
     board.start();
-    socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
+    //avoid trying to send the message while the page is loading
+    if (socket.readyState == WebSocket.OPEN)
+        socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
     
 }
 

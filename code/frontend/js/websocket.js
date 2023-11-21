@@ -7,16 +7,22 @@ function createWebsocket() {
 
 	socket.onmessage = function (event) {
 		data = JSON.parse(event.data)
+		console.log(data)
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js
 			case 'game started':
 				console.log('start game')
 				game.is_over = false;
 				set_timer(data.time);
+				start_timer()
 				showSideToMove();
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')
 				lightsOn();
+				light = false;
+				break;
+			case 'your turn to sense':
+				console.log('your turn to sense')
 				start_timer()
 				break;
 			case 'your turn to move':
@@ -56,6 +62,7 @@ function createWebsocket() {
 				stop_timer();
 				//tell the frontend library to stop the game
 				game.is_over = true;
+				light = true;
 				break;
 			default:
 				break;

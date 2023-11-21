@@ -44,6 +44,9 @@ class HumanPlayer(Player):
 				raise TimeoutError('player ran out of time')
 			await asyncio.sleep(0.1)
 
+		if(self.sense == 'pass'):
+			#pick a random square if the player passed
+			self.sense = 'a1'
 		sense = self.sense
 		self.sense = None
 		return chess.parse_square(sense)
@@ -76,6 +79,8 @@ class HumanPlayer(Player):
 		if self.move != 'pass': 
 			#convert the received move to a chess.Move object
 			move = chess.Move.from_uci(self.move)
+			#make sure that pass doesn't remain as the sense action if the player passed after sensing
+			self.sense = None
 		else:
 			move = None
 		
@@ -146,6 +151,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 			self.player.sense = data['sense']
 		elif action == 'move':
 			self.player.move = data['move']
+		elif action == 'pass':
+			self.player.sense = 'pass'
+			self.player.move = 'pass'
 		elif action == 'resign':
 			self.game.resign()
 			self.game.end()
@@ -183,7 +191,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 			if(self.game.turn == chess.WHITE):
 				try:
-					await self.play_human_turn(capture_square=capture_square, move_actions=move_actions, first_ply=first_ply)
+					await self.play_human_turn(capture_square=capture_square, move_actions=move_actions, sense_actions=sense_actions, first_ply=first_ply)
 					first_ply = False
 				except TimeoutError:
 					break
@@ -198,7 +206,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
 
-	async def play_human_turn(self, capture_square, move_actions, first_ply):
+	async def play_human_turn(self, capture_square, move_actions, sense_actions, first_ply):
 		player = self.player
 		#the human player has started their turn
 		player.finished = False

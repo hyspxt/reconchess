@@ -48,10 +48,7 @@ function onDragStart (source, piece) {
 
     if (piece.search(/^b/) !== -1) return false
     //turn off light
-    if (light) {
-        lightsOff();
-        light = false;
-    }
+    if (light) lightsOff();
 }
   
 //update the game board with the move made by the opponent
@@ -74,12 +71,14 @@ function passTurn() {
     tokens[3] = '-' // reset the en passant square 
     game.load(tokens.join(' '))
     config.draggable = false
+    
     //TODO: change this to check for the player's turn not just white
     if (game.turn() === game.BLACK) {
         socket.send(JSON.stringify({ action: 'pass' }));
-        console.log('you passed');
-        light = false
+        console.log('you passed'); 
     }
+    if (light) lightsOff()
+    lightsOn()
 }
 
 function onDrop (source, target) {
@@ -87,10 +86,7 @@ function onDrop (source, target) {
         from: source,
         to: target,
         promotion: 'q'
-      };
-
-    var target_piece = game.get(target);
-
+    };
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
     var move = game.move(move_cfg);
@@ -261,14 +257,12 @@ function lightsOff(){
         part2++;
         i++;
     }
+    light = false;
 }
 
 function resign(rematch = false) {
     config.draggable = false;
-    if (light){
-        light = false;
-        lightsOff();
-    }
+    if (light) lightsOff();
     //reset fog
     var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
 

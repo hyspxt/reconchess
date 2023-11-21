@@ -12,14 +12,15 @@ function createWebsocket() {
 				console.log('start game')
 				game.is_over = false;
 				set_timer(data.time);
+				showSideToMove();
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')
-				//TODO: this is a test, remove it when it's possible to sense from frontend
-				socket.send(JSON.stringify({ action: 'sense', sense: 'a1' }))
+				lightsOn();
 				start_timer()
 				break;
 			case 'your turn to move':
+				showSideToMove();
 				console.log('your turn to move')
 				break;
 			case 'invalid move':
@@ -27,12 +28,15 @@ function createWebsocket() {
 				undoMove();
 				break;
 			case 'opponent move':
+				showSideToMove()
 				//use the information from the backend to update the board in the frontend
 				let board = data.board
 				makeOpponentMove(board)
+				if(data.capture_square) haveEaten('w')
 				break;
 			case 'move result':
 				console.log('move result')
+				if(data.captured_opponent_piece !== null) haveEaten('b')
 				//TODO: the information that comes from is possibly useless since the board updates itself
 				//it could still be used to show captures in the frontend though
 				break;

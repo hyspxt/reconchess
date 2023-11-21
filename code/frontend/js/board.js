@@ -7,7 +7,36 @@ var promotion_dialog = $('#promotion-dialog');
 var promoting = false;
 var light = false
 var letters, part2 = null
-var count = 0
+var comments = ""
+
+
+
+function haveEaten(target){
+    if(target === 'b'){
+        comments = "white has eaten a black piece\n" + comments
+    } 
+    
+    if(target === 'w') {
+        comments = "black has eaten a white piece\n" + comments
+    }
+    document.getElementById("History").innerText = comments;
+
+}
+
+function showSideToMove() {
+    if(game.turn() === 'w') {
+        comments =  "it's white turn to move\n" + comments;
+    } else {
+        comments = "it's black turn to move\n" +  comments;
+    }
+
+    document.getElementById("History").innerText = comments;
+}
+
+function illegalMove(){
+    comments = "illegal move\n" +  comments;
+    document.getElementById("History").innerText = comments;
+}
 
 function onDragStart (source, piece) {
     document.body.style.overflow = 'hidden';
@@ -17,30 +46,10 @@ function onDragStart (source, piece) {
     if (piece.search(/^b/) !== -1) return false
     //turn off light
     if (light) {
-        count = 0;
         lightsOff();
         light = false;
     }
 }
-
-//TODO: if this isn't needed remove it
-function makeRandomMove () {
-    var possibleMoves = game.moves()
-  
-    // game over
-    if (possibleMoves.length === 0) return
-  
-    var randomIdx = Math.floor(Math.random() * possibleMoves.length)
-    var move = game.move(possibleMoves[randomIdx])
-    board.position(game.fen())
-
-    if (move) {
-        var target = move.to;
-        var squareTarget = $('#myBoard .square-' + target);
-        squareTarget.css('opacity', 0.4);
-        squareTarget.css('filter', 'grayscale(50%) blur(2px) brightness(0.8))');
-    }
-}  
   
 //update the game board with the move made by the opponent
 function makeOpponentMove(board_conf) {
@@ -48,6 +57,7 @@ function makeOpponentMove(board_conf) {
     game.load(board_conf);
     //updte the board shown to the user
     board.position(game.fen());
+    
 }
 
 //taken fron https://github.com/jhlywa/chess.js/issues/382
@@ -72,6 +82,8 @@ function onDrop (source, target) {
         promotion: 'q'
       };
 
+    var target_piece = game.get(target);
+
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
     var move = game.move(move_cfg);
@@ -80,6 +92,7 @@ function onDrop (source, target) {
     if (move === null) {
         document.body.style.overflow = 'visible';
         config.draggable = true;
+        illegalMove();
         return 'snapback'
     } else game.undo(); //move is ok, now we can go ahead and check for promotion
 
@@ -142,7 +155,6 @@ function updateBoard(board) {
     board.position(game.fen(), false);
     promoting = false;
     config.draggable = false;
-    lightsOn();
 }
 
 var onDialogClose = function() {
@@ -157,6 +169,7 @@ function makeMove(game, config, promotion=false) {
     // illegal move
     if (move === null){
         config.draggable = true;
+        illegalMove();
         return 'snapback';
     }
     else {
@@ -244,19 +257,12 @@ function lightsOff(){
     }
 }
 
-
-function undoMove(){
-    game.undo(),
-    game.undo(),
-    game.load(game.fen()),
-    board.position(game.fen())
-}
-
 function resign(rematch = false) {
     config.draggable = false;
-    if (light) lightsOff();
-    lightsOn();
-
+    if (light){
+        light = false;
+        lightsOff();
+    }
     //reset fog
     var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
 
@@ -284,7 +290,6 @@ var config = {
 }
 
 board = Chessboard('myBoard', config)
-resign()
 
 $("#promote-to").selectable({
     stop: function() {

@@ -13,12 +13,10 @@ function haveEaten(target){
     if(target === 'b'){
         comments = "white has eaten a black piece\n" + comments
     } 
-    
     if(target === 'w') {
         comments = "black has eaten a white piece\n" + comments
     }
     document.getElementById("History").innerText = comments;
-
 }
 
 function showSideToMove() {
@@ -27,7 +25,6 @@ function showSideToMove() {
     } else {
         comments = "it's black turn to move\n" +  comments;
     }
-
     document.getElementById("History").innerText = comments;
 }
 
@@ -39,6 +36,13 @@ function illegalMove(){
 function showSense(){
     comments = "it's white turn to sense\n" + comments;
     document.getElementById("History").innerText = comments;
+}
+
+function youPassed(){
+    if(game.turn() === 'w') {
+        comments = "you passed\n" + comments;
+        document.getElementById("History").innerText = comments;
+    }
 }
 
 function onDragStart (source, piece) {
@@ -62,6 +66,7 @@ function makeOpponentMove(board_conf) {
 
 //taken fron https://github.com/jhlywa/chess.js/issues/382
 function passTurn() {
+    youPassed();
     console.log('pass turn')
     console.log(game.WHITE)
     //get the current fen and split it in tokens
@@ -70,8 +75,6 @@ function passTurn() {
     tokens[1] = game.turn() == game.WHITE ? game.BLACK : game.WHITE
     tokens[3] = '-' // reset the en passant square 
     game.load(tokens.join(' '))
-    config.draggable = false
-    
     //TODO: change this to check for the player's turn not just white
     if (game.turn() === game.BLACK) {
         socket.send(JSON.stringify({ action: 'pass' }));

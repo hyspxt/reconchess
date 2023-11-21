@@ -230,11 +230,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 		
 		#get the updated time for the player
 		time_left = self.game.seconds_left_by_color[not self.game.turn]
-			
-		#remove the time increment if the player passed
-		if(taken_move == None):
-			time_left -= 5
-			self.game.seconds_left_by_color[not self.game.turn] = time_left
 
 		#send the remaining time to the client for syncronization purposes
 		#5 seconds are added to the player's time at the end of the turn as per  the rules

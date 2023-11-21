@@ -9,8 +9,6 @@ var light = false
 var letters, part2 = null
 var comments = ""
 
-
-
 function haveEaten(target){
     if(target === 'b'){
         comments = "white has eaten a black piece\n" + comments
@@ -35,6 +33,11 @@ function showSideToMove() {
 
 function illegalMove(){
     comments = "illegal move\n" +  comments;
+    document.getElementById("History").innerText = comments;
+}
+
+function showSense(){
+    comments = "it's white turn to sense\n" + comments;
     document.getElementById("History").innerText = comments;
 }
 
@@ -79,7 +82,6 @@ function passTurn() {
         console.log('you passed');
         light = false
     }
-
 }
 
 function onDrop (source, target) {
@@ -98,8 +100,8 @@ function onDrop (source, target) {
     // illegal move
     if (move === null) {
         document.body.style.overflow = 'visible';
-        config.draggable = true;
         illegalMove();
+        config.draggable = true;
         return 'snapback'
     } else game.undo(); //move is ok, now we can go ahead and check for promotion
 
@@ -176,7 +178,6 @@ function makeMove(game, config, promotion=false) {
     // illegal move
     if (move === null){
         config.draggable = true;
-        illegalMove();
         return 'snapback';
     }
     else {
@@ -190,9 +191,7 @@ function makeMove(game, config, promotion=false) {
         console.log('you moved: ' + move_cfg.from + move_cfg.to);
         config.draggable = false;
     }
-
 }
-
 
 function lightsOn(){
     window.addEventListener("click", function (event) {
@@ -230,7 +229,6 @@ function lightsOn(){
             //send the sense message to the backend
             socket.send(JSON.stringify({ action: 'sense', sense: position }));
         }
-
     }, {passive:false});
 }
 
@@ -289,7 +287,6 @@ function resign(rematch = false) {
     //avoid trying to send the message while the page is loading
     if (socket.readyState == WebSocket.OPEN)
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
-    
 }
 
 var config = {
@@ -317,4 +314,4 @@ $("#promote-to").selectable({
         updateBoard(board);
       });
     }
-  });
+});

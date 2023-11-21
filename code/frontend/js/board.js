@@ -182,7 +182,7 @@ function makeMove(game, config, promotion=false) {
 
 
 function lightsOn(){
-    window.addEventListener("click", function(event) {
+    window.addEventListener("click", function (event) {
         if ((event.target.classList.contains("square-55d63")) && (light == false)) {
             var position = event.target.getAttribute("data-square");
             var part1 = position.substring(0, 1);
@@ -280,6 +280,7 @@ function resign(rematch = false) {
     });
     game.reset();
     board.start();
+    light = false;
     //avoid trying to send the message while the page is loading
     if (socket.readyState == WebSocket.OPEN)
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));

@@ -21,9 +21,9 @@ function haveEaten(target){
 
 function showSideToMove() {
     if(game.turn() === 'w') {
-        comments =  "it's white turn to move\n" + comments;
+        comments =  "it's white's turn to move\n" + comments;
     } else {
-        comments = "it's black turn to move\n" +  comments;
+        comments = "it's black's turn to move\n" +  comments;
     }
     document.getElementById("History").innerText = comments;
 }
@@ -43,6 +43,12 @@ function youPassed(){
         comments = "you passed\n" + comments;
         document.getElementById("History").innerText = comments;
     }
+}
+
+function showGameOver(reason, winner) {
+    let result = winner ? 'White won, ' : (winner !== 'None' ? 'black won, ' : 'Draw')
+    comments = result + reason + "\n" + comments
+    document.getElementById("History").innerText = comments;
 }
 
 function onDragStart (source, piece) {
@@ -265,7 +271,8 @@ function lightsOff(){
 
 function resign(rematch = false) {
     config.draggable = false;
-    if (light) lightsOff();
+    console.log('light '    + light);
+    if (light && !game.is_over) lightsOff();
     //reset fog
     var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
 

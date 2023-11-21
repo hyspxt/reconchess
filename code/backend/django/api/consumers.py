@@ -105,7 +105,7 @@ class HumanPlayer(Player):
 		win_reason_messages = {
         	WinReason.KING_CAPTURE: 'the king was captured',
         	WinReason.TIMEOUT: 'timeout',
-        	WinReason.RESIGN: 'resign',
+        	WinReason.RESIGN: f'{self.game._resignee} resigned',
         	WinReason.TURN_LIMIT: 'full turn limit exceeded',
         	WinReason.MOVE_LIMIT: 'full move limit exceeded',
         	None: 'game over'
@@ -116,7 +116,8 @@ class HumanPlayer(Player):
 		return await self.consumer.send(text_data=json.dumps({
 			'message': 'game over',
 			'winner': winner_color,
-			'reason': win_reason.name if win_reason else None,
+			'reason': win_reason_messages.get(win_reason)
+
 		}))
 	
 	async def print_time_left(self, color: Optional[Color]):

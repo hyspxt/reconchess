@@ -13,7 +13,6 @@ function createWebsocket() {
 				console.log('start game')
 				game.is_over = false;
 				set_timer(data.time);
-				start_timer()
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')
@@ -56,7 +55,8 @@ function createWebsocket() {
 				set_timer(Math.floor(data.time));
 				break;
 			case 'game over':
-				console.log('game over ' + data.reason)
+				console.log(data)
+				showGameOver(data.reason, data.winner)
 				stop_timer();
 				//tell the frontend library to stop the game
 				game.is_over = true;

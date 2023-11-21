@@ -100,6 +100,16 @@ function onDrop (source, target) {
     var target_rank = target.substring(2,1);
     var piece = game.get(source).type;
 
+    //change the opacity of the squares
+    if (piece.search(/^w/)) {
+        var squareSource = $('#myBoard .square-' + source);
+        var squareTarget = $('#myBoard .square-' + target);
+        squareTarget.css('opacity', 1);
+        squareTarget.css('filter', 'none');
+        squareSource.css('opacity', 0.4);
+        squareSource.css('filter', 'grayscale(50%) blur(2px) brightness(0.8)');
+    }
+
     if (piece === 'p' && ((source_rank === '7' && target_rank === '8') || (source_rank === '2' && target_rank === '1'))) {
         promoting = true;
 
@@ -130,16 +140,6 @@ function onDrop (source, target) {
         return;
     }
     makeMove(game, move_cfg);
-
-    //change the opacity of the squares
-    if (piece.search(/^w/)) {
-        var squareSource = $('#myBoard .square-' + source);
-        var squareTarget = $('#myBoard .square-' + target);
-        squareTarget.css('opacity', 1);
-        squareTarget.css('filter', 'none');
-        squareSource.css('opacity', 0.4);
-        squareSource.css('filter', 'grayscale(50%) blur(2px) brightness(0.8)');
-    }
 }
 
 function onSnapEnd () {

@@ -5,6 +5,8 @@ function createWebsocket() {
 		socket.send(JSON.stringify({ action: 'start_game' }))
 	}
 
+
+	// Chiedere come arrivano i dati dal backend
 	socket.onmessage = function (event) {
 		data = JSON.parse(event.data)
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js

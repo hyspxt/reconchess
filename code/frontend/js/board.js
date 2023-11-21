@@ -74,8 +74,6 @@ function passTurn() {
     tokens[3] = '-' // reset the en passant square 
     game.load(tokens.join(' '))
     config.draggable = false
-    if(light) lightsOff()
-    lightsOn()
     //TODO: change this to check for the player's turn not just white
     if (game.turn() === game.BLACK) {
         socket.send(JSON.stringify({ action: 'pass' }));
@@ -163,7 +161,6 @@ function getImgSrc(piece) {
 function updateBoard(board) {
     board.position(game.fen(), false);
     promoting = false;
-    config.draggable = false;
 }
 
 var onDialogClose = function() {
@@ -194,6 +191,7 @@ function makeMove(game, config, promotion=false) {
 }
 
 function lightsOn(){
+    config.draggable = false;
     window.addEventListener("click", function (event) {
         if ((event.target.classList.contains("square-55d63")) && (light == false)) {
             var position = event.target.getAttribute("data-square");

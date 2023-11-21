@@ -2,7 +2,11 @@
 function set_timer(time_seconds) {
 	minutes = Math.floor(time_seconds / 60);
 	seconds = time_seconds % 60;
-	document.getElementById('timer').innerText = `${minutes}:${seconds}`;
+
+	formattedMinutes = addZero(minutes);
+	formattedSeconds = addZero(seconds);
+
+	document.getElementById('timer').innerText = `${formattedMinutes}:${formattedSeconds}`;
 }
 
 function start_timer() {

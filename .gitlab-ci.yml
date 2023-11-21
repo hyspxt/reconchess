@@ -1,6 +1,13 @@
 stages:
+    - frontend-tests
     - sonarqube-check
-    - sonarqube-vulnerability-report
+
+frontend-tests:
+  stage: frontend-tests
+  image:  node:20
+  script:
+    - npm install
+    - npm test
 
 sonarqube-check:
   stage: sonarqube-check

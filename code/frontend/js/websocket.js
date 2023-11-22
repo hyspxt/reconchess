@@ -1,5 +1,3 @@
-exports.create = createWebsocketgit 
-
 function createWebsocket() {
 	const socket = new WebSocket('wss://silverbullets.rocks/ws/game') //'silverbullets.rocks/ws/game'
 	socket.onopen = function () {
@@ -15,8 +13,6 @@ function createWebsocket() {
 				console.log('start game')
 				game.is_over = false;
 				set_timer(data.time);
-				start_timer()
-				showSideToMove();
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')

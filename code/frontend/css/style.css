@@ -363,12 +363,10 @@ a:hover{
     filter: none;
 }
 
-/*
 img[data-piece^="b"]{
     pointer-events: none;
     opacity: 0;
 }
-*/
 
 @media (max-width: 1180px) {
     .container_x{

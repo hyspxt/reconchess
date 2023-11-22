@@ -1,14 +1,14 @@
 var board = null
 var game = new Chess()
 var fen, promote_to
-var socket = createWebsocket();
-var piece_theme = 'img/chesspieces/wikipedia/{piece}.png';
-var promotion_dialog = $('#promotion-dialog');
-var promoting = false;
+var socket = createWebsocket()
+var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
+var promotion_dialog = $('#promotion-dialog')
+var promoting = false
 var light = false
 var letters, part2 = null
 var comments = ""
-var pass = false;
+var pass = false
 
 function haveEaten(target){
     if(target === 'b'){

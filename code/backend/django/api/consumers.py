@@ -126,7 +126,9 @@ class HumanPlayer(Player):
 			'player color': color,
 		}))
 		
-		while not self.game.is_over():
+		while(True):
+			if(self.game.is_over()):
+				break
 			return self.game.get_seconds_left()
 
 

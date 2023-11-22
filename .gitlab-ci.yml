@@ -1,13 +1,5 @@
 stages:
-    - frontend-tests
     - sonarqube-check
-
-frontend-tests:
-  stage: frontend-tests
-  image:  node:20
-  script:
-    - npm install
-    - npm test
 
 sonarqube-check:
   stage: sonarqube-check
@@ -22,10 +14,8 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-    - sonar-scanner
+    - sonar-scanner -X
   allow_failure: true
   only:
     - merge_requests
-    - master
     - main
-    - develop

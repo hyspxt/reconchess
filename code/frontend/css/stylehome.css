@@ -8,6 +8,25 @@
     flex-direction: row;
 }
 
+.btn_home{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.btn_gioca,
+.btn_login,
+.btn_sign{
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
 body{
     background-color: #FFF;
     color: #274C77;
@@ -26,7 +45,6 @@ body{
     padding-top: 40px;
     padding-bottom: 40px;
     padding-left: 0;
-    padding-right: 30px;;
 }
 
 .fontanimation{

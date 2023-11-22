@@ -5,36 +5,44 @@ body{
     color: #274C77;
     font-family: 'Poppins', sans-serif;
 }
+
 header{
     font-size: 25px;
     font-weight: 600;
     color: #274C77;
     text-align: center;
 }
+
 .navbar{
     background-color: #274C77;
 }
+
 .navbar-brand{
     margin: 0;
 }
+
 .navbar button{
     background-color: #E7ECEF;
     color: #274C77;
     border-radius: 8px;
     border-color: #274C77;
 }
+
 .navbar button:hover{
     background-color: #6096BA;
     border-color: #274C77;
 }
+
 a{
     color: #D5DBBE;
     
 }
+
 a:hover{
     color: #FFF;
 
 }
+
 .container_x,
 .container_y,
 .container_f,
@@ -42,38 +50,54 @@ a:hover{
     display: flex;
     align-items: center;
 }
+
 .container_x{
     flex-direction: row;
     justify-content: space-around;
 }
+
 .container_y,
 .container_f{
     flex-direction: column;
     justify-content: space-around;
 }
+
 .container_z{
     justify-content: center;
 }
+
 .ma{
     margin-top: 200px;
 }
+
 .btn_tbl{
     display: flex;
     flex-direction: column;
 }
+
+.btn_qr,
+.btn_ur{
+    display: flex;
+    flex-direction: column;
+}
+
 .black-3c85d{
     background-color: #6096BA;
 }
+
 .white-1e1d7{
     background-color: #FFF;
 }
+
 .notation-322f9{
     color: #274C77;
+    z-index: 0;
 }
+
 .board-b72b1{
     border-color: #274C77;
-    margin-right: 0px;
 }
+
 .form{
     margin-top: 100px;
     max-width: 430px;
@@ -82,6 +106,7 @@ a:hover{
     border-radius: 10px;
     background-color: #FFF;
 }
+
 .field{
     position: relative;
     height: 50px;
@@ -89,6 +114,7 @@ a:hover{
     margin-top: 20px;
     border-radius: 10px;
 }
+
 .field input,
 .field button{
     height: 100%;
@@ -98,21 +124,26 @@ a:hover{
     font-weight: 400;
     border-radius: 10px;
 }
+
 .field input{
     outline: none;
     padding: 0 15px;
     border: 1px solid #CACACA;
 }
+
 .field input:focus{
     border: 2px solid #CACACA;
 }
+
 .field button{
     background-color: #6096BA;
 }
+
 .field button:hover{
     background-color: #274C77;
     font-size: 18px;
 }
+
 .line{
     position: relative;
     height: 1px;
@@ -120,6 +151,7 @@ a:hover{
     margin: 35px 0;
     background-color: #6096BA;
 }
+
 .line::before{
     content: " Or ";
     position: absolute;
@@ -129,9 +161,11 @@ a:hover{
     color: #6096BA;
     padding: 0 15px;
 }
+
 .house-icon{
     color: #274C77;
 }
+
 .eye-icon{
     color: #274C77;
     position: absolute;
@@ -143,20 +177,20 @@ a:hover{
     padding: 5px;
 }
 
-.scroll_History,
-.scroll_Rules,
-.scroll_Players {
+.scroll_History{
     border-radius: 4px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     height: 250px;
-    width: 316px;
-    border: #274C77 1px solid;
+    width: 300px;
+    border: #274C77 2px solid;
     overflow: auto;
     background-color: #FFF;
 }
 
 .btn_rematch,
-.btn_quit{
+.btn_quit,
+.btn_undo,
+.btn_rules{
     background-color: #6096BA;
     color: #FFF;
     border-radius: 8px;
@@ -169,13 +203,15 @@ a:hover{
     transition: color 0.1s, background-color 0.1s ;
 }
 
-.btn_rematch{
-    padding-left: 107px;
-    padding-right: 107px;
+.btn_undo{
+    padding-left: 130px;
+    padding-right: 130px;
 }
 
 .btn_rematch:hover,
-.btn_quit:hover{
+.btn_quit:hover,
+.btn_undo:hover,
+.btn_rules:hover{
     background-color: #274C77;
     color: #FFF;
 }
@@ -186,12 +222,13 @@ a:hover{
 }
 
 .btn_rematch:active,
-.btn_quit:active{
+.btn_quit:active,
+.btn_undo:active,
+.btn_rules:active{
     opacity: 0.7;
 }
 
 .heder_scroll{
-    width: 299px;
     background-color: #CACACA;
     font-weight: bold;
     display: block;
@@ -201,19 +238,140 @@ a:hover{
     padding-right: 217px;
 }
 
+.timer_title{
+    font-weight: bold;
+    font-size: 2rem;
+    margin-right: 20px;
+}
+
 .text_scroll{
     padding: 7px;
     padding-top: 37px;
 }
 
 .board{
-    width: 550px
+    width: 550px;
+}
+
+
+#promotion-dialog {
+    display: none;
+}
+
+.ui-dialog {
+    padding: 0 !important;
+    width: 272px !important;
+    height: 68px !important;
+    border: 0 !important;
+    position: absolute !important;
+    top: 110px !important;
+    left: 50% !important;
+    transform: translate(-50%, 0) !important;
+}
+
+.ui-dialog-content {
+    padding: 0 !important;
+    width: 272px !important;
+    height: 68px !important;
+    border: 0 !important;
+}
+
+.ui-corner-all {
+    border-radius: 0;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 0 !important;
+}
+
+#promote-to .ui-selecting {
+    background: #274C77;
+}
+
+#promote-to .ui-selected {
+    background: #274C77;
+    color: #274C77;
+}
+
+#promote-to {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 272px;
+    height: 68px;
+}
+
+#promote-to li {
+    margin: 0;
+    padding: 0;
+    width: 68px;
+    height: 68px;
+    cursor: pointer;
+    float: left !important;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 0;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.noTitleStuff .ui-dialog-titlebar {
+    display: none;
+}
+
+.promotion-piece {
+    width: 68px;
+    height: 68px;
+}
+
+.piece-name {
+    display: none;
+}
+
+.square-55d63{
+    opacity: 0.4;
+    filter: grayscale(50%) blur(2px) brightness(0.8);
+    pointer-events: auto;
+}
+
+.square-55d63:hover{
+    background-color: #FFFF70;
+    opacity: 1 !important;
+    filter: none!important;
+}
+
+.square-a1,
+.square-a2,
+.square-b1,
+.square-b2,
+.square-c1,
+.square-c2,
+.square-d1,
+.square-d2,
+.square-e1,
+.square-e2,
+.square-f1,
+.square-f2,
+.square-g1,
+.square-g2,
+.square-h1,
+.square-h2{
+    opacity: 1;
+    filter: none;
+}
+
+img[data-piece^="b"]{
+    pointer-events: none;
+    opacity: 0;
 }
 
 @media (max-width: 1180px) {
     .container_x{
         flex-direction: column;
-        align-items: center;
+        justify-content: center;
     }
     .container_y {
         order: 3;
@@ -226,19 +384,14 @@ a:hover{
 
     .board{
         order: 1;
-        width: 316px;
-        height: 316px;
+        width: 320px;
 
-    }
-
-    .chessboard-63f37{
-        width: 316px;
-        height: 316px;
     }
 
     .btn_tbl{
         margin-top: 10px;
         margin-bottom: 10px;
+        flex-direction: column;
     }
 
     .btn_quit{
@@ -257,18 +410,33 @@ a:hover{
         padding-bottom: 6px;
     }
 
-    .btn_tbl{
-        flex-direction: row;
-    }
-
     .scroll_History,
     .scroll_Rules,
     .scroll_Players{
-        width: 316px;
         margin-bottom: 20px;
     }
 
     .ma{
         margin-top: 100px;
     }
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.timer_div{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

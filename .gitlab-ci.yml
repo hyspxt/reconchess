@@ -15,6 +15,8 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
+    - apt-get update -qy  # Update package index
+    - apt-get install -y docker-compose  # Install docker-compose
     - docker compose -f code/backend/docker-compose.yml build
     - docker compose -f code/backend/docker-compose.yml up -d 
     - docker exec -it your-django-container coverage run manage.py test /test

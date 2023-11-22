@@ -20,11 +20,6 @@ function createWebsocket() {
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')
-				lightsOn();
-				light = false;
-				break;
-			case 'your turn to sense':
-				console.log('your turn to sense')
 				start_timer()
 				showSense()
 				lightsOn();

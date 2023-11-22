@@ -87,7 +87,6 @@ function passTurn() {
     tokens[1] = game.turn() == game.WHITE ? game.BLACK : game.WHITE
     tokens[3] = '-' // reset the en passant square 
     game.load(tokens.join(' '))
-    //TODO: change this to check for the player's turn not just white
     if (game.turn() === game.BLACK) {
         socket.send(JSON.stringify({ action: 'pass' }));
         console.log('you passed'); 
@@ -98,7 +97,7 @@ function passTurn() {
 
 function onDrop (source, target) {
     document.body.style.overflow = 'visible';
-    move_cfg = {
+    var move_cfg = {
         from: source,
         to: target,
         promotion: 'q'
@@ -246,7 +245,7 @@ function lightsOff(){
     var i = 0;
     var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
     while (i < 8){
-        y = 0; 
+        var y = 0; 
         while (y < 8){
             var square = $('#myBoard .square-' + letters[y] + (i+1));
             square.css({

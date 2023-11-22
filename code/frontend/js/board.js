@@ -25,6 +25,7 @@ function showSideToMove() {
         if(game.turn() === 'w') {
             comments =  "it's white's turn to move\n" + comments;
         } else {
+            comments = "it's black's turn to sense\n" +  comments;
             comments = "it's black's turn to move\n" +  comments;
         }
         document.getElementById("History").innerText = comments;
@@ -97,7 +98,7 @@ function passTurn() {
 
 function onDrop (source, target) {
     document.body.style.overflow = 'visible';
-    move_cfg = {
+    var move_cfg = {
         from: source,
         to: target,
         promotion: 'q'
@@ -245,7 +246,7 @@ function lightsOff(){
     var i = 0;
     var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
     while (i < 8){
-        y = 0; 
+        var y = 0; 
         while (y < 8){
             var square = $('#myBoard .square-' + letters[y] + (i+1));
             square.css({

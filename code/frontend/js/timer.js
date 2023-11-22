@@ -1,9 +1,5 @@
-exports.updateTimer = updateTimer
-exports.start_timer = start_timer
-exports.stop_timer = stop_timer
-exports.set_timer = set_timer
-
-function set_timer(time_seconds, element) {
+//expects to receive the initial time in seconds
+function set_timer(time_seconds) {
 	minutes = Math.floor(time_seconds / 60);
 	seconds = time_seconds % 60;
 
@@ -13,37 +9,33 @@ function set_timer(time_seconds, element) {
 	document.getElementById('timer').innerText = `${formattedMinutes}:${formattedSeconds}`;
 }
 
-function start_timer(time, element) {
-	updateTimer(time, element);
+function start_timer() {
+	updateTimer();
 	timer = setInterval(updateTimer, 1000);
 }
 
-function stop_timer(element) {
-
-	clearInterval(element);
+function stop_timer() {
+	clearInterval(timer);
 }
 
-function updateTimer(time, element) {
+function updateTimer() {
 	
-	if (time.minutes === 0 && time.seconds === 0) {
-		element.innerText = `00:00`;
-		stop_timer(element);
+	if (seconds === 0) {
+		minutes--;
+		seconds = 59;
+	} else {
+		seconds--;
+	}
+	
+	const formattedMinutes = addZero(minutes);
+	const formattedSeconds = addZero(seconds);
+	
+	document.getElementById('timer').innerText = `${formattedMinutes}:${formattedSeconds}`;
+
+	if (minutes === 0 && seconds === 0) {
+		stop_timer();
 		return;
 	}
-	else if (time.seconds === 0 && time.minutes > 0) {
-		time.minutes--;
-		time.seconds = 59;
-	} 
-	else {
-		time.seconds--;
-	}
-	
-	const formattedMinutes = addZero(time.minutes);
-	const formattedSeconds = addZero(time.seconds);
-	
-	element.innerText = `${formattedMinutes}:${formattedSeconds}`;
-
-	
 }
 
 //adds a zero if the value is less than 10

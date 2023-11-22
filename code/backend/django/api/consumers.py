@@ -56,10 +56,11 @@ class HumanPlayer(Player):
 		pass
 
 	async def choose_move(self, move_actions: List[chess.Move]) -> chess.Move | None:
-		await self.consumer.send(text_data=json.dumps({
-			'message': 'your turn to move',
-			'move_actions': [str(move) for move in move_actions]
-		}))
+		if self.move != 'pass':
+			await self.consumer.send(text_data=json.dumps({
+				'message': 'your turn to move',
+				'move_actions': [str(move) for move in move_actions]
+			}))
 
 		#waits for the client to send a valid move
 		while self.move is None or (self.move != 'pass' and chess.Move.from_uci(self.move) not in move_actions):

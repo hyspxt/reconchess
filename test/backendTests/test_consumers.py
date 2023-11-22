@@ -11,6 +11,30 @@ class TestGameConsumer(TestCase):
 		connected, _ = await communicator.connect()
 		self.assertTrue(connected)
 		return communicator
+	
+	async def test_pass(self):
+		communicator = await self.connect()
+		await communicator.send_json_to({
+			'action': 'start_game'
+		})
+
+		response = await communicator.receive_json_from()
+		self.assertEqual(response['color'], 'white')
+		self.assertEqual(response['board'], chess.STARTING_FEN)
+
+		response = await communicator.receive_json_from()
+		self.assertTrue(response['message'] == 'your turn to sense')
+
+		await communicator.send_json_to(({'action': 'pass'}))
+		response = await communicator.receive_json_from()
+
+		self.assertEqual(response['message'], 'move result')
+		self.assertEqual(response['requested_move'], 'None')
+
+		await communicator.disconnect()
+
+
+		communicator.disconnect()
 
 	async def test_full_game(self):
 		communicator = await self.connect()
@@ -52,6 +76,8 @@ class TestGameConsumer(TestCase):
 			self.assertIn('message', response)
 			if response['message'] == 'game over':
 				break
-			
+
+
 		await communicator.disconnect()
+	
 

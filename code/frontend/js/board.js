@@ -25,6 +25,7 @@ function showSideToMove() {
         if(game.turn() === 'w') {
             comments =  "it's white's turn to move\n" + comments;
         } else {
+            comments = "it's black's turn to sense\n" +  comments;
             comments = "it's black's turn to move\n" +  comments;
         }
         document.getElementById("History").innerText = comments;

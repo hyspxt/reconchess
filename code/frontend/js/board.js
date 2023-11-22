@@ -246,7 +246,7 @@ function lightsOff(){
     var i = 0;
     var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
     while (i < 8){
-        y = 0; 
+        var y = 0; 
         while (y < 8){
             var square = $('#myBoard .square-' + letters[y] + (i+1));
             square.css({

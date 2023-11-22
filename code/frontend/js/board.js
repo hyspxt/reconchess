@@ -1,13 +1,59 @@
 var board = null
 var game = new Chess()
 var fen, promote_to
-var socket = createWebsocket();
-var piece_theme = 'img/chesspieces/wikipedia/{piece}.png';
-var promotion_dialog = $('#promotion-dialog');
-var promoting = false;
+var socket = createWebsocket()
+var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
+var promotion_dialog = $('#promotion-dialog')
+var promoting = false
 var light = false
 var letters, part2 = null
-var count = 0
+var comments = ""
+var pass = false
+
+function haveEaten(target){
+    if(target === 'b'){
+        comments = "white has eaten a black piece\n" + comments
+    } 
+    if(target === 'w') {
+        comments = "black has eaten a white piece\n" + comments
+    }
+    document.getElementById("History").innerText = comments;
+}
+
+function showSideToMove() {
+    if (pass == false){
+        if(game.turn() === 'w') {
+            comments =  "it's white's turn to move\n" + comments;
+        } else {
+            comments = "it's black's turn to move\n" +  comments;
+        }
+        document.getElementById("History").innerText = comments;
+    }
+    else pass = false;
+}
+
+function illegalMove(){
+    comments = "illegal move\n" +  comments;
+    document.getElementById("History").innerText = comments;
+}
+
+function showSense(){
+    comments = "it's white turn to sense\n" + comments;
+    document.getElementById("History").innerText = comments;
+}
+
+function youPassed(){
+    if(game.turn() === 'w') {
+        comments = "you passed\n" + comments;
+        document.getElementById("History").innerText = comments;
+    }
+}
+
+function showGameOver(reason, winner) {
+    let result = winner ? 'White won, ' : (winner !== 'None' ? 'black won, ' : 'Draw')
+    comments = result + reason + "\n" + comments
+    document.getElementById("History").innerText = comments;
+}
 
 function onDragStart (source, piece) {
     document.body.style.overflow = 'hidden';
@@ -16,31 +62,8 @@ function onDragStart (source, piece) {
 
     if (piece.search(/^b/) !== -1) return false
     //turn off light
-    if (light) {
-        count = 0;
-        lightsOff();
-        light = false;
-    }
+    if (light) lightsOff();
 }
-
-//TODO: if this isn't needed remove it
-function makeRandomMove () {
-    var possibleMoves = game.moves()
-  
-    // game over
-    if (possibleMoves.length === 0) return
-  
-    var randomIdx = Math.floor(Math.random() * possibleMoves.length)
-    var move = game.move(possibleMoves[randomIdx])
-    board.position(game.fen())
-
-    if (move) {
-        var target = move.to;
-        var squareTarget = $('#myBoard .square-' + target);
-        squareTarget.css('opacity', 0.4);
-        squareTarget.css('filter', 'grayscale(50%) blur(2px) brightness(0.8))');
-    }
-}  
   
 //update the game board with the move made by the opponent
 function makeOpponentMove(board_conf) {
@@ -48,30 +71,37 @@ function makeOpponentMove(board_conf) {
     game.load(board_conf);
     //updte the board shown to the user
     board.position(game.fen());
+    
 }
 
 //taken fron https://github.com/jhlywa/chess.js/issues/382
 function passTurn() {
+    pass = true;
+    youPassed();
+    console.log('pass turn')
+    console.log(game.WHITE)
     //get the current fen and split it in tokens
     let tokens = game.fen().split(/\s/)
     //change the turn token
     tokens[1] = game.turn() == game.WHITE ? game.BLACK : game.WHITE
     tokens[3] = '-' // reset the en passant square 
     game.load(tokens.join(' '))
-    if (game.turn() == game.WHITE)
-        socket.send(JSON.stringify({ action: 'move', move: 'pass'  }));
-        if(light) lightsOff()
-        lightsOn()
-        config.draggable = false
+    //TODO: change this to check for the player's turn not just white
+    if (game.turn() === game.BLACK) {
+        socket.send(JSON.stringify({ action: 'pass' }));
+        console.log('you passed'); 
+    }
+    if (light) lightsOff()
+    lightsOn()
 }
 
 function onDrop (source, target) {
+    document.body.style.overflow = 'visible';
     move_cfg = {
         from: source,
         to: target,
         promotion: 'q'
-      };
-
+    };
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
     var move = game.move(move_cfg);
@@ -79,6 +109,7 @@ function onDrop (source, target) {
     // illegal move
     if (move === null) {
         document.body.style.overflow = 'visible';
+        illegalMove();
         config.draggable = true;
         return 'snapback'
     } else game.undo(); //move is ok, now we can go ahead and check for promotion
@@ -86,6 +117,16 @@ function onDrop (source, target) {
     var source_rank = source.substring(2,1);
     var target_rank = target.substring(2,1);
     var piece = game.get(source).type;
+
+    //change the opacity of the squares
+    if (piece.search(/^w/)) {
+        var squareSource = $('#myBoard .square-' + source);
+        var squareTarget = $('#myBoard .square-' + target);
+        squareTarget.css('opacity', 1);
+        squareTarget.css('filter', 'none');
+        squareSource.css('opacity', 0.4);
+        squareSource.css('filter', 'grayscale(50%) blur(2px) brightness(0.8)');
+    }
 
     if (piece === 'p' && ((source_rank === '7' && target_rank === '8') || (source_rank === '2' && target_rank === '1'))) {
         promoting = true;
@@ -117,16 +158,6 @@ function onDrop (source, target) {
         return;
     }
     makeMove(game, move_cfg);
-
-    //change the opacity of the squares
-    if (piece.search(/^w/)) {
-        var squareSource = $('#myBoard .square-' + source);
-        var squareTarget = $('#myBoard .square-' + target);
-        squareTarget.css('opacity', 1);
-        squareTarget.css('filter', 'none');
-        squareSource.css('opacity', 0.4);
-        squareSource.css('filter', 'grayscale(50%) blur(2px) brightness(0.8)');
-    }
 }
 
 function onSnapEnd () {
@@ -141,8 +172,6 @@ function getImgSrc(piece) {
 function updateBoard(board) {
     board.position(game.fen(), false);
     promoting = false;
-    config.draggable = false;
-    lightsOn();
 }
 
 var onDialogClose = function() {
@@ -170,12 +199,11 @@ function makeMove(game, config, promotion=false) {
         console.log('you moved: ' + move_cfg.from + move_cfg.to);
         config.draggable = false;
     }
-
 }
 
-
 function lightsOn(){
-    window.addEventListener("click", function(event) {
+    config.draggable = false;
+    window.addEventListener("click", function (event) {
         if ((event.target.classList.contains("square-55d63")) && (light == false)) {
             var position = event.target.getAttribute("data-square");
             var part1 = position.substring(0, 1);
@@ -207,56 +235,46 @@ function lightsOn(){
             }
             config.draggable = true;
             light = true;
+            //send the sense message to the backend
+            socket.send(JSON.stringify({ action: 'sense', sense: position }));
         }
     }, {passive:false});
 }
 
 function lightsOff(){
     var i = 0;
-    part2 = part2 - 3;
-    while (i < 3){
-        j = 0; 
-        while (j < 3){
-            var square = $('#myBoard .square-' + letters[j] + part2);
-            console.log("output: " + letters[j] + part2);
+    var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
+    while (i < 8){
+        y = 0; 
+        while (y < 8){
+            var square = $('#myBoard .square-' + letters[y] + (i+1));
             square.css({
                 'opacity': 0.4,
-                'filter': 'grayscale(50%) blur(2px) brightness(0.8)' 
+                'filter': 'grayscale(50%) blur(2px) brightness(0.8)'
             });
-
             var piece = square.find('img[data-piece]');
             if (piece.length > 0) {
                 var dataPieceValue = piece.attr('data-piece');
                 
                 //check for white pieces
                 if (dataPieceValue && dataPieceValue.startsWith('w')) {
-                    console.log("output: " + square);
                     square.css({
                         'opacity': 1,
                         'filter': 'none'
                     });
                 }else piece.css('opacity', 0); //opacity for black pieces
             }
-            j++;
+            y++;
         }
-        part2++;
         i++;
     }
-}
-
-
-function undoMove(){
-    game.undo(),
-    game.undo(),
-    game.load(game.fen()),
-    board.position(game.fen())
+    light = false;
 }
 
 function resign(rematch = false) {
     config.draggable = false;
-    if (light) lightsOff();
-    lightsOn();
-
+    console.log('light '    + light);
+    if (light && !game.is_over) lightsOff();
     //reset fog
     var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
 
@@ -268,11 +286,11 @@ function resign(rematch = false) {
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
     });
-    console.log(rematch);
     game.reset();
     board.start();
-    socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
-    
+    //avoid trying to send the message while the page is loading
+    if (socket.readyState == WebSocket.OPEN)
+        socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
 var config = {
@@ -284,7 +302,6 @@ var config = {
 }
 
 board = Chessboard('myBoard', config)
-resign()
 
 $("#promote-to").selectable({
     stop: function() {
@@ -301,4 +318,4 @@ $("#promote-to").selectable({
         updateBoard(board);
       });
     }
-  });
+});

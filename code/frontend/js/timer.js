@@ -6,7 +6,11 @@ exports.set_timer = set_timer
 function set_timer(time_seconds, element) {
 	minutes = Math.floor(time_seconds / 60);
 	seconds = time_seconds % 60;
-	element.innerText = `${minutes}:${seconds}`;
+
+	formattedMinutes = addZero(minutes);
+	formattedSeconds = addZero(seconds);
+
+	document.getElementById('timer').innerText = `${formattedMinutes}:${formattedSeconds}`;
 }
 
 function start_timer(time, element) {

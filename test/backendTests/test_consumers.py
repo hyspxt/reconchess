@@ -27,8 +27,8 @@ class TestGameConsumer(TestCase):
 		#simulate a game between a human player and a bot
 		#the human chooses legal moves ranodmly
 		while True:
-			self.assertTrue(response['message'] == 'your turn to sense' or response['message'] == 'opponent capture')
-			if(response['message'] == 'opponent capture'):
+			self.assertTrue(response['message'] == 'your turn to sense' or response['message'] == 'opponent move')
+			if(response['message'] == 'opponent move'):
 				response = await communicator.receive_json_from()
 				self.assertEqual(response['message'], 'your turn to sense')	
 				
@@ -40,15 +40,18 @@ class TestGameConsumer(TestCase):
 			move = random.choice(response['move_actions'])
 			await communicator.send_json_to(({'action': 'move', 'move': move}))
 
-			response = await communicator.receive_json_from(timeout=10)
+			response = await communicator.receive_json_from()
 			self.assertEqual(response['message'], 'move result')
 
-			response = await communicator.receive_json_from(timeout=10)
+			response = await communicator.receive_json_from()
+			self.assertEqual(response['message'], 'turn ended')
+
+			response = await communicator.receive_json_from()
+			self.assertTrue(response['message'] == 'opponent move' or response['message'] == 'game over')
+
 			self.assertIn('message', response)
 			if response['message'] == 'game over':
 				break
-
-		print(response)
 			
 		await communicator.disconnect()
 

@@ -35,7 +35,10 @@ function createWebsocket() {
 				//use the information from the backend to update the board in the frontend
 				let board = data.board
 				makeOpponentMove(board)
-				if(data.capture_square != null) haveEaten('w')
+				if(data.capture_square != null){
+					haveEaten('w')
+					lightsOff()
+				}
 				break;
 			case 'move result':
 				console.log('move result')

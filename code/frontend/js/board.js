@@ -8,6 +8,7 @@ var promoting = false;
 var light = false
 var letters, part2 = null
 var comments = ""
+var pass = false;
 
 function haveEaten(target){
     if(target === 'b'){
@@ -20,12 +21,15 @@ function haveEaten(target){
 }
 
 function showSideToMove() {
-    if(game.turn() === 'w') {
-        comments =  "it's white's turn to move\n" + comments;
-    } else {
-        comments = "it's black's turn to move\n" +  comments;
+    if (pass){
+        if(game.turn() === 'w') {
+            comments =  "it's white's turn to move\n" + comments;
+        } else {
+            comments = "it's black's turn to move\n" +  comments;
+        }
+        document.getElementById("History").innerText = comments;
     }
-    document.getElementById("History").innerText = comments;
+    else  pass = false;
 }
 
 function illegalMove(){
@@ -72,6 +76,7 @@ function makeOpponentMove(board_conf) {
 
 //taken fron https://github.com/jhlywa/chess.js/issues/382
 function passTurn() {
+    pass = true;
     youPassed();
     console.log('pass turn')
     console.log(game.WHITE)

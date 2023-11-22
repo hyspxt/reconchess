@@ -21,7 +21,7 @@ function haveEaten(target){
 }
 
 function showSideToMove() {
-    if (pass){
+    if (pass == false){
         if(game.turn() === 'w') {
             comments =  "it's white's turn to move\n" + comments;
         } else {
@@ -29,7 +29,7 @@ function showSideToMove() {
         }
         document.getElementById("History").innerText = comments;
     }
-    else  pass = false;
+    else pass = false;
 }
 
 function illegalMove(){

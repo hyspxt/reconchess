@@ -247,19 +247,17 @@ function lightsOff(){
     while (i < 8){
         y = 0; 
         while (y < 8){
-            var square = $('#myBoard .square-' + letters[y] + i);
+            var square = $('#myBoard .square-' + letters[y] + (i+1));
             square.css({
                 'opacity': 0.4,
-                'filter': 'grayscale(50%) blur(2px) brightness(0.8)' 
+                'filter': 'grayscale(50%) blur(2px) brightness(0.8)'
             });
-
             var piece = square.find('img[data-piece]');
             if (piece.length > 0) {
                 var dataPieceValue = piece.attr('data-piece');
                 
                 //check for white pieces
                 if (dataPieceValue && dataPieceValue.startsWith('w')) {
-                    console.log("output: " + square);
                     square.css({
                         'opacity': 1,
                         'filter': 'none'

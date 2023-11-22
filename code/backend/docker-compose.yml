@@ -10,10 +10,10 @@ services:
       - DB_PASSWORD=123
       - DB_NAME=mydb
       - DB_HOST=postgres
-      - PYTHONPATH=/test
+      - PYTHONPATH=/test/backendTests
     volumes:
       - "./django:/django"
-      - "../../test/backendTests:/test"
+      - "../../test:/test"
     command: python3 manage.py runserver 0.0.0.0:8000
     image: app:django
     depends_on:

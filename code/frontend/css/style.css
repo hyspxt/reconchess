@@ -330,13 +330,12 @@ a:hover{
 .piece-name {
     display: none;
 }
-/*
+
 .square-55d63{
     opacity: 0.4;
     filter: grayscale(50%) blur(2px) brightness(0.8);
     pointer-events: auto;
 }
-*/
 
 .square-55d63:hover{
     background-color: #FFFF70;
@@ -364,10 +363,12 @@ a:hover{
     filter: none;
 }
 
+/*
 img[data-piece^="b"]{
     pointer-events: none;
     opacity: 0;
 }
+*/
 
 @media (max-width: 1180px) {
     .container_x{

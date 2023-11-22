@@ -98,7 +98,7 @@ function passTurn() {
 
 function onDrop (source, target) {
     document.body.style.overflow = 'visible';
-    var move_cfg = {
+    move_cfg = {
         from: source,
         to: target,
         promotion: 'q'
@@ -246,7 +246,7 @@ function lightsOff(){
     var i = 0;
     var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
     while (i < 8){
-        var y = 0; 
+        y = 0; 
         while (y < 8){
             var square = $('#myBoard .square-' + letters[y] + (i+1));
             square.css({

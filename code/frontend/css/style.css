@@ -391,6 +391,7 @@ img[data-piece^="b"]{
     .btn_tbl{
         margin-top: 10px;
         margin-bottom: 10px;
+        flex-direction: column;
     }
 
     .btn_quit{
@@ -407,10 +408,6 @@ img[data-piece^="b"]{
         margin-left: 5px;
         padding-top: 6px;
         padding-bottom: 6px;
-    }
-
-    .btn_tbl{
-        flex-direction: column;
     }
 
     .scroll_History,

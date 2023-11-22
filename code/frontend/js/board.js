@@ -243,13 +243,11 @@ function lightsOn(){
 
 function lightsOff(){
     var i = 0;
-    part2 = part2 - 3;
-    var letters = [a, b, c, d, e, f, g, h]
+    var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
     while (i < 8){
         y = 0; 
         while (y < 8){
-            var square = $('#myBoard .square-' + letters[y] + part2);
-            console.log("output: " + letters[y] + part2);
+            var square = $('#myBoard .square-' + letters[y] + i);
             square.css({
                 'opacity': 0.4,
                 'filter': 'grayscale(50%) blur(2px) brightness(0.8)' 
@@ -270,7 +268,6 @@ function lightsOff(){
             }
             y++;
         }
-        part2++;
         i++;
     }
     light = false;

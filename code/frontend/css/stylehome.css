@@ -9,13 +9,12 @@
 }
 
 body{
-    background-color: #E7ECEF;
+    background-color: #FFF;
     color: #274C77;
     font-family: 'Poppins', sans-serif;
 }
 
 .right{
-    margin-top: 70px;
     display: flex;
     justify-content: right;
     padding-right: 0;
@@ -27,6 +26,7 @@ body{
     padding-top: 40px;
     padding-bottom: 40px;
     padding-left: 0;
+    padding-right: 30px;;
 }
 
 .fontanimation{
@@ -45,8 +45,26 @@ body{
     -webkit-text-fill-color: transparent;
     animation: textclip 3s linear infinite;
     display: inline-block;
-    font-size: 60px;
+    font-size: 80px;
     font-weight: bolder;
+}
+@media (max-width: 1180px) {
+    .right{
+        margin-top: 20px;
+    }
+    .fontanimation{
+        font-size: 50px;
+    }
+    img {
+        width: 150px;
+        height: 150px;
+    }
+    .center{
+        float: center;
+    }
+    .container{
+        margin-top: 150px;
+    }
 }
 
 @keyframes textclip {

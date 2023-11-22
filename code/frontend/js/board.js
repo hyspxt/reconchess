@@ -91,6 +91,7 @@ function passTurn() {
 }
 
 function onDrop (source, target) {
+    document.body.style.overflow = 'visible';
     move_cfg = {
         from: source,
         to: target,

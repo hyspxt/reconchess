@@ -330,12 +330,13 @@ a:hover{
 .piece-name {
     display: none;
 }
-
+/*
 .square-55d63{
     opacity: 0.4;
     filter: grayscale(50%) blur(2px) brightness(0.8);
     pointer-events: auto;
 }
+*/
 
 .square-55d63:hover{
     background-color: #FFFF70;
@@ -410,7 +411,7 @@ img[data-piece^="b"]{
     }
 
     .btn_tbl{
-        flex-direction: row;
+        flex-direction: column;
     }
 
     .scroll_History,

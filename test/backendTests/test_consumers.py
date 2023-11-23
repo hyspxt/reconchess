@@ -32,9 +32,26 @@ class TestGameConsumer(TestCase):
 		self.assertEqual(response['requested_move'], 'None')
 
 		await communicator.disconnect()
+	
+	async def test_timeout(self):
+		communicator = await self.connect()
+		await communicator.send_json_to({
+			'action': 'start_game',
+			'seconds': 3
+		})
 
+		response = await communicator.receive_json_from()
+		self.assertEqual(response['color'], 'white')
+		self.assertEqual(response['board'], chess.STARTING_FEN)
 
-		communicator.disconnect()
+		response = await communicator.receive_json_from()
+		self.assertTrue(response['message'] == 'your turn to sense')
+	
+
+		response = await communicator.receive_json_from(timeout=5)
+		self.assertEqual(response['message'], 'game over')
+
+		await communicator.disconnect()
 
 	async def test_full_game(self):
 		communicator = await self.connect()

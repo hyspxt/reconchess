@@ -1,5 +1,8 @@
+//define constant to allow local testing
+const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/game' : 'wss://silverbullets.rocks/ws/game'
+
 function createWebsocket() {
-	const socket = new WebSocket('wss://silverbullets.rocks/ws/game') //'silverbullets.rocks/ws/game'
+	const socket = new WebSocket(WEBSOCKET_URL)
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
 		socket.send(JSON.stringify({ action: 'start_game' }))
@@ -12,11 +15,23 @@ function createWebsocket() {
 			case 'game started':
 				console.log('start game')
 				game.is_over = false;
-				set_timer(data.time);
+				set_timer(data.time, 'my_timer');
+				set_timer(data.time, 'opponent_timer');
+				break;
+			case 'opponent move':
+				stop_timer();
+				showSideToMove()
+				//use the information from the backend to update the board in the frontend
+				let board = data.board
+				makeOpponentMove(board)
+				if (data.capture_square != null) {
+					haveEaten('w')
+					lightsOff()
+				}
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')
-				start_timer()
+				start_timer('my_timer')
 				showSense()
 				lightsOn();
 				light = false;
@@ -30,32 +45,20 @@ function createWebsocket() {
 				illegalMove()
 				undoMove();
 				break;
-			case 'opponent move':
-				showSideToMove()
-				//use the information from the backend to update the board in the frontend
-				let board = data.board
-				makeOpponentMove(board)
-				if(data.capture_square != null){
-					haveEaten('w')
-					lightsOff()
-				}
-				break;
 			case 'move result':
 				console.log('move result')
 				if(data.captured_opponent_piece) haveEaten('b')
-				//TODO: the information that comes from is possibly useless since the board updates itself
-				//it could still be used to show captures in the frontend though
 				break;
-			case 'time left':
-				console.log('time left')
-				set_timer(data.game.get_seconds_left())
-				start_timer()
 			case 'turn ended':
 				console.log('turn ended')
 				//the turn is over, get the time left and stop the timer
 				stop_timer();
 				//round the remaining time down to the nearest integer
-				set_timer(Math.floor(data.time));
+				set_timer(Math.floor(data.time), 'my_timer');
+				set_timer(Math.floor(data.opponent_time), 'opponent_timer',);
+
+				start_timer('opponent_timer')
+
 				break;
 			case 'game over':
 				console.log(data)

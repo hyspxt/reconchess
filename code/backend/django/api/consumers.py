@@ -12,11 +12,13 @@ class HumanPlayer(Player):
 	def __init__(self, consumer, game):
 		self.consumer = consumer
 		self.game = game 
+		self.color = None
 		self.move = None
 		self.sense = None
 		self.finished = True
 
 	async def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
+		self.color = color
 		color_name = 'white' if color == chess.WHITE else 'black'
 		return await self.consumer.send(text_data=json.dumps({
 			'message': 'game started',
@@ -44,16 +46,14 @@ class HumanPlayer(Player):
 				raise TimeoutError('player ran out of time')
 			await asyncio.sleep(0.1)
 
-		if(self.sense == 'pass'):
-			#pick a random square if the player passed
-			self.sense = 'a1'
-		sense = self.sense
+		if self.sense != 'pass': 
+			#convert the received move to a chess.Move object
+			sense = chess.parse_square(self.sense)
+		else:
+			sense = None
+		
 		self.sense = None
-		return chess.parse_square(sense)
-	
-	#the client should already know where the pieces are, so this is just to implement the interface
-	def handle_sense_result(self):
-		pass
+		return sense
 
 	async def choose_move(self, move_actions: List[chess.Move]) -> chess.Move | None:
 		if self.move != 'pass':
@@ -106,13 +106,11 @@ class HumanPlayer(Player):
 		win_reason_messages = {
         	WinReason.KING_CAPTURE: 'the king was captured',
         	WinReason.TIMEOUT: 'timeout',
-        	WinReason.RESIGN: f'{self.game._resignee} resigned',
+        	WinReason.RESIGN: ('white ' if self.game._resignee else 'black ') + 'resigned',
         	WinReason.TURN_LIMIT: 'full turn limit exceeded',
         	WinReason.MOVE_LIMIT: 'full move limit exceeded',
         	None: 'game over'
     	}
-
-		message = f'game over: {win_reason_messages.get(win_reason, "")}'
 
 		return await self.consumer.send(text_data=json.dumps({
 			'message': 'game over',
@@ -120,16 +118,6 @@ class HumanPlayer(Player):
 			'reason': win_reason_messages.get(win_reason)
 
 		}))
-	
-	async def print_time_left(self, color: Optional[Color]):
-		await self.consumer.send(text_data=json.dumps({
-			'message': 'time left',
-			'player color': color,
-		}))
-		
-		if not self.game.is_over():
-			return self.game.get_seconds_left()
-
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
@@ -139,7 +127,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 		await self.accept()
 
 	async def disconnect(self, close_code):
-		pass
+		self.game.end()
+		self.player = None
+		self.bot = None
 
 	async def receive(self, text_data):
 		data = json.loads(text_data)
@@ -148,7 +138,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 	async def handle_action(self, data):
 		action = data['action']
 		if action == 'start_game':
-			await self.start_game()
+			seconds = data.get('seconds', None)
+			await self.start_game(seconds)
 		elif action == 'sense':
 			self.player.sense = data['sense']
 		elif action == 'move':
@@ -163,13 +154,14 @@ class GameConsumer(AsyncWebsocketConsumer):
 			self.bot.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
 			#restart the game if the player wants to rematch
 			if data['rematch']: 
-				await self.start_game()
+				await self.start_game(seconds=self.game.seconds_per_player)
 		else:
 			print('invalid action')
 	
-	async def start_game(self):
+	async def start_game(self, seconds):
+		seconds = 900 if seconds is None else seconds
 		#initialize the game
-		self.game = LocalGame()
+		self.game = LocalGame(seconds_per_player=seconds)
 		self.player = HumanPlayer(self, self.game)
 		self.bot = RandomBot()
 		white_name = self.player.__class__.__name__
@@ -193,7 +185,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 			if(self.game.turn == chess.WHITE):
 				try:
-					await self.play_human_turn(capture_square=capture_square, move_actions=move_actions, sense_actions=sense_actions, first_ply=first_ply)
+					await self.play_human_turn(capture_square=capture_square, move_actions=move_actions, first_ply=first_ply)
 					first_ply = False
 				except TimeoutError:
 					break
@@ -208,7 +200,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
 
-	async def play_human_turn(self, capture_square, move_actions, sense_actions, first_ply):
+	async def play_human_turn(self, capture_square, move_actions, first_ply):
 		player = self.player
 		#the human player has started their turn
 		player.finished = False
@@ -235,7 +227,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#5 seconds are added to the player's time at the end of the turn as per  the rules
 		await self.send(text_data=json.dumps({
 			'message': 'turn ended',
-			'time': time_left
+			'my_time': time_left,
+			'opponent_time': self.game.get_seconds_left(),
 		}))
 
 	def play_bot_turn(self, capture_square, sense_actions, move_actions):

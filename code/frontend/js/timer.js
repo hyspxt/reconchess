@@ -1,24 +1,31 @@
+let minutes;
+let seconds
+let activeTimer
+
 //expects to receive the initial time in seconds
-function set_timer(time_seconds) {
+function set_timer(time_seconds, id) {
 	minutes = Math.floor(time_seconds / 60);
 	seconds = time_seconds % 60;
 
 	formattedMinutes = addZero(minutes);
 	formattedSeconds = addZero(seconds);
 
-	document.getElementById('timer').innerText = `${formattedMinutes}:${formattedSeconds}`;
+	document.getElementById(id).innerText = `${formattedMinutes}:${formattedSeconds}`;
 }
 
-function start_timer() {
-	updateTimer();
-	timer = setInterval(updateTimer, 1000);
+function start_timer(id) {
+	updateTimer(id);
+	//stop timer if it is already running
+	if (activeTimer) clearInterval(activeTimer);
+	//start the timer
+	activeTimer = setInterval(() => updateTimer(id), 1000);
 }
 
 function stop_timer() {
-	clearInterval(timer);
+	clearInterval(activeTimer);
 }
 
-function updateTimer() {
+function updateTimer(id) {
 	
 	if (seconds === 0) {
 		minutes--;
@@ -30,7 +37,7 @@ function updateTimer() {
 	const formattedMinutes = addZero(minutes);
 	const formattedSeconds = addZero(seconds);
 	
-	document.getElementById('timer').innerText = `${formattedMinutes}:${formattedSeconds}`;
+	document.getElementById(id).innerText = `${formattedMinutes}:${formattedSeconds}`;
 
 	if (minutes === 0 && seconds === 0) {
 		stop_timer();

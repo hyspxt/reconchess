@@ -9,6 +9,7 @@ var light = false
 var letters, part2 = null
 var comments = ""
 var pass = false
+let valid_moves = []
 
 function haveEaten(target){
     if(target === 'b'){
@@ -103,17 +104,15 @@ function onDrop (source, target) {
         to: target,
         promotion: 'q'
     };
+    
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
-    var move = game.move(move_cfg);
-
-    // illegal move
-    if (move === null) {
+    if (!valid_moves.some(move => move.startsWith(source + target))) {
         document.body.style.overflow = 'visible';
         illegalMove();
         config.draggable = true;
-        return 'snapback'
-    } else game.undo(); //move is ok, now we can go ahead and check for promotion
+        return 'snapback';
+    }
 
     var source_rank = source.substring(2,1);
     var target_rank = target.substring(2,1);
@@ -182,19 +181,24 @@ var onDialogClose = function() {
 }
 
 function makeMove(game, config, promotion=false) {
-    // see if the move is legal
-    var move = game.move(config);
+    //see if the move is legal
+    //convert move to UCI format
+    move = config.from + config.to;
+    //add promotion to the move only if it actually includes a promotion
+    if (promotion)
+        move += config.promotion;
+
     // illegal move
-    if (move === null){
+    if (!(valid_moves.includes(move))) {
+        illegalMove();
         config.draggable = true;
         return 'snapback';
     }
     else {
-        //convert move to UCI format
-        move = move_cfg.from + move_cfg.to
-        //add promotion to the move only if it actually includes a promotion
-        if (promotion)
-            move += move_cfg.promotion;
+        //make the move
+        var piece = game.get(config.from);
+        game.remove(config.from);
+        game.put(piece, config.to);
         //send the chosen move to the backend
         socket.send(JSON.stringify({ action: 'move', move: move}));
         console.log('you moved: ' + move_cfg.from + move_cfg.to);

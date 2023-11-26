@@ -38,15 +38,16 @@ function createWebsocket() {
 				break;
 			case 'your turn to move':
 				showSideToMove();
+				valid_moves = data.move_actions;
 				console.log('your turn to move')
 				break;
 			case 'invalid move':
 				console.log('invalid move')
 				illegalMove()
-				undoMove();
 				break;
 			case 'move result':
 				console.log('move result')
+				game.load(data.board)
 				if(data.captured_opponent_piece) haveEaten('b')
 				break;
 			case 'turn ended':
@@ -54,7 +55,7 @@ function createWebsocket() {
 				//the turn is over, get the time left and stop the timer
 				stop_timer();
 				//round the remaining time down to the nearest integer
-				set_timer(Math.floor(data.time), 'my_timer');
+				set_timer(Math.floor(data.my_time), 'my_timer');
 				set_timer(Math.floor(data.opponent_time), 'opponent_timer',);
 
 				start_timer('opponent_timer')

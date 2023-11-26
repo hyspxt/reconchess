@@ -4,7 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import chess
 from reconchess import Player, LocalGame, chess, game
 from reconchess.bots.attacker_bot import AttackerBot
-from reconchess.bots.random_bot import RandomBot
+from reconchess.bots.trout_bot import TroutBot
 from reconchess.types import Color, List, Optional, Square, WinReason
 from reconchess.history import GameHistory
 
@@ -66,7 +66,8 @@ class HumanPlayer(Player):
 		while self.move is None or (self.move != 'pass' and chess.Move.from_uci(self.move) not in move_actions):
 			if self.move is not None:
 				await self.consumer.send(text_data=json.dumps({
-					'message': 'invalid move'
+					'message': 'invalid move',
+					'board': self.game.board.fen()
 				}))
 				self.move = None
 				
@@ -98,7 +99,8 @@ class HumanPlayer(Player):
 			'requested_move': str(requested_move),
 			'taken_move': str(taken_move),
 			'captured_opponent_piece': captured_opponent_piece,
-			'capture_square': str(capture_square)
+			'capture_square': str(capture_square),
+			'board': self.game.board.fen()
 		}))
 	
 	async def handle_game_end(self, winner_color: Optional[Color], win_reason: Optional[WinReason], game_history: GameHistory):
@@ -163,13 +165,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#initialize the game
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.player = HumanPlayer(self, self.game)
-		self.bot = RandomBot()
+		self.bot = TroutBot()
 		white_name = self.player.__class__.__name__
 		black_name = self.bot.__class__.__name__
 		self.game.store_players(white_name, black_name)
 
 		await self.player.handle_game_start(chess.WHITE, self.game.board, black_name)
-		self.bot.handle_game_start(chess.BLACK, self.game.board, white_name)
+		self.bot.handle_game_start(chess.BLACK, self.game.board.copy(), white_name)
 
 		self.game.start()
 
@@ -241,7 +243,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 		#let the bot choose a move action
 		move = self.bot.choose_move(move_actions, self.game.get_seconds_left())
-		_, taken_move, capture_square = self.game.move(move)
-		self.bot.handle_move_result(move, taken_move, capture_square is not None, capture_square)
+		requested_move, taken_move, capture_square = self.game.move(move)
+		
+		self.bot.handle_move_result(requested_move, taken_move, capture_square is not None, capture_square)
 
 		self.game.end_turn()

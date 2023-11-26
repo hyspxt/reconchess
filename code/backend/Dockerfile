@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11-alpine3.18
+FROM python:3.11-bullseye
 
 #set environment variables
 ENV PYTHONUNBUFFERED 1
@@ -12,15 +12,17 @@ WORKDIR /django
 #the server will listen on port 8000
 EXPOSE 8000
 
-RUN apk update && \
-    apk add --no-cache build-base sdl2-dev && \
-	apk add --no-cache build-base freetype-dev && \
-	apk add --no-cache build-base libffi-dev && \
-	python -m venv /py && \
+SHELL ["/bin/bash", "-c"]
+
+RUN python -m venv /py && \
 	source /py/bin/activate && \
 	/py/bin/pip install --upgrade pip && \
-	/py/bin/pip install -r requirements.txt
-
+	/py/bin/pip install -r requirements.txt && \
+	cd / && \
+	git clone https://github.com/official-stockfish/Stockfish.git && \
+	cd Stockfish/src && \
+	make -j build
 
 #add virtual environment to PATH
 ENV PATH="/py/bin:$PATH"
+ENV STOCKFISH_EXECUTABLE="/Stockfish/src/stockfish"

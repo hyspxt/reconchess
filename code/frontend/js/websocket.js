@@ -19,7 +19,6 @@ function createWebsocket() {
 				start_timer()
 				showSense()
 				lightsOn();
-				light = false;
 				break;
 			case 'your turn to move':
 				showSideToMove();

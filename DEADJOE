@@ -1,0 +1,31 @@
+
+*** These modified files were found in JOE when it aborted on Wed Nov 22 11:13:45 2023
+*** JOE was aborted by UNIX signal 1
+
+*** File '/var/www/renassaincechess/.git/MERGE_MSG'
+Merge branch 'POFB' of https://aminsep.disi.unibo.it/gitlab/silverbullets/renassaincechess into POFB
+
+# Please enter a commit message to explain why this merge is necessary,
+# especially if it merges an updated upstream into a topic branch.
+# wat
+# Lines star
+
+
+
+*** File '(Unnamed)'
+:wq
+
+*** File '(Unnamed)'
+/var/www/renassaincechess/.git/COMMIT_EDITMSG
+/var/www/renassaincechess/.git/MERGE_MSG
+/var/www/renassaincechess/.git/MERGE_MSG
+/var/www/renassaincechess/.git/MERGE_MSG
+/var/www/renassaincechess/.git/MERGE_MSG
+/var/www/renassaincechess/.git/MERGE_MSG
+/var/www/renassaincechess/.git/MERGE_MSG
+
+*** File '* Startup Log *'
+Processing '/etc/joe/editorrc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc

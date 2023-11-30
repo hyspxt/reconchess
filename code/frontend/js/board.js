@@ -159,7 +159,7 @@ export function onDrop (source, target) {
             width: 184,
             resizable: true,
             draggable: false,
-            close: onDialogClose(move_cfg),
+            close: () => onDialogClose(move_cfg),
             closeOnEscape: false,
             dialogClass: 'noTitleStuff'
         }).dialog('widget').position({
@@ -172,7 +172,7 @@ export function onDrop (source, target) {
         //has been selected, in the stop event of the promotion piece selectable
         return;
     }
-    makeMove(game, move_cfg, config, false);
+    makeMove(game, move_cfg, false);
 }
 
 export function onSnapEnd () {
@@ -192,10 +192,10 @@ export function updateBoard(board) {
 var onDialogClose = function(move_cfg) {
     console.log('promote toooooo' + promote_to);
     move_cfg.promotion = promote_to;
-    makeMove(game, move_cfg, config, true);
+    makeMove(game, move_cfg, true);
 }
 
-export function makeMove(game, move_cfg, config, promotion=false) {
+export function makeMove(game, move_cfg, promotion=false) {
     //see if the move is legal
     //convert move to UCI format
     console.log(config);
@@ -203,10 +203,11 @@ export function makeMove(game, move_cfg, config, promotion=false) {
     console.log(move_cfg.to);
     console.log(move_cfg.from);
     var move = move_cfg.from + move_cfg.to;
-    console.log(move);
     //add promotion to the move only if it actually includes a promotion
     if (promotion)
-        move += config.promotion;
+        move += move_cfg.promotion;
+
+    console.log(move);
 
     // illegal move
     if (!(valid_moves.includes(move))) {

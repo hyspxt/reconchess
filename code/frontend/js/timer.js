@@ -1,3 +1,4 @@
+let timer;
 export function set_timer(time, element) {
 	if (time.seconds >= 60) {
 		time.minutes = Math.floor(time.seconds / 60);
@@ -8,11 +9,11 @@ export function set_timer(time, element) {
 
 export function start_timer(time, element) {
 	updateTimer(time, element);
-	// timer = setInterval(updateTimer, 1000);
+	 timer = setInterval(updateTimer, 1000);
 }
 
-export function stop_timer(element) {
-	clearInterval(element);
+export function stop_timer() {
+	clearInterval(timer);
 }
 
 export function updateTimer(time, element) {

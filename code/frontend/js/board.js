@@ -4,7 +4,7 @@ import {valid_moves} from './websocket.js'
 var board = null
 var game = new Chess()
 var fen, promote_to
-var socket = createWebsocket(game, document.getElementById('timer'))
+var socket = createWebsocket(game, document.getElementById('my_timer'),)
 var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
 var promotion_dialog = $('#promotion-dialog')
 var promoting = false
@@ -114,15 +114,10 @@ export function onDrop (source, target) {
         to: target,
         promotion: 'q'
     };
-
     
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
-
-    console.log(source);
-    console.log(target);
-    console.log(valid_moves);
-    if (!valid_moves.some(move => move.startsWith(source + target))) {  // problem here
+    if (!valid_moves.some(move => move.startsWith(source + target))) {
         document.body.style.overflow = 'visible';
         illegalMove();
         config.draggable = true;

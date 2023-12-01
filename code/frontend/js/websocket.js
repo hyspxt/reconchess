@@ -4,8 +4,9 @@ import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lights
 var light = false
 export let valid_moves = []
 
-export function createWebsocket(game, element) {
+export function createWebsocket(game, my_timer, opponent_timer) {
 	const socket = new WebSocket('wss://silverbullets.rocks/ws/game') //'silverbullets.rocks/ws/game'
+	
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
 		socket.send(JSON.stringify({ action: 'start_game' }))
@@ -15,19 +16,18 @@ export function createWebsocket(game, element) {
 		var data = JSON.parse(event.data)
 		console.log(data)
 		const time = { minutes: 0, seconds: data.time };
+		
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js
 			case 'game started':
 				console.log('start game')
 				game.is_over = false;
 
-				
-				set_timer(data.time, 'my_timer');
-				set_timer(data.time, 'opponent_timer');
+				set_timer(data.time, my_timer);
+				set_timer(data.time, opponent_timer);
 
-				set_timer(time, element);
 				break;
 			case 'opponent move':
-				stop_timer(element);
+				stop_timer(opponent_timer);
 				showSideToMove()
 				//use the information from the backend to update the board in the frontend
 				let board = data.board
@@ -39,7 +39,7 @@ export function createWebsocket(game, element) {
 				break;
 			case 'your turn to sense':
 				console.log('your turn to sense')
-				start_timer(time, element)
+				start_timer(time, my_timer)
 				showSense()
 				lightsOn();
 				light = false;
@@ -48,7 +48,7 @@ export function createWebsocket(game, element) {
 				showSideToMove();
 
 				valid_moves = data.move_actions;
-				console.log('your valide moves' + valid_moves)
+				console.log('your valid moves' + valid_moves)
 				console.log('your turn to move')
 				break;
 			case 'invalid move':
@@ -68,7 +68,7 @@ export function createWebsocket(game, element) {
 			case 'turn ended':
 				console.log('turn ended')
 				//the turn is over, get the time left and stop the timer
-				stop_timer(Element);
+				stop_timer();
 				//round the remaining time down to the nearest integer
 				set_timer(Math.floor(data.my_time), 'my_timer');
 				set_timer(Math.floor(data.opponent_time), 'opponent_timer',);
@@ -79,7 +79,7 @@ export function createWebsocket(game, element) {
 			case 'game over':
 				console.log(data)
 				showGameOver(data.reason, data.winner)
-				stop_timer(element);
+				stop_timer();
 				//tell the frontend library to stop the game
 				game.is_over = true;
 				light = true;

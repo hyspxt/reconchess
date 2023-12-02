@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'channels'
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,9 @@ STATIC_ROOT = BASE_DIR / 'static'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ASGI_APPLICATION = 'server.asgi.application'
+
+CHANNEL_LAYERS = {
+	"default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+        },
+}

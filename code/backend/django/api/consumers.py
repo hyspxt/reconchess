@@ -46,7 +46,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print('invalid action')
 	
 	async def start_game(self, seconds):
-		seconds = 900 if seconds is None else seconds
+		seconds = 30 if seconds is None else seconds
 		#initialize the game
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.player = HumanPlayer(self, self.game)

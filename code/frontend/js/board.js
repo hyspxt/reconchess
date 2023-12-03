@@ -1,10 +1,10 @@
-import {createWebsocket} from './websocket.js'
-import {valid_moves} from './websocket.js'
+import { createWebsocket } from './websocket.js'
+import { valid_moves } from './websocket.js'
 
 var board = null
 var game = new Chess()
 var fen, promote_to
-var socket = createWebsocket(game, document.getElementById('my_timer'),)
+var socket = createWebsocket(game, document.getElementById('player_timer'), document.getElementById('opponent_timer'))
 var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
 var promotion_dialog = $('#promotion-dialog')
 var promoting = false
@@ -21,41 +21,41 @@ var config = {
     onSnapEnd: onSnapEnd
 }
 
-export function haveEaten(target){
-    if(target === 'b'){
+export function haveEaten(target) {
+    if (target === 'b') {
         comments = "white has eaten a black piece\n" + comments
-    } 
-    if(target === 'w') {
+    }
+    if (target === 'w') {
         comments = "black has eaten a white piece\n" + comments
     }
     document.getElementById("History").innerText = comments;
 }
 
-export function showSideToMove() {
-    if (pass == false){
-        if(game.turn() === 'w') {
-            comments =  "it's white's turn to move\n" + comments;
+export function showSideToMove(game_turn) {
+    if (pass == false) {
+        if (game_turn === 'w') {
+            comments = "it's white's turn to move\n" + comments;
         } else {
-            comments = "it's black's turn to sense\n" +  comments;
-            comments = "it's black's turn to move\n" +  comments;
+            comments = "it's black's turn to sense\n" + comments;
+            comments = "it's black's turn to move\n" + comments;
         }
         document.getElementById("History").innerText = comments;
     }
     else pass = false;
 }
 
-export function illegalMove(){
-    comments = "illegal move\n" +  comments;
+export function illegalMove() {
+    comments = "illegal move\n" + comments;
     document.getElementById("History").innerText = comments;
 }
 
-export function showSense(){
+export function showSense() {
     comments = "it's white turn to sense\n" + comments;
     document.getElementById("History").innerText = comments;
 }
 
-export function youPassed(){
-    if(game.turn() === 'w') {
+export function youPassed() {
+    if (game.turn() === 'w') {
         comments = "you passed\n" + comments;
         document.getElementById("History").innerText = comments;
     }
@@ -67,7 +67,7 @@ export function showGameOver(reason, winner) {
     document.getElementById("History").innerText = comments;
 }
 
-export function onDragStart (source, piece) {
+export function onDragStart(source, piece) {
     document.body.style.overflow = 'hidden';
     // do not pick up pieces if the game is over
     if (game.game_over() || game.is_over) return false
@@ -76,14 +76,14 @@ export function onDragStart (source, piece) {
     //turn off light
     if (light) lightsOff();
 }
-  
+
 //update the game board with the move made by the opponent
 export function makeOpponentMove(board_conf) {
     //load the board fen sent by the backend
     game.load(board_conf);
     //updte the board shown to the user
     board.position(game.fen());
-    
+
 }
 
 //taken fron https://github.com/jhlywa/chess.js/issues/382
@@ -101,20 +101,21 @@ export function passTurn() {
     //TODO: change this to check for the player's turn not just white
     if (game.turn() === game.BLACK) {
         socket.send(JSON.stringify({ action: 'pass' }));
-        console.log('you passed'); 
+        console.log('you passed');
     }
     if (light) lightsOff()
     lightsOn()
 }
 
-export function onDrop (source, target) {
+export function onDrop(source, target) {
     document.body.style.overflow = 'visible';
     let move_cfg = {
         from: source,
         to: target,
         promotion: 'q'
     };
-    
+
+
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
     if (!valid_moves.some(move => move.startsWith(source + target))) {
@@ -124,9 +125,15 @@ export function onDrop (source, target) {
         return 'snapback';
     }
 
-    var source_rank = source.substring(2,1);
-    var target_rank = target.substring(2,1);
+    var source_rank = source.substring(2, 1);
+    var target_rank = target.substring(2, 1);
+    var source_column = source.substring(0, 1);
+    var target_column = target.substring(0, 1);
+    console.log('source column: ' + source_column);
+    console.log('target column: ' + target_column);
     var piece = game.get(source).type;
+    var target_type = game.get(target);
+    console.log(target_type);
 
     //change the opacity of the squares
     if (piece.search(/^w/)) {
@@ -138,7 +145,14 @@ export function onDrop (source, target) {
         squareSource.css('filter', 'grayscale(50%) blur(2px) brightness(0.8)');
     }
 
-    if (piece === 'p' && ((source_rank === '7' && target_rank === '8') || (source_rank === '2' && target_rank === '1'))) {
+    if (piece === 'p' &&
+        (
+        (source_rank === '7' && target_rank === '8') ||
+        (source_rank === '2' && target_rank === '1')
+        ) &&
+        (source_column === target_column ? target_type === null : true) &&
+        (source_column != target_column ? target_type !== null : true)
+    ) {
         promoting = true;
 
         // get piece images
@@ -146,7 +160,7 @@ export function onDrop (source, target) {
         $('.promotion-piece-r').attr('src', getImgSrc('r'));
         $('.promotion-piece-n').attr('src', getImgSrc('n'));
         $('.promotion-piece-b').attr('src', getImgSrc('b'));
-        
+
         //show the select piece to promote to dialog
         promotion_dialog.dialog({
             modal: true,
@@ -162,7 +176,7 @@ export function onDrop (source, target) {
             my: 'middle middle',
             at: 'middle middle',
         });
-        
+
         //the actual move is made after the piece to promote to
         //has been selected, in the stop event of the promotion piece selectable
         return;
@@ -170,7 +184,7 @@ export function onDrop (source, target) {
     makeMove(game, move_cfg, false);
 }
 
-export function onSnapEnd () {
+export function onSnapEnd() {
     if (promoting) return;
     updateBoard(board);
 }
@@ -184,13 +198,13 @@ export function updateBoard(board) {
     promoting = false;
 }
 
-var onDialogClose = function(move_cfg) {
+var onDialogClose = function (move_cfg) {
     console.log('promote toooooo' + promote_to);
     move_cfg.promotion = promote_to;
     makeMove(game, move_cfg, true);
 }
 
-export function makeMove(game, move_cfg, promotion=false) {
+export function makeMove(game, move_cfg, promotion = false) {
     //see if the move is legal
     //convert move to UCI format
     console.log(config);
@@ -216,13 +230,13 @@ export function makeMove(game, move_cfg, promotion=false) {
         game.remove(move_cfg.from);
         game.put(piece, move_cfg.to);
         //send the chosen move to the backend
-        socket.send(JSON.stringify({ action: 'move', move: move}));
+        socket.send(JSON.stringify({ action: 'move', move: move }));
         console.log('you moved: ' + move_cfg.from + move_cfg.to);
         config.draggable = false;
     }
 }
 
-export function lightsOn(){
+export function lightsOn() {
     config.draggable = false;
     window.addEventListener("click", function (event) {
         if ((event.target.classList.contains("square-55d63")) && (light == false)) {
@@ -240,14 +254,14 @@ export function lightsOn(){
             //turn on light
             var i = 0;
             part2--;
-            while (i < 3){
+            while (i < 3) {
                 var j = 0;
-                while (j < 3){
+                while (j < 3) {
                     var square = $('#myBoard .square-' + letters[j] + part2);
                     square.css('opacity', 1);
                     square.css('filter', 'none');
-                    
-                    var pieceImage= square.find('img[data-piece]');
+
+                    var pieceImage = square.find('img[data-piece]');
                     pieceImage.css('opacity', 1);
                     j++;
                 }
@@ -259,16 +273,16 @@ export function lightsOn(){
             //send the sense message to the backend
             socket.send(JSON.stringify({ action: 'sense', sense: position }));
         }
-    }, {passive:false});
+    }, { passive: false });
 }
 
-export function lightsOff(){
+export function lightsOff() {
     var i = 0;
     var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
-    while (i < 8){
-        var y = 0; 
-        while (y < 8){
-            var square = $('#myBoard .square-' + letters[y] + (i+1));
+    while (i < 8) {
+        var y = 0;
+        while (y < 8) {
+            var square = $('#myBoard .square-' + letters[y] + (i + 1));
             square.css({
                 'opacity': 0.4,
                 'filter': 'grayscale(50%) blur(2px) brightness(0.8)'
@@ -276,14 +290,14 @@ export function lightsOff(){
             var piece = square.find('img[data-piece]');
             if (piece.length > 0) {
                 var dataPieceValue = piece.attr('data-piece');
-                
+
                 //check for white pieces
                 if (dataPieceValue && dataPieceValue.startsWith('w')) {
                     square.css({
                         'opacity': 1,
                         'filter': 'none'
                     });
-                }else piece.css('opacity', 0); //opacity for black pieces
+                } else piece.css('opacity', 0); //opacity for black pieces
             }
             y++;
         }
@@ -293,8 +307,9 @@ export function lightsOff(){
 }
 
 export function resign(rematch = false) {
+    
     config.draggable = false;
-    console.log('light '    + light);
+    console.log('light ' + light);
     if (light && !game.is_over) lightsOff();
     //reset fog
     var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
@@ -302,7 +317,7 @@ export function resign(rematch = false) {
     $('#myBoard .square-55d63').css('opacity', 0.4)
     $('#myBoard .square-55d63').css('filter', 'grayscale(50%) blur(2px) brightness(0.8)')
 
-    squares.forEach(function(square){
+    squares.forEach(function (square) {
         var squareTarget = $('#myBoard .square-' + square);
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
@@ -319,18 +334,18 @@ export function resign(rematch = false) {
 board = Chessboard('myBoard', config)
 
 $("#promote-to").selectable({
-    stop: function() {
-      $( ".ui-selected", this ).each(function() {
-        var selectable = $('#promote-to li');
-        var index = selectable.index(this);
-        if (index > -1) {
-          var promote_to_html = selectable[index].innerHTML;
-          var span = $('<div>' + promote_to_html + '</div>').find('span');
-          promote_to = span[0].innerHTML;
-        }
-        promotion_dialog.dialog('close');
-        $('.ui-selectee').removeClass('ui-selected');
-        updateBoard(board);
-      });
+    stop: function () {
+        $(".ui-selected", this).each(function () {
+            var selectable = $('#promote-to li');
+            var index = selectable.index(this);
+            if (index > -1) {
+                var promote_to_html = selectable[index].innerHTML;
+                var span = $('<div>' + promote_to_html + '</div>').find('span');
+                promote_to = span[0].innerHTML;
+            }
+            promotion_dialog.dialog('close');
+            $('.ui-selectee').removeClass('ui-selected');
+            updateBoard(board);
+        });
     }
 });

@@ -45,6 +45,7 @@ class HumanPlayer(Player):
 			{
 				"type": "game.message",
 				'message': 'your turn to sense',
+				'time': self.game.get_seconds_left()
 			})
 
 		#waits for the client to send a sense action

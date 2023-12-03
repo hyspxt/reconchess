@@ -26,7 +26,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 	async def handle_action(self, data):
 		action = data['action']
 		if action == 'start_game':
-			seconds = data.get('seconds', 900)
+			seconds = data.get('seconds', 30)
 			await self.start_game(seconds)
 		elif action == 'sense':
 			self.player.sense = data['sense']

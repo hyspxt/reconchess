@@ -72,8 +72,8 @@
 
         <script type="module">
             import {resign, passTurn} from './js/board.js';
-            document.getElementById("btn_quit").addEventListener("click", resign);
-            document.getElementById("btn_rematch").addEventListener("click", resign(true)); 
+            document.getElementById("btn_quit").addEventListener("click", () => resign());
+            document.getElementById("btn_rematch").addEventListener("click", () => resign(true)); 
             document.getElementById("btn_undo").addEventListener("click", passTurn);
         </script>
 

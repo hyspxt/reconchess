@@ -32,7 +32,6 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				// It is better to check if the turn is w/b alonside fen, but it should go for now.
 				// The problem is basically that given the fact that game.move() is not used anymore, 
 				// the turn (from game.turn()) is not automatically updated, we should do it manually.
-				showSideToMove('b')
 				stop_timer();
 				
 				
@@ -55,7 +54,7 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				light = false;
 				break;
 			case 'your turn to move':
-				showSideToMove('w');
+				showSideToMove(data.color);
 
 				valid_moves = data.move_actions;
 				console.log('your valid moves' + valid_moves)
@@ -71,7 +70,6 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				illegalMove()
 				undoMove();
 				break;
-
 			case 'move result':
 				console.log('move result');
 				if (data.captured_opponent_piece) haveEaten('b')
@@ -81,7 +79,8 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				set_timer(data.game.get_seconds_left(), player_timer);
 				start_timer(time, end)
 			case 'turn ended':
-				console.log('turn ended')
+				console.log('turn started')
+				showSideToMove(data.color);
 				//the turn is over, get the time left and stop the timer
 				stop_timer();
 				//round the remaining time down to the nearest integer

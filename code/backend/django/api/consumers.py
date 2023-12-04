@@ -6,12 +6,15 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from reconchess import LocalGame
 from reconchess.bots.trout_bot import TroutBot
 from .HumanPlayer import HumanPlayer
+from asgiref.sync import sync_to_async
+from strangefish.strangefish_strategy import StrangeFish2
+
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
 		self.game = None
-		self.player = None
-		self.bot = None
+		self.player = HumanPlayer(self.channel_name, None)
+		self.bot = StrangeFish2()
 		await self.accept()
 
 	async def disconnect(self, close_code):
@@ -36,12 +39,15 @@ class GameConsumer(AsyncWebsocketConsumer):
 			self.player.sense = 'pass'
 			self.player.move = 'pass'
 		elif action == 'resign':
-			self.game.resign()
-			self.game.end()
-			await self.player.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
-			self.bot.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
+			if(not self.game.is_over()):
+				self.game.resign()
+				self.game.end()
+				await self.player.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
+				self.bot.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
+
 			#restart the game if the player wants to rematch
 			if data['rematch']: 
+				print('rematch')
 				await self.start_game(seconds=self.game.seconds_per_player)
 		else:
 			print('invalid action')
@@ -53,8 +59,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 	async def start_game(self, seconds):
 		#initialize the game
 		self.game = LocalGame(seconds_per_player=seconds)
-		self.player = HumanPlayer(self.channel_name, self.game)
-		self.bot = TroutBot()
+		self.player.game = self.game
 		white_name = self.player.__class__.__name__
 		black_name = self.bot.__class__.__name__
 		self.game.store_players(white_name, black_name)
@@ -73,7 +78,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 			#get the result of the opponent's move, only returns a square if a piece was captured
 			capture_square = self.game.opponent_move_results() if not first_ply else None
-
 			if(self.game.turn == chess.WHITE):
 				try:
 					await self.play_human_turn(capture_square=capture_square, move_actions=move_actions, first_ply=first_ply)
@@ -81,7 +85,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 				except TimeoutError:
 					break
 			else:
-				self.play_bot_turn(capture_square=capture_square, sense_actions=sense_actions, move_actions=move_actions)
+				await sync_to_async(self.play_bot_turn)(capture_square=capture_square, sense_actions=sense_actions, move_actions=move_actions)
 
 		self.game.end()
 		winner_color = self.game.get_winner_color()
@@ -121,6 +125,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 			'my_time': time_left,
 			'opponent_time': self.game.get_seconds_left(),
 		}))
+
 
 	def play_bot_turn(self, capture_square, sense_actions, move_actions):
 		#update the game for the bot
@@ -176,7 +181,8 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			#check if the players attribute exists 
 			if hasattr(self, 'players'):
 				self.players[self.game.turn].sense = data['sense']
-			else:			
+			else:		
+				#send the message to the other consumer	
 				await self.channel_layer.group_send(
 					self.room_group_name,
 					{
@@ -191,6 +197,7 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			if hasattr(self, 'players'):
 				self.players[self.game.turn].move = data['move']
 			else:			
+				#send the message to the other consumer	
 				await self.channel_layer.group_send(
 					self.room_group_name,
 					{
@@ -205,7 +212,8 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			if hasattr(self, 'players'):
 				self.players[self.game.turn].sense = 'pass'
 				self.players[self.game.turn].move = 'pass'
-			else:			
+			else:		
+				#send the message to the other consumer		
 				await self.channel_layer.group_send(
 					self.room_group_name,
 					{
@@ -221,7 +229,8 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				self.game.end()
 				await self.players[self.game.turn].handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
 				await self.players[not self.game.turn].handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
-			else:			
+			else:	
+				#send the message to the other consumer			
 				await self.channel_layer.group_send(
 					self.room_group_name,
 					{
@@ -321,6 +330,7 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			{
 				'type': 'game_message',
 				'message': 'turn ended',
+				'color': 'w' if self.game.turn == chess.WHITE else 'b',
 				'my_time': time_left,
 				'opponent_time': self.game.get_seconds_left(),
 			}

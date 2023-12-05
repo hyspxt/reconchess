@@ -98,12 +98,12 @@ class GameConsumer(AsyncWebsocketConsumer):
 		u = User.objects.get(username="esempio_utente") #mettere l'user di utente che ha giocato
 		player_elo = u.users.elo_points
 		calculate_elo(player_elo) #questa va chiamata quando la partita è contro un umano
-		if winner_color == WHITE:
-			update_stats(player_name = "esempio_utente", win = True, draw = False) #mettere l'user di utente che ha giocato
+		if winner_color == WHITE: #nota: qui ho assunto sempre umano con colore bianco, è da modificare
+			update_stats(player_name = self.game.name_white, win = True, draw = False) #mettere l'user di utente che ha giocato
 		elif winner_color == BLACK:
 			update_stats(player_name = "esempio_utente",win = False, draw = False) #mettere l'user di utente che ha giocato
 		else: #draw
-			update_stats(player_name = "esempio_utente",win = False, draw = True) #mettere l'user di utente che ha giocato
+			update_stats(player_name = self.game.name_white, win = False, draw = True) #mettere l'user di utente che ha giocato
 
 
 	async def play_human_turn(self, capture_square, move_actions, first_ply):

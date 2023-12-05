@@ -52,3 +52,14 @@ def checkLogin(request):
 		return HttpResponse(f'user {request.user.username} is currently logged in', content_type='text/plain')
 	else:
 		return HttpResponse('No user logged in', content_type='text/plain')
+def leaderboard_api(request):
+    result = get_players_stats()
+    return JsonResponse(list(result), safe=False)
+
+def player_stats_api(request, player_name):
+    result = get_player_stats(player_name)
+    return JsonResponse(result)
+
+def player_loc_stats_api(request, player_name):
+	result = get_player_loc_stats(player_name)
+	return JsonResponse(result)

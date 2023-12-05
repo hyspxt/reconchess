@@ -94,6 +94,17 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
+		#Aggiornamento dati nel db
+		u = User.objects.get(username="esempio_utente") #mettere l'user di utente che ha giocato
+		player_elo = u.users.elo_points
+		calculate_elo(player_elo) #questa va chiamata quando la partita è contro un umano
+		if winner_color == WHITE:
+			update_stats(player_name = "esempio_utente", win = True, draw = False) #mettere l'user di utente che ha giocato
+		elif winner_color == BLACK:
+			update_stats(player_name = "esempio_utente",win = False, draw = False) #mettere l'user di utente che ha giocato
+		else: #draw
+			update_stats(player_name = "esempio_utente",win = False, draw = True) #mettere l'user di utente che ha giocato
+
 
 	async def play_human_turn(self, capture_square, move_actions, first_ply):
 		player = self.player

@@ -84,3 +84,38 @@ function handleLogin(event) {
         event.target.after(alert);
     })
 }
+
+document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
+
+    fetch('/api/leaderboard/')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Classifica dei giocatori:', data);
+        // Manipola i dati della classifica
+      })
+      .catch(error => console.error('Errore durante la richiesta API:', error));
+  })
+  
+  document.addEventListener("DOMContentLoaded", function fetchPlayerStats(playerName){
+    
+    fetch(`/api/player-stats/${playerName}/`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Statistiche per ${playerName}:`, data);
+        // Manipola i dati delle statistiche del giocatore
+      })
+      .catch(error => console.error('Errore durante la richiesta API:', error));
+  })
+
+  document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerName){
+    
+    fetch(`/api/player_loc_stats/${playerName}/`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Statistiche per ${playerName}:`, data);
+        // Manipola i dati delle statistiche del giocatore
+      })
+      .catch(error => console.error('Errore durante la richiesta API:', error));
+  })
+
+

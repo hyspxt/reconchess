@@ -1,5 +1,5 @@
 import { createWebsocket } from './websocket.js'
-import { valid_moves } from './websocket.js'
+import { valid_moves, player_color } from './websocket.js'
 
 var board = null
 var game = new Chess()
@@ -12,6 +12,15 @@ var light = false
 var letters, part2 = null
 var comments = ""
 var pass = false
+
+//activates when the user switches tabs
+document.addEventListener("visibilitychange", () => {
+    console.log('visibility changed' + document.visibilityState)
+    //when the tab is active send a request for the timers to the backend
+    if (document.visibilityState === 'visible')
+        console.log('send request for timers')
+        socket.send(JSON.stringify({ action: 'get_active_timer' }));
+});
 
 var config = {
     draggable: true,
@@ -33,11 +42,10 @@ export function haveEaten(target) {
 
 export function showSideToMove(game_turn) {
     if (pass == false) {
-        if (game_turn === 'w') {
-            comments = "it's white's turn to move\n" + comments;
+        if (game_turn === player_color) {
+            comments = "it's your turn to move\n" + comments;
         } else {
-            comments = "it's black's turn to sense\n" + comments;
-            comments = "it's black's turn to move\n" + comments;
+            comments = "opponent's turn\n" + comments;
         }
         document.getElementById("History").innerText = comments;
     }
@@ -50,7 +58,7 @@ export function illegalMove() {
 }
 
 export function showSense() {
-    comments = "it's white turn to sense\n" + comments;
+    comments = "it's your turn to sense\n" + comments;
     document.getElementById("History").innerText = comments;
 }
 

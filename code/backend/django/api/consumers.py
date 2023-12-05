@@ -9,7 +9,6 @@ from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from strangefish.strangefish_strategy import StrangeFish2
 
-
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
 		self.game = None
@@ -49,6 +48,14 @@ class GameConsumer(AsyncWebsocketConsumer):
 			if data['rematch']: 
 				print('rematch')
 				await self.start_game(seconds=self.game.seconds_per_player)
+		elif action == 'get_active_timer':
+			color = 'w' if self.game.turn == chess.WHITE else 'b'
+			await self.send(text_data=json.dumps({
+				'message': 'time left',
+				'color': color,
+				'time': self.game.get_seconds_left()
+			}))
+
 		else:
 			print('invalid action')
 
@@ -239,6 +246,33 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 						'sender': self.channel_name
 					}
 				)
+		elif action == 'get_active_timer':
+			if hasattr(self, 'players'):
+				color = 'w' if self.game.turn == chess.WHITE else 'b'
+
+				#send to the other consumer's channel if it was the one to request the timer
+				#otherwise send the data to its own channel
+				sender = data.get('sender', self.channel_name)
+				await self.channel_layer.send(
+					sender,
+					{
+						'type': 'game_message',
+						'message': 'time left',
+						'color': color,
+						'time': self.game.get_seconds_left()
+					}
+				)
+			else:
+				await self.channel_layer.group_send(
+					self.room_group_name,
+					{
+						'type': 'handle_action',
+						'action': 'get_active_timer',
+						'sender': self.channel_name
+					}
+				)
+		else:
+			print('invalid action')
 
 
 	async def disconnect(self, close_code):

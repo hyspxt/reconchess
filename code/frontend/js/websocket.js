@@ -4,9 +4,10 @@ import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lights
 var light = false
 export let valid_moves = []
 let currentTime;
+export let player_color = null;
 
 export function createWebsocket(game, player_timer, opponent_timer) {
-	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/game' : 'wss://silverbullets.rocks/ws/game'
+	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/multiplayer/room' : 'wss://silverbullets.rocks/ws/game'
 	const socket = new WebSocket(WEBSOCKET_URL);
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
@@ -14,9 +15,8 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 	}
 
 	socket.onmessage = function (event) {
-
-
 		var data = JSON.parse(event.data)
+		
 		console.log(data)
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js
 			case 'game started':
@@ -26,6 +26,14 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				
 				set_timer(data.time, player_timer);
 				set_timer(data.time, opponent_timer);
+
+				player_color = data.color;
+
+				if (player_color === 'b') {
+					//TODO: turn the board if the player is black
+					showSideToMove('w');
+					start_timer(data.time, opponent_timer)
+				}
 	
 				break;
 			case 'opponent move':
@@ -33,8 +41,6 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				// The problem is basically that given the fact that game.move() is not used anymore, 
 				// the turn (from game.turn()) is not automatically updated, we should do it manually.
 				stop_timer();
-				
-				
 				//use the information from the backend to update the board in the frontend
 				let board = data.board
 				makeOpponentMove(board)
@@ -76,8 +82,12 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				break;
 			case 'time left':
 				console.log('time left')
-				set_timer(data.game.get_seconds_left(), player_timer);
-				start_timer(time, end)
+				//update the active timer with the time left sent from the backend
+				if (data.color === player_color)
+					start_timer(Math.floor(data.time), player_timer);
+				else
+					start_timer(Math.floor(data.time), opponent_timer);
+				break
 			case 'turn ended':
 				console.log('turn started')
 				showSideToMove(data.color);

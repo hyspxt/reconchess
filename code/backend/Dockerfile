@@ -19,12 +19,10 @@ RUN python -m venv /py && \
 	/py/bin/pip install --upgrade pip && \
 	/py/bin/pip install -r requirements.txt && \
 	cd / && \
-	wget https://github.com/official-stockfish/Stockfish/releases/download/sf_16/stockfish-ubuntu-x86-64.tar && \
-	tar -xvf stockfish-ubuntu-x86-64.tar && \
-	rm stockfish-ubuntu-x86-64.tar
-
-
+	git clone https://github.com/official-stockfish/Stockfish.git && \
+	cd Stockfish/src && \
+	make -j build
 
 #add virtual environment to PATH
 ENV PATH="/py/bin:$PATH"
-ENV STOCKFISH_EXECUTABLE="/stockfish/stockfish-ubuntu-x86-64.tar"
+ENV STOCKFISH_EXECUTABLE="/Stockfish/src/stockfish"

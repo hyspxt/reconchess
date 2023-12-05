@@ -21,7 +21,7 @@ RUN python -m venv /py && \
 	cd / && \
 	git clone https://github.com/official-stockfish/Stockfish.git && \
 	cd Stockfish/src && \
-	make -j build
+	make -j4 build
 
 #add virtual environment to PATH
 ENV PATH="/py/bin:$PATH"

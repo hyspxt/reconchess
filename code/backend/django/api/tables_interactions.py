@@ -24,13 +24,13 @@ Matches_object.save()
 #Users.objects.all()[:5]
 
 #per filtrare informazioni del singolo utente
-q = User.objects.filter(username="esempio_utente").filter(password = "password_segreta")
+#q = User.objects.filter(username="esempio_utente").filter(password = "password_segreta")
 
 #ereditando dal modello User di Django
-u = User.objects.get(username="esempio_utente")
-player1_elo = u.users.elo_points
-print(q)
-print(u)
+#u = User.objects.get(username="esempio_utente")
+#player1_elo = u.users.elo_points
+#print(q)
+#print(u)
 
 #visualizza la classifica dei giocatori WLD
 def get_players_stats():
@@ -146,3 +146,14 @@ def update_elo(player_name, opponent, win, los, dr):
     new_elo_points = calculate_elo(u.users.elo_points, v.users.elo_points, win, los, dr)
     #aggiorno punti del giocatore in tabella Users
     u.elo_points = new_elo_points
+
+def social_log(mail):
+    try:
+        # Cerca un utente nel modello User associato a Users
+        user = User.objects.get(email=mail) #metti la mail da user anzichè email=
+        # Trova l'istanza di Users associata a questo utente
+        users_instance = Users.objects.get(user=user)
+        return True
+    except User.DoesNotExist or Users.DoesNotExist:
+        # L'utente o l'istanza di Users non esiste
+        return False

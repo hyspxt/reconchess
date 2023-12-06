@@ -3,7 +3,7 @@ from .models import Users, Matches
 
 @admin.register(Users)
 class UsersAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created_on', 'last_login', 'elo_points', 'n_wins_loc', 'n_draws_loc', 'n_lost_loc')
+    list_display = ('user', 'created_on', 'elo_points', 'n_wins_loc', 'n_draws_loc', 'n_lost_loc')
     search_fields = ('user__username',)  # Aggiunge una barra di ricerca per l'username dell'utente
 
 @admin.register(Matches)

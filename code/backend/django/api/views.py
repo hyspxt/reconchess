@@ -52,15 +52,22 @@ def checkLogin(request):
 		return HttpResponse(f'user {request.user.username} is currently logged in', content_type='text/plain')
 	else:
 		return HttpResponse('No user logged in', content_type='text/plain')
-	
-def leaderboard_api(request):
-    result = get_players_stats()
-    return JsonResponse(list(result), safe=False)
-
-def player_stats_api(request, player_name):
-    result = get_player_stats(player_name)
-    return JsonResponse(result)
 
 def player_loc_stats_api(request, player_name):
 	result = get_player_loc_stats(player_name)
 	return JsonResponse(result)
+
+def leaderboard(request):
+    leaderboard_data = get_leaderboard()
+    return JsonResponse({'leaderboard': leaderboard_data})
+
+def social_log(request, mail):
+    try:
+        # Cerca un utente nel modello User associato a Users
+        user = User.objects.get(email=mail)
+        # Trova l'istanza di Users associata a questo utente
+        users_instance = Users.objects.get(user=user)
+        return JsonResponse({'success': True})
+    except User.DoesNotExist or Users.DoesNotExist:
+        # L'utente o l'istanza di Users non esiste
+        return JsonResponse({'success': False})

@@ -9,7 +9,6 @@ from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from strangefish.strangefish_strategy import StrangeFish2
 
-
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
 		self.game = None

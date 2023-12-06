@@ -7,12 +7,12 @@ from django.contrib.auth.models import User
 class Users(models.Model): # Django crea in automatico il campo id
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
     created_on = models.TimeField()
-    last_login = models.TimeField()
     elo_points = models.IntegerField(default=1440)#Utilizziamo l'ELO FSI
-    n_wins_loc = models.IntegerField(default=0) #against boot
-    n_draws_loc = models.IntegerField(default=0) #against boot
-    n_lost_loc = models.IntegerField(default=0) #against boot
+    n_wins = models.IntegerField(default=0)
+    n_draws = models.IntegerField(default=0)
+    n_lost = models.IntegerField(default=0) 
 
+#potrebbe non essere utilizzata
 class Matches(models.Model):
     player1 = models.CharField(max_length=50)
     player2 = models.CharField(max_length=50)

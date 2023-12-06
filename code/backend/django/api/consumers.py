@@ -8,6 +8,7 @@ from reconchess.bots.trout_bot import TroutBot
 from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from strangefish.strangefish_strategy import StrangeFish2
+from .models import Users
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
@@ -40,9 +41,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		elif action == 'resign':
 			if(not self.game.is_over()):
 				self.game.resign()
-				self.game.end()
-				await self.player.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
-				self.bot.handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
+				await self.end_game()
 
 			#restart the game if the player wants to rematch
 			if data['rematch']: 
@@ -54,7 +53,26 @@ class GameConsumer(AsyncWebsocketConsumer):
 	async def game_message(self, event):
 		#send the messages from the player to the client
 		await self.send(text_data=json.dumps(event))
-	
+
+	async def end_game(self):
+		self.game.end()
+		winner_color = self.game.get_winner_color()
+		win_reason = self.game.get_win_reason()
+		game_history = self.game.get_game_history()
+
+		await self.player.handle_game_end(winner_color, win_reason, game_history)
+		self.bot.handle_game_end(winner_color, win_reason, game_history)
+
+
+		#TODO this is a test, remove later
+		user = self.scope['user']
+		if(user.is_authenticated):
+			user_info = await sync_to_async(Users.objects.get)(user__username=self.scope['user'].username)
+			print(f"{user.username}'s elo score: {user_info.elo_points}")
+		else:
+			print('not logged in')
+
+
 	async def start_game(self, seconds):
 		#initialize the game
 		self.game = LocalGame(seconds_per_player=seconds)
@@ -86,24 +104,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 			else:
 				await sync_to_async(self.play_bot_turn)(capture_square=capture_square, sense_actions=sense_actions, move_actions=move_actions)
 
-		self.game.end()
-		winner_color = self.game.get_winner_color()
-		win_reason = self.game.get_win_reason()
-		game_history = self.game.get_game_history()
-
-		await self.player.handle_game_end(winner_color, win_reason, game_history)
-		self.bot.handle_game_end(winner_color, win_reason, game_history)
-		#Aggiornamento dati nel db
-		u = User.objects.get(username="esempio_utente") #mettere l'user di utente che ha giocato
-		player_elo = u.users.elo_points
-		calculate_elo(player_elo) #questa va chiamata quando la partita è contro un umano
-		if winner_color == WHITE: #nota: qui ho assunto sempre umano con colore bianco, è da modificare
-			update_stats(player_name = self.game.name_white, win = True, draw = False) #mettere l'user di utente che ha giocato
-		elif winner_color == BLACK:
-			update_stats(player_name = "esempio_utente",win = False, draw = False) #mettere l'user di utente che ha giocato
-		else: #draw
-			update_stats(player_name = self.game.name_white, win = False, draw = True) #mettere l'user di utente che ha giocato
-
+		await self.end_game()
 
 	async def play_human_turn(self, capture_square, move_actions, first_ply):
 		player = self.player

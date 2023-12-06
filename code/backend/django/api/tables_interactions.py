@@ -1,19 +1,79 @@
-import os
+""" import os
 import sys
+
+from django.db.models import Count, Case, When, Value, CharField, IntegerField, Q, F
+from django.db.models.functions import Coalesce
+from django.contrib.auth.models import User
+
+from .models import Users, Matches
 
 api_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'api'))
 sys.path.append(api_path)
 
-from api.server import settings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 #os.environ["DJANGO_SETTINGS_MODULE"] = "server.settings"
 
-from models import *
-from api.models import Users
-from api.models import Matches
-from django.db.models import F
 
+# all(), get(), filter(), exclude()
+#this returns the first 5 objects
+#Profile.objects.all()[:5]
+
+#per filtrare informazioni del singolo utente
+#q = User.objects.filter(username="esempio_utente").filter(password = "password_segreta")
+
+#ereditando dal modello User di Django
+#u = User.objects.get(username="esempio_utente")
+#player1_elo = u.users.elo_points
+#print(q)
+#print(u)
+
+#visualizza la classifica dei giocatori WLD
+def get_players_stats():
+    # Logica della query
+    queryset = (
+    Matches.objects
+    .annotate(
+        result=Case(
+            When(winner=F('player1'), then=Value('win')),
+            When(winner=F('player2'), then=Value('win')),
+            When(loser=F('player1'), then=Value('loss')),
+            When(loser=F('player2'), then=Value('loss')),
+            When(draw=True, then=Value('draw')),
+            default=None,
+            output_field=CharField()
+        )
+    )
+    .values('result', 'player1', 'player2')  # Ottieni i dati necessari per l'UNION ALL
+    .annotate(player_name=Coalesce('player1', 'player2'))  # Usa Coalesce per ottenere il nome del giocatore
+    .values('player_name', 'result')  # Ottieni i dati necessari per l'UNION ALL
+    )  
+    # Query finale
+    result = (
+        queryset
+        .values('player_name')
+        .annotate(
+            wins=Count(Case(When(result='win', then=Value(1)), default=None, output_field=IntegerField())),
+            draws=Count(Case(When(result='draw', then=Value(1)), default=None, output_field=IntegerField())),
+            losses=Count(Case(When(result='loss', then=Value(1)), default=None, output_field=IntegerField()))
+        )
+    )[:10]  # Limita i risultati ai primi 10 record per la leaderboard
+    return result
+
+#stats = get_player_stats()
+#print(stats)
+
+#visualizza le statistiche del singolo giocatore: vittorie, sconfitte e pareggi contro atri giocatori
+def get_player_stats(player_name):
+    wins = Matches.objects.filter(Q(player1=player_name, winner=player_name) | Q(player2=player_name, winner=player_name)).count()
+
+    lost = Matches.objects.filter(Q(player1=player_name, loser=player_name) | Q(player2=player_name, loser=player_name)).count()
+
+    draws = Matches.objects.filter((Q(player1=player_name) | Q(player2=player_name)) & Q(draw=True)).count()
+
+    elo_points = Users.objects.get(user__username=player_name).elo_points
+
+    return {'n_wins': wins, 'n_lost': lost, 'n_draws': draws, 'elo_points': elo_points}
 
 def get_player_loc_stats(player_name):
     player = Users.objects.get(user__username=player_name)
@@ -54,7 +114,7 @@ def get_leaderboard():
 
 #aggiorna il numero di w/l/d nella tabella Users 
 def update_loc_stats(player_name, win, draw):
-    u = User.objects.get(username=player_name)
+    u = Users.objects.get(user__username=player_name)
     if win:
         u.n_wins += 1
     elif not win and not draw:
@@ -98,19 +158,19 @@ def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
 
 #da chiamare dopo aver sfidato un umano
 def update_elo(player_name, opponent, win, los, dr):
-    u = User.objects.get(username = player_name)
-    v = User.objects.get(username = opponent)
-    new_elo_points = calculate_elo(u.users.elo_points, v.users.elo_points, win, los, dr)
+    u = Users.objects.get(user__username = player_name)
+    v = Users.objects.get(user__username = opponent)
+    new_elo_points = calculate_elo(u.elo_points, v.elo_points, win, los, dr)
     #aggiorno punti del giocatore in tabella Users
     u.elo_points = new_elo_points
 
 def social_log(mail):
     try:
         # Cerca un utente nel modello User associato a Users
-        user = User.objects.get(email=mail) #metti la mail da user anzichè email=
-        # Trova l'istanza di Users associata a questo utente
+        user = Users.objects.get(email=mail) #metti la mail da user anzichè email=
+        # Trova l'istanza di Profile associata a questo utente
         users_instance = Users.objects.get(user=user)
         return True
     except User.DoesNotExist or Users.DoesNotExist:
-        # L'utente o l'istanza di Users non esiste
-        return False
+        # L'utente o l'istanza di Profile non esiste
+        return False """

@@ -1,2 +1,0 @@
-chess.engine DEBUG: "<UciProtocol (pid=18)>: Process exited" from engine.process_exited line 1059 at 2023-12-03 23:58:38,766
-chess.engine DEBUG: "<UciProtocol (pid=18)>: Connection lost (exit code: 0, error: None)" from engine.connection_lost line 1046 at 2023-12-03 23:58:38,768

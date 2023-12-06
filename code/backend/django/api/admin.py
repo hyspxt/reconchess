@@ -1,14 +1,23 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 from .models import Users, Matches
 
-@admin.register(Users)
-class UsersAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created_on', 'elo_points', 'n_wins_loc', 'n_draws_loc', 'n_lost_loc')
-    search_fields = ('user__username',)  # Aggiunge una barra di ricerca per l'username dell'utente
+class UserInline(admin.StackedInline):
+    model = Users
+    can_delete = False
+    verbose_name_plural = 'users'
+
+# Define a new User admin
+class UserAdmin(BaseUserAdmin):
+    inlines = [UserInline] 
+
+# Re-register UserAdmin
+admin.site.unregister(User) 
+admin.site.register(User, UserAdmin) 
 
 @admin.register(Matches)
 class MatchesAdmin(admin.ModelAdmin):
     list_display = ('player1', 'player2', 'winner', 'loser', 'draw')
     search_fields = ('player1', 'player2', 'winner', 'loser')  # Aggiunge una barra di ricerca per i giocatori e i vincitori/perdenti
     list_filter = ('draw',)  # Aggiunge un filtro laterale per le partite pareggiate
-    

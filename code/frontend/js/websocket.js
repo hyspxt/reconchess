@@ -3,6 +3,7 @@ import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lights
 
 var light = false
 export let valid_moves = []
+export let player_color = null
 let currentTime;
 
 export function createWebsocket(game, player_timer, opponent_timer) {

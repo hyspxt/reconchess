@@ -74,7 +74,7 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				// valid_moves array so the message "Illegal move" is not shown.
 
 				illegalMove()
-				undoMove();
+				// undoMove();
 				break;
 			case 'move result':
 				console.log('move result');

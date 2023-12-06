@@ -17,54 +17,130 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-            <a class="navbar-brand" href="board.html">
+            <a class="navbar-brand" href="#">
                 <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
             </a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            </div>
+            <a class="nav-item nav-link btn_rules" href="rules.html">Rules</a>
+            <a class="nav-item nav-link" href="">Leader board</a>
+            <div class="collapse navbar-collapse" id="navbarNav"></div>
             <form class="form-inline">
                 <a class="nav-item nav-link" href="registrationForm.html">Sign up</a>
                 <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
             </form>
         </nav>
-        <div id="promotion-dialog">
-            <ol id="promote-to">
-                <li class="ui-state-default"><span class="piece-name">q</span><img class="promotion-piece-q promotion-piece" alt="queen"/></li>
-                <li class="ui-state-default"><span class="piece-name">r</span><img class="promotion-piece-r promotion-piece" alt="rook"/></li>
-                <li class="ui-state-default"><span class="piece-name">n</span><img class="promotion-piece-n promotion-piece" alt="knight"/></li>
-                <li class="ui-state-default"><span class="piece-name">b</span><img class="promotion-piece-b promotion-piece" alt="bishop"/></li>  
-            </ol>
-          </div>
-        <div class="container_x ma">
-            <div class="container_y" >
-                <div class="timer_div">
-                    <div class="timer_title">Timer :</div>
-                    <div class="timer" id="opponent_timer">00:00</div>
-                </div>
-                <div class="btn_tbl">
-                    <div class="btn_qr">
-                        <button type="submit" class="btn_quit" id="btn_quit">QUIT</button>
-                        <button type="submit" class="btn_rematch" id="btn_rematch">RE-MATCH</button>
 
+        <div id="intro">
+            <div class="selection_player">
+                <div class="question">Select your opponent</div>
+
+                <fieldset class="bot_user">
+                    <div class="a_bot">
+                        <img src="img/other/robot.png" alt="bot" width="60" height="60" class="d-inline-block align-top">
+                        <input type="radio" class="checkbox" name="player_bh" value="html"/>
                     </div>
-                    <div class="btn_ur">
-                        <button type="submit" class="btn_undo" id="btn_undo">PASS</button>
-                </div>
-            </div>
-            </div>
-            <div id="myBoard" class="board"></div>
-            <div class="container_f">
-                <div class="scroll_History">
-                    <div class="heder_scroll">Umpire</div>
-                    <div id="History" class="text_scroll"></div>
-                </div>
-                <div class="timer_div">
-                    <div class="timer_title">Timer :</div>
-                    <div class="timer" id="player_timer">00:00</div>
-                </div>
                 
+                    <div class="a_human">
+                        <img src="img/other/happy.png" alt="human" width="60" height="60" class="d-inline-block align-top">
+                        <input type="radio" class="checkbox" name="player_bh" value="html"/>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="selection_bot" id="selection_bot">
+                <div class="question">Select the level of your bot opponent</div>
+
+                <fieldset class="bot_choice">
+                    <div class="bot_x">
+                        <div id="bot_1" style="margin-right: 20px">HTML</div>
+                        <input type="radio" name="bot" value="bot1"/>
+                    </div>
+                    <div class="bot_x">
+                        <div id="bot_2" style="margin-right: 20px">CSS</div>
+                        <input type="radio" name="bot" value="bot2"/>
+                    </div>
+                    <div class="bot_x">
+                        <div id="bot_3" style="margin-right: 20px">JavaScript</div>
+                        <input type="radio" name="bot" value="bot3"/>
+                    </div>
+                    <div class="bot_x">
+                        <div id="bot_4" style="margin-right: 20px">CSS</div>
+                        <input type="radio" name="bot" value="bot4"/>
+                    </div>
+                    <div class="bot_x">
+                        <div id="bot_5" style="margin-right: 20px">JavaScript</div>
+                        <input type="radio" name="bot" value="bot5"/>
+                    </div>
+                </fieldset>
+
+            </div>
+
+            <div class="selection_time_color" id="selection_time_color">
+                <div class="question">Select the playing time and player's color</div>
+                <div class="dropdown-container">
+                    <select class="drop" id="frutta" name="frutta">
+                        <option class="drop_font" value="" disabled selected>Select timer</option>  
+                        <option class="drop_font" value="n_15">15</option>
+                        <option class="drop_font" value="n_10">10</option>
+                        <option class="drop_font" value="n_5">5</option>
+                        <option class="drop_font" value="n_2-5">2.30</option>
+                    </select>
+                </div>
+            </div>
+
         </div>
 
+        <div id="final">
+
+            <div id="promotion-dialog">
+                <ol id="promote-to">
+                    <li class="ui-state-default"><span class="piece-name">q</span><img class="promotion-piece-q promotion-piece" alt="queen"/></li>
+                    <li class="ui-state-default"><span class="piece-name">r</span><img class="promotion-piece-r promotion-piece" alt="rook"/></li>
+                    <li class="ui-state-default"><span class="piece-name">n</span><img class="promotion-piece-n promotion-piece" alt="knight"/></li>
+                    <li class="ui-state-default"><span class="piece-name">b</span><img class="promotion-piece-b promotion-piece" alt="bishop"/></li>  
+                </ol>
+            </div>
+            <div class="container_x ma">
+
+                <div class="container_y" ></div>
+
+                <div>
+                    <div class="black_player">
+                        <div class="user_black_info">
+                            <img src="img/other/woman.png" alt="id_pic_b" class="pic_b">
+                            <div id="black_name" class="black_id">Player 2</div>
+                        </div>
+                        <div class="timer_div_b">
+                            <div class="timer_title">Timer :</div>
+                            <div class="timer" id="opponent_timer">00:00</div>
+                        </div>
+                    </div>
+                    <div id="myBoard" class="board"></div>
+                    <div class="white_player">
+                        <div class="user_white_info">
+                            <img src="img/other/man.png" alt="id_pic_w" class="pic_w">
+                            <div id="white_name" class="white_id">Player 1</div>
+                        </div>
+                        <div class="timer_div_w">
+                            <div class="timer_title">: Timer</div>
+                            <div class="timer" id="player_timer">00:00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container_f">
+                    <div class="scroll_History">
+                        <div class="heder_scroll">ARBITER</div>
+                        <div id="History" class="text_scroll"></div>
+                    </div>
+                    <button type="submit" class="btn_rematch" id="btn_rematch">RE-MATCH</button>
+                    <div class="btn_qp">
+                        <button type="submit" class="btn_quit" id="btn_quit">QUIT</button>
+                        <button type="submit" class="btn_undo" id="btn_undo">PASS</button>
+                    </div> 
+                </div>
+            </div>
+
+        </div>
         
         <script type="module" src="js/timer.js"></script>
         <script type="module" src="js/websocket.js"></script>
@@ -76,13 +152,10 @@
             document.getElementById("btn_rematch").addEventListener("click", () => resign(true)); 
             document.getElementById("btn_undo").addEventListener("click", passTurn);
         </script>
-
     </body>
+   
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-    
-
 </html>
 
 

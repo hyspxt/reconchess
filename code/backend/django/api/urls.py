@@ -18,9 +18,9 @@ urlpatterns = [
 
 	path('check_login/', views.checkLogin, name='check_login'),
     
-	path('api/player_loc_stats/<str:player_name>/', views.player_loc_stats_api, name='player_loc_stats'),#
+	path('player_loc_stats/<str:player_name>/', views.player_loc_stats_api, name='player_loc_stats'),#
 
-	path('/api/leaderboard/', views.leaderboard, name='leaderboard'),
+	path('leaderboard/', views.leaderboard, name='leaderboard'),
 	
 	path('social_log/<str:mail>/', views.social_log, name='social_log')
 ]

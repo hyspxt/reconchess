@@ -12,6 +12,7 @@ var light = false
 var letters, part2 = null
 var comments = ""
 var pass = false
+var color = 'w'
 
 //activates when the user switches tabs
 document.addEventListener("visibilitychange", () => {
@@ -300,7 +301,7 @@ export function lightsOff() {
                 var dataPieceValue = piece.attr('data-piece');
 
                 //check for white pieces
-                if (dataPieceValue && dataPieceValue.startsWith('w')) {
+                if (dataPieceValue && dataPieceValue.startsWith(color)) {
                     square.css({
                         'opacity': 1,
                         'filter': 'none'
@@ -337,7 +338,10 @@ export function resign(rematch = false) {
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
-
+export function flipSide(){
+    game.flip();
+    color = 'b';
+}
 
 board = Chessboard('myBoard', config)
 

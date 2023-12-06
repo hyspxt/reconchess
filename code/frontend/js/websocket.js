@@ -1,5 +1,5 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, lightsOff, makeOpponentMove } from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, lightsOff, makeOpponentMove, checkSide } from '../js/board.js';
 
 var light = false
 export let valid_moves = []
@@ -30,7 +30,7 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				player_color = data.color;
 
 				if (player_color === 'b') {
-					//TODO: turn the board if the player is black
+					flipSide();
 					showSideToMove('w');
 					start_timer(data.time, opponent_timer)
 				}

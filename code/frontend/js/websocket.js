@@ -1,5 +1,5 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, lightsOff, makeOpponentMove, checkSide } from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, lightsOff, makeOpponentMove, flipSide } from '../js/board.js';
 
 var light = false
 export let valid_moves = []

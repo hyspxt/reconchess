@@ -258,11 +258,40 @@ a:hover{
 .piece-name {
     display: none;
 }
+.square-55d63{
+    opacity: 0.4;
+    filter: grayscale(50%) blur(2px) brightness(0.8);
+    pointer-events: auto;
+}
 .square-55d63:hover{
     background-color: #FFFF70;
     opacity: 1 !important;
     filter: none!important;
 }
+.square-a1,
+.square-a2,
+.square-b1,
+.square-b2,
+.square-c1,
+.square-c2,
+.square-d1,
+.square-d2,
+.square-e1,
+.square-e2,
+.square-f1,
+.square-f2,
+.square-g1,
+.square-g2,
+.square-h1,
+.square-h2{
+    opacity: 1;
+    filter: none;
+}
+img[data-piece^="b"]{
+    pointer-events: none;
+    opacity: 0;
+}
+
 /* ------------------------ */
 /* SCROLLBAR STUFF */
 
@@ -282,8 +311,8 @@ a:hover{
     display: flex;
     margin: 0px;
     padding: 7px;
-    width: 15.25%;
-}.text_scroll{
+}
+.text_scroll{
     padding: 7px;
 }
 

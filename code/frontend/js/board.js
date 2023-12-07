@@ -113,8 +113,6 @@ export function passTurn() {
         socket.send(JSON.stringify({ action: 'pass' }));
         console.log('you passed');
     }
-    if (light) lightsOff()
-    lightsOn()
 }
 
 export function onDrop(source, target) {
@@ -124,7 +122,7 @@ export function onDrop(source, target) {
         to: target,
         promotion: 'q'
     };
-
+    
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
     if (!valid_moves.some(move => move.startsWith(source + target))) {
@@ -133,7 +131,7 @@ export function onDrop(source, target) {
         config.draggable = true;
         return 'snapback';
     }
-
+    
     var source_rank = source.substring(2, 1);
     var target_rank = target.substring(2, 1);
     var source_column = source.substring(0, 1);
@@ -145,7 +143,7 @@ export function onDrop(source, target) {
     console.log(target_type);
 
     //change the opacity of the squares
-    if (piece.search(/^w/)) {
+    if ((piece.search(/^w/) && color == 'w')||(piece.search(/^b/) && color == 'b')) {
         var squareSource = $('#myBoard .square-' + source);
         var squareTarget = $('#myBoard .square-' + target);
         squareTarget.css('opacity', 1);
@@ -196,7 +194,6 @@ export function onDrop(source, target) {
 export function onSnapEnd() {
     if (promoting) return;
     updateBoard(board);
-    lightsOff();
 }
 
 export function getImgSrc(piece) {
@@ -246,44 +243,46 @@ export function makeMove(game, move_cfg, promotion = false) {
     }
 }
 
-export function lightsOn() {
-    config.draggable = false;
-    window.addEventListener("click", function (event) {
-        if ((event.target.classList.contains("square-55d63")) && (light == false)) {
-            var position = event.target.getAttribute("data-square");
-            var part1 = position.substring(0, 1);
-            var part1Ascii = part1.charCodeAt(0);
-            var prec
-            var suc = String.fromCharCode(part1Ascii + 1);
+export function lightsOn(gg) {
+    if (color == gg){
+        config.draggable = false;
+        window.addEventListener("click", function (event) {
+            if ((event.target.classList.contains("square-55d63")) && (light == false)) {
+                var position = event.target.getAttribute("data-square");
+                var part1 = position.substring(0, 1);
+                var part1Ascii = part1.charCodeAt(0);
+                var prec
+                var suc = String.fromCharCode(part1Ascii + 1);
 
-            if (part1 != 'a') prec = String.fromCharCode(part1Ascii - 1);
-            else prec = null;
+                if (part1 != 'a') prec = String.fromCharCode(part1Ascii - 1);
+                else prec = null;
 
-            letters = [prec, part1, suc];
-            part2 = position.substring(position.length - 1);
-            //turn on light
-            var i = 0;
-            part2--;
-            while (i < 3) {
-                var j = 0;
-                while (j < 3) {
-                    var square = $('#myBoard .square-' + letters[j] + part2);
-                    square.css('opacity', 1);
-                    square.css('filter', 'none');
+                letters = [prec, part1, suc];
+                part2 = position.substring(position.length - 1);
+                //turn on light
+                var i = 0;
+                part2--;
+                while (i < 3) {
+                    var j = 0;
+                    while (j < 3) {
+                        var square = $('#myBoard .square-' + letters[j] + part2);
+                        square.css('opacity', 1);
+                        square.css('filter', 'none');
 
-                    var pieceImage = square.find('img[data-piece]');
-                    pieceImage.css('opacity', 1);
-                    j++;
+                        var pieceImage = square.find('img[data-piece]');
+                        pieceImage.css('opacity', 1);
+                        j++;
+                    }
+                    part2++;
+                    i++;
                 }
-                part2++;
-                i++;
+                config.draggable = true;
+                light = true;
+                //send the sense message to the backend
+                socket.send(JSON.stringify({ action: 'sense', sense: position }));
             }
-            config.draggable = true;
-            light = true;
-            //send the sense message to the backend
-            socket.send(JSON.stringify({ action: 'sense', sense: position }));
-        }
-    }, { passive: false });
+        }, { passive: false });
+    }
 }
 
 export function lightsOff() {
@@ -328,9 +327,8 @@ export function resign(rematch = false) {
     console.log('light ' + light);
     if (light && !game.is_over) lightsOff();
     //reset fog
-    /*
-    var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
-
+    if (color == 'w') var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
+    else var squares = ['a7', 'a8', 'b7', 'b8', 'c7', 'c8', 'd7', 'd8', 'e7', 'e8', 'f7', 'f8', 'g7', 'g8', 'h7', 'h8'];
     $('#myBoard .square-55d63').css('opacity', 0.4)
     $('#myBoard .square-55d63').css('filter', 'grayscale(50%) blur(2px) brightness(0.8)')
 
@@ -339,10 +337,10 @@ export function resign(rematch = false) {
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
     });
-    */
+    lightsOff()
+    
     game.reset();
     board.start();
-    lightsOff();
     //avoid trying to send the message while the page is loading
     if (socket.readyState == WebSocket.OPEN)
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));

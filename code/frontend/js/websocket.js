@@ -1,5 +1,5 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, lightsOff, makeOpponentMove, flipSide } from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, lightsOff, makeOpponentMove, flipSide} from '../js/board.js';
 
 var light = false
 export let valid_moves = []
@@ -54,8 +54,8 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				console.log('this is current time: ' + currentTime)
 				start_timer(data.time, player_timer);
 				showSense()
-				lightsOn();
-				light = false;
+				console.log(data.color);
+				lightsOn(data.color);
 				break;
 			case 'your turn to move':
 				showSideToMove(data.color);
@@ -63,6 +63,7 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				valid_moves = data.move_actions;
 				console.log('your valid moves' + valid_moves)
 				console.log('your turn to move')
+				light = true;
 				break;
 			case 'invalid move':
 

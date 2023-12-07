@@ -284,6 +284,8 @@
 
             //send the start game message to the server
             socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color }));
+
+            document.getElementById("black_name").innerHTML = bot;
         }
         
         //set the event listener for the start button

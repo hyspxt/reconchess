@@ -9,6 +9,8 @@ from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from strangefish.strangefish_strategy import StrangeFish2
 from .models import Users, Matches
+from tables_interactions import *
+#from tables_interactions import update_loc_stats, save_match_results, u,calculate_elo, pdate_elo
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
@@ -71,7 +73,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print(f"{user.username}'s elo score: {user_info.elo_points}")
 		else:
 			print('not logged in')
-
 
 	async def start_game(self, seconds):
 		#initialize the game
@@ -272,11 +273,26 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
 
+		#aggiorno dati vincitore e perdente
+		winner = self.player_names[winner_color]
+		loser = self.player_names[not winner_color]
+		room_name = self.room_group_name
+		draw = False
+		if winner_color == None and win_reason == None:
+			draw = True
+		await update_loc_stats(winner, True, draw)
+		await update_loc_stats(loser, False, draw)
+		await update_elo(winner, True, draw)
+		await update_elo(loser, False, draw)
+
+		await save_match_results(room_name, winner, loser, draw)
+		##gestire questione await e sync_to_async
 		match = await sync_to_async(Matches.objects.get)(room_name=self.room_group_name, finished=False)
 		match.finished = True
 		match.winner = self.player_names[winner_color]
 		match.loser = self.player_names[not winner_color]
 		await sync_to_async(match.save)()
+		
 
 	async def start_game(self, seconds):
 		#the first consumer will not directly handle the game

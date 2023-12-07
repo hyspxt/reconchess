@@ -11,7 +11,6 @@ class Users(models.Model): # Django crea in automatico il campo id
     n_draws = models.IntegerField(default=0)
     n_lost = models.IntegerField(default=0) 
 
-#potrebbe non essere utilizzata
 class Matches(models.Model):
     room_name = models.CharField(max_length=50, null=True)
     player1 = models.CharField(max_length=50, null=True)

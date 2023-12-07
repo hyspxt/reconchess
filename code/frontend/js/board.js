@@ -12,7 +12,7 @@ var light = false
 var letters, part2 = null
 var comments = ""
 var pass = false
-var color = 'w'
+var color
 
 //activates when the user switches tabs
 document.addEventListener("visibilitychange", () => {
@@ -81,9 +81,9 @@ export function onDragStart(source, piece) {
     // do not pick up pieces if the game is over
     if (game.game_over() || game.is_over) return false
 
-    if (piece.search(/^b/) !== -1) return false
-    //turn off light
-    if (light) lightsOff();
+    if ((color === 'w') && (piece.search(/^b/) !== -1)) return false
+    else if ((color === 'b') && (piece.search(/^w/) !== -1)) return false
+    lightsOff();
 }
 
 //update the game board with the move made by the opponent
@@ -91,8 +91,9 @@ export function makeOpponentMove(board_conf) {
     //load the board fen sent by the backend
     game.load(board_conf);
     //updte the board shown to the user
-    board.position(game.fen());
-
+    board.position(game.fen(), false);
+    // Apply custom styles after updating the board
+    lightsOff();
 }
 
 //taken fron https://github.com/jhlywa/chess.js/issues/382
@@ -123,7 +124,6 @@ export function onDrop(source, target) {
         to: target,
         promotion: 'q'
     };
-
 
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
@@ -196,6 +196,7 @@ export function onDrop(source, target) {
 export function onSnapEnd() {
     if (promoting) return;
     updateBoard(board);
+    lightsOff();
 }
 
 export function getImgSrc(piece) {
@@ -297,16 +298,22 @@ export function lightsOff() {
                 'filter': 'grayscale(50%) blur(2px) brightness(0.8)'
             });
             var piece = square.find('img[data-piece]');
+            
             if (piece.length > 0) {
                 var dataPieceValue = piece.attr('data-piece');
 
                 //check for white pieces
                 if (dataPieceValue && dataPieceValue.startsWith(color)) {
                     square.css({
-                        'opacity': 1,
+                        'opacity': '1',
                         'filter': 'none'
                     });
-                } else piece.css('opacity', 0); //opacity for black pieces
+                    piece.css('opacity', 1);
+                }else piece.css({
+                    'opacity': '0' ,
+                    'z-index': '0',
+                    'pointer-events': 'none'
+                });
             }
             y++;
         }
@@ -321,6 +328,7 @@ export function resign(rematch = false) {
     console.log('light ' + light);
     if (light && !game.is_over) lightsOff();
     //reset fog
+    /*
     var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
 
     $('#myBoard .square-55d63').css('opacity', 0.4)
@@ -331,6 +339,7 @@ export function resign(rematch = false) {
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
     });
+    */
     game.reset();
     board.start();
     //avoid trying to send the message while the page is loading
@@ -338,9 +347,10 @@ export function resign(rematch = false) {
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
-export function flipSide(){
-    game.flip();
-    color = 'b';
+export function flipSide(c){
+    color = c;
+    if (c === 'b') board.orientation('black')
+    lightsOff();
 }
 
 board = Chessboard('myBoard', config)

@@ -16,25 +16,23 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 
 	socket.onmessage = function (event) {
 		var data = JSON.parse(event.data)
-		
+
 		console.log(data)
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js
 			case 'game started':
 				console.log('start game')
 				game.is_over = false;
 				console.log(player_timer)
-				
+
 				set_timer(data.time, player_timer);
 				set_timer(data.time, opponent_timer);
 
 				player_color = data.color;
-
+				flipSide(player_color);
 				if (player_color === 'b') {
-					flipSide();
 					showSideToMove('w');
 					start_timer(data.time, opponent_timer)
 				}
-	
 				break;
 			case 'opponent move':
 				// It is better to check if the turn is w/b alonside fen, but it should go for now.
@@ -46,7 +44,7 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				makeOpponentMove(board)
 				if (data.capture_square != null) {
 					haveEaten('w')
-					lightsOff()
+					lightsOff();
 				}
 				break;
 
@@ -112,8 +110,6 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 			default:
 				break;
 		}
-
-
 	}
 	socket.onclose = function (event) {
 		console.log('websocket is disconnected ...')

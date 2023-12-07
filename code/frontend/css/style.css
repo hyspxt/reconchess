@@ -563,6 +563,7 @@ img[data-piece^="b"]{
 }
 
 #intro {
+    margin-top: 90px;
     display: block;
 }
 #final {
@@ -571,12 +572,12 @@ img[data-piece^="b"]{
 
 #selection_bot{
     display: none;
-    width: 80%;
+    width: 75%;
 }
 
 #selection_time_color{
     display: none;
-    width: 80%;
+    width: 75%;
 }
 
 .selection_player,
@@ -588,7 +589,7 @@ img[data-piece^="b"]{
 }
 
 .selection_player{
-    width: 80%;
+    width: 75%;
 }
 
 .question{
@@ -669,7 +670,7 @@ img[data-piece^="b"]{
 .btn_start{
     display: flex;
     justify-content: end;
-    margin-top: 80px;
+    margin-top: 100px;
     margin-right: 30px;
 }
 

@@ -1,6 +1,3 @@
-import {createWebsocket} from './websocket.js'
-import {valid_moves} from './websocket.js'
-
 var board = null
 var game = new Chess()
 var fen, promote_to
@@ -12,14 +9,6 @@ var light = false
 var letters, part2 = null
 var comments = ""
 var pass = false
-
-var config = {
-    draggable: true,
-    position: 'start',
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd
-}
 
 export function haveEaten(target){
     if(target === 'b'){
@@ -109,25 +98,22 @@ export function passTurn() {
 
 export function onDrop (source, target) {
     document.body.style.overflow = 'visible';
-    let move_cfg = {
+    var move_cfg = {  // here lies the problem
         from: source,
         to: target,
         promotion: 'q'
     };
-
-    
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
+    var move = game.move(move_cfg);
 
-    console.log(source);
-    console.log(target);
-    console.log(valid_moves);
-    if (!valid_moves.some(move => move.startsWith(source + target))) {  // problem here
+    // illegal move
+    if (move === null) {
         document.body.style.overflow = 'visible';
         illegalMove();
         config.draggable = true;
-        return 'snapback';
-    }
+        return 'snapback'
+    } else game.undo(); //move is ok, now we can go ahead and check for promotion
 
     var source_rank = source.substring(2,1);
     var target_rank = target.substring(2,1);
@@ -159,7 +145,7 @@ export function onDrop (source, target) {
             width: 184,
             resizable: true,
             draggable: false,
-            close: onDialogClose(move_cfg),
+            close: onDialogClose,
             closeOnEscape: false,
             dialogClass: 'noTitleStuff'
         }).dialog('widget').position({
@@ -172,7 +158,7 @@ export function onDrop (source, target) {
         //has been selected, in the stop event of the promotion piece selectable
         return;
     }
-    makeMove(game, move_cfg, config, false);
+    makeMove(game, move_cfg, config);
 }
 
 export function onSnapEnd () {
@@ -189,36 +175,26 @@ export function updateBoard(board) {
     promoting = false;
 }
 
-var onDialogClose = function(move_cfg) {
-    console.log('promote toooooo' + promote_to);
+var onDialogClose = function() {
+    console.log(promote_to);
     move_cfg.promotion = promote_to;
     makeMove(game, move_cfg, config, true);
 }
 
 export function makeMove(game, move_cfg, config, promotion=false) {
-    //see if the move is legal
-    //convert move to UCI format
-    console.log(config);
-
-    console.log(move_cfg.to);
-    console.log(move_cfg.from);
-    var move = move_cfg.from + move_cfg.to;
-    console.log(move);
-    //add promotion to the move only if it actually includes a promotion
-    if (promotion)
-        move += config.promotion;
-
+    // see if the move is legal
+    var move = game.move(config);
     // illegal move
-    if (!(valid_moves.includes(move))) {
-        illegalMove();
+    if (move === null){
         config.draggable = true;
         return 'snapback';
     }
     else {
-        //make the move
-        var piece = game.get(move_cfg.from);
-        game.remove(move_cfg.from);
-        game.put(piece, move_cfg.to);
+        //convert move to UCI format
+        move = move_cfg.from + move_cfg.to
+        //add promotion to the move only if it actually includes a promotion
+        if (promotion)
+            move += move_cfg.promotion;
         //send the chosen move to the backend
         socket.send(JSON.stringify({ action: 'move', move: move}));
         console.log('you moved: ' + move_cfg.from + move_cfg.to);
@@ -318,7 +294,13 @@ export function resign(rematch = false) {
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
-
+var config = {
+    draggable: true,
+    position: 'start',
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onSnapEnd: onSnapEnd
+}
 
 board = Chessboard('myBoard', config)
 

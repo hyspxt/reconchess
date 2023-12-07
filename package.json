@@ -1,9 +1,9 @@
 {
     "name": "reconnassaince-chess",
     "version": "1.0.0",
-    "type": "module",
     "description": "",
     "main": "board.js",
+    "type": "module",
     "scripts": {
         "test": "jest --watchAll"
     },
@@ -11,22 +11,28 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@types/jest": "^29.5.9",
+        "babel-preset-env": "^1.7.0",
         "chess.js": "^1.0.0-beta.6",
         "chessboard": "^2.0.0",
-        "jest": "^22.4.3",
+        "jest": "^29.0.0",
         "jquery": "^3.7.1",
         "jquery-ui": "^1.13.2",
         "jsdom": "^22.1.0",
+        "ts-jest": "^29.1.1",
+        "typescript": "^5.3.2",
         "util": "^0.12.5"
     },
     "jest": {
-        "testEnvironment": "jsdom",
-        "verbose": true,
-        "testURL": "http://localhost/"
+        "testEnvironment": "node",
+        "verbose": true
     },
     "dependencies": {
-        "babel-preset-env": "^1.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "jest-websocket-mock": "^2.5.0",
+        "mock-socket": "^9.3.1",
         "text-encoding": "^0.7.0",
-        "utile": "^0.3.0"
+        "utile": "^0.3.0",
+        "ws": "^8.14.2"
     }
 }

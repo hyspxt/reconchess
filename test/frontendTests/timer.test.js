@@ -1,11 +1,5 @@
-// Import the necessary functions and modules for testing
-const { updateTimer, stop_timer, start_timer, set_timer } = require('../../code/frontend/js/timer');
-if (typeof TextEncoder === 'undefined') {
-  const { TextEncoder, TextDecoder } = require('util');
-  global.TextEncoder = TextEncoder;
-  global.TextDecoder = TextDecoder;
-}
-const { JSDOM } = require('jsdom');
+import { updateTimer, stop_timer, start_timer, set_timer } from '../../code/frontend/js/timer';
+import { JSDOM } from 'jsdom';
 const dom = new JSDOM('<!DOCTYPE html><html><body><div id="timer"></div></body></html>');
 
 
@@ -73,26 +67,26 @@ describe('set_timer', () => {
   // Test case 1: When time_seconds is greater than 60
   it('should set the timer display correctly', () => {
     // Set up initial values
-    const time_seconds = 90;
+    const time = { minutes: 1, seconds: 50 };
     const element = dom.window.document.getElementById('timer');
 
     // Call the function
-    set_timer(time_seconds, element);
+    set_timer(time, element);
 
     // Assert the expected results
-    expect(dom.window.document.getElementById('timer').innerText).toBe('1:30');
+    expect(dom.window.document.getElementById('timer').innerText).toBe('1:50');
   });
 
   // Test case 2: When time_seconds is less than 60
   it('should set the timer display correctly', () => {
     // Set up initial values
-    const time_seconds = 45;
+    const time = { minutes: 1, seconds: 90 };
     const element = dom.window.document.getElementById('timer');
 
     // Call the function
-    set_timer(time_seconds, element);
+    set_timer(time, element);
 
     // Assert the expected results
-    expect(dom.window.document.getElementById('timer').innerText).toBe('0:45');
+    expect(dom.window.document.getElementById('timer').innerText).toBe('1:30');
   });
 });

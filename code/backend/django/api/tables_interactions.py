@@ -8,12 +8,8 @@
 
 #os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 #os.environ["DJANGO_SETTINGS_MODULE"] = "server.settings"
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import User
 from .models import Users, Matches
 from django.db.models import F
-
 
 def get_player_loc_stats(player_name):
     player = Users.objects.get(user__username=player_name)

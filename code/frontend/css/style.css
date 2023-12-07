@@ -584,14 +584,20 @@ img[data-piece^="b"]{
 
 .selection_player,
 .selection_bot,
-.selection_time_color{
+.selection_time_color,
+.selection_room{
     margin: 70px;
     display: flex;
     flex-direction: column;
 }
 
-.selection_player{
+.selection_player,
+.selection_room{
     width: 75%;
+}
+
+.selection_room{
+    display: none;
 }
 
 .question{
@@ -615,7 +621,9 @@ img[data-piece^="b"]{
 }
 
 .a_bot,
-.a_human{
+.a_human,
+.a_newR,
+.a_oldR{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -640,8 +648,23 @@ img[data-piece^="b"]{
     color: #274C77;
 }
 
-.bot_x:hover{
+.bot_x:hover,
+.a_newR:hover,
+.a_oldR:hover{
     background-color: #274C77;
+}
+
+.room_bar{
+    margin-top: 40px;
+    align-self: center;
+    display: none;
+}
+
+.search_r,
+.search_b{
+    border-color: #274C77;
+    height: 40px;
+    font-size: 1.25rem;
 }
 
 .dropdown-container {
@@ -688,4 +711,3 @@ img[data-piece^="b"]{
     font-weight: bolder;
     font-size: 1.75rem;
 }
-

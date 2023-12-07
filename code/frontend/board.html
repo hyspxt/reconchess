@@ -59,6 +59,25 @@
 
                 </div>
             </div>
+
+            <div class="selection_room">
+                <div class="question">Create a new room or insert a room-code</div>
+
+                <fieldset class="bot_user">
+                    <a class="a_newR" href="#" onclick="botton_newRoom()">
+                        <img src="img/other/icons8-più-480.png" alt="bot" width="90" height="90" class="d-inline-block align-top">
+                    </a>
+
+                    <a class="a_oldR" href="#" onclick="botton_oldRoom()">
+                        <img src="img/other/icons8-porta-80.png" alt="human" width="100" height="100" class="d-inline-block align-top">
+                    </a>
+                </fieldset>
+                <div class="room_bar">
+                    <input class="search_r" type="text" placeholder="Room-Code">
+                    <button class="search_b">Search</button>
+                  </div>
+            </div>
+
             <div class="selection_time_color" id="selection_time_color">
                 <div class="question">Select the playing time and player's color</div>
                 <div class="selection_t_c">
@@ -73,11 +92,11 @@
                     </div>
                     <div class="selection_color">
                         <a class="p_w" href="#" onclick="botton_white()">
-                            <img src="img/chesspieces/wikipedia/bP.png" alt="bot" width="100" class="d-inline-block align-top">
+                            <img src="img/chesspieces/wikipedia/wP.png" alt="bot" width="100" class="d-inline-block align-top">
                         </a>
     
                         <a class="p_b" href="#" onclick="botton_black()">
-                            <img src="img/chesspieces/wikipedia/wP.png" alt="human" width="100" class="d-inline-block align-top">
+                            <img src="img/chesspieces/wikipedia/bP.png" alt="human" width="100" class="d-inline-block align-top">
                         </a>
                     </div>
                 </div>
@@ -145,6 +164,11 @@
                 $('.a_bot').css('background-color', '#274C80')
                 $('.selection_bot').css('display', 'block')
                 $('.a_human').css('background-color', '#E7ECEF')
+                $('.selection_room').css('display', 'none')
+                $('.room_bar').css('display', 'none')
+                $('.a_newR').css('background-color', '#E7ECEF')
+                $('.a_oldR').css('background-color', '#E7ECEF')
+
             }
         </script>
         <script>
@@ -155,6 +179,7 @@
                 $('.selection_time_color').css('display', 'none')
                 $('.bot_x').css('background-color', '#E7ECEF')
                 $('.bot_x').css('color', '#274C77')
+                $('.selection_room').css('display', 'block')
             }
         </script>
         <script>
@@ -206,6 +231,20 @@
             function start(){
                 $('#intro').css('display', 'none')
                 $('#final').css('display', 'block') 
+            }
+        </script>
+        <script>
+            function botton_oldRoom(){
+                $('.a_newR').css('background-color', '#E7ECEF')
+                $('.a_oldR').css('background-color', '#274C80')
+                $('.room_bar').css('display', 'block')
+            }
+        </script>
+        <script>
+            function botton_newRoom(){
+                $('.a_newR').css('background-color', '#274C80')
+                $('.a_oldR').css('background-color', '#E7ECEF')
+                $('.room_bar').css('display', 'none')
             }
         </script>
         <script type="module" src="js/timer.js"></script>

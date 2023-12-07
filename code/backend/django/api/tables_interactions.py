@@ -1,5 +1,5 @@
-import os
-import sys
+#import os
+#import sys
 
 #api_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'api'))
 #sys.path.append(api_path)
@@ -8,10 +8,10 @@ import sys
 
 #os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 #os.environ["DJANGO_SETTINGS_MODULE"] = "server.settings"
-
-from models import *
-from api.models import Users
-from api.models import Matches
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
+from .models import Users, Matches
 from django.db.models import F
 
 
@@ -54,7 +54,7 @@ def get_leaderboard():
 
 #aggiorna il numero di w/l/d nella tabella Users 
 def update_loc_stats(player_name, win, draw):
-    u = User.objects.get(username=player_name)
+    u = Users.objects.get(username=player_name)
     if win:
         u.n_wins += 1
     elif not win and not draw:
@@ -62,6 +62,21 @@ def update_loc_stats(player_name, win, draw):
     else:  # draw=True
         u.n_draws += 1
     u.save()
+
+#da chiamare alla fine di una partita contro un altro giocatore
+#se vogliamo tenere traccia di chi vince contro chi
+def save_match_results(p1, p2, win, los, dr):
+     # Ora inseriamo i dati nella tabella Matches
+    match = Matches.objects.create(
+        player1=p1,
+        player2=p2,
+        winner=p1 if win == p1 else (p2 if win == p2 else None),
+        loser=p2 if los == p2 else (p1 if los == p1 else None),
+        draw= True if dr == True else False
+    )
+
+    # Salva l'oggetto Matches nel database
+    match.save()
 
 #calcola i punti elo alla fine di ogni partita per il player1; Utilizziamo l'ELO FSI
 #Vittoria = 1 punto
@@ -83,8 +98,8 @@ def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
 
 #da chiamare dopo aver sfidato un umano
 def update_elo(player_name, opponent, win, los, dr):
-    u = User.objects.get(username = player_name)
-    v = User.objects.get(username = opponent)
+    u = Users.objects.get(username = player_name)
+    v = Users.objects.get(username = opponent)
     new_elo_points = calculate_elo(u.users.elo_points, v.users.elo_points, win, los, dr)
     #aggiorno punti del giocatore in tabella Users
     u.elo_points = new_elo_points
@@ -92,10 +107,10 @@ def update_elo(player_name, opponent, win, los, dr):
 def social_log(mail):
     try:
         # Cerca un utente nel modello User associato a Users
-        user = User.objects.get(email=mail) #metti la mail da user anzichè email=
+        user = Users.objects.get(email=mail)
         # Trova l'istanza di Users associata a questo utente
         users_instance = Users.objects.get(user=user)
         return True
-    except User.DoesNotExist or Users.DoesNotExist:
+    except Users.DoesNotExist or Users.DoesNotExist:
         # L'utente o l'istanza di Users non esiste
         return False

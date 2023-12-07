@@ -17,7 +17,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="home.html">
                 <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
             </a>
             <a class="nav-item nav-link btn_rules" href="rules.html">Rules</a>
@@ -34,59 +34,58 @@
                 <div class="question">Select your opponent</div>
 
                 <fieldset class="bot_user">
-                    <div class="a_bot">
-                        <img src="img/other/robot.png" alt="bot" width="60" height="60" class="d-inline-block align-top">
-                        <input type="radio" class="checkbox" name="player_bh" value="html"/>
-                    </div>
-                
-                    <div class="a_human">
-                        <img src="img/other/happy.png" alt="human" width="60" height="60" class="d-inline-block align-top">
-                        <input type="radio" class="checkbox" name="player_bh" value="html"/>
-                    </div>
+                    <a class="a_bot" href="#" onclick="botton_bot()">
+                        <img src="img/other/robot.png" alt="bot" width="100" height="100" class="d-inline-block align-top">
+                    </a>
+
+                    <a class="a_human" href="#" onclick="botton_human()">
+                        <img src="img/other/happy.png" alt="human" width="100" height="100" class="d-inline-block align-top">
+                    </a>
                 </fieldset>
             </div>
 
             <div class="selection_bot" id="selection_bot">
                 <div class="question">Select the level of your bot opponent</div>
 
-                <fieldset class="bot_choice">
-                    <div class="bot_x">
-                        <div id="bot_1" style="margin-right: 20px">HTML</div>
-                        <input type="radio" name="bot" value="bot1"/>
-                    </div>
-                    <div class="bot_x">
-                        <div id="bot_2" style="margin-right: 20px">CSS</div>
-                        <input type="radio" name="bot" value="bot2"/>
-                    </div>
-                    <div class="bot_x">
-                        <div id="bot_3" style="margin-right: 20px">JavaScript</div>
-                        <input type="radio" name="bot" value="bot3"/>
-                    </div>
-                    <div class="bot_x">
-                        <div id="bot_4" style="margin-right: 20px">CSS</div>
-                        <input type="radio" name="bot" value="bot4"/>
-                    </div>
-                    <div class="bot_x">
-                        <div id="bot_5" style="margin-right: 20px">JavaScript</div>
-                        <input type="radio" name="bot" value="bot5"/>
-                    </div>
-                </fieldset>
+                <div class="bot_choice">
+                    
+                    <a id="bot_1" class="bot_x" href="#" onclick="bot_selection(1)">RANDOM</a>
 
-            </div>
+                    <a id="bot_2" class="bot_x" href="#" onclick="bot_selection(2)">TROUT</a>
 
-            <div class="selection_time_color" id="selection_time_color">
-                <div class="question">Select the playing time and player's color</div>
-                <div class="dropdown-container">
-                    <select class="drop" id="frutta" name="frutta">
-                        <option class="drop_font" value="" disabled selected>Select timer</option>  
-                        <option class="drop_font" value="n_15">15</option>
-                        <option class="drop_font" value="n_10">10</option>
-                        <option class="drop_font" value="n_5">5</option>
-                        <option class="drop_font" value="n_2-5">2.30</option>
-                    </select>
+                    <a id="bot_3" class="bot_x" href="#" onclick="bot_selection(3)">ATTACKER</a>
+
+                    <a id="bot_4" class="bot_x" href="#" onclick="bot_selection(4)">STRANGEFISH</a>
+
                 </div>
             </div>
-
+            <div class="selection_time_color" id="selection_time_color">
+                <div class="question">Select the playing time and player's color</div>
+                <div class="selection_t_c">
+                    <div class="dropdown-container">
+                        <select class="drop" id="frutta" name="frutta">
+                            <option class="drop_font" value="" disabled selected>Select timer</option>  
+                            <option class="drop_font" value="n_15">15</option>
+                            <option class="drop_font" value="n_10">10</option>
+                            <option class="drop_font" value="n_5">5</option>
+                            <option class="drop_font" value="n_2-5">2.30</option>
+                        </select>
+                    </div>
+                    <div class="selection_color">
+                        <a class="p_w" href="#" onclick="botton_white()">
+                            <img src="img/chesspieces/wikipedia/bP.png" alt="bot" width="100" class="d-inline-block align-top">
+                        </a>
+    
+                        <a class="p_b" href="#" onclick="botton_black()">
+                            <img src="img/chesspieces/wikipedia/wP.png" alt="human" width="100" class="d-inline-block align-top">
+                        </a>
+                    </div>
+                </div>
+                <div class="btn_start">
+                    <a class="botton_start" href="#" onclick="start()">START</a>
+                </div>
+                
+            </div>
         </div>
 
         <div id="final">
@@ -142,6 +141,74 @@
 
         </div>
         
+        <script>
+            function botton_bot(){
+                $('.a_bot').css('background-color', '#274C80')
+                $('.selection_bot').css('display', 'block')
+                $('.a_human').css('background-color', '#E7ECEF')
+            }
+        </script>
+        <script>
+            function botton_human(){
+                $('.a_human').css('background-color', '#274C80')
+                $('.a_bot').css('background-color', '#E7ECEF')
+                $('.selection_bot').css('display', 'none')
+                $('.selection_time_color').css('display', 'none')
+                $('.bot_x').css('background-color', '#E7ECEF')
+                $('.bot_x').css('color', '#274C77')
+            }
+        </script>
+        <script>
+            function bot_selection(n){
+                $('.bot_x').css('background-color', '#E7ECEF')
+                $('.bot_x').css('color', '#274C77')
+                switch(n){
+                    case 1:
+                    $('#bot_1').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    break;
+                    case 2:
+                    $('#bot_2').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    break;
+                    case 3:
+                    $('#bot_3').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    break;
+                    case 4:
+                    $('#bot_4').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    break;
+                }
+                $('.selection_time_color').css('display', 'block')
+            }
+        </script>
+        <script>
+            function botton_white(){
+                $('.p_w').css('background-color', '#274C80')
+                $('.p_b').css('background-color', '#E7ECEF')
+            }
+        </script>
+        <script>
+            function botton_black(){
+                $('.p_b').css('background-color', '#274C80')
+                $('.p_w').css('background-color', '#E7ECEF')
+            }
+        </script>
+        <script>
+            function start(){
+                $('#intro').css('display', 'none')
+                $('#final').css('display', 'block') 
+            }
+        </script>
         <script type="module" src="js/timer.js"></script>
         <script type="module" src="js/websocket.js"></script>
         <script type="module" src="js/board.js"></script>

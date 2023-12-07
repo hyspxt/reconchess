@@ -303,17 +303,17 @@ img[data-piece^="b"]{
     border: #274C77 2px solid;
     overflow: auto;
     background-color: #FFF;
-}.heder_scroll{
+}
+.heder_scroll{
+    width: 100% !important;
     background-color: #CACACA;
     font-weight: bold;
-    display: block;
-    position: absolute;
+    display: flex;
     margin: 0px;
     padding: 7px;
-    width: 15.25%;
-}.text_scroll{
+}
+.text_scroll{
     padding: 7px;
-    padding-top: 37px;
 }
 
 /* ------------------------ */
@@ -560,17 +560,13 @@ img[data-piece^="b"]{
     .user_white_info{
         align-items: center;
     }
-
-    .heder_scroll{
-        width: 27.8%;
-    }
 }
 
 #intro {
-    display: none;
+    display: block;
 }
 #final {
-    display: block;
+    display: none;
 }
 
 #selection_bot{
@@ -578,7 +574,7 @@ img[data-piece^="b"]{
 }
 
 #selection_time_color{
-    display: block;
+    display: none;
 }
 
 .selection_player,
@@ -597,10 +593,16 @@ img[data-piece^="b"]{
 }
 
 .bot_user,
-.bot_choice{
+.bot_choice,
+.selection_color{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
+}
+
+.selection_color{
+    width: 30%;
 }
 
 .a_bot,
@@ -611,32 +613,68 @@ img[data-piece^="b"]{
     justify-content: space-around;
     border: #274C77 2px solid;
     border-radius: 8px;
-    width: 100px;
-    height: 100px;
-}
-
-.checkbox{
-    cursor: pointer;
+    width: 120px;
+    height: 120px;
 }
 
 .bot_x{
     display: flex;
     flex-direction: row;
     align-items: center;
-    
+    justify-content: space-around;
+    border: #274C77 2px solid;
+    border-radius: 8px;
+    font-weight: bolder;
+    width: 15%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #274C77;
+}
+
+.bot_x:hover{
+    background-color: #274C77;
 }
 
 .dropdown-container {
     width: 200px;
     height: 50px;
     margin: 20px;
+    font-size: 1.5rem;
 }
 
 .drop{
     width: 100%;
     height: 100%;
+    padding-left: 10px;
 }
 
-.drop_font{
-    font-size: 1rem;
+.selection_t_c{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
+
+.p_w,
+.p_b{
+    border: #274C77 2px solid;
+    border-radius: 8px;
+}
+
+.btn_start{
+    display: flex;
+    justify-content: center;
+    margin: 80px;
+}
+
+.botton_start{
+    border: #FFF 2px solid;
+    border-radius: 8px;
+    color: #FFF;
+    background-color: #274C77;
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-weight: bolder;
+    font-size: 1.75rem;
+}
+

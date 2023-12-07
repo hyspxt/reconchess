@@ -25,7 +25,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 	async def disconnect(self, close_code):
 		#treat the player as if they resigned if they disconnect
-		self.game._resignee = self.player.color == 'w' #chess.COLORS are booleans, returns chess.WHITE if True chess.BLACK if False
+		self.game._resignee = self.player.color
 		await self.end_game()
 		self.player = None
 		self.bot = None
@@ -54,7 +54,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		elif action == 'resign':
 			if(not self.game.is_over()):
 				#only the player can resign through a message
-				self.game._resignee = self.player.color == 'w' #chess.COLORS are booleans, returns chess.WHITE if True chess.BLACK if False
+				self.game._resignee = self.player.color 
 				await self.end_game()
 
 			#restart the game if the player wants to rematch

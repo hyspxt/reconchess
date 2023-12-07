@@ -24,6 +24,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 		await self.accept()
 
 	async def disconnect(self, close_code):
+		#treat the player as if they resigned if they disconnect
+		self.game._resignee = self.player.color == 'w' #chess.COLORS are booleans, returns chess.WHITE if True chess.BLACK if False
+		await self.end_game()
 		self.player = None
 		self.bot = None
 
@@ -33,10 +36,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 	
 	async def handle_action(self, data):
 		action = data['action']
-		print(data)
 		if action == 'start_game':
 			seconds = int(data.get('seconds', 900) or 900)
-			color = data.get('color', 'w')
+			#get the correct chess.COLORS value based on the color string
+			color = chess.COLOR_NAMES.index(data.get('color', 'white')) 
 			bot = available_bots.get(data.get('bot', 'random'))
 			await self.start_game(seconds, color, bot)
 		elif action == 'sense':
@@ -44,8 +47,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 		elif action == 'move':
 			self.player.move = data['move']
 		elif action == 'pass':
-			self.player.sense = 'pass'
-			self.player.move = 'pass'
+			# the player can only pass during their turn
+			if self.game.turn == self.player.color:
+				self.player.sense = 'pass'
+				self.player.move = 'pass'
 		elif action == 'resign':
 			if(not self.game.is_over()):
 				#only the player can resign through a message
@@ -54,7 +59,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 			#restart the game if the player wants to rematch
 			if data['rematch']: 
-				print(data)
 				await self.start_game(seconds=self.game.seconds_per_player, color=self.player.color, bot_constructor=type(self.bot))
 		elif action == 'get_active_timer':
 			color = 'w' if self.game.turn == chess.WHITE else 'b'
@@ -76,12 +80,12 @@ class GameConsumer(AsyncWebsocketConsumer):
 		winner_color = self.game.get_winner_color()
 		win_reason = self.game.get_win_reason()
 		game_history = self.game.get_game_history()
-
+		
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
 
 	
-	async def start_game(self, seconds, color, bot_constructor):
+	async def start_game(self, seconds, color: chess.COLORS, bot_constructor):
 		#initialize the game
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.player = HumanPlayer(self.channel_name, self.game)
@@ -93,16 +97,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#save the player names in a list
 		names = [self.bot.__class__.__name__, player_name]
 		#make sure that the list's order follows the order of chess.COLORS
-		if	color == 'b':
+		if color == chess.BLACK:
 			names.reverse()
 		#save the players in the game
 		self.game.store_players(names[chess.WHITE], names[chess.BLACK])
 		
-		#find the color of the player
-		player_color = chess.WHITE if color == 'w' else chess.BLACK
-
-		await self.player.handle_game_start(player_color, self.game.board, names[not player_color])
-		self.bot.handle_game_start(not player_color, self.game.board.copy(), names[player_color])
+		await self.player.handle_game_start(color, self.game.board, names[not color])
+		self.bot.handle_game_start(not color, self.game.board.copy(), names[color])
 
 		self.game.start()
 
@@ -115,15 +116,16 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 			#get the result of the opponent's move, only returns a square if a piece was captured
 			capture_square = self.game.opponent_move_results() if not first_ply else None
-			if(self.game.turn == player_color):
+			if(self.game.turn == color):
 				try:
 					await self.play_human_turn(capture_square=capture_square, move_actions=move_actions, first_ply=first_ply)
-					first_ply = False
 				except TimeoutError:
 					break
 			else:
 				await sync_to_async(self.play_bot_turn)(capture_square=capture_square, sense_actions=sense_actions, move_actions=move_actions)
 
+			first_ply = False
+		
 		await self.end_game()
 
 	async def play_human_turn(self, capture_square, move_actions, first_ply):

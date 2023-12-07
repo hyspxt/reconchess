@@ -276,14 +276,14 @@ a:hover{
     background-color: #FFF;
 }
 .heder_scroll{
+    width: 100% !important;
     background-color: #CACACA;
     font-weight: bold;
     display: flex;
     margin: 0px;
     padding: 7px;
-    width: 100% !important;
-}
-.text_scroll{
+    width: 15.25%;
+}.text_scroll{
     padding: 7px;
 }
 
@@ -531,80 +531,154 @@ a:hover{
     .user_white_info{
         align-items: center;
     }
-
 }
 
 #intro {
-    display: none;
+    margin-top: 90px;
+    display: block;
 }
 #final {
-    display: block;
+    display: none;
 }
 
 #selection_bot{
     display: none;
+    width: 75%;
 }
 
 #selection_time_color{
-    display: block;
+    display: none;
+    width: 75%;
 }
+
+
 
 .selection_player,
 .selection_bot,
-.selection_time_color{
-    margin: 100px;
+.selection_time_color,
+.selection_room{
+    margin: 70px;
     display: flex;
     flex-direction: column;
 }
 
+.selection_player,
+.selection_room{
+    width: 75%;
+}
+
+.selection_room{
+    display: none;
+}
+
 .question{
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #274C77;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .bot_user,
-.bot_choice{
+.bot_choice,
+.selection_color{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
+}
+
+.selection_color{
+    width: 17%;
 }
 
 .a_bot,
-.a_human{
+.a_human,
+.a_newR,
+.a_oldR{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     border: #274C77 2px solid;
     border-radius: 8px;
-    width: 100px;
-    height: 100px;
-}
-
-.checkbox{
-    cursor: pointer;
+    width: 120px;
+    height: 120px;
 }
 
 .bot_x{
     display: flex;
     flex-direction: row;
     align-items: center;
-    
+    justify-content: space-around;
+    border: #274C77 2px solid;
+    border-radius: 8px;
+    font-weight: bolder;
+    width: 15%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #274C77;
+}
+
+.bot_x:hover,
+.a_newR:hover,
+.a_oldR:hover{
+    background-color: #274C77;
+}
+
+.room_bar{
+    margin-top: 40px;
+    align-self: center;
+    display: none;
+}
+
+.search_r,
+.search_b{
+    border-color: #274C77;
+    height: 40px;
+    font-size: 1.25rem;
 }
 
 .dropdown-container {
     width: 200px;
     height: 50px;
     margin: 20px;
+    font-size: 1rem;
 }
 
 .drop{
     width: 100%;
     height: 100%;
+    padding-left: 10px;
 }
 
-.drop_font{
-    font-size: 1rem;
+.selection_t_c{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.p_w,
+.p_b{
+    border: #274C77 2px solid;
+    border-radius: 8px;
+}
+
+.btn_start{
+    position: absolute;
+    display: flex;
+    justify-content: end;
+    bottom: 25px;
+    right: 30px;
+}
+
+.botton_start{
+    border: #FFF 2px solid;
+    border-radius: 8px;
+    color: #FFF;
+    background-color: #274C77;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-weight: bolder;
+    font-size: 1.75rem;
 }

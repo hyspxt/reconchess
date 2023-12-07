@@ -93,7 +93,7 @@ async def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
     ra = elo_points_p1
     expected_score = 1 / (1+10**((rb-ra)/400))
     new_elo=elo_points_p1+K*(actual_score-expected_score)
-    return new_elo
+    return sync_to_async(new_elo)
 
 #da chiamare dopo aver sfidato un umano
 async def update_elo(player_name, opponent, win, los, dr):

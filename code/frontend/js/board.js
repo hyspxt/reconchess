@@ -342,6 +342,7 @@ export function resign(rematch = false) {
     */
     game.reset();
     board.start();
+    lightsOff();
     //avoid trying to send the message while the page is loading
     if (socket.readyState == WebSocket.OPEN)
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));

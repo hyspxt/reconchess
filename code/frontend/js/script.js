@@ -1,3 +1,21 @@
+export function generaStringaCasuale(length) {
+    const permittedChar = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let string = '';
+  
+    for (let i = 0; i < length; i++) {
+      const casualIndex = Math.floor(Math.random() * permittedChar.length);
+      string += permittedChar.charAt(casualIndex);
+    }
+    return string;
+  }
+  
+  // Utilizzo della funzione per generare una stringa casuale di lunghezza 10
+  const stringaCasuale = generaStringaCasuale(10);
+  console.log(stringaCasuale);
+  
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
     var element = document.getElementById("not_signed_ini6gdrs9oeic0");
     if(element) {

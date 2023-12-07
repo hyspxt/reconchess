@@ -59,7 +59,7 @@
         <div class="selection_bot" id="selection_bot">
             <div class="question">Select the level of your bot opponent</div>
 
-            <div class="bot_choice">
+            <div id="bot_choice" class="bot_choice">
                 <script>
                     $(function () {
                         $('[data-toggle="tooltip"]').tooltip();
@@ -110,13 +110,13 @@
                 <div class="dropdown-container">
                     <select class="drop" id="frutta" name="frutta">
                         <option class="drop_font" value="" disabled selected>Select timer</option>
-                        <option class="drop_font" value="n_15">15</option>
-                        <option class="drop_font" value="n_10">10</option>
-                        <option class="drop_font" value="n_5">5</option>
-                        <option class="drop_font" value="n_2-5">2.30</option>
+                        <option class="drop_font" value="900">15</option>
+                        <option class="drop_font" value="600">10</option>
+                        <option class="drop_font" value="300">5</option>
+                        <option class="drop_font" value="150 ">2.30</option>
                     </select>
                 </div>
-                <div class="selection_color">
+                <div id="selection_color" class="selection_color">
                     <a class="p_w" href="#" onclick="botton_white()">
                         <img src="img/chesspieces/wikipedia/wP.png" alt="bot" width="100"
                             class="d-inline-block align-top">
@@ -130,7 +130,7 @@
             </div>
         </div>
         <div class="btn_start">
-            <a class="botton_start" href="#" onclick="start()">START</a>
+            <a id="button_start" class="botton_start" href="#">START</a>
         </div>
     </div>
 
@@ -224,24 +224,32 @@
                         'background-color': '#274C80',
                         'color': '#FFF'
                     })
+                    //add the selected value to the element's parent
+                    $('#bot_1').parent().attr('value', 'random')
                     break;
                 case 2:
                     $('#bot_2').css({
                         'background-color': '#274C80',
                         'color': '#FFF'
                     })
+                    //add the selected value to the element's parent
+                    $('#bot_2').parent().attr('value', 'trout')
                     break;
                 case 3:
                     $('#bot_3').css({
                         'background-color': '#274C80',
                         'color': '#FFF'
                     })
+                    //add the selected value to the element's parent
+                    $('#bot_3').parent().attr('value', 'attacker')
                     break;
                 case 4:
                     $('#bot_4').css({
                         'background-color': '#274C80',
                         'color': '#FFF'
                     })
+                    //add the selected value to the element's parent
+                    $('#bot_4').parent().attr('value', 'strangefish')
                     break;
             }
             $('.selection_time_color').css('display', 'block')
@@ -251,19 +259,36 @@
         function botton_white() {
             $('.p_w').css('background-color', '#274C80')
             $('.p_b').css('background-color', '#E7ECEF')
+            $('.p_w').parent().attr('value', 'w')
         }
     </script>
     <script>
         function botton_black() {
             $('.p_b').css('background-color', '#274C80')
             $('.p_w').css('background-color', '#E7ECEF')
+            $('.p_b').parent().attr('value', 'b')
         }
     </script>
-    <script>
+    <script type="module">
+        import {socket} from './js/board.js';        
         function start() {
             $('#intro').css('display', 'none')
             $('#final').css('display', 'block')
+            
+            //get the selected time and the bot
+            let timer = document.getElementById("frutta").value;
+            let bot = document.getElementById("bot_choice").getAttribute('value');
+            let color = document.getElementById("selection_color").getAttribute('value');
+            
+            console.log(timer, bot, color)
+
+            //send the start game message to the server
+            socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color }));
         }
+        
+        //set the event listener for the start button
+        document.getElementById("button_start").addEventListener("click", start);
+
     </script>
     <script>
         function botton_oldRoom() {

@@ -8,7 +8,7 @@ from reconchess.bots.trout_bot import TroutBot
 from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from strangefish.strangefish_strategy import StrangeFish2
-from .models import Users
+from .models import Users, Matches
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
@@ -263,28 +263,59 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		#send the messages from the players to the client
 		await self.send(text_data=json.dumps(event))
 
+	async def end_game(self):
+		self.game.end()
+		winner_color = self.game.get_winner_color()
+		win_reason = self.game.get_win_reason()
+		game_history = self.game.get_game_history()
+
+		await self.player.handle_game_end(winner_color, win_reason, game_history)
+		self.bot.handle_game_end(winner_color, win_reason, game_history)
+
+		match = await sync_to_async(Matches.objects.get)(room_name=self.room_group_name, finished=False)
+		match.finished = True
+		match.winner = self.player_names[winner_color]
+		match.loser = self.player_names[not winner_color]
+		await sync_to_async(match.save)()
+
 	async def start_game(self, seconds):
 		#the first consumer will not directly handle the game
 		if len(self.channel_layer.groups.get(self.room_group_name, [])) < 2:
 			await self.send(text_data=json.dumps({
 				'message': 'waiting for opponent'
 			}))
+			user = 'guest'
+			if(self.scope['user'].is_authenticated):
+				user = self.scope['user'].username
+			match = await sync_to_async(Matches.objects.create)(room_name = self.room_group_name, player1=user)
+			await sync_to_async(match.save)()
+			
+			self.players[0] = self.channel_name
 			return
+
+		match = await sync_to_async(Matches.objects.get)(room_name=self.room_group_name, finished=False)
+		print(match.player1)
+		user = 'guest'
+		if(self.scope['user'].is_authenticated):
+			user = self.scope['user'].username
+		print(user)
+		match.player2 = user
+		print(match.player2)
+		await sync_to_async(match.save)()
+		print('saved2')
 
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.players = []
-		self.player_names = []
+		self.player_names = [match.player1, match.player2]
 		#pick a random color for the first player
-		color = random.choice([chess.WHITE, chess.BLACK])
-		
+		first_color = random.choice([chess.WHITE, chess.BLACK])
+
 		for channel in self.channel_layer.groups[self.room_group_name]:
 			player = HumanPlayer(channel, self.game)
 			self.players.append(player)
-			#TODO:find a way to get the player names from the db
-			self.player_names.append(player.__class__.__name__)
 
 		#if players[0] is white reverse the players and player_names lists to match the colors
-		if color == chess.WHITE:
+		if first_color == chess.WHITE:
 			self.players.reverse()
 			self.player_names.reverse()
 
@@ -311,6 +342,8 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				first_ply = False
 			except TimeoutError:
 				break
+
+		await self.end_game()
 		
 	async def play_human_turn(self, player, capture_square, move_actions, first_ply):
 		#the human player has started their turn

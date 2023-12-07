@@ -18,6 +18,6 @@ admin.site.register(User, UserAdmin)
 
 @admin.register(Matches)
 class MatchesAdmin(admin.ModelAdmin):
-    list_display = ('player1', 'player2', 'winner', 'loser', 'draw')
+    list_display = ('room_name', 'player1', 'player2', 'winner', 'loser', 'draw')
     search_fields = ('player1', 'player2', 'winner', 'loser')  # Aggiunge una barra di ricerca per i giocatori e i vincitori/perdenti
     list_filter = ('draw',)  # Aggiunge un filtro laterale per le partite pareggiate

@@ -13,8 +13,10 @@ class Users(models.Model): # Django crea in automatico il campo id
 
 #potrebbe non essere utilizzata
 class Matches(models.Model):
-    player1 = models.CharField(max_length=50)
-    player2 = models.CharField(max_length=50)
-    winner = models.CharField(max_length=50)
-    loser = models.CharField(max_length=50)
-    draw = models.BooleanField()
+    room_name = models.CharField(max_length=50, null=True)
+    player1 = models.CharField(max_length=50, null=True)
+    player2 = models.CharField(max_length=50, null=True)
+    winner = models.CharField(max_length=50, null=True)
+    loser = models.CharField(max_length=50, null=True)
+    draw = models.BooleanField(null=True)
+    finished = models.BooleanField(default=False)

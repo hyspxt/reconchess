@@ -11,34 +11,29 @@ describe('updateTimer', () => {
   // Test case 1: When seconds is greater than 0
   it('should decrement seconds and update timer display', () => {
     // Set up initial values
-    const time = { minutes: 5, seconds: 10 };
+    const time = 121;
     // Call the function
     updateTimer(time, dom.window.document.getElementById('timer'));
 
     // Assert the expected results
-    expect(time.minutes).toBe(5);
-    expect(time.seconds).toBe(9);
-    expect(dom.window.document.getElementById('timer').innerText).toBe('05:09');
+    expect(dom.window.document.getElementById('timer').innerText).toBe('02:00');
   });
 
   // Test case 2: When seconds is 0
   it('should decrement minutes and set seconds to 59', () => {
     // Set up initial values
-    const time = { minutes: 5, seconds: 0 };
+    const time = 120
 
     // Call the function
     updateTimer(time, dom.window.document.getElementById('timer'));
     // Assert the expected results
-    expect(time.minutes).toBe(4);
-    expect(time.seconds).toBe(59);
-    expect(dom.window.document.getElementById('timer').innerText).toBe('04:59');
+    expect(dom.window.document.getElementById('timer').innerText).toBe('01:59');
   });
 
   // Test case 3: When minutes and seconds are both 0
   it('should call stop_timer and update timer display', () => {
     // Set up initial values
-    const time = { minutes: 0, seconds: 0 };
-
+    const time = 0
     // Call the function
     updateTimer(time, dom.window.document.getElementById('timer'));
 
@@ -51,7 +46,7 @@ describe('start_timer', () => {
   // Test case 1: When the timer is started
   it('should call updateTimer and setInterval', () => {
     // Set up initial values
-    const time = { minutes: 1, seconds: 0 };
+    const time = 60;
     const element = dom.window.document.getElementById('timer');
 
     // Call the function
@@ -67,26 +62,26 @@ describe('set_timer', () => {
   // Test case 1: When time_seconds is greater than 60
   it('should set the timer display correctly', () => {
     // Set up initial values
-    const time = { minutes: 1, seconds: 50 };
+    const time = 110
     const element = dom.window.document.getElementById('timer');
 
     // Call the function
     set_timer(time, element);
 
     // Assert the expected results
-    expect(dom.window.document.getElementById('timer').innerText).toBe('1:50');
+    expect(dom.window.document.getElementById('timer').innerText).toBe('01:50');
   });
 
   // Test case 2: When time_seconds is less than 60
   it('should set the timer display correctly', () => {
     // Set up initial values
-    const time = { minutes: 1, seconds: 90 };
+    const time = 150
     const element = dom.window.document.getElementById('timer');
 
     // Call the function
     set_timer(time, element);
 
     // Assert the expected results
-    expect(dom.window.document.getElementById('timer').innerText).toBe('1:30');
+    expect(dom.window.document.getElementById('timer').innerText).toBe('02:30');
   });
 });

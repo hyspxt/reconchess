@@ -53,7 +53,6 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				console.log('this is current time: ' + currentTime)
 				start_timer(data.time, player_timer);
 				showSense()
-				lightsOn();
 				console.log(data.color);
 				lightsOn(data.color);
 				break;

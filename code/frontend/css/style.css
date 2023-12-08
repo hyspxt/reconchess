@@ -417,57 +417,6 @@ a:hover{
 /* ------------------------ */
 /* RULES STUFF */
 
-.rules-container {
-    color: #274C77;
-    margin: 0 auto;
-    padding-bottom: 80px
-}
-.rules-container p {
-    font-size: 14pt;
-}
-.rules-container li {
-    font-size: 13pt;
-}
-.rules-logo-container{
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.rules-logo {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 80px;
-    display: flex;
-    margin: 0 auto;
-}
-.rules-title {
-    text-align: center;
-    font-size: 60px;
-    font-weight: 600;
-    color: #274C77;
-    padding-top: 80px;
-}
-.rules-subtitle {
-    text-align: center;
-    font-size: 30px;
-    font-weight: 600;
-    color: #8796a7;
-    padding-top: 20px;
-}
-.rule-line{
-    flex-grow: 1;
-    height: 2px;
-    max-width: 300px;
-    background-color: #274C77
-}
-
-/* ------------------------ */
-
-
-*/
-/* ------------------------ */
-/* RULES STUFF */
-
 
 .rules-container {
     color: #274C77;

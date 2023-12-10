@@ -85,7 +85,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
 
 	
-	async def start_game(self, seconds, color: chess.COLORS, bot_constructor):
+	async def start_game(self, seconds, player_color: chess.COLORS, bot_constructor):
 		#initialize the game
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.player = HumanPlayer(self.channel_name, self.game)
@@ -97,13 +97,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#save the player names in a list
 		names = [self.bot.__class__.__name__, player_name]
 		#make sure that the list's order follows the order of chess.COLORS
-		if color == chess.BLACK:
+		if player_color == chess.BLACK:
 			names.reverse()
 		#save the players in the game
 		self.game.store_players(names[chess.WHITE], names[chess.BLACK])
 		
-		await self.player.handle_game_start(color, self.game.board, names[not color])
-		self.bot.handle_game_start(not color, self.game.board.copy(), names[color])
+		await self.player.handle_game_start(player_color, self.game.board, names[not player_color])
+		self.bot.handle_game_start(not player_color, self.game.board.copy(), names[player_color])
 
 		self.game.start()
 
@@ -116,7 +116,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 			#get the result of the opponent's move, only returns a square if a piece was captured
 			capture_square = self.game.opponent_move_results() if not first_ply else None
-			if(self.game.turn == color):
+			if(self.game.turn == player_color):
 				try:
 					await self.play_human_turn(capture_square=capture_square, move_actions=move_actions, first_ply=first_ply)
 				except TimeoutError:
@@ -185,12 +185,16 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		self.room_group_name = 'game_%s' % self.room_name
 
 		await self.accept()
+		#check if the room is full
 		if(len(self.channel_layer.groups.get(self.room_group_name, [])) < 2):
 			# Join room group
 			await self.channel_layer.group_add(
 				self.room_group_name,
 				self.channel_name
 			)
+			#the second consumer will start the game
+			if(len(self.channel_layer.groups.get(self.room_group_name, [])) == 2):
+				self.game = None
 		else:
 			await self.send(text_data=json.dumps({
 				'message': 'room full'
@@ -209,13 +213,17 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			return
 		
 		action = data['action']
+		print("DATA:", data)
 		if action == 'start_game':
-			seconds = data.get('seconds', 900)
+			seconds = int(data.get('seconds', 900) or 900)
 			await self.start_game(seconds)
 		elif action == 'sense':
 			#check if the players attribute exists 
 			if hasattr(self, 'players'):
 				self.players[self.game.turn].sense = data['sense']
+			#the game has not started yet
+			elif hasattr(self, 'game') and self.game is None:
+				return
 			else:		
 				#send the message to the other consumer	
 				await self.channel_layer.group_send(
@@ -231,6 +239,9 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			#check if the players attribute exists 
 			if hasattr(self, 'players'):
 				self.players[self.game.turn].move = data['move']
+			#the game has not started yet
+			elif hasattr(self, 'game') and self.game is None:
+				return
 			else:			
 				#send the message to the other consumer	
 				await self.channel_layer.group_send(
@@ -243,10 +254,20 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 					}
 				)
 		elif action == 'pass':
-			#check if the players attribute exists 
 			if hasattr(self, 'players'):
+				#get the channel name of the sender
+				sender = data.get('sender', self.channel_name)
+				sender_color = self.player_colors[sender]
+				#only pass the turn if the sender is the one whose turn it is
+				if sender_color != self.game.turn:
+					return
+				
 				self.players[self.game.turn].sense = 'pass'
 				self.players[self.game.turn].move = 'pass'
+			#the game has not started yet
+			elif hasattr(self, 'game') and self.game is None:
+				return
+			#this consumer is not the one handling the game
 			else:		
 				#send the message to the other consumer		
 				await self.channel_layer.group_send(
@@ -264,6 +285,9 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				self.game.end()
 				await self.players[self.game.turn].handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
 				await self.players[not self.game.turn].handle_game_end(self.game.get_winner_color(), self.game.get_win_reason(), self.game.get_game_history())
+			#the game has not started yet
+			elif hasattr(self, 'game') and self.game is None:
+				return
 			else:	
 				#send the message to the other consumer			
 				await self.channel_layer.group_send(
@@ -277,7 +301,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		elif action == 'get_active_timer':
 			if hasattr(self, 'players'):
 				color = 'w' if self.game.turn == chess.WHITE else 'b'
-
 				#send to the other consumer's channel if it was the one to request the timer
 				#otherwise send the data to its own channel
 				sender = data.get('sender', self.channel_name)
@@ -290,6 +313,9 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 						'time': self.game.get_seconds_left()
 					}
 				)
+			#the game has not started yet
+			elif hasattr(self, 'game') and self.game is None:
+				return
 			else:
 				await self.channel_layer.group_send(
 					self.room_group_name,
@@ -325,23 +351,34 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.players = []
 		self.player_names = []
-		#pick a random color for the first player
-		color = random.choice([chess.WHITE, chess.BLACK])
+		#dictionary using channel names as keys for player colors
+		self.player_colors = {}
 		
+		selected_color = None
+
 		for channel in self.channel_layer.groups[self.room_group_name]:
+			#pick a random color for the first player
+			if selected_color is None:
+				selected_color = random.choice(chess.COLORS)
+			#the second player gets the opposite color
+			else:
+				selected_color = not selected_color
+			
+			#instanctiate a player for each channel
 			player = HumanPlayer(channel, self.game)
 			self.players.append(player)
-			#TODO:find a way to get the player names from the db
-			self.player_names.append(player.__class__.__name__)
+			#save the player's name and color, use name guest if the player is not authenticated
+			self.player_names.append(self.scope['user'].username if self.scope['user'].is_authenticated else 'guest')
+			self.player_colors[channel] = selected_color
 
-		#if players[0] is white reverse the players and player_names lists to match the colors
-		if color == chess.WHITE:
+		#if the second player is black reverse the players and player_names lists to match the colors' values (False, True)
+		if selected_color == chess.BLACK:
 			self.players.reverse()
 			self.player_names.reverse()
 
 		#store the players in the game
 		self.game.store_players(self.player_names[chess.WHITE], self.player_names[chess.BLACK])
-		
+
 		await self.players[0].handle_game_start(chess.BLACK, self.game.board, self.player_names[1])
 		await self.players[1].handle_game_start(chess.WHITE, self.game.board, self.player_names[0])
 
@@ -351,7 +388,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 
 		while not self.game.is_over():
 			#get possible actions on this turn
-			sense_actions = self.game.sense_actions()
 			move_actions = self.game.move_actions()
 
 			#get the result of the opponent's move, only returns a square if a piece was captured

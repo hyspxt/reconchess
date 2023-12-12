@@ -346,9 +346,10 @@ export function resign(rematch = false) {
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
-export function flipSide(c){
+export function flipSide(c) {
     color = c;
     if (c === 'b') board.orientation('black')
+    else if (c === 'w') board.orientation('white')
     lightsOff();
 }
 

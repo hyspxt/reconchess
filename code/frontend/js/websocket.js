@@ -7,7 +7,7 @@ let currentTime;
 export let player_color = null;
 
 export function createWebsocket(game, player_timer, opponent_timer) {
-	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/game' : 'wss://silverbullets.rocks/ws/game'
+	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/multiplayer/room' : 'wss://silverbullets.rocks/ws/game'
 	const socket = new WebSocket(WEBSOCKET_URL);
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
@@ -27,6 +27,8 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				set_timer(data.time, opponent_timer);
 
 				player_color = data.color;
+
+				console.log(player_color)
 				flipSide(player_color);
 				if (player_color === 'b') {
 					showSideToMove('w');
@@ -80,14 +82,17 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				break;
 			case 'time left':
 				console.log('time left')
+				let timer =  data.color === player_color ? player_timer : opponent_timer
 				//update the active timer with the time left sent from the backend
-				if (data.color === player_color)
-					start_timer(Math.floor(data.time), player_timer);
+				if (!game.is_over) {
+					start_timer(Math.floor(data.time), timer);
+				}
 				else
-					start_timer(Math.floor(data.time), opponent_timer);
+					set_timer(Math.floor(data.time), timer);
 				break
 			case 'turn ended':
 				console.log('turn started')
+				console.log("COLOR:", data.color)
 				showSideToMove(data.color);
 				//the turn is over, get the time left and stop the timer
 				stop_timer();

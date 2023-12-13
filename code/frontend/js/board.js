@@ -348,8 +348,31 @@ export function resign(rematch = false) {
 
 export function flipSide(c) {
     color = c;
-    if (c === 'b') board.orientation('black')
-    else if (c === 'w') board.orientation('white')
+    var styleElement = document.createElement('style');
+    if (c === 'b'){
+        board.orientation('black')
+
+        // Define the CSS rule
+        var cssRule = 'img[data-piece^="w"] { pointer-events: none; opacity: 0; }';
+
+        // Append the CSS rule to the style element
+        styleElement.appendChild(document.createTextNode(cssRule));
+
+        // Append the style element to the head of the document
+        document.head.appendChild(styleElement);
+    }
+    else if (c === 'w') {
+        board.orientation('white')
+        
+        // Define the CSS rule
+        var cssRule = 'img[data-piece^="b"] { pointer-events: none; opacity: 0; }';
+
+        // Append the CSS rule to the style element
+        styleElement.appendChild(document.createTextNode(cssRule));
+
+        // Append the style element to the head of the document
+        document.head.appendChild(styleElement);
+    }
     lightsOff();
 }
 

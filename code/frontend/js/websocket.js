@@ -7,7 +7,7 @@ let currentTime;
 export let player_color = null;
 
 export function createWebsocket(game, player_timer, opponent_timer) {
-	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/multiplayer/room' : 'wss://silverbullets.rocks/ws/game'
+	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/game' : 'wss://silverbullets.rocks/ws/game'
 	const socket = new WebSocket(WEBSOCKET_URL);
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
@@ -78,6 +78,7 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				break;
 			case 'move result':
 				console.log('move result');
+				game.load(data.board);
 				if (data.captured_opponent_piece) haveEaten('b')
 				break;
 			case 'time left':
@@ -107,6 +108,7 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 			case 'game over':
 				showGameOver(data.reason, data.winner)
 				stop_timer();
+				game.load(data.board);
 				//tell the frontend library to stop the game
 				game.is_over = true;
 				light = true;

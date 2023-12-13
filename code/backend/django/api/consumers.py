@@ -10,7 +10,7 @@ from asgiref.sync import sync_to_async
 from strangefish.strangefish_strategy import StrangeFish2
 from .models import Users, Matches
 #from tables_interactions import *
-from .tables_interactions import update_loc_stats, save_match_results, update_elo
+from .tables_interactions import update_loc_stats, save_match_results, update_elo, get_player_loc_stats, get_leaderboard
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
@@ -73,7 +73,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print(f"{user.username}'s elo score: {user_info.elo_points}")
 		else:
 			print('not logged in')
-
+		get_player_loc_stats(user__username=self.scope['user'].username)
+		
 	async def start_game(self, seconds):
 		#initialize the game
 		self.game = LocalGame(seconds_per_player=seconds)
@@ -282,8 +283,8 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			draw = True
 		await update_loc_stats(winner, True, draw)
 		await update_loc_stats(loser, False, draw)
-		await update_elo(winner, True, draw)
-		await update_elo(loser, False, draw)
+		await update_elo(winner, loser, True, draw)
+		await update_elo(loser, winner, False, draw)
 
 		await save_match_results(room_name, winner, loser, draw)
 		##gestire questione await e sync_to_async

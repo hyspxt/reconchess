@@ -13,8 +13,8 @@ from django.db.models import F
 import asyncio
 from asgiref.sync import sync_to_async
 
-def get_player_loc_stats(player_name):
-    player =Users.objects.get(user__username=player_name)
+async def get_player_loc_stats(player_name):
+    player =await(Users.objects.get)(user__username=player_name)
         
     # Ottieni le statistiche del giocatore
     name = player_name
@@ -30,21 +30,22 @@ def get_player_loc_stats(player_name):
             'n_draws': draws
     }
 
-def get_leaderboard():
+async def get_leaderboard():
     # Ottenere i dati per i primi 10 giocatori
     try:
-        players_data =Users.objects.annotate(
+        players_data = await sync_to_async(
+            lambda: Users.objects.annotate(
                 player_name=F('user__username'),
                 wins=F('n_wins'),
                 draws=F('n_draws'),
                 losses=F('n_lost')
             ).values('player_name', 'n_wins', 'n_draws', 'n_lost')[:10]
-        ()
+        )()
 
         leaderboard = []
         for player in players_data:
             player_name = player['player_name']
-            player_stats = get_player_loc_stats(player_name)
+            player_stats = await get_player_loc_stats(player_name)
 
             leaderboard.append({
                 'player_name': player_name,

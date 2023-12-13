@@ -77,7 +77,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		player_stats = await get_player_loc_stats(user.username)
 		print(player_stats)
 		#non va leaderboard
-		leaderboard = await get_leaderboard()
+		leaderboard = await sync_to_async(get_leaderboard)()
 		print(leaderboard)
 
 	async def start_game(self, seconds):

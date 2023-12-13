@@ -32,28 +32,32 @@ async def get_player_loc_stats(player_name):
 
 async def get_leaderboard():
     # Ottenere i dati per i primi 10 giocatori
-    players_data = await sync_to_async(
-    lambda: Users.objects.annotate(
-        player_name=F('user__username'),
-        wins=F('n_wins'),
-        draws=F('n_draws'),
-        losses=F('n_lost')
-    ).values('player_name', 'n_wins', 'n_draws', 'n_lost')[:10]
-)()
+    try:
+        players_data = await sync_to_async(
+            lambda: Users.objects.annotate(
+                player_name=F('user__username'),
+                wins=F('n_wins'),
+                draws=F('n_draws'),
+                losses=F('n_lost')
+            ).values('player_name', 'n_wins', 'n_draws', 'n_lost')[:10]
+        )()
 
-    leaderboard = []
-    for player in players_data:
-        player_name = player['player_name']
-        player_stats = await get_player_loc_stats(player_name)
+        leaderboard = []
+        for player in players_data:
+            player_name = player['player_name']
+            player_stats = await get_player_loc_stats(player_name)
 
-        leaderboard.append({
-            'player_name': player_name,
-            'wins': player_stats['n_wins'],
-            'draws': player_stats['n_draws'],
-            'losses': player_stats['n_lost'],
-        })
+            leaderboard.append({
+                'player_name': player_name,
+                'wins': player_stats['n_wins'],
+                'draws': player_stats['n_draws'],
+                'losses': player_stats['n_lost'],
+            })
 
-    return leaderboard
+        return leaderboard
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise  # Rilancia l'eccezione per ottenere la traccia completa
 
 #aggiorna il numero di w/l/d nella tabella Users 
 async def update_loc_stats(player_name, win, draw):

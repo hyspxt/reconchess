@@ -48,7 +48,7 @@ async def get_leaderboard():
             'losses': player['losses'],
         })
 
-    return sync_to_async(leaderboard)
+    return leaderboard
 
 #aggiorna il numero di w/l/d nella tabella Users 
 async def update_loc_stats(player_name, win, draw):
@@ -59,7 +59,7 @@ async def update_loc_stats(player_name, win, draw):
         u.n_lost += 1
     else:  # draw=True
         u.n_draws += 1
-    sync_to_async(u.save)()
+    u.save()
 
 #da chiamare alla fine di una partita contro un altro giocatore
 #se vogliamo tenere traccia di chi vince contro chi
@@ -75,7 +75,7 @@ async def save_match_results(roomName, winner, loser, dr):
         match.winner = winner
         match.loser = loser
     # Salva l'oggetto Matches nel database
-    sync_to_async(match.save)()
+    match.save()
 
 #calcola i punti elo alla fine di ogni partita per il player1; Utilizziamo l'ELO FSI
 #Vittoria = 1 punto
@@ -93,7 +93,7 @@ async def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
     ra = elo_points_p1
     expected_score = 1 / (1+10**((rb-ra)/400))
     new_elo=elo_points_p1+K*(actual_score-expected_score)
-    return sync_to_async(new_elo)
+    return new_elo
 
 #da chiamare dopo aver sfidato un umano
 async def update_elo(player_name, opponent, win, los, dr):
@@ -102,7 +102,7 @@ async def update_elo(player_name, opponent, win, los, dr):
     new_elo_points = calculate_elo(u.elo_points, v.elo_points, win, los, dr)
     #aggiorno punti dei giocatori in tabella Users
     u.elo_points = new_elo_points
-    sync_to_async(u.save())
+    u.save()
 
 def social_log(mail):
     try:

@@ -73,8 +73,11 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print(f"{user.username}'s elo score: {user_info.elo_points}")
 		else:
 			print('not logged in')
+			#funziona la stampa (:
 		player_stats = await get_player_loc_stats(user.username)
 		print(player_stats)
+		leaderboard = await get_leaderboard()
+		print(leaderboard)
 
 	async def start_game(self, seconds):
 		#initialize the game

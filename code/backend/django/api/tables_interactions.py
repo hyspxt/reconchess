@@ -23,12 +23,12 @@ async def get_player_loc_stats(player_name):
     draws = player.n_draws
 
     # Restituisci un dizionario con le informazioni
-    return sync_to_async({
+    return {
             'player_name':name,
             'n_wins': wins,
             'n_lost': lost,
             'n_draws': draws
-    })
+    }
 
 async def get_leaderboard():
     # Ottenere i dati per i primi 10 giocatori

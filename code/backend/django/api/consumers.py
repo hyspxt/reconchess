@@ -9,8 +9,8 @@ from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from strangefish.strangefish_strategy import StrangeFish2
 from .models import Users, Matches
-from tables_interactions import *
-#from tables_interactions import update_loc_stats, save_match_results, u,calculate_elo, pdate_elo
+#from tables_interactions import *
+from tables_interactions import update_loc_stats, save_match_results, update_elo
 
 class GameConsumer(AsyncWebsocketConsumer):
 	async def connect(self):

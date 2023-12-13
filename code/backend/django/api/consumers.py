@@ -9,7 +9,6 @@ from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from strangefish.strangefish_strategy import StrangeFish2
 from .models import Users, Matches
-#from tables_interactions import *
 from .tables_interactions import update_loc_stats, save_match_results, update_elo, get_player_loc_stats, get_leaderboard
 
 class GameConsumer(AsyncWebsocketConsumer):
@@ -74,10 +73,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 		else:
 			print('not logged in')
 			#funziona la stampa (:
-		player_stats = await get_player_loc_stats(user.username)
+		player_stats = get_player_loc_stats(user.username)
 		print(player_stats)
 		#non va leaderboard
-		leaderboard = await get_leaderboard()
+		leaderboard =get_leaderboard()
 		print(leaderboard)
 
 	async def start_game(self, seconds):

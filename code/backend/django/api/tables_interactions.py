@@ -14,7 +14,7 @@ import asyncio
 from asgiref.sync import sync_to_async
 
 async def get_player_loc_stats(player_name):
-    player =await(Users.objects.get)(user__username=player_name)
+    player =await sync_to_async(Users.objects.get)(user__username=player_name)
         
     # Ottieni le statistiche del giocatore
     name = player_name

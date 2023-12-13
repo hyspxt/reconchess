@@ -32,12 +32,14 @@ async def get_player_loc_stats(player_name):
 
 async def get_leaderboard():
     # Ottenere i dati per i primi 10 giocatori
-    players_data = await sync_to_async(Users.objects.annotate)(
+    players_data = await sync_to_async(
+    lambda: Users.objects.annotate(
         player_name=F('user__username'),
         wins=F('n_wins'),
         draws=F('n_draws'),
-        losses=F('n_lost'),
-    ).values('player_name', 'wins', 'draws', 'losses')[:10]
+        losses=F('n_lost')
+    ).values('player_name', 'n_wins', 'n_draws', 'n_lost')[:10]
+)()
 
     leaderboard = []
     for player in players_data:

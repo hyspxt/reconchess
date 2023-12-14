@@ -1,9 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from .forms import RegisterForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from . import tables_interactions as ti
+from .models import Users
+from django.utils import timezone
 
 @csrf_exempt
 def register(request):
@@ -52,3 +55,22 @@ def checkLogin(request):
 		return HttpResponse(f'user {request.user.username} is currently logged in', content_type='text/plain')
 	else:
 		return HttpResponse('No user logged in', content_type='text/plain')
+	
+def player_loc_stats_api(request, player_name):
+	result = ti.get_player_loc_stats(player_name)
+	return JsonResponse(result)
+
+def leaderboard(request):
+    leaderboard_data = ti.get_leaderboard()
+    return JsonResponse({'leaderboard': leaderboard_data})
+
+def social_log(request, mail):
+    try:
+        # Cerca un utente nel modello User associato a Users
+        user = User.objects.get(email=mail)
+        # Trova l'istanza di Users associata a questo utente
+        users_instance = Users.objects.get(user=user)
+        return JsonResponse({'success': True})
+    except User.DoesNotExist or Users.DoesNotExist:
+        # L'utente o l'istanza di Users non esiste
+        return JsonResponse({'success': False})

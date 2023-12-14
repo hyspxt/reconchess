@@ -354,7 +354,25 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			await self.send(text_data=json.dumps({
 				'message': 'waiting for opponent'
 			}))
+			user = 'guest'
+			if(self.scope['user'].is_authenticated):
+				user = self.scope['user'].username
+			match = await sync_to_async(Matches.objects.create)(room_name = self.room_group_name, player1=user)
+			await sync_to_async(match.save)()
+			
+			self.players[0] = self.channel_name
 			return
+
+		match = await sync_to_async(Matches.objects.get)(room_name=self.room_group_name, finished=False)
+		print(match.player1)
+		user = 'guest'
+		if(self.scope['user'].is_authenticated):
+			user = self.scope['user'].username
+		print(user)
+		match.player2 = user
+		print(match.player2)
+		await sync_to_async(match.save)()
+		print('saved2')
 
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.players = []
@@ -406,6 +424,8 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				first_ply = False
 			except TimeoutError:
 				break
+
+		await self.end_game()
 		
 		await self.end_game()
 		

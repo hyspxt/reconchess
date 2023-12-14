@@ -3,8 +3,10 @@ from django.db.models import F
 import asyncio
 from asgiref.sync import sync_to_async
 
-async def get_player_loc_stats(player_name):
-    player =await sync_to_async(Users.objects.get)(user__username=player_name)
+@sync_to_async
+
+def get_player_loc_stats(player_name):
+    player =(Users.objects.get)(user__username=player_name)
         
     # Ottieni le statistiche del giocatore
     name = player_name
@@ -20,23 +22,23 @@ async def get_player_loc_stats(player_name):
             'n_draws': draws
     }
 
-async def get_leaderboard():
+@sync_to_async
+
+def get_leaderboard():
     # Ottenere i dati per i primi 10 giocatori
     try:
-        players_data = await sync_to_async(
-            lambda: Users.objects.annotate( #get?
-                player_name=F('user__username'),
-                wins=F('n_wins'),
-                draws=F('n_draws'),
-                losses=F('n_lost'),
-                elo=F('elo_points')
-            ).order_by('-elo').values('player_name', 'n_wins', 'n_draws', 'n_lost','elo')[:10]
-        )()
+        players_data = Users.objects.annotate(
+            player_name=F('user__username'),
+            wins=F('n_wins'),
+            draws=F('n_draws'),
+            losses=F('n_lost')
+        ).order_by('-n_wins').values('player_name', 'n_wins', 'n_draws', 'n_lost')[:10]
+
 
         leaderboard = []
         for player in players_data:
             player_name = player['player_name']
-            player_stats = await get_player_loc_stats(player_name)
+            player_stats = get_player_loc_stats(player_name)
 
             leaderboard.append({
                 'player_name': player_name,
@@ -52,8 +54,10 @@ async def get_leaderboard():
         raise  # Rilancia l'eccezione per ottenere la traccia completa
 
 #aggiorna il numero di w/l/d nella tabella Users 
-async def update_loc_stats(player_name, win, draw):
-    u = await sync_to_async(Users.objects.get)(username=player_name)
+@sync_to_async
+
+def update_loc_stats(player_name, win, draw):
+    u = (Users.objects.get)(username=player_name)
     if win:
         u.n_wins += 1
     elif not win and not draw:

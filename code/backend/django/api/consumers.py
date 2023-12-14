@@ -94,13 +94,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 		else:
 			print('not logged in')
 			#funziona la stampa (:
-		player_stats = await get_player_loc_stats(user.username)
+		player_stats = get_player_loc_stats(user.username)
 		print(player_stats)
 		update_loc_stats(user.username, True, False)
-		player_stats = await get_player_loc_stats(user.username)
-		print(player_stats)
+		player_stats2 = get_player_loc_stats(user.username)
+		print(player_stats2)
 		#non va leaderboard
-		leaderboard = await get_leaderboard()
+		leaderboard = get_leaderboard()
 		print(leaderboard)
 	
 	async def start_game(self, seconds, player_color: chess.COLORS, bot_constructor):

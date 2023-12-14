@@ -45,7 +45,6 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				makeOpponentMove(board)
 				if (data.capture_square != null) {
 					haveEaten('w')
-					lightsOff();
 				}
 				break;
 

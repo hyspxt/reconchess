@@ -133,8 +133,8 @@
                 </div>
             </div>
         </div>
-        <div class="btn_start">
-            <a id="button_start" class="botton_start" href="#">START</a>
+        <div id="btn_start" class="btn_start">
+            <button id="button_start" class="botton_start" onclick="start()" disabled>START</button>
         </div>
     </div>
 
@@ -194,9 +194,15 @@
         </div>
 
     </div>
-
     <script>
+        let botHuman = null;
+        let bot = null;
+        let room = null;
+        let piece = null;
+        let time = null;
+
         function botton_bot() {
+            botHuman = true;
             $('.a_bot').css('background-color', '#274C80')
             $('.selection_bot').css('display', 'block')
             $('.a_human').css('background-color', '#E7ECEF')
@@ -206,9 +212,9 @@
             $('.a_oldR').css('background-color', '#E7ECEF')
 
         }
-    </script>
-    <script>
+
         function botton_human() {
+            botHuman = true;
             $('.a_human').css('background-color', '#274C80')
             $('.a_bot').css('background-color', '#E7ECEF')
             $('.selection_bot').css('display', 'none')
@@ -217,9 +223,9 @@
             $('.bot_x').css('color', '#274C77')
             $('.selection_room').css('display', 'block')
         }
-    </script>
-    <script>
+
         function bot_selection(n) {
+            bot = true;
             $('.bot_x').css('background-color', '#E7ECEF')
             $('.bot_x').css('color', '#274C77')
             switch (n) {
@@ -258,57 +264,83 @@
             }
             $('.selection_time_color').css('display', 'block')
         }
-    </script>
-    <script>
+
         function botton_white() {
+            piece = true;
+            updateStartButton();
             $('.p_w').css('background-color', '#274C80')
             $('.p_b').css('background-color', '#E7ECEF')
             $('.p_w').parent().attr('value', 'white')
         }
-    </script>
-    <script>
+
         function botton_black() {
+            piece = true;
+            updateStartButton();
             $('.p_b').css('background-color', '#274C80')
             $('.p_w').css('background-color', '#E7ECEF')
             $('.p_b').parent().attr('value', 'black')
         }
+
+        function botton_oldRoom() {
+            room = true;
+            updateStartButton();
+            $('.a_newR').css('background-color', '#E7ECEF')
+            $('.a_oldR').css('background-color', '#274C80')
+            $('.room_bar').css('display', 'block')
+        }
+        
+        function botton_newRoom() {
+            room = true;
+            updateStartButton();
+            $('.a_newR').css('background-color', '#274C80')
+            $('.a_oldR').css('background-color', '#E7ECEF')
+            $('.room_bar').css('display', 'none')
+        }
+
+        document.getElementById("frutta").addEventListener("change", function() {
+            time = true;
+            updateStartButton();
+        });
+
+        function updateStartButton() {
+            if ((botHuman && bot && piece && time) || (botHuman && room)) {
+                document.getElementById("button_start").removeAttribute('disabled');
+            } else {
+                document.getElementById("button_start").setAttribute('disabled', true);
+                alert("Please ensure all game settings are selected before starting the game.");
+            }
+        }
+
     </script>
     <script type="module">
-        import {socket} from './js/board.js';        
+        import {socket} from './js/board.js';
+
         function start() {
-            $('#intro').css('display', 'none')
-            $('#final').css('display', 'block')
-            
-            //get the selected time and the bot
+            // Ottieni nuovamente i valori per garantire che siano aggiornati
             let timer = document.getElementById("frutta").value;
             let bot = document.getElementById("bot_choice").getAttribute('value');
             let color = document.getElementById("selection_color").getAttribute('value');
             
             console.log(timer, bot, color)
-
-            //send the start game message to the server
+    
+            // Effettua le operazioni necessarie per l'inizio del gioco
+            $('#intro').css('display', 'none');
+            $('#final').css('display', 'block');
+    
+            // Invia il messaggio di inizio gioco al server
             socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color }));
-
+    
             document.getElementById("black_name").innerHTML = bot;
         }
-        
-        //set the event listener for the start button
-        document.getElementById("button_start").addEventListener("click", start);
 
-    </script>
-    <script>
-        function botton_oldRoom() {
-            $('.a_newR').css('background-color', '#E7ECEF')
-            $('.a_oldR').css('background-color', '#274C80')
-            $('.room_bar').css('display', 'block')
-        }
-    </script>
-    <script>
-        function botton_newRoom() {
-            $('.a_newR').css('background-color', '#274C80')
-            $('.a_oldR').css('background-color', '#E7ECEF')
-            $('.room_bar').css('display', 'none')
-        }
+        // Aggiungi l'evento per il click sul pulsante START
+        document.getElementById("button_start").addEventListener("click", start);
+        document.getElementById("btn_start").addEventListener("click", function() {
+            var button = document.getElementById("button_start");
+            if (button.getAttribute('disabled')) {
+                alert("Please ensure all game settings are selected before starting the game.");
+            }
+        });
     </script>
     <script type="module" src="js/timer.js"></script>
     <script type="module" src="js/websocket.js"></script>

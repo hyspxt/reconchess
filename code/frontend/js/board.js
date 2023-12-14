@@ -307,7 +307,7 @@ export function lightsOff() {
                         'opacity': '1',
                         'filter': 'none'
                     });
-                    piece.css('opacity', 1);
+                    piece.css('opacity', '1');
                 }else piece.css({
                     'opacity': '0' ,
                     'z-index': '0',

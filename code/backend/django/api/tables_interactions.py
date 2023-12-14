@@ -31,8 +31,9 @@ def get_leaderboard():
             player_name=F('user__username'),
             wins=F('n_wins'),
             draws=F('n_draws'),
-            losses=F('n_lost')
-        ).order_by('-n_wins').values('player_name', 'n_wins', 'n_draws', 'n_lost')[:10]
+            losses=F('n_lost'),
+            elo=F('elo_points')
+        ).order_by('-elo_points').values('player_name', 'n_wins', 'n_draws', 'n_lost', 'elo_points')[:10]
 
 
         leaderboard = []
@@ -57,7 +58,7 @@ def get_leaderboard():
 @sync_to_async
 
 def update_loc_stats(player_name, win, draw):
-    u = (Users.objects.get)(username=player_name)
+    u = (Users.objects.get)(user__username=player_name)
     if win:
         u.n_wins += 1
     elif not win and not draw:

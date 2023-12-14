@@ -34,12 +34,13 @@ async def get_leaderboard():
     # Ottenere i dati per i primi 10 giocatori
     try:
         players_data = await sync_to_async(
-            lambda: Users.objects.annotate(
+            lambda: Users.objects.annotate( #get?
                 player_name=F('user__username'),
                 wins=F('n_wins'),
                 draws=F('n_draws'),
-                losses=F('n_lost')
-            ).values('player_name', 'n_wins', 'n_draws', 'n_lost')[:10]
+                losses=F('n_lost'),
+                elo=F('elo_points')
+            ).order_by('-elo').values('player_name', 'n_wins', 'n_draws', 'n_lost','elo')[:10]
         )()
 
         leaderboard = []
@@ -52,6 +53,7 @@ async def get_leaderboard():
                 'wins': player_stats['n_wins'],
                 'draws': player_stats['n_draws'],
                 'losses': player_stats['n_lost'],
+                'elo': player['elo']
             })
 
         return leaderboard

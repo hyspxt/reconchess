@@ -1,88 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="icon" type="png" href="img/other/logo.png">
-        <Title>Silver Bullets</Title>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-            <a class="navbar-brand" href="board.html">
-                <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
-            </a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            </div>
-            <form class="form-inline">
-                <a class="nav-item nav-link" href="registrationForm.html">Sign up</a>
-                <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
-            </form>
-        </nav>
-        <div id="promotion-dialog">
-            <ol id="promote-to">
-                <li class="ui-state-default"><span class="piece-name">q</span><img class="promotion-piece-q promotion-piece" alt="queen"/></li>
-                <li class="ui-state-default"><span class="piece-name">r</span><img class="promotion-piece-r promotion-piece" alt="rook"/></li>
-                <li class="ui-state-default"><span class="piece-name">n</span><img class="promotion-piece-n promotion-piece" alt="knight"/></li>
-                <li class="ui-state-default"><span class="piece-name">b</span><img class="promotion-piece-b promotion-piece" alt="bishop"/></li>  
-            </ol>
-          </div>
-        <div class="container_x ma">
-            <div class="container_y" >
-                <div class="timer_div">
-                    <div class="timer_title">Timer :</div>
-                    <div class="timer" id="opponent_timer">00:00</div>
-                </div>
-                <div class="btn_tbl">
-                    <div class="btn_qr">
-                        <button type="submit" class="btn_quit" id="btn_quit">QUIT</button>
-                        <button type="submit" class="btn_rematch" id="btn_rematch">RE-MATCH</button>
 
-                    </div>
-                    <div class="btn_ur">
-                        <button type="submit" class="btn_undo" id="btn_undo">PASS</button>
-                </div>
-            </div>
-            </div>
-            <div id="myBoard" class="board"></div>
-            <div class="container_f">
-                <div class="scroll_History">
-                    <div class="heder_scroll">Umpire</div>
-                    <div id="History" class="text_scroll"></div>
-                </div>
-                <div class="timer_div">
-                    <div class="timer_title">Timer :</div>
-                    <div class="timer" id="player_timer">00:00</div>
-                </div>
-                
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+        integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
+        integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"
+        integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="icon" type="png" href="img/other/logo.png">
+    <Title>Silver Bullets</Title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+        <a class="navbar-brand" href="home.html">
+            <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver
+            Bullets
+        </a>
+        <a class="nav-item nav-link btn_rules" href="rules.html">Rules</a>
+        <a class="nav-item nav-link" href="">Leaderboard</a>
+        <div class="collapse navbar-collapse" id="navbarNav"></div>
+        <form class="form-inline">
+            <a class="nav-item nav-link" href="registrationForm.html">Sign up</a>
+            <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
+        </form>
+    </nav>
+
+    <div id="intro">
+        <div class="selection_player">
+            <div class="question">Select your opponent</div>
+
+            <fieldset class="bot_user">
+                <a class="a_bot" href="#" onclick="botton_bot()">
+                    <img src="img/other/robot.png" alt="bot" width="100" height="100" class="d-inline-block align-top">
+                </a>
+
+                <a class="a_human" href="#" onclick="botton_human()">
+                    <img src="img/other/happy.png" alt="human" width="100" height="100"
+                        class="d-inline-block align-top">
+                </a>
+            </fieldset>
         </div>
 
-        
-        <script type="module" src="js/timer.js"></script>
-        <script type="module" src="js/websocket.js"></script>
-        <script type="module" src="js/board.js"></script>
+        <div class="selection_bot" id="selection_bot">
+            <div class="question">Select the level of your bot opponent</div>
 
-        <script type="module">
-            import {resign, passTurn} from './js/board.js';
-            document.getElementById("btn_quit").addEventListener("click", () => resign());
-            document.getElementById("btn_rematch").addEventListener("click", () => resign(true)); 
-            document.getElementById("btn_undo").addEventListener("click", passTurn);
-        </script>
+            <div id="bot_choice" class="bot_choice">
+                <script>
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip();
+                    });
 
-    </body>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+                </script>
 
+                <div class="botton_12">
+                    <a id="bot_1" class="bot_x" href="#" onclick="bot_selection(1)" data-toggle="tooltip"
+                        data-placement="bottom" title="I'm just a simple random bot and I do random moves! You're scared huh?">RANDOM</a>
+
+
+                    <a id="bot_2" class="bot_x" href="#" onclick="bot_selection(2)" data-toggle="tooltip"
+                        data-placement="bottom" title="I can't see the board well, but don't underestimate me!">TROUT</a>
+
+                </div>
+                <div class="botton_34">
+                    <a id="bot_3" class="bot_x" href="#" onclick="bot_selection(3)" data-toggle="tooltip"
+                        data-placement="bottom" title="I'M GONNA DESTROY YOU IN 3 MOVES! ">ATTACKER</a>
+
+                    <a id="bot_4" class="bot_x" href="#" onclick="bot_selection(4)" data-toggle="tooltip"
+                        data-placement="bottom`" title="Let's play a fair game! Don't cry if you lose!">STRANGEFISH</a>
+
+                </div>
     
+            </div>
+        </div>
+
+        <div class="selection_room">
+            <div class="question">Create a new room or insert a room-code</div>
+
+            <fieldset class="bot_user">
+                <a class="a_newR" href="#" onclick="botton_newRoom()">
+                    <img src="img/other/icons8-più-480.png" alt="bot" width="90" height="90"
+                        class="d-inline-block align-top">
+                </a>
+
+                <a class="a_oldR" href="#" onclick="botton_oldRoom()">
+                    <img src="img/other/icons8-porta-80.png" alt="human" width="100" height="100"
+                        class="d-inline-block align-top">
+                </a>
+            </fieldset>
+            <div class="room_bar">
+                <input class="search_r" type="text" placeholder="Room-Code">
+                <button class="search_b">Search</button>
+            </div>
+        </div>
+
+        <div class="selection_time_color" id="selection_time_color">
+            <div class="question">Select the playing time and player's color</div>
+            <div class="selection_t_c">
+                <div class="dropdown-container">
+                    <select class="drop" id="frutta" name="frutta">
+                        <option class="drop_font" value="" disabled selected>Select timer</option>
+                        <option class="drop_font" value="900">15</option>
+                        <option class="drop_font" value="600">10</option>
+                        <option class="drop_font" value="300">5</option>
+                        <option class="drop_font" value="150 ">2.30</option>
+                    </select>
+                </div>
+                <div id="selection_color" class="selection_color">
+                    <a class="p_w" href="#" onclick="botton_white()">
+                        <img src="img/chesspieces/wikipedia/wP.png" alt="bot" width="100"
+                            class="d-inline-block align-top">
+                    </a>
+
+                    <a class="p_b" href="#" onclick="botton_black()">
+                        <img src="img/chesspieces/wikipedia/bP.png" alt="human" width="100"
+                            class="d-inline-block align-top">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="btn_start">
+            <a id="button_start" class="botton_start" href="#">START</a>
+        </div>
+    </div>
+
+    <div id="final">
+
+        <div id="promotion-dialog">
+            <ol id="promote-to">
+                <li class="ui-state-default"><span class="piece-name">q</span><img
+                        class="promotion-piece-q promotion-piece" alt="queen" /></li>
+                <li class="ui-state-default"><span class="piece-name">r</span><img
+                        class="promotion-piece-r promotion-piece" alt="rook" /></li>
+                <li class="ui-state-default"><span class="piece-name">n</span><img
+                        class="promotion-piece-n promotion-piece" alt="knight" /></li>
+                <li class="ui-state-default"><span class="piece-name">b</span><img
+                        class="promotion-piece-b promotion-piece" alt="bishop" /></li>
+            </ol>
+        </div>
+        <div class="container_x ma">
+
+            <div class="container_y"></div>
+
+            <div>
+                <div class="black_player">
+                    <div class="user_black_info">
+                        <img src="img/other/woman.png" alt="id_pic_b" class="pic_b">
+                        <div id="black_name" class="black_id">Player 2</div>
+                    </div>
+                    <div class="timer_div_b">
+                        <div class="timer_title">Timer :</div>
+                        <div class="timer" id="opponent_timer">00:00</div>
+                    </div>
+                </div>
+                <div id="myBoard" class="board"></div>
+                <div class="white_player">
+                    <div class="user_white_info">
+                        <img src="img/other/man.png" alt="id_pic_w" class="pic_w">
+                        <div id="white_name" class="white_id">Player 1</div>
+                    </div>
+                    <div class="timer_div_w">
+                        <div class="timer_title">: Timer</div>
+                        <div class="timer" id="player_timer">00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container_f">
+                <div class="scroll_History">
+                    <div class="heder_scroll">ARBITER</div>
+                    <div id="History" class="text_scroll"></div>
+                </div>
+                <button type="submit" class="btn_rematch" id="btn_rematch">RE-MATCH</button>
+                <div class="btn_qp">
+                    <button type="submit" class="btn_quit" id="btn_quit">QUIT</button>
+                    <button type="submit" class="btn_undo" id="btn_undo">PASS</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function botton_bot() {
+            $('.a_bot').css('background-color', '#274C80')
+            $('.selection_bot').css('display', 'block')
+            $('.a_human').css('background-color', '#E7ECEF')
+            $('.selection_room').css('display', 'none')
+            $('.room_bar').css('display', 'none')
+            $('.a_newR').css('background-color', '#E7ECEF')
+            $('.a_oldR').css('background-color', '#E7ECEF')
+
+        }
+    </script>
+    <script>
+        function botton_human() {
+            $('.a_human').css('background-color', '#274C80')
+            $('.a_bot').css('background-color', '#E7ECEF')
+            $('.selection_bot').css('display', 'none')
+            $('.selection_time_color').css('display', 'none')
+            $('.bot_x').css('background-color', '#E7ECEF')
+            $('.bot_x').css('color', '#274C77')
+            $('.selection_room').css('display', 'block')
+        }
+    </script>
+    <script>
+        function bot_selection(n) {
+            $('.bot_x').css('background-color', '#E7ECEF')
+            $('.bot_x').css('color', '#274C77')
+            switch (n) {
+                case 1:
+                    $('#bot_1').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    //add the selected value to the element's parent
+                    $('#bot_1').parent().attr('value', 'random')
+                    break;
+                case 2:
+                    $('#bot_2').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    //add the selected value to the element's parent
+                    $('#bot_2').parent().attr('value', 'trout')
+                    break;
+                case 3:
+                    $('#bot_3').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    //add the selected value to the element's parent
+                    $('#bot_3').parent().attr('value', 'attacker')
+                    break;
+                case 4:
+                    $('#bot_4').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    //add the selected value to the element's parent
+                    $('#bot_4').parent().attr('value', 'strangefish')
+                    break;
+            }
+            $('.selection_time_color').css('display', 'block')
+        }
+    </script>
+    <script>
+        function botton_white() {
+            $('.p_w').css('background-color', '#274C80')
+            $('.p_b').css('background-color', '#E7ECEF')
+            $('.p_w').parent().attr('value', 'white')
+        }
+    </script>
+    <script>
+        function botton_black() {
+            $('.p_b').css('background-color', '#274C80')
+            $('.p_w').css('background-color', '#E7ECEF')
+            $('.p_b').parent().attr('value', 'black')
+        }
+    </script>
+    <script type="module">
+        import {socket} from './js/board.js';        
+        function start() {
+            $('#intro').css('display', 'none')
+            $('#final').css('display', 'block')
+            
+            //get the selected time and the bot
+            let timer = document.getElementById("frutta").value;
+            let bot = document.getElementById("bot_choice").getAttribute('value');
+            let color = document.getElementById("selection_color").getAttribute('value');
+            
+            console.log(timer, bot, color)
+
+            //send the start game message to the server
+            socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color }));
+
+            document.getElementById("black_name").innerHTML = bot;
+        }
+        
+        //set the event listener for the start button
+        document.getElementById("button_start").addEventListener("click", start);
+
+    </script>
+    <script>
+        function botton_oldRoom() {
+            $('.a_newR').css('background-color', '#E7ECEF')
+            $('.a_oldR').css('background-color', '#274C80')
+            $('.room_bar').css('display', 'block')
+        }
+    </script>
+    <script>
+        function botton_newRoom() {
+            $('.a_newR').css('background-color', '#274C80')
+            $('.a_oldR').css('background-color', '#E7ECEF')
+            $('.room_bar').css('display', 'none')
+        }
+    </script>
+    <script type="module" src="js/timer.js"></script>
+    <script type="module" src="js/websocket.js"></script>
+    <script type="module" src="js/board.js"></script>
+
+    <script type="module">
+        import { resign, passTurn } from './js/board.js';
+        document.getElementById("btn_quit").addEventListener("click", () => resign());
+        document.getElementById("btn_rematch").addEventListener("click", () => resign(true));
+        document.getElementById("btn_undo").addEventListener("click", passTurn);
+    </script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 
 </html>
-
-

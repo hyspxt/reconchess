@@ -16,14 +16,15 @@ class HumanPlayer(Player):
 		self.finished = True
 
 	async def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
-		self.color = 'w' if color == chess.WHITE else 'b'
+		self.color = color
+		self.color_name = 'w' if color == chess.WHITE else 'b'
 		return await self.channel_layer.send(
 			self.channel_name,
 			{
 				'type': 'game.message',
 				'message': 'game started',
 				'board': board.fen(),
-				'color': self.color,
+				'color': self.color_name,
 				'opponent_name': opponent_name,
 				'time': self.game.get_seconds_left()
 			})
@@ -44,7 +45,7 @@ class HumanPlayer(Player):
 			{
 				"type": "game.message",
 				'message': 'your turn to sense',
-				'color': self.color,
+				'color': self.color_name,
 				'time': self.game.get_seconds_left()
 			})
 
@@ -70,7 +71,7 @@ class HumanPlayer(Player):
 				{
 					'type': 'game.message',
 					'message': 'your turn to move',
-					'color': self.color,
+					'color': self.color_name,
 					'move_actions': [str(move) for move in move_actions]
 				})
 

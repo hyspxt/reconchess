@@ -28,6 +28,7 @@
         "verbose": true
     },
     "dependencies": {
+        "cypress": "^13.6.1",
         "jest-environment-jsdom": "^29.7.0",
         "jest-websocket-mock": "^2.5.0",
         "mock-socket": "^9.3.1",

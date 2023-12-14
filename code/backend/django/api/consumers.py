@@ -96,7 +96,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 			#funziona la stampa (:
 		player_stats = await get_player_loc_stats(user.username)
 		print(player_stats)
-		update_loc_stats(user.username, True, False)
+		await update_loc_stats(user.username, True, False)
 		player_stats2 = await get_player_loc_stats(user.username)
 		print(player_stats2)
 		#non va leaderboard

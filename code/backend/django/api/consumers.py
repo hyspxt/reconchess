@@ -97,6 +97,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		player_stats = await get_player_loc_stats(user.username)
 		print(player_stats)
 		update_loc_stats(user.username, True, False)
+		player_stats = await get_player_loc_stats(user.username)
 		print(player_stats)
 		#non va leaderboard
 		leaderboard = await get_leaderboard()

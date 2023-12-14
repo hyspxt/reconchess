@@ -307,7 +307,6 @@
                 document.getElementById("button_start").removeAttribute('disabled');
             } else {
                 document.getElementById("button_start").setAttribute('disabled', true);
-                alert("Please ensure all game settings are selected before starting the game.");
             }
         }
 
@@ -335,9 +334,9 @@
 
         // Aggiungi l'evento per il click sul pulsante START
         document.getElementById("button_start").addEventListener("click", start);
-        document.getElementById("btn_start").addEventListener("click", function() {
-            var button = document.getElementById("button_start");
-            if (button.getAttribute('disabled')) {
+        $("#btn_start").click(function() {
+            var button = $("#button_start");
+            if (button.is(":disabled")) {
                 alert("Please ensure all game settings are selected before starting the game.");
             }
         });

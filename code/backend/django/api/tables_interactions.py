@@ -1,13 +1,3 @@
-#import os
-#import sys
-
-#api_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'api'))
-#sys.path.append(api_path)
-
-#from api.server import settings
-
-#os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
-#os.environ["DJANGO_SETTINGS_MODULE"] = "server.settings"
 from .models import Users, Matches
 from django.db.models import F
 import asyncio

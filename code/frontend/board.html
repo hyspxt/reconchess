@@ -26,6 +26,20 @@
 </head>
 
 <body>
+    <div class="modal" id="rematch-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">            
+                <div class="modal-body">
+                    <p>Your opponent wants a rematch</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="accept-rematch" class="btn btn-secondary" data-dismiss="modal">Accept</button>
+                    <button type="button" id="decline-rematch" class="btn btn-danger" data-dismiss="modal">Decline</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
         <a class="navbar-brand" href="home.html">
             <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver
@@ -344,6 +358,15 @@
                     confirmButtonText: 'OK'
                 });
             }
+            
+            //set the event listener for the start button and the rematch buttons
+            document.getElementById("accept-rematch").addEventListener("click", () => {
+                socket.send(JSON.stringify({ action: 'rematch', accept: true }));
+            });
+            document.getElementById("decline-rematch").addEventListener("click", () => {
+                socket.send(JSON.stringify({ action: 'rematch', accept: false }));
+            });
+
         });
     </script>
     <script type="module" src="js/timer.js"></script>

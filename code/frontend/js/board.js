@@ -348,7 +348,19 @@ export function resign(rematch = false) {
 
 export function flipSide(c) {
     color = c;
-    var styleElement = document.createElement('style');
+    
+    //try to get the style element that hides the pieces
+    var styleElement = document.getElementById('dynamic-style')
+    //remove the style element if it exists to avoid adding confilicting styles
+    if(styleElement){
+        styleElement.parentNode.removeChild(styleElement);
+        styleElement = document.createElement('style');
+        styleElement.id = 'dynamic-style';
+    }
+    //create a new style element
+    styleElement = document.createElement('style');
+    styleElement.id = 'dynamic-style';
+
     if (c === 'b'){
         board.orientation('black')
 
@@ -374,6 +386,8 @@ export function flipSide(c) {
         document.head.appendChild(styleElement);
     }
     lightsOff();
+    //make sure that the board position is correct
+    board.start();
 }
 
 board = Chessboard('myBoard', config)

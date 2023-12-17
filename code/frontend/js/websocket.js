@@ -7,7 +7,7 @@ let currentTime;
 export let player_color = null;
 
 export function createWebsocket(game, player_timer, opponent_timer) {
-	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/game' : 'wss://silverbullets.rocks/ws/game'
+	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/multiplayer/game' : 'wss://silverbullets.rocks/ws/game'
 	const socket = new WebSocket(WEBSOCKET_URL);
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
@@ -22,12 +22,13 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				console.log('start game')
 				game.is_over = false;
 				console.log(player_timer)
-
+				game.load(data.board);
+				
 				set_timer(data.time, player_timer);
 				set_timer(data.time, opponent_timer);
-
+				
 				player_color = data.color;
-
+				
 				console.log(player_color)
 				flipSide(player_color);
 				if (player_color === 'b') {
@@ -112,6 +113,9 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				game.is_over = true;
 				light = true;
 				break;
+			case 'rematch':
+				console.log('REMATCH REQUESTED')
+				$('#rematch-modal').modal('show');
 			default:
 				break;
 		}

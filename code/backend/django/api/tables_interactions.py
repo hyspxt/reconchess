@@ -39,7 +39,7 @@ def get_leaderboard():
         leaderboard = []
         for player in players_data:
             player_name = player['player_name']
-            player_stats = get_player_loc_stats(player_name)
+            player_stats = sync_to_async(get_player_loc_stats)(player_name)
 
             leaderboard.append({
                 'player_name': player_name,
@@ -69,9 +69,11 @@ def update_loc_stats(player_name, win, draw):
 
 #da chiamare alla fine di una partita contro un altro giocatore
 #se vogliamo tenere traccia di chi vince contro chi
-async def save_match_results(roomName, winner, loser, dr):
+@sync_to_async
+
+def save_match_results(roomName, winner, loser, dr):
      # Ora inseriamo i dati nella tabella Matches
-    match = await sync_to_async(Matches.objects.get)(room_name=roomName, finished=False)
+    match = (Matches.objects.get)(room_name=roomName, finished=False)
     match.finished = True
     match.draw = dr
     if dr:
@@ -88,7 +90,7 @@ async def save_match_results(roomName, winner, loser, dr):
 #Patta = 0,5 punti
 #Sconfitta  = 0 punti.
 
-async def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
+def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
     K=30 #secondo rergole FSI
     #calcolo punteggio attuale
     if win: actual_score = 1
@@ -102,9 +104,10 @@ async def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
     return new_elo
 
 #da chiamare dopo aver sfidato un umano
-async def update_elo(player_name, opponent, win, los, dr):
-    u = await sync_to_async(Users.objects.get)(user__username = player_name)
-    v = await sync_to_async(Users.objects.get)(user__username = opponent)
+@sync_to_async
+def update_elo(player_name, opponent, win, los, dr):
+    u = (Users.objects.get)(user__username = player_name)
+    v = (Users.objects.get)(user__username = opponent)
     new_elo_points = calculate_elo(u.elo_points, v.elo_points, win, los, dr)
     #aggiorno punti dei giocatori in tabella Users
     u.elo_points = new_elo_points

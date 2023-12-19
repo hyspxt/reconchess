@@ -93,7 +93,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print(f"{user.username}'s elo score: {user_info.elo_points}")
 		else:
 			print('not logged in')
-			#funziona la stampa (:
+		#funziona la stampa e l'aggiornamento delle loc_stats (:
 		player_stats = await get_player_loc_stats(user.username)
 		print(player_stats)
 		await update_loc_stats(user.username, True, False)

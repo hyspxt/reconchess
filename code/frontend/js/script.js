@@ -142,7 +142,7 @@ function handleLogin(event) {
         event.target.after(alert);
     })
 }
-
+/*
 document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
 
     fetch('leaderboard/')
@@ -164,5 +164,94 @@ document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
       })
       .catch(error => console.error('Errore durante la richiesta API:', error));
   })
+*/
+  import React, { useState, useEffect } from 'react';
 
+  const PlayerStatsTable = ({ stats }) => (
+    <div>
+      <h2>Statistiche del giocatore</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Vittorie</th>
+            <th>Sconfitte</th>
+            <th>Pareggi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{stats.player_name}</td>
+            <td>{stats.n_wins}</td>
+            <td>{stats.n_lost}</td>
+            <td>{stats.n_draws}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+  
+  const LeaderboardTable = ({ leaderboard }) => (
+    <div>
+      <h2>Classifica</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Posizione</th>
+            <th>Nome</th>
+            <th>Vittorie</th>
+            <th>Pareggi</th>
+            <th>Sconfitte</th>
+            <th>Elo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboard.map((player, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{player.player_name}</td>
+              <td>{player.wins}</td>
+              <td>{player.draws}</td>
+              <td>{player.losses}</td>
+              <td>{player.elo}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+  
 
+  const StatsComponent = () => {
+    const [playerStats, setPlayerStats] = useState({});
+    const [leaderboard, setLeaderboard] = useState([]);
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          // Richiesta API per ottenere statistiche del giocatore
+          const playerResponse = await fetch('player_loc_stats/${playerName}/');
+          const playerData = await playerResponse.json();
+          setPlayerStats(playerData);
+  
+          // Richiesta API per ottenere la classifica
+          const leaderboardResponse = await fetch('leaderboard/');
+          const leaderboardData = await leaderboardResponse.json();
+          setLeaderboard(leaderboardData.leaderboard);
+        } catch (error) {
+          console.error('Errore durante la richiesta API:', error);
+        }
+      };
+  
+      fetchData();
+    }, []); //passare un array vuoto come secondo argomento per eseguire l'effetto solo una volta
+  
+    return (
+        <div>
+        <PlayerStatsTable stats={playerStats} />
+        <LeaderboardTable leaderboard={leaderboard} />
+      </div>
+    );
+  };
+  
+  export default StatsComponent;

@@ -1,9 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from .forms import RegisterForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from google.auth.transport import requests
+from google.oauth2 import id_token
+
+#TODO: install the 'google-auth' library
 
 @csrf_exempt
 def register(request):
@@ -52,3 +56,28 @@ def checkLogin(request):
 		return HttpResponse(f'user {request.user.username} is currently logged in', content_type='text/plain')
 	else:
 		return HttpResponse('No user logged in', content_type='text/plain')
+
+#verification of google id token
+def googleID(request):
+    
+    id_token_string = request.POST.get('id_token')
+
+    client_id = '613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com'
+
+    try:
+        # Verify the ID Token
+        id_info = id_token.verify_oauth2_token(id_token_string, requests.Request(), client_id)
+
+        user_email = id_info.get('email')
+        user_name = id_info.get('name')
+
+        # Check if the user with the given email already exists in your database
+        user, created = User.objects.get_or_create(email=user_email, defaults={'username': user_email})
+        
+        user = authenticate(request, username=user.email, password=None)
+        login(request, user)
+
+        return JsonResponse({'success': True, 'user_email': user_email, 'user_name': user_name})
+    
+    except ValueError as e:
+        return JsonResponse({'success': False, 'error': str(e)})

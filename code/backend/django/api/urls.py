@@ -17,4 +17,7 @@ urlpatterns = [
 	path('logout/', views.userLogout, name='logout'),
 
 	path('check_login/', views.checkLogin, name='check_login'),
+ 
+	#google id token verification
+	path('googleID/', views.googleID, name='googleID'),
 ]

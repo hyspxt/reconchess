@@ -57,6 +57,36 @@ function handleCredentialResponse(response) {
     });
 }
 
+function gstyle() {
+    var pulsanteGoogle = document.querySelector('.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY');
+
+    if (pulsanteGoogle) {
+        pulsanteGoogle.style.height = '30px';
+        pulsanteGoogle.style.width = '30px';
+    }
+
+    var elementoHaAclf = document.querySelector('.haAclf');
+
+    if (elementoHaAclf) {
+        elementoHaAclf.style.padding = '0';
+    }
+
+    var elementoGSI = document.querySelector('#gsi_307923_10626');
+
+    if (elementoGSI) {
+        elementoGSI.style.height = '50px';
+    }
+}
+
+var elementoDaOsservare = document.querySelector('.g_id_signin');
+
+var observer = new MutationObserver(gstyle);
+
+var opzioniOsservatore = { childList: true, subtree: true };
+
+observer.observe(elementoDaOsservare, opzioniOsservatore);
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const eyeIcons = document.querySelectorAll(".eye-icon");
 

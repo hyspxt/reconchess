@@ -104,7 +104,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#testing elo update
 		await update_elo(user.username, 'test', False, False, True)
 		print(f"{user.username}'s elo score: {user_info.elo_points}")
-		save_match_results('room1', user.username, 'test', True)
+		await save_match_results('room1', user.username, 'test', True)
 		print('saved')
 		#end test
 	

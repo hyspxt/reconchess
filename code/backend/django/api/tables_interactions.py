@@ -88,7 +88,7 @@ def save_match_results(roomName, winner, loser, dr):
 #Vittoria = 1 punto
 #Patta = 0,5 punti
 #Sconfitta  = 0 punti.
-
+@sync_to_async
 def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
     K=30 #secondo rergole FSI
     #calcolo punteggio attuale

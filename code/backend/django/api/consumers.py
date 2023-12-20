@@ -101,6 +101,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		print(player_stats2)
 		leaderboard = await get_leaderboard()
 		print(leaderboard)
+		#testing elo update
 		await update_elo(user.username, 'test', True, False, False)
 		print(f"{user.username}'s elo score: {user_info.elo_points}")
 	

@@ -8,6 +8,7 @@ from reconchess.bots import random_bot, attacker_bot, trout_bot
 from strangefish.strangefish_strategy import StrangeFish2
 from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
+from django.contrib.auth.models import AnonymousUser
 
 available_bots = {
 	'random': random_bot.RandomBot,
@@ -58,7 +59,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 				await self.end_game()
 
 			#restart the game if the player wants to rematch
-			if data['rematch']: 
+			if data.get('rematch', False): 
 				await self.start_game(seconds=self.game.seconds_per_player, color=self.player.color, bot_constructor=type(self.bot))
 		elif action == 'get_active_timer':
 			color = 'w' if self.game.turn == chess.WHITE else 'b'
@@ -72,6 +73,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print('invalid action')
 
 	async def game_message(self, event):
+		event.pop('type')
 		#send the messages from the player to the client
 		await self.send(text_data=json.dumps(event))
 
@@ -92,8 +94,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 		self.bot = bot_constructor()
 
 		#get the username if the player is authenticated otherwise use 'guest'
-		player_name = self.scope['user'].username if self.scope['user'].is_authenticated else 'guest'
-		
+		if self.scope.get('user', AnonymousUser()).is_authenticated:
+			player_name = self.scope['user'].username
+		else: 
+			player_name = 'guest'		
 		#save the player names in a list
 		names = [self.bot.__class__.__name__, player_name]
 		#make sure that the list's order follows the order of chess.COLORS

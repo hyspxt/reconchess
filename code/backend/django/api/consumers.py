@@ -366,8 +366,9 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		for player in self.players:
 			await player.handle_game_end(winner_color, win_reason, game_history)
 
-		#TODO: insert data in db here
-		#save the match results in the database, aggiorno dati vincitore e perdente
+		#insert data in db here
+		#save the match results in the database
+		#aggiorno dati vincitore e perdente nel db
 		winner = self.player_names[winner_color]
 		loser = self.player_names[not winner_color]
 		room_name = self.room_group_name

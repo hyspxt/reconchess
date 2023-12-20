@@ -83,21 +83,7 @@ def save_match_results(roomName, winner, loser, dr):
         match.loser = loser
     # Salva l'oggetto Matches nel database
     match.save()
-'''
-@sync_to_async
-def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
-    K=30 #secondo rergole FSI
-    #calcolo punteggio attuale
-    if win: actual_score = 1
-    elif los: actual_score = 0
-    else: actual_score = 0.5 #draw
-    #calcolo punteggio atteso
-    rb = elo_points_p2
-    ra = elo_points_p1
-    expected_score = 1 / (1+10**((rb-ra)/400))
-    new_elo=elo_points_p1+K*(actual_score-expected_score)
-    return new_elo
-'''
+
 #da chiamare dopo aver sfidato un umano
 #calcola i punti elo alla fine di ogni partita per il player1; Utilizziamo l'ELO FSI
 #Vittoria = 1 punto
@@ -115,10 +101,8 @@ def update_elo(player_name, opponent, win, los, dr):
     elif los: actual_score = 0
     else: actual_score = 0.5 #draw
     #calcolo punteggio atteso
-    rb = 1440
-    ra = 2000
-    #rb = v.elo_points
-    #ra = u.elo_points
+    rb = v.elo_points
+    ra = u.elo_points
     expected_score = 1 / (1+10**((rb-ra)/400))
     print(expected_score)
     new_elo=ra+(K*(actual_score-expected_score))

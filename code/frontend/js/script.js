@@ -165,8 +165,8 @@ document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
       .catch(error => console.error('Errore durante la richiesta API:', error));
   })
 
-
-  document.addEventListener("DOMContentLoaded", function checkUserPresence(mail){
+  
+  document.addEventListener("DOMContentLoaded", function checkUserPresenceByMail(mail){
     // Funzione per verificare la presenza di un utente con mail
       try {
         const response = fetch(`social_log/${mail}/`);

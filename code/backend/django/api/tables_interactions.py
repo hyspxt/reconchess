@@ -4,7 +4,6 @@ import asyncio
 from asgiref.sync import sync_to_async
 
 @sync_to_async
-
 def get_player_loc_stats(player_name):
     player =(Users.objects.get)(user__username=player_name)
         
@@ -23,7 +22,6 @@ def get_player_loc_stats(player_name):
     }
 
 @sync_to_async
-
 def get_leaderboard():
     # Ottenere i dati per i primi 10 giocatori
     try:
@@ -39,14 +37,14 @@ def get_leaderboard():
         leaderboard = []
         for player in players_data:
             player_name = player['player_name']
-            player_stats = sync_to_async(get_player_loc_stats)(player_name)
+            #player_stats = sync_to_async(get_player_loc_stats)(player_name)
 
             leaderboard.append({
                 'player_name': player_name,
-                'wins': player_stats['n_wins'],
-                'draws': player_stats['n_draws'],
-                'losses': player_stats['n_lost'],
-                'elo': player['elo']
+                #'wins': player_stats['n_wins'],
+                #'draws': player_stats['n_draws'],
+                #'losses': player_stats['n_lost'],
+                #'elo': player['elo']
             })
 
         return leaderboard
@@ -56,7 +54,6 @@ def get_leaderboard():
 
 #aggiorna il numero di w/l/d nella tabella Users 
 @sync_to_async
-
 def update_loc_stats(player_name, win, draw):
     u = (Users.objects.get)(user__username=player_name)
     if win:
@@ -70,7 +67,6 @@ def update_loc_stats(player_name, win, draw):
 #da chiamare alla fine di una partita contro un altro giocatore
 #se vogliamo tenere traccia di chi vince contro chi
 @sync_to_async
-
 def save_match_results(roomName, winner, loser, dr):
      # Ora inseriamo i dati nella tabella Matches
     match = (Matches.objects.get)(room_name=roomName, finished=False)
@@ -108,7 +104,7 @@ def calculate_elo(elo_points_p1, elo_points_p2, win, los, dr):
 def update_elo(player_name, opponent, win, los, dr):
     u = (Users.objects.get)(user__username = player_name)
     v = (Users.objects.get)(user__username = opponent)
-    new_elo_points = calculate_elo(u.elo_points, v.elo_points, win, los, dr)
+    new_elo_points = sync_to_async(calculate_elo)(u.elo_points, v.elo_points, win, los, dr)
     #aggiorno punti dei giocatori in tabella Users
     u.elo_points = new_elo_points
     u.save()

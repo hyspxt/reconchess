@@ -103,7 +103,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		print(leaderboard)
 		#testing elo update
 		user.elo_points = 2000
-		await update_elo(user.username, 'test', True, False, False)
+		await update_elo(user.username, 'test', False, False, True)
 		print(f"{user.username}'s elo score: {user_info.elo_points}")
 	
 	async def start_game(self, seconds, player_color: chess.COLORS, bot_constructor):

@@ -164,3 +164,20 @@ document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
       })
       .catch(error => console.error('Errore durante la richiesta API:', error));
   })
+
+
+  document.addEventListener("DOMContentLoaded", function checkUserPresence(mail){
+    // Funzione per verificare la presenza di un utente con mail
+      try {
+        const response = fetch(`social_log/${mail}/`);
+        const data = response.json();
+  
+        if (data.exists) {
+          console.log(`L'utente con mail ${mail} esiste.`);
+        } else {
+          console.log(`L'utente con mail ${mail} non esiste.`);
+        }
+      } catch (error) {
+        console.error('Errore durante la richiesta API:', error);
+      }
+    })

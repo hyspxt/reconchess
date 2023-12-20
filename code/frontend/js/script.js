@@ -16,93 +16,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-function handleCredentialResponse(response) {
-    var id_token = response.credential;
-
-    // Send the id_token to Django server
-    fetch('/api/googleID/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            id_token: id_token
-        })
-    })
-    .then(response => response.json())  // Parse the JSON response
-    .then(data => {
-        const alert = document.createElement("div");
-        alert.classList.add("alert", "mt-3", "text-center");
-
-        if (data.success) {
-            alert.classList.add("alert-success");
-            alert.innerHTML = `Logged in successfully as ${data.user_name}`;
-        } else {
-            alert.classList.add("alert-danger");
-            alert.innerHTML = `Error: ${data.error}`;
-        }
-
-        // Append the alert to the form
-        const form = document.getElementById('log');
-        const nextElement = form.nextElementSibling;
-
-        if (nextElement && nextElement.classList.contains("alert")) {
-            nextElement.remove();
-        }
-
-        form.after(alert);
-    })
-    .catch(error => {
-        console.log('There was a problem with the AJAX request.', error);
-    });
-}
-
-function gstyle() {
-    console.log('gstyle');
-    var pulsanteGoogle = document.querySelector('.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY');
-
-    if (pulsanteGoogle) {
-        pulsanteGoogle.style.height = '30px';
-        pulsanteGoogle.style.width = '30px';
-    }
-
-    var elementoHaAclf = document.querySelector('.haAclf');
-
-    if (elementoHaAclf) {
-        elementoHaAclf.style.padding = '0';
-    }
-
-    var elementoGSI = document.querySelector('#gsi_307923_10626');
-
-    if (elementoGSI) {
-        elementoGSI.style.height = '50px';
-    }
-
-    var classes = ['.nsm7Bb-HzV7m-LgbsSe', '.nsm7Bb-HzV7m-LgbsSe-MJoBVe', '.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.uaxL4e-RbRzK'];
-
-    classes.forEach(function(classe) {
-        var elemento = document.querySelector(classe);
-
-        if (elemento) {
-            elemento.style.fontSize = '25px';
-            elemento.style.width = '100%';
-            elemento.style.height = '50px';
-            elemento.style.borderRadius = '10px';
-            elemento.style.backgroundColor = '#FFF';
-            elemento.style.marginBottom = '20px';
-        }
-    });
-}
-
-var elementoDaOsservare = document.querySelector('.g_id_signin');
-
-var observer = new MutationObserver(gstyle);
-
-var opzioniOsservatore = { childList: true, subtree: true };
-
-observer.observe(elementoDaOsservare, opzioniOsservatore);
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const eyeIcons = document.querySelectorAll(".eye-icon");
 
@@ -188,4 +101,45 @@ function handleLogin(event) {
         }
         event.target.after(alert);
     })
+}
+
+function handleCredentialResponse(response) {
+    var id_token = response.credential;
+
+    // Send the id_token to Django server
+    fetch('/api/googleID/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id_token: id_token
+        })
+    })
+    .then(response => response.json())  // Parse the JSON response
+    .then(data => {
+        const alert = document.createElement("div");
+        alert.classList.add("alert", "mt-3", "text-center");
+
+        if (data.success) {
+            alert.classList.add("alert-success");
+            alert.innerHTML = `Logged in successfully as ${data.user_name}`;
+        } else {
+            alert.classList.add("alert-danger");
+            alert.innerHTML = `Error: ${data.error}`;
+        }
+
+        // Append the alert to the form
+        const form = document.getElementById('log');
+        const nextElement = form.nextElementSibling;
+
+        if (nextElement && nextElement.classList.contains("alert")) {
+            nextElement.remove();
+        }
+
+        form.after(alert);
+    })
+    .catch(error => {
+        console.log('There was a problem with the AJAX request.', error);
+    });
 }

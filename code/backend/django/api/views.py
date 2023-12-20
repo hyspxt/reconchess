@@ -7,8 +7,6 @@ from django.contrib.auth.models import User
 from . import tables_interactions as ti
 from .models import Users
 from django.utils import timezone
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 @csrf_exempt
 def register(request):
@@ -58,24 +56,14 @@ def checkLogin(request):
 	else:
 		return HttpResponse('No user logged in', content_type='text/plain')
 
-@api_view(['GET'])
 def player_loc_stats_api(request, player_name):
-    stats = ti.get_player_loc_stats(player_name)
-    return Response(stats)
-
-@api_view(['GET'])
-def leaderboard(request):
-    leaderboard_data = ti.get_leaderboard()
-    return Response(leaderboard_data)
-	
-'''def player_loc_stats_api(request, player_name):
 	result = ti.get_player_loc_stats(player_name)
 	return JsonResponse(result)
 
 def leaderboard(request):
     leaderboard_data = ti.get_leaderboard()
     return JsonResponse({'leaderboard': leaderboard_data})
-'''
+
 
 def social_log(request, mail):
     try:

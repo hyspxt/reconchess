@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistiche Giocatore e Classifica</title>
+</head>
+<body>
+  <h1>Statistiche Giocatore e Classifica</h1>
+
+  <div id="playerStatsTable">
+    <h2>Statistiche del giocatore</h2>
+    <table id="playerStats">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Vittorie</th>
+          <th>Sconfitte</th>
+          <th>Pareggi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Qui verranno aggiunte dinamicamente le righe della tabella tramite JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <div id="leaderboardTable">
+    <h2>Classifica</h2>
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Posizione</th>
+          <th>Nome</th>
+          <th>Vittorie</th>
+          <th>Pareggi</th>
+          <th>Sconfitte</th>
+          <th>Elo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Qui verranno aggiunte dinamicamente le righe della tabella tramite JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON
+    async function fetchData(url, containerId) {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // Mostra i dati nel contenitore specificato
+        document.getElementById(containerId).innerHTML = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Errore durante la richiesta HTTP:', error);
+      }
+    }
+
+    // Effettua richieste HTTP per ottenere statistiche del giocatore e classifica
+    fetchData('player_loc_stats/<str:player_name>/', 'playerStats');
+    fetchData('leaderboard/', 'leaderboard');
+  </script>
+</body>
+</html>

@@ -93,15 +93,16 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print(f"{user.username}'s elo score: {user_info.elo_points}")
 		else:
 			print('not logged in')
-		#funziona la stampa e l'aggiornamento delle loc_stats (:
+		#funziona la stampa e l'aggiornamento delle loc_stats e leaderboard (:
 		player_stats = await get_player_loc_stats(user.username)
 		print(player_stats)
 		await update_loc_stats(user.username, True, False)
 		player_stats2 = await get_player_loc_stats(user.username)
 		print(player_stats2)
-		#non va leaderboard
 		leaderboard = await get_leaderboard()
 		print(leaderboard)
+		await update_elo(user.username, 'test', True, False, False)
+		print(f"{user.username}'s elo score: {user_info.elo_points}")
 	
 	async def start_game(self, seconds, player_color: chess.COLORS, bot_constructor):
 		#initialize the game

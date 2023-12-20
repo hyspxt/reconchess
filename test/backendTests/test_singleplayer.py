@@ -5,7 +5,7 @@ from channels.testing import WebsocketCommunicator
 from api.consumers import GameConsumer
 from reconchess import chess
 
-class TestGameConsumer(TestCase):
+class TestSingleplayer(TestCase):
 	async def connect(self):
 		communicator = WebsocketCommunicator(GameConsumer.as_asgi(), "/ws/game")
 		connected, _ = await communicator.connect()

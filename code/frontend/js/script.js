@@ -58,6 +58,7 @@ function handleCredentialResponse(response) {
 }
 
 function gstyle() {
+    console.log('gstyle');
     var pulsanteGoogle = document.querySelector('.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY');
 
     if (pulsanteGoogle) {
@@ -76,6 +77,21 @@ function gstyle() {
     if (elementoGSI) {
         elementoGSI.style.height = '50px';
     }
+
+    var classes = ['.nsm7Bb-HzV7m-LgbsSe', '.nsm7Bb-HzV7m-LgbsSe-MJoBVe', '.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.uaxL4e-RbRzK'];
+
+    classes.forEach(function(classe) {
+        var elemento = document.querySelector(classe);
+
+        if (elemento) {
+            elemento.style.fontSize = '25px';
+            elemento.style.width = '100%';
+            elemento.style.height = '50px';
+            elemento.style.borderRadius = '10px';
+            elemento.style.backgroundColor = '#FFF';
+            elemento.style.marginBottom = '20px';
+        }
+    });
 }
 
 var elementoDaOsservare = document.querySelector('.g_id_signin');

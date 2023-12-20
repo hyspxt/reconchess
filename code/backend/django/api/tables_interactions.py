@@ -37,14 +37,17 @@ def get_leaderboard():
         leaderboard = []
         for player in players_data:
             player_name = player['player_name']
-            #player_stats = sync_to_async(get_player_loc_stats)(player_name)
+            wins = player['n_wins']
+            draws = player['n_draws']
+            losses = player['n_lost']
+            elo = player['elo_points']
 
             leaderboard.append({
                 'player_name': player_name,
-                #'wins': player_stats['n_wins'],
-                #'draws': player_stats['n_draws'],
-                #'losses': player_stats['n_lost'],
-                #'elo': player['elo']
+                'n_wins': wins,
+                'n_draws': draws,
+                'n_lost': losses,
+                'elo': elo
             })
 
         return leaderboard

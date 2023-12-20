@@ -96,12 +96,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#funziona la stampa e l'aggiornamento delle loc_stats e leaderboard (:
 		player_stats = await get_player_loc_stats(user.username)
 		print(player_stats)
-		await update_loc_stats(user.username, True, False)
+		await update_loc_stats(user.username, False, True)
 		player_stats2 = await get_player_loc_stats(user.username)
 		print(player_stats2)
 		leaderboard = await get_leaderboard()
 		print(leaderboard)
 		#testing elo update
+		user.elo_points = 2000
 		await update_elo(user.username, 'test', True, False, False)
 		print(f"{user.username}'s elo score: {user_info.elo_points}")
 	

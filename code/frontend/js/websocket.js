@@ -6,8 +6,8 @@ export let valid_moves = []
 let currentTime;
 export let player_color = null;
 
-export function createWebsocket(game, player_timer, opponent_timer) {
-	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/multiplayer/game' : 'wss://silverbullets.rocks/ws/game'
+export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
+	const WEBSOCKET_URL = window.location.hostname === "localhost" ? `ws://localhost:8000/${ws_url}` : `wss://silverbullets.rocks/${ws_url}`;
 	const socket = new WebSocket(WEBSOCKET_URL);
 	socket.onopen = function () {
 		console.log('websocket is connected ...')

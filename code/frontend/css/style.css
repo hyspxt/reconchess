@@ -328,6 +328,10 @@ a:hover{
     opacity: 0.7;
 }
 
+#button_start[disabled] {
+    pointer-events: none;
+}
+
 /* ------------------------ */
 /* PLAYERS INFO STUFF */
 
@@ -542,6 +546,58 @@ a:hover{
     .user_white_info{
         align-items: center;
     }
+
+    #intro {
+        margin-top: 100px !important;
+    }
+
+    .selection_time_color,
+    .selection_bot,
+    .selection_player,
+    .selection_room{
+        width: 95% !important;
+        margin-left: 10px !important;
+        margin-bottom: 0 !important;
+        margin-top: 30px !important;
+    }
+
+    .question{
+        margin-bottom: 10px !important;
+    }
+
+    .bot_choice{
+        flex-direction: column !important;
+    }
+
+    .botton_12{
+        margin-bottom: 20px;
+    }
+
+    .botton_12,
+    .botton_34{
+        width: 100% !important;
+    }
+
+    .bot_x{
+        width: 45% !important;
+    }
+
+    .selection_t_c{
+        flex-direction: column;
+        margin-bottom: 80px !important;
+    }
+
+    .selection_color{
+        width: 95% !important;
+    }
+
+    .dropdown-container{
+        align-self: start !important;
+    }
+
+    .search_r{
+        width: 200px;
+    }
 }
 
 #intro {
@@ -561,7 +617,6 @@ a:hover{
     display: none;
     width: 75%;
 }
-
 
 
 .selection_player,
@@ -591,11 +646,18 @@ a:hover{
 
 .bot_user,
 .bot_choice,
-.selection_color{
+.selection_color,
+.botton_12,
+.botton_34{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+}
+
+.botton_12,
+.botton_34{
+    width: 50%;
 }
 
 .selection_color{
@@ -624,7 +686,7 @@ a:hover{
     border: #274C77 2px solid;
     border-radius: 8px;
     font-weight: bolder;
-    width: 15%;
+    width: 30%;
     padding-top: 10px;
     padding-bottom: 10px;
     color: #274C77;
@@ -675,7 +737,7 @@ a:hover{
 }
 
 .btn_start{
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: end;
     bottom: 25px;

@@ -18,7 +18,7 @@ class HumanPlayer(Player):
 	async def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
 		self.color = color
 		self.color_name = 'w' if color == chess.WHITE else 'b'
-		return await self.channel_layer.send(
+		await self.channel_layer.send(
 			self.channel_name,
 			{
 				'type': 'game.message',
@@ -30,7 +30,7 @@ class HumanPlayer(Player):
 			})
 	
 	async def handle_opponent_move_result(self, captured_my_piece: bool, capture_square: Optional[chess.Square]):
-		return await self.channel_layer.send(
+		await self.channel_layer.send(
 			self.channel_name,
 			{
 				'type': 'game.message',
@@ -110,7 +110,7 @@ class HumanPlayer(Player):
 		#finish the turn
 		self.finished = True
 		#send the move results to the client
-		return await self.channel_layer.send(
+		await self.channel_layer.send(
 			self.channel_name,
 			{
 				'type': 'game.message',
@@ -134,7 +134,7 @@ class HumanPlayer(Player):
         	None: 'game over'
     	}
 
-		return await self.channel_layer.send(
+		await self.channel_layer.send(
 			self.channel_name,
 			{
 				'type': 'game.message',

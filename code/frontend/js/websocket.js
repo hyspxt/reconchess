@@ -6,8 +6,8 @@ export let valid_moves = []
 let currentTime;
 export let player_color = null;
 
-export function createWebsocket(game, player_timer, opponent_timer) {
-	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/game' : 'wss://silverbullets.rocks/ws/game'
+export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
+	const WEBSOCKET_URL = window.location.hostname === "localhost" ? `ws://localhost:8000/${ws_url}` : `wss://silverbullets.rocks/${ws_url}`;
 	const socket = new WebSocket(WEBSOCKET_URL);
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
@@ -22,11 +22,14 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				console.log('start game')
 				game.is_over = false;
 				console.log(player_timer)
-
+				game.load(data.board);
+				
 				set_timer(data.time, player_timer);
 				set_timer(data.time, opponent_timer);
-
+				
 				player_color = data.color;
+				
+				console.log(player_color)
 				flipSide(player_color);
 				if (player_color === 'b') {
 					showSideToMove('w');
@@ -43,7 +46,6 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				makeOpponentMove(board)
 				if (data.capture_square != null) {
 					haveEaten('w')
-					lightsOff();
 				}
 				break;
 
@@ -76,18 +78,22 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				break;
 			case 'move result':
 				console.log('move result');
+				game.load(data.board);
 				if (data.captured_opponent_piece) haveEaten('b')
 				break;
 			case 'time left':
 				console.log('time left')
+				let timer =  data.color === player_color ? player_timer : opponent_timer
 				//update the active timer with the time left sent from the backend
-				if (data.color === player_color)
-					start_timer(Math.floor(data.time), player_timer);
+				if (!game.is_over) {
+					start_timer(Math.floor(data.time), timer);
+				}
 				else
-					start_timer(Math.floor(data.time), opponent_timer);
+					set_timer(Math.floor(data.time), timer);
 				break
 			case 'turn ended':
 				console.log('turn started')
+				console.log("COLOR:", data.color)
 				showSideToMove(data.color);
 				//the turn is over, get the time left and stop the timer
 				stop_timer();
@@ -102,10 +108,14 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 			case 'game over':
 				showGameOver(data.reason, data.winner)
 				stop_timer();
+				game.load(data.board);
 				//tell the frontend library to stop the game
 				game.is_over = true;
 				light = true;
 				break;
+			case 'rematch':
+				console.log('REMATCH REQUESTED')
+				$('#rematch-modal').modal('show');
 			default:
 				break;
 		}

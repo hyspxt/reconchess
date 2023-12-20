@@ -2,9 +2,9 @@ import { createWebsocket } from './websocket.js'
 import { valid_moves, player_color } from './websocket.js'
 
 var board = null
-var game = new Chess()
+export let game = new Chess()
 var fen, promote_to
-export var socket = createWebsocket(game, document.getElementById('player_timer'), document.getElementById('opponent_timer'))
+let socket = null;
 var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
 var promotion_dialog = $('#promotion-dialog')
 var promoting = false
@@ -14,6 +14,16 @@ var comments = ""
 var pass = false
 var color
 
+export function startConnection(url, timer, bot, color) {
+    socket = createWebsocket(game, url, document.getElementById("player_timer"), document.getElementById("opponent_timer"));
+
+
+    console.log(url, timer, bot, color)
+
+    //avoid trying to send the message while the page is loading
+    setTimeout(() => { socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color })) }, 50);
+
+}
 //activates when the user switches tabs
 document.addEventListener("visibilitychange", () => {
     console.log('visibility changed' + document.visibilityState)
@@ -307,7 +317,7 @@ export function lightsOff() {
                         'opacity': '1',
                         'filter': 'none'
                     });
-                    piece.css('opacity', 1);
+                    piece.css('opacity', '1');
                 }else piece.css({
                     'opacity': '0' ,
                     'z-index': '0',
@@ -346,10 +356,48 @@ export function resign(rematch = false) {
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
-export function flipSide(c){
+export function flipSide(c) {
     color = c;
-    if (c === 'b') board.orientation('black')
+    
+    //try to get the style element that hides the pieces
+    var styleElement = document.getElementById('dynamic-style')
+    //remove the style element if it exists to avoid adding confilicting styles
+    if(styleElement){
+        styleElement.parentNode.removeChild(styleElement);
+        styleElement = document.createElement('style');
+        styleElement.id = 'dynamic-style';
+    }
+    //create a new style element
+    styleElement = document.createElement('style');
+    styleElement.id = 'dynamic-style';
+
+    if (c === 'b'){
+        board.orientation('black')
+
+        // Define the CSS rule
+        var cssRule = 'img[data-piece^="w"] { pointer-events: none; opacity: 0; }';
+
+        // Append the CSS rule to the style element
+        styleElement.appendChild(document.createTextNode(cssRule));
+
+        // Append the style element to the head of the document
+        document.head.appendChild(styleElement);
+    }
+    else if (c === 'w') {
+        board.orientation('white')
+        
+        // Define the CSS rule
+        var cssRule = 'img[data-piece^="b"] { pointer-events: none; opacity: 0; }';
+
+        // Append the CSS rule to the style element
+        styleElement.appendChild(document.createTextNode(cssRule));
+
+        // Append the style element to the head of the document
+        document.head.appendChild(styleElement);
+    }
     lightsOff();
+    //make sure that the board position is correct
+    board.start();
 }
 
 board = Chessboard('myBoard', config)

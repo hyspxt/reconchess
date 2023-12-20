@@ -115,10 +115,12 @@ def update_elo(player_name, opponent, win, los, dr):
     elif los: actual_score = 0
     else: actual_score = 0.5 #draw
     #calcolo punteggio atteso
-    rb = v.elo_points
-    ra = u.elo_points
+    rb = 1440
+    ra = 2000
+    #rb = v.elo_points
+    #ra = u.elo_points
     expected_score = 1 / (1+10**((rb-ra)/400))
-    new_elo=u.elo_points+(K*(actual_score-expected_score))
+    new_elo=ra+(K*(actual_score-expected_score))
     #aggiorno punti dei giocatori in tabella Users
     u.elo_points = new_elo
     u.save()

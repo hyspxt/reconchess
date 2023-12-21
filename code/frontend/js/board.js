@@ -31,49 +31,97 @@ var config = {
     onSnapEnd: onSnapEnd
 }
 
+
+export function showToast(message, type) {
+    var toastId = new Date().getTime();
+    var toastHTML = `
+<div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500000">
+<div class="toast-header">
+    <strong class="mr-auto">${type}</strong>
+    <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="toast-body">
+    ${message}
+</div>
+</div>
+`;
+
+    // Aggiungi il messaggio toast al contenitore
+    $('#toast-scroll').append(toastHTML);
+
+    // Mostra il messaggio toast
+    $('#' + toastId).toast('show');
+
+    var toastContainer = document.getElementById('toast-scroll');
+    toastContainer.scrollTop = toastContainer.scrollHeight;
+
+    // Rimuovi il messaggio toast dopo che è stato nascosto
+    $('#' + toastId).on('hidden.bs.toast', function () {
+        $(this).remove();
+    });
+}
+
+export function addHelloToast() {
+    showToast('Hello World! 🚀', '');
+}
+
 export function haveEaten(target) {
+    comments = ''
     if (target === 'b') {
-        comments = "white has eaten a black piece\n" + comments
+        comments = "white has eaten a black piece ⚔\n" + comments
     }
     if (target === 'w') {
-        comments = "black has eaten a white piece\n" + comments
+        comments = "black has eaten a white piece ⚔\n" + comments
     }
-    document.getElementById("History").innerText = comments;
+    showToast(comments,'');
+    // document.getElementById("History").innerText = comments;
 }
 
 export function showSideToMove(game_turn) {
+    comments = ''
     if (pass == false) {
         if (game_turn === player_color) {
-            comments = "it's your turn to move\n" + comments;
+            comments = "it's your turn to move ♟\n" + comments;
         } else {
-            comments = "opponent's turn\n" + comments;
+            comments = "opponent's turn ♟\n" + comments;
         }
-        document.getElementById("History").innerText = comments;
+        showToast(comments,'');
+        // document.getElementById("History").innerText = comments;
     }
     else pass = false;
 }
 
 export function illegalMove() {
-    comments = "illegal move\n" + comments;
-    document.getElementById("History").innerText = comments;
+    comments = ''
+    comments = "illegal move ❌ \n" + comments;
+    showToast(comments,'');
+    // document.getElementById("History").innerText = comments;
 }
 
 export function showSense() {
-    comments = "it's your turn to sense\n" + comments;
-    document.getElementById("History").innerText = comments;
+    comments = ''
+    comments = "it's your turn to sense 🔦\n" + comments;
+    showToast(comments,'')
+    // document.getElementById("History").innerText = comments;
 }
 
 export function youPassed() {
+    comments = '';
     if (game.turn() === 'w') {
-        comments = "you passed\n" + comments;
-        document.getElementById("History").innerText = comments;
+        comments = "you passed 😶‍🌫️ \n" + comments;
+        showToast(comments,'')
+        // document.getElementById("History").innerText = comments;
     }
 }
 
 export function showGameOver(reason, winner) {
+    comments = ''
     let result = winner ? 'White won, ' : (winner !== 'None' ? 'black won, ' : 'Draw')
-    comments = result + reason + "\n" + comments
-    document.getElementById("History").innerText = comments;
+    comments = result + reason + "🏆 \n" + comments;
+    showToast(comments,'')
+    // document.getElementById("History").innerText = comments;
 }
 
 export function onDragStart(source, piece) {

@@ -4,7 +4,7 @@ import { valid_moves, player_color } from './websocket.js'
 var board = null
 export let game = new Chess()
 var fen, promote_to
-let socket = null;
+export let socket = null;
 var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
 var promotion_dialog = $('#promotion-dialog')
 var promoting = false

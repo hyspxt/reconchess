@@ -1,9 +1,8 @@
-import random
-import chess
 from django.test import TestCase
 from channels.testing import WebsocketCommunicator
 from api.consumers import GameConsumer
-from reconchess import chess
+from server.asgi import application
+import chess
 
 class TestSingleplayer(TestCase):
 	async def connect(self):
@@ -19,8 +18,8 @@ class TestSingleplayer(TestCase):
 			'color': 'white',
 			'bot': 'random'
 		})
-		response = await communicator.receive_json_from()
-		self.assertEqual(response, {
+
+		self.assertEqual(await communicator.receive_json_from(), {
 			'message': 'game started',
 			'board': chess.STARTING_FEN,
 			'color': 'w',
@@ -35,13 +34,13 @@ class TestSingleplayer(TestCase):
 		await communicator.send_json_to({
 			'action': 'start_game',
 			'color': 'white',
-			'seconds': 3,
 			'bot': 'random'
 		})
-
-		response = await communicator.receive_json_from()
-		response = await communicator.receive_json_from()
-		self.assertTrue(response['message'] == 'your turn to sense')
+		
+		# await the game started message, it's not necessary to test it as it is tested in test_start
+		await communicator.receive_json_from()
+		
+		self.assertDictContainsSubset({'message': 'your turn to sense'}, await communicator.receive_json_from())
 		await communicator.send_json_to({
 			'action': 'sense',
 			'sense': 'a1'
@@ -52,14 +51,14 @@ class TestSingleplayer(TestCase):
 			'action': 'move',
 			'move': 'a2a3'
 		})
+		#make the selected move on a new board to compare it with the received board
+		board = chess.Board()
+		board.push(chess.Move.from_uci('a2a3'))
 
 		response = await communicator.receive_json_from()
 		self.assertEqual(response['message'], 'turn ended')
 
-		response = await communicator.receive_json_from()
-		board = chess.Board()
-		board.push(chess.Move.from_uci('a2a3'))
-		self.assertEqual(response, {
+		self.assertEqual(await communicator.receive_json_from(), {
 			'message': 'move result',
 			'requested_move': 'a2a3',
 			'taken_move': 'a2a3',
@@ -78,22 +77,26 @@ class TestSingleplayer(TestCase):
 		await communicator.send_json_to({
 			'action': 'start_game'
 		})
-
-		response = await communicator.receive_json_from()
-		self.assertEqual(response['color'], 'w')
-		self.assertEqual(response['board'], chess.STARTING_FEN)
-
-		response = await communicator.receive_json_from()
-		self.assertTrue(response['message'] == 'your turn to sense')
-
+		# await the game started message, it's not necessary to test it as it is tested in test_start
+		await communicator.receive_json_from()
+		# await the sense message and send a pass action
+		await communicator.receive_json_from()
 		await communicator.send_json_to(({'action': 'pass'}))
-		response = await communicator.receive_json_from()
 
+		response = await communicator.receive_json_from()
 		self.assertEqual(response['message'], 'turn ended')
+		
+		board = chess.Board()
+		board.push(chess.Move.null())
 
-		response = await communicator.receive_json_from()
-		self.assertEqual(response['message'], 'move result')
-		self.assertEqual(response['requested_move'], 'None')
+		self.assertEqual(await communicator.receive_json_from(), {
+			'message': 'move result',
+			'requested_move': 'None',
+			'taken_move': 'None',
+			'captured_opponent_piece': False,
+			'capture_square': 'None',
+			'board': board.fen()
+		})
 
 		await communicator.disconnect()
 
@@ -102,18 +105,16 @@ class TestSingleplayer(TestCase):
 		await communicator.send_json_to({
 			'action': 'start_game'
 		})
-
-		response = await communicator.receive_json_from()
-		self.assertEqual(response['color'], 'w')
-		self.assertEqual(response['board'], chess.STARTING_FEN)
-
-		response = await communicator.receive_json_from()
-		self.assertTrue(response['message'] == 'your turn to sense')
+		# receive the game started message and sense messages
+		await communicator.receive_json_from()
+		await communicator.receive_json_from()
 
 		await communicator.send_json_to(({'action': 'resign'}))
-		response = await communicator.receive_json_from()
-
-		self.assertEqual(response['message'], 'game over')
+		self.assertDictContainsSubset({
+			'message': 'game over',
+			'winner': False,
+			'reason': 'white resigned'
+		}, await communicator.receive_json_from(), )
 
 		await communicator.disconnect()
 
@@ -122,18 +123,16 @@ class TestSingleplayer(TestCase):
 		await communicator.send_json_to({
 			'action': 'start_game'
 		})
-
-		response = await communicator.receive_json_from()
-		self.assertEqual(response['color'], 'w')
-		self.assertEqual(response['board'], chess.STARTING_FEN)
-
-		response = await communicator.receive_json_from()
-		self.assertTrue(response['message'] == 'your turn to sense')
+		# receive the game started message and sense messages
+		await communicator.receive_json_from()
+		await communicator.receive_json_from()
 
 		await communicator.send_json_to(({'action': 'resign', 'rematch': True}))
-		response = await communicator.receive_json_from()
-
-		self.assertEqual(response['message'], 'game over')
+		self.assertDictContainsSubset({
+			'message': 'game over',
+			'winner': False,
+			'reason': 'white resigned'
+		}, await communicator.receive_json_from(), )
 
 		response = await communicator.receive_json_from()
 		self.assertEqual(response['message'], 'game started')
@@ -144,18 +143,17 @@ class TestSingleplayer(TestCase):
 		communicator = await self.connect()
 		await communicator.send_json_to({
 			'action': 'start_game',
-			'seconds': 3
+			'seconds': 1
 		})
 
-		response = await communicator.receive_json_from()
-		self.assertEqual(response['color'], 'w')
-		self.assertEqual(response['board'], chess.STARTING_FEN)
-
-		response = await communicator.receive_json_from()
-		self.assertTrue(response['message'] == 'your turn to sense')
+		# receive the game started message and sense messages
+		await communicator.receive_json_from()
+		await communicator.receive_json_from()
 	
-
-		response = await communicator.receive_json_from(timeout=5)
-		self.assertEqual(response['message'], 'game over')
+		self.assertDictContainsSubset({
+			'message': 'game over',
+			'winner': False,
+			'reason': 'timeout'
+		}, await communicator.receive_json_from(timeout=1.5))
 
 		await communicator.disconnect()

@@ -2,9 +2,9 @@ import { createWebsocket } from './websocket.js'
 import { valid_moves, player_color } from './websocket.js'
 
 var board = null
-var game = new Chess()
+export let game = new Chess()
 var fen, promote_to
-export var socket = createWebsocket(game, document.getElementById('player_timer'), document.getElementById('opponent_timer'))
+let socket = null;
 var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
 var promotion_dialog = $('#promotion-dialog')
 var promoting = false
@@ -14,6 +14,16 @@ var comments = ""
 var pass = false
 var color
 
+export function startConnection(url, timer, bot, color) {
+    socket = createWebsocket(game, url, document.getElementById("player_timer"), document.getElementById("opponent_timer"));
+
+
+    console.log(url, timer, bot, color)
+
+    //avoid trying to send the message while the page is loading
+    setTimeout(() => { socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color })) }, 50);
+
+}
 //activates when the user switches tabs
 document.addEventListener("visibilitychange", () => {
     console.log('visibility changed' + document.visibilityState)

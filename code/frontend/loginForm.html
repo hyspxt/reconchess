@@ -27,7 +27,7 @@
         <div class="container_z">
             <div class="form">
                 <header>Sign in</header>
-                <form onsubmit="handleLogin(event)"> <!-- Manda i dati in input-->
+                <form id="log" onsubmit="handleLogin(event)"> <!-- Manda i dati in input-->
                     <div class="field input-field">
                         <input name="email" type="email" placeholder="Email" class="input" required>
                     </div>
@@ -41,11 +41,13 @@
                 </form>
                 <div class="line"></div>
                 <script src="https://accounts.google.com/gsi/client" async defer></script>
-                <div id="g_id_onload"
+                <div style="display: flex; justify-content:center;">
+                    <div id="g_id_onload"
                     data-client_id="613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com"
                     data-callback="handleCredentialResponse">
+                    </div>
+                    <div class="g_id_signin" data-type="standard" data-locale="en-US"></div>
                 </div>
-                <div class="g_id_signin" data-type="standard"></div>
             </div>
         </div>
         <script src="js/script.js"></script>

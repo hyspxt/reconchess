@@ -57,7 +57,7 @@
     </nav>
 
     <div id="intro">
-        <div class="selection_player">
+        <div class="selection_player" id="selection_player">
             <div class="question">Select your opponent</div>
 
             <fieldset class="bot_user">
@@ -123,7 +123,7 @@
                 </a>
             </fieldset>
             <div class="room_bar">
-                <input class="search_r" type="text" placeholder="Room-Code">
+                <input class="search_r" id="room-code" type="text" placeholder="Room-Code">
                 <button class="search_b">Search</button>
             </div>
         </div>
@@ -154,7 +154,7 @@
             </div>
         </div>
         <div id="btn_start" class="btn_start">
-            <button id="button_start" class="botton_start" onclick="start()" disabled>START</button>
+            <button id="button_start" class="botton_start" disabled>START</button>
         </div>
     </div>
 
@@ -243,6 +243,7 @@
             $('.room_bar').css('display', 'none')
             $('.a_newR').css('background-color', '#E7ECEF')
             $('.a_oldR').css('background-color', '#E7ECEF')
+            $('#selection_player').attr('value', 'bot')
 
         }
 
@@ -255,6 +256,7 @@
             $('.bot_x').css('background-color', '#E7ECEF')
             $('.bot_x').css('color', '#274C77')
             $('.selection_room').css('display', 'block')
+            $('#selection_player').attr('value', 'human')
         }
 
         function bot_selection(n) {
@@ -345,23 +347,28 @@
 
     </script>
     <script type="module">
-        import { socket } from './js/board.js';
+        import {startConnection} from './js/board.js';
+        import {createWebsocket} from './js/websocket.js';
+        import { generaStringaCasuale } from './js/script.js';
 
         function start() {
+            // Ottieni il tipo di avversario selezionato
+            let opponentType = document.getElementById("selection_player").getAttribute('value');
+            let roomCode = document.getElementById("room-code").value;
+            let roomName = roomCode ? roomCode : generaStringaCasuale(6);
+            let ws_url = opponentType === 'bot' ? 'ws/game' : `ws/multiplayer/${roomName}`;
+            
             // Ottieni nuovamente i valori per garantire che siano aggiornati
             let timer = document.getElementById("frutta").value;
             let bot = document.getElementById("bot_choice").getAttribute('value');
             let color = document.getElementById("selection_color").getAttribute('value');
-
-            console.log(timer, bot, color)
-
+                
             // Effettua le operazioni necessarie per l'inizio del gioco
             $('#intro').css('display', 'none');
             $('#final').css('display', 'block');
 
-            // Invia il messaggio di inizio gioco al server
-            socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color }));
-
+            startConnection(ws_url, timer, bot, color);
+    
             document.getElementById("black_name").innerHTML = bot;
         }
 

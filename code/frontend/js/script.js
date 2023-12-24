@@ -8,53 +8,13 @@ export function generaStringaCasuale(length) {
     }
     return string;
   }
-  
-  // Utilizzo della funzione per generare una stringa casuale di lunghezza 10
-  const stringaCasuale = generaStringaCasuale(10);
-  console.log(stringaCasuale);
-  
-
-
-
+ 
 document.addEventListener("DOMContentLoaded", function() {
     var element = document.getElementById("not_signed_ini6gdrs9oeic0");
     if(element) {
         element.innerHTML = "Sign in with Google";
     }
 });
-
-function handleCredentialResponse(response) {
-    var id_token = response.credential;
-
-    // Send the id_token to your Django server
-    fetch('/api/social_log/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            //'X-CSRFToken': getCookie('csrftoken')  // Assuming you have a function to get the CSRF token
-        },
-        body: JSON.stringify({
-            id_token: id_token
-        })
-    }).then(response => {
-        const alert = document.createElement("div");
-        alert.classList.add("alert", "mt-3", "text-center");
-
-        if (response.ok) {
-            alert.classList.add("alert-success");
-        } else {
-            alert.classList.add("alert-danger");
-        }
-
-        response.text().then(data => {
-            alert.innerHTML = data;
-        });
-    }).then(data => {
-        // Handle the response from your Django server
-    }).catch(error => {
-        console.log('There was a problem with the AJAX request.', error);
-    });
-}
 
 document.addEventListener("DOMContentLoaded", function () {
     const eyeIcons = document.querySelectorAll(".eye-icon");
@@ -141,4 +101,45 @@ function handleLogin(event) {
         }
         event.target.after(alert);
     })
+}
+
+function handleCredentialResponse(response) {
+    var id_token = response.credential;
+
+    // Send the id_token to Django server
+    fetch('/api/googleID/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id_token: id_token
+        })
+    })
+    .then(response => response.json())  // Parse the JSON response
+    .then(data => {
+        const alert = document.createElement("div");
+        alert.classList.add("alert", "mt-3", "text-center");
+
+        if (data.success) {
+            alert.classList.add("alert-success");
+            alert.innerHTML = `Logged in successfully as ${data.user_name}`;
+        } else {
+            alert.classList.add("alert-danger");
+            alert.innerHTML = `Error: ${data.error}`;
+        }
+
+        // Append the alert to the form
+        const form = document.getElementById('log');
+        const nextElement = form.nextElementSibling;
+
+        if (nextElement && nextElement.classList.contains("alert")) {
+            nextElement.remove();
+        }
+
+        form.after(alert);
+    })
+    .catch(error => {
+        console.log('There was a problem with the AJAX request.', error);
+    });
 }

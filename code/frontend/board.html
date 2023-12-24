@@ -28,13 +28,15 @@
 <body>
     <div class="modal" id="rematch-modal">
         <div class="modal-dialog">
-            <div class="modal-content">            
+            <div class="modal-content">
                 <div class="modal-body">
                     <p>Your opponent wants a rematch</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="accept-rematch" class="btn btn-secondary" data-dismiss="modal">Accept</button>
-                    <button type="button" id="decline-rematch" class="btn btn-danger" data-dismiss="modal">Decline</button>
+                    <button type="button" id="accept-rematch" class="btn btn-secondary"
+                        data-dismiss="modal">Accept</button>
+                    <button type="button" id="decline-rematch" class="btn btn-danger"
+                        data-dismiss="modal">Decline</button>
                 </div>
             </div>
         </div>
@@ -81,24 +83,28 @@
 
                 </script>
 
-               <!-- <div class="botton_12"> -->
-                    <a id="bot_1" class="bot_x" href="#" onclick="bot_selection(1)" data-toggle="tooltip"
-                        data-placement="bottom" title="I'm just a simple random bot and I do random moves! You're scared huh?" value="random">RANDOM</a>
+                <!-- <div class="botton_12"> -->
+                <a id="bot_1" class="bot_x" href="#" onclick="bot_selection(1)" data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="I'm just a simple random bot and I do random moves! You're scared huh?"
+                    value="random">RANDOM</a>
 
 
-                    <a id="bot_2" class="bot_x" href="#" onclick="bot_selection(2)" data-toggle="tooltip"
-                        data-placement="bottom" title="I can't see the board well, but don't underestimate me!"  value="trout">TROUT</a>
+                <a id="bot_2" class="bot_x" href="#" onclick="bot_selection(2)" data-toggle="tooltip"
+                    data-placement="bottom" title="I can't see the board well, but don't underestimate me!"
+                    value="trout">TROUT</a>
 
                 <!--  </div> -->
-               <!--  <div class="botton_34"> -->
-                    <a id="bot_3" class="bot_x" href="#" onclick="bot_selection(3)" data-toggle="tooltip"
-                        data-placement="bottom" title="I'M GONNA DESTROY YOU IN 3 MOVES!"  value="attacker">ATTACKER</a>
+                <!--  <div class="botton_34"> -->
+                <a id="bot_3" class="bot_x" href="#" onclick="bot_selection(3)" data-toggle="tooltip"
+                    data-placement="bottom" title="I'M GONNA DESTROY YOU IN 3 MOVES!" value="attacker">ATTACKER</a>
 
-                    <a id="bot_4" class="bot_x" href="#" onclick="bot_selection(4)" data-toggle="tooltip"
-                        data-placement="bottom`" title="Let's play a fair game! Don't cry if you lose!"  value="strangefish">STRANGEFISH</a>
+                <a id="bot_4" class="bot_x" href="#" onclick="bot_selection(4)" data-toggle="tooltip"
+                    data-placement="bottom`" title="Let's play a fair game! Don't cry if you lose!"
+                    value="strangefish">STRANGEFISH</a>
 
-               <!--  </div> -->
-    
+                <!--  </div> -->
+
             </div>
         </div>
 
@@ -195,10 +201,23 @@
             </div>
 
             <div class="container_f">
-                <div class="scroll_History">
-                    <div class="heder_scroll">ARBITER</div>
-                    <div id="History" class="text_scroll"></div>
+
+                <script type="module">
+
+                    import { showToast, addHelloToast } from './js/board.js';
+
+                    document.getElementById("btn_toast").addEventListener("click", addHelloToast);
+                </script>
+
+                <div id="toast-container" class="toast-container">
+                    <div id="header-toast" class="header-toast">Arbiter</div>
+                    <div id="toast-scroll" class="toast-scroll"></div>
+
                 </div>
+
+                <!-- <button id="btn_toast" class="btn btn-primary">Aggiungi Ciao</button> -->
+
+
                 <button type="submit" class="btn_rematch" id="btn_rematch">RE-MATCH</button>
                 <div class="btn_qp">
                     <button type="submit" class="btn_quit" id="btn_quit">QUIT</button>
@@ -304,7 +323,7 @@
             $('.a_oldR').css('background-color', '#274C80')
             $('.room_bar').css('display', 'block')
         }
-        
+
         function botton_newRoom() {
             room = true;
             updateStartButton();
@@ -313,7 +332,7 @@
             $('.room_bar').css('display', 'none')
         }
 
-        document.getElementById("frutta").addEventListener("change", function() {
+        document.getElementById("frutta").addEventListener("change", function () {
             time = true;
             updateStartButton();
         });
@@ -355,7 +374,7 @@
 
         // Aggiungi l'evento per il click sul pulsante START
         document.getElementById("button_start").addEventListener("click", start);
-        $("#btn_start").click(function() {
+        $("#btn_start").click(function () {
             var button = $("#button_start");
             if (button.is(":disabled")) {
                 Swal.fire({
@@ -365,7 +384,7 @@
                     confirmButtonText: 'OK'
                 });
             }
-            
+
             //set the event listener for the start button and the rematch buttons
             document.getElementById("accept-rematch").addEventListener("click", () => {
                 socket.send(JSON.stringify({ action: 'rematch', accept: true }));
@@ -385,6 +404,8 @@
         document.getElementById("btn_quit").addEventListener("click", () => resign());
         document.getElementById("btn_rematch").addEventListener("click", () => resign(true));
         document.getElementById("btn_undo").addEventListener("click", passTurn);
+
+
     </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

@@ -106,6 +106,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 
 				break;
 			case 'game over':
+				// game.load(data.board);
 				showGameOver(data.reason, data.winner)
 				stop_timer();
 				game.load(data.board);

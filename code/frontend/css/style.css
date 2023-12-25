@@ -466,6 +466,87 @@ a:hover{
     max-width: 300px;
     background-color: #274C77
 }
+
+/* ------------------------ */
+/*LEADERBOARD STUFF*/
+.stats_player,
+.stats_leaderboard{
+    margin-left: 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.stats_player{
+    width: 85%;
+}
+
+.stats_leaderboard{
+    width: 100%;
+}
+
+.title_Us,
+.Us{
+    display: flex;
+    width: 70%;
+    padding: 10px;
+}
+
+.title_User{
+    display: flex;
+    width: 60%;
+    padding: 10px;
+}
+
+.title_Vic,
+.Vic,
+.title_Def,
+.Def,
+.title_Drw,
+.Drw,
+.title_Elo{
+    display: flex;
+    width: 10%;
+    padding: 10px;
+}
+
+.table_stats_player,
+.table_stats_leaderboard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.table_stats_player{
+    width: 100%;
+}
+
+.table_stats_leaderboard{
+    width: 85%;
+}
+
+.class_stat_player_header,
+.class_stat_leaderboard_header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 8px;
+    background-color: #274C77;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: large;
+    margin-bottom: 10px;
+}
+
+.class_stat_player{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    color: #274c77;
+}
+
 /* ------------------------ */
 
 

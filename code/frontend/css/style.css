@@ -475,13 +475,6 @@ a:hover{
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-}
-
-.stats_player{
-    width: 85%;
-}
-
-.stats_leaderboard{
     width: 100%;
 }
 
@@ -492,7 +485,8 @@ a:hover{
     padding: 10px;
 }
 
-.title_User{
+.title_User,
+.User {
     display: flex;
     width: 60%;
     padding: 10px;
@@ -504,32 +498,46 @@ a:hover{
 .Def,
 .title_Drw,
 .Drw,
-.title_Elo{
+.title_Elo,
+.Elo{
     display: flex;
     width: 10%;
     padding: 10px;
 }
 
 .table_stats_player,
-.table_stats_leaderboard {
+.players_position,
+.number_position {
     display: flex;
     flex-direction: column;
+}
+
+.columns_leaderbord{
+    display: flex;
+    flex-direction: row;
     width: 100%;
 }
 
-.table_stats_player{
+.table_stats_player,
+.class_stat_player{
     width: 100%;
 }
 
-.table_stats_leaderboard{
+
+.players_position {
     width: 85%;
+    margin-right: 30px;
+}
+
+.number_position{
+    width: 10%;
 }
 
 .class_stat_player_header,
 .class_stat_leaderboard_header {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 85%;
     border-radius: 8px;
     background-color: #274C77;
     color: #ffffff;
@@ -538,13 +546,42 @@ a:hover{
     margin-bottom: 10px;
 }
 
-.class_stat_player{
+.class_stat_player,
+.class_leader_player {
     display: flex;
     flex-direction: row;
-    width: 100%;
     border-radius: 8px;
     background-color: #FFFFFF;
     color: #274c77;
+}
+
+.class_leader_player{
+    margin-bottom: 12px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.class_stat_player{
+    width: 85%;
+}
+
+.number_top3,
+.number{
+    border-radius: 35px;
+    margin-bottom: 10px;
+    padding: 9px;
+    width: 45px;
+    border: #274C77 2px solid;
+    text-align: center;
+    display: none;
+}
+
+.number_top3{
+    background-color: #6096BA;
+    color: #FFFFFF;
+}
+
+.number{
+    background-color: #FFFFFF;
 }
 
 /* ------------------------ */

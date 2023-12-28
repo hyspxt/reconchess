@@ -344,6 +344,8 @@ export function lightsOn(gg) {
 }
 
 export function lightsOff() {
+
+    //The problem is here, think about it
     var i = 0;
     var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
     while (i < 8) {
@@ -356,21 +358,24 @@ export function lightsOff() {
             });
             var piece = square.find('img[data-piece]');
             
+            
             if (piece.length > 0) {
                 var dataPieceValue = piece.attr('data-piece');
 
                 //check for white pieces
-                if (dataPieceValue && dataPieceValue.startsWith(color)) {
+                if (dataPieceValue && dataPieceValue.startsWith(color, 0)) {
                     square.css({
                         'opacity': '1',
                         'filter': 'none'
                     });
                     piece.css('opacity', '1');
-                }else piece.css({
+                }
+                else {
+                    piece.css({
                     'opacity': '0' ,
                     'z-index': '0',
                     'pointer-events': 'none'
-                });
+                });}
             }
             y++;
         }
@@ -419,11 +424,13 @@ export function flipSide(c) {
     styleElement = document.createElement('style');
     styleElement.id = 'dynamic-style';
 
+    console.log('This is the color: ' + c);
     if (c === 'b'){
-        board.orientation('black')
+        board.orientation('black');
 
         // Define the CSS rule
         var cssRule = 'img[data-piece^="w"] { pointer-events: none; opacity: 0; }';
+
 
         // Append the CSS rule to the style element
         styleElement.appendChild(document.createTextNode(cssRule));
@@ -432,7 +439,7 @@ export function flipSide(c) {
         document.head.appendChild(styleElement);
     }
     else if (c === 'w') {
-        board.orientation('white')
+        board.orientation('white');
         
         // Define the CSS rule
         var cssRule = 'img[data-piece^="b"] { pointer-events: none; opacity: 0; }';

@@ -389,8 +389,12 @@ export function lightsOff() {
     light = false;
 }
 
+/**
+ * Resigns the game.
+ * @param {boolean} rematch - Indicates whether a rematch is requested.
+ * @returns {void} void
+ */
 export function resign(rematch = false) {
-
     config.draggable = false;
     console.log('light ' + light);
     if (light && !game.is_over) lightsOff();
@@ -419,7 +423,7 @@ export function resign(rematch = false) {
  * 
  * @param {string} c - The color to set the chessboard orientation to 
  *                     ('b' for black, 'w' for white).
- * @return void
+ * @returns {void} void
  */
 export function flipSide(c) {
     color = c; // Set global colour

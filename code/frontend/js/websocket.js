@@ -103,7 +103,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 
 				break;
 			case 'game over':
-				
+
 				showGameOver(data.reason, data.winner)
 				stop_timer();
 
@@ -118,6 +118,8 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 			case 'rematch':
 				console.log('REMATCH REQUESTED')
 				$('#rematch-modal').modal('show');
+			case 'rematch declined':
+				alert('Rematch declined');
 			default:
 				break;
 		}

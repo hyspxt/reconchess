@@ -80,10 +80,10 @@ export function addHelloToast() {
 export function haveEaten(target) {
     comments = ''
     if (target === 'b') {
-        comments = "white has eaten a black piece ⚔\n" + comments
+        comments = "White captured a black piece ⚪⚔⚫ \n" + comments
     }
     if (target === 'w') {
-        comments = "black has eaten a white piece ⚔\n" + comments
+        comments = "Black captured a white piece ⚫⚔⚪ \n" + comments
     }
     showToast(comments, '');
     // document.getElementById("History").innerText = comments;
@@ -93,9 +93,9 @@ export function showSideToMove(game_turn) {
     comments = ''
     if (pass == false) {
         if (game_turn === player_color) {
-            comments = "it's your turn to move ♟\n" + comments;
+            comments = "It's your turn to move ♟️ \n" + comments;
         } else {
-            comments = "opponent's turn ♟\n" + comments;
+            comments = "opponent's turn . . . 🎭 \n" + comments;
         }
         showToast(comments, '');
         // document.getElementById("History").innerText = comments;
@@ -112,7 +112,7 @@ export function illegalMove() {
 
 export function showSense() {
     comments = ''
-    comments = "it's your turn to sense 🔦\n" + comments;
+    comments = "It's your turn to sense 🔦 \n" + comments;
     showToast(comments, '')
     // document.getElementById("History").innerText = comments;
 }
@@ -120,7 +120,7 @@ export function showSense() {
 export function youPassed() {
     comments = '';
     if (game.turn() === 'w') {
-        comments = "you passed 😶‍🌫️ \n" + comments;
+        comments = "You passed 😶‍🌫️ \n" + comments;
         showToast(comments, '')
         // document.getElementById("History").innerText = comments;
     }

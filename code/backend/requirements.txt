@@ -10,3 +10,4 @@ coverage==7.3.2
 click==8.1.7
 tqdm==4.66.1
 numpy==1.26.2
+google-api-python-client==2.24.0

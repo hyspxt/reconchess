@@ -124,7 +124,6 @@
             </fieldset>
             <div class="room_bar">
                 <input class="search_r" id="room-code" type="text" placeholder="Room-Code">
-                <button class="search_b">Search</button>
             </div>
         </div>
 
@@ -202,10 +201,11 @@
 
             <div class="container_f">
 
+                <p id="room-code-label"></p> <!-- Room code Placeholder-->
+
                 <div id="toast-container" class="toast-container">
                     <div id="header-toast" class="header-toast">Arbiter</div>
                     <div id="toast-scroll" class="toast-scroll"></div>
-
                 </div>
 
 
@@ -347,6 +347,7 @@
             let opponentType = document.getElementById("selection_player").getAttribute('value');
             let roomCode = document.getElementById("room-code").value;
             let roomName = roomCode ? roomCode : generaStringaCasuale(6);
+
             let ws_url = opponentType === 'bot' ? 'ws/game' : `ws/multiplayer/${roomName}`;
             
             // Ottieni nuovamente i valori per garantire che siano aggiornati
@@ -357,6 +358,9 @@
             // Effettua le operazioni necessarie per l'inizio del gioco
             $('#intro').css('display', 'none');
             $('#final').css('display', 'block');
+
+            console.log("This is the bot: " + bot);
+            if (bot === null) document.getElementById("room-code-label").innerHTML = `Room code: ${roomName}`;
 
             startConnection(ws_url, timer, bot, color);
     
@@ -395,10 +399,9 @@
         document.getElementById("btn_quit").addEventListener("click", () => resign());
         document.getElementById("btn_rematch").addEventListener("click", () => resign(true));
         document.getElementById("btn_undo").addEventListener("click", passTurn);
-
-
     </script>
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"

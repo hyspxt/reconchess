@@ -1,7 +1,7 @@
 import { createWebsocket } from './websocket.js'
 import { valid_moves, player_color } from './websocket.js'
 
-var board = null
+export var board = null
 export let game = new Chess()
 var fen, promote_to
 let socket = null;
@@ -301,6 +301,7 @@ export function makeMove(game, move_cfg, promotion = false) {
         console.log('you moved: ' + move_cfg.from + move_cfg.to);
         config.draggable = false;
     }
+
 }
 
 export function lightsOn(gg) {
@@ -346,8 +347,6 @@ export function lightsOn(gg) {
 }
 
 export function lightsOff() {
-
-    //The problem is here, think about it
     var i = 0;
     var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
     while (i < 8) {
@@ -399,7 +398,7 @@ export function resign(rematch = false) {
     console.log('light ' + light);
     if (light && !game.is_over) lightsOff();
     //reset fog
-    if (color == 'w') var squares = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
+    if (color == 'w') var squares = ['a1', 'a2', 'b1', 'b2', 'c1se', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
     else var squares = ['a7', 'a8', 'b7', 'b8', 'c7', 'c8', 'd7', 'd8', 'e7', 'e8', 'f7', 'f8', 'g7', 'g8', 'h7', 'h8'];
     $('#myBoard .square-55d63').css('opacity', 0.4)
     $('#myBoard .square-55d63').css('filter', 'grayscale(50%) blur(2px) brightness(0.8)')

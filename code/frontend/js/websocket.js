@@ -1,5 +1,5 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, lightsOff, makeOpponentMove, flipSide} from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, lightsOff, makeOpponentMove, flipSide, updateBoard} from '../js/board.js';
 
 var light = false
 export let valid_moves = []
@@ -37,9 +37,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				}
 				break;
 			case 'opponent move':
-				// It is better to check if the turn is w/b alonside fen, but it should go for now.
-				// The problem is basically that given the fact that game.move() is not used anymore, 
-				// the turn (from game.turn()) is not automatically updated, we should do it manually.
+				
 				stop_timer();
 				//use the information from the backend to update the board in the frontend
 				let board = data.board
@@ -69,17 +67,16 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 			case 'invalid move':
 
 				console.log('invalid move')
-				// So, this is a bit tricky. Basically, when the pawn moves diagonally (cause it is possible by its property) 
-				// but if there is no piece the move is and should be illegal. Unfortunately, the move is still valid in 
-				// valid_moves array so the message "Illegal move" is not shown.
-
 				illegalMove()
-				// undoMove();
+
 				break;
 			case 'move result':
 				console.log('move result');
-				game.load(data.board);
+				
 				if (data.captured_opponent_piece) haveEaten('b')
+				game.load(data.board);
+				updateBoard(Chessboard, false);
+				// board.position(game.fen(), false);
 				break;
 			case 'time left':
 				console.log('time left')
@@ -106,10 +103,14 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 
 				break;
 			case 'game over':
-				// game.load(data.board);
+				
 				showGameOver(data.reason, data.winner)
 				stop_timer();
+
 				game.load(data.board);
+
+				updateBoard(Chessboard, false);
+
 				//tell the frontend library to stop the game
 				game.is_over = true;
 				light = true;

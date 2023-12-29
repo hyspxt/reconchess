@@ -140,5 +140,6 @@ class HumanPlayer(Player):
 				'type': 'game.message',
 				'message': 'game over',
 				'winner': winner_color,
-				'reason': win_reason_messages.get(win_reason)
+				'reason': win_reason_messages.get(win_reason),
+                'board': self.game.board.fen()
 			})

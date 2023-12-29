@@ -118,6 +118,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 			case 'rematch':
 				console.log('REMATCH REQUESTED')
 				$('#rematch-modal').modal('show');
+				break;
 			case 'rematch declined':
 				alert('Rematch declined');
 			default:

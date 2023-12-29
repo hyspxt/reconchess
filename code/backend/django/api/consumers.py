@@ -8,6 +8,7 @@ from reconchess.bots import random_bot, attacker_bot, trout_bot
 from strangefish.strangefish_strategy import StrangeFish2
 from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
+from django.contrib.auth.models import AnonymousUser
 
 available_bots = {
 	'random': random_bot.RandomBot,
@@ -75,6 +76,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print('invalid action')
 
 	async def game_message(self, event):
+		event.pop('type')
 		#send the messages from the player to the client
 		await self.send(text_data=json.dumps(event))
 
@@ -100,8 +102,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 		self.bot = bot_constructor()
 
 		#get the username if the player is authenticated otherwise use 'guest'
-		player_name = self.scope['user'].username if self.scope['user'].is_authenticated else 'guest'
-		
+		if self.scope.get('user', AnonymousUser()).is_authenticated:
+			player_name = self.scope['user'].username
+		else: 
+			player_name = 'guest'		
 		#save the player names in a list
 		names = [self.bot.__class__.__name__, player_name]
 		#make sure that the list's order follows the order of chess.COLORS
@@ -179,8 +183,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#let the bot choose a move action
 		move = self.bot.choose_move(move_actions, self.game.get_seconds_left())
 		requested_move, taken_move, capture_square = self.game.move(move)
-		print("BOT'S MOVE", taken_move)
-
 		
 		self.bot.handle_move_result(requested_move, taken_move, capture_square is not None, capture_square)
 
@@ -221,7 +223,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			return
 		
 		action = data['action']
-		print("DATA:", data)
 
 		if action == 'start_game':
 			seconds = int(data.get('seconds', 900) or 900)
@@ -285,6 +286,7 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				await self.channel_layer.group_send(self.room_group_name, data)	
 
 			#both consumers should handle rematch requests the same way after the game has ended
+			#the request should be sent to the group only once
 			if data.get('rematch', False) and data.get('sender', self.channel_name) == self.channel_name:
 				await self.channel_layer.group_send(
 					self.room_group_name,
@@ -294,17 +296,9 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 						'sender': self.channel_name
 					}
 				)
-		#the game has ended and the players have agreed to a rematch		)
+		#the game has ended and the players have agreed to a rematch
 		elif action == 'rematch':
 			if hasattr(self, 'players') and data.get('accept', False):
-				self.channel_layer.receive(self.channel_name)
-				await self.channel_layer.group_send(
-					self.room_group_name,
-					{
-						'type': 'game_message',
-						'message': 'rematch accepted'
-					}
-				)
 				self.game_task = asyncio.create_task(self.start_game(self.game.seconds_per_player))
 			elif not data.get('accept', False):
 				await self.channel_layer.group_send(
@@ -380,10 +374,11 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 	#this method is called only for the consumer instance of the player class sending the message
 	async def game_message(self, event):
 		#ignore rematch messages sent by the same consumer
-		if(event['message'] == 'rematch' and event['sender'] == self.channel_name):
+		if((event['message'] == 'rematch' or event['message'] == 'rematch declined') and event['sender'] == self.channel_name):
 			return
-		#remove the sender key from the event
+		#remove the sender and type keys from the event
 		event.pop('sender', None)
+		event.pop('type')
 		#send the messages from the players to the client
 		await self.send(text_data=json.dumps(event))
 
@@ -396,15 +391,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 
 		for player in self.players:
 			await player.handle_game_end(winner_color, win_reason, game_history)
-
-
-		await self.channel_layer.send(
-			self.channel_name,
-			{
-				'type': 'game_message',
-				'message': 'the game has ended'
-			}
-		)
 
 		#stop the game loop task if it exists
 		if self.game_task is not None:
@@ -441,7 +427,10 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			player = HumanPlayer(channel, self.game)
 			self.players.append(player)
 			#save the player's name and color, use name guest if the player is not authenticated
-			self.player_names.append(self.scope['user'].username if self.scope['user'].is_authenticated else 'guest')
+			if self.scope.get('user', AnonymousUser()).is_authenticated:
+				self.player_names.append(self.scope['user'].username)
+			else:
+				self.player_names.append('guest')
 			self.player_colors[channel] = selected_color
 
 		#if the second player is black reverse the players and player_names lists to match the colors' values (False, True)

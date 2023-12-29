@@ -30,7 +30,7 @@ document.addEventListener("visibilitychange", () => {
     //when the tab is active send a request for the timers to the backend
     if (document.visibilityState === 'visible')
         console.log('send request for timers')
-        socket.send(JSON.stringify({ action: 'get_active_timer' }));
+    socket.send(JSON.stringify({ action: 'get_active_timer' }));
 });
 
 var config = {
@@ -85,7 +85,7 @@ export function haveEaten(target) {
     if (target === 'w') {
         comments = "black has eaten a white piece ⚔\n" + comments
     }
-    showToast(comments,'');
+    showToast(comments, '');
     // document.getElementById("History").innerText = comments;
 }
 
@@ -97,7 +97,7 @@ export function showSideToMove(game_turn) {
         } else {
             comments = "opponent's turn ♟\n" + comments;
         }
-        showToast(comments,'');
+        showToast(comments, '');
         // document.getElementById("History").innerText = comments;
     }
     else pass = false;
@@ -106,14 +106,14 @@ export function showSideToMove(game_turn) {
 export function illegalMove() {
     comments = ''
     comments = "illegal move ❌ \n" + comments;
-    showToast(comments,'');
+    showToast(comments, '');
     // document.getElementById("History").innerText = comments;
 }
 
 export function showSense() {
     comments = ''
     comments = "it's your turn to sense 🔦\n" + comments;
-    showToast(comments,'')
+    showToast(comments, '')
     // document.getElementById("History").innerText = comments;
 }
 
@@ -121,7 +121,7 @@ export function youPassed() {
     comments = '';
     if (game.turn() === 'w') {
         comments = "you passed 😶‍🌫️ \n" + comments;
-        showToast(comments,'')
+        showToast(comments, '')
         // document.getElementById("History").innerText = comments;
     }
 }
@@ -130,12 +130,13 @@ export function showGameOver(reason, winner) {
     comments = ''
     let result = winner ? 'White won, ' : (winner !== 'None' ? 'black won, ' : 'Draw')
     comments = result + reason + "🏆 \n" + comments;
-    showToast(comments,'')
+    showToast(comments, '')
     // document.getElementById("History").innerText = comments;
 }
 
 export function onDragStart(source, piece) {
     document.body.style.overflow = 'hidden';
+
     // do not pick up pieces if the game is over
     if (game.game_over() || game.is_over) return false
 
@@ -150,6 +151,7 @@ export function makeOpponentMove(board_conf) {
     game.load(board_conf);
     //updte the board shown to the user
     board.position(game.fen(), false);
+
     // Apply custom styles after updating the board
     lightsOff();
 }
@@ -180,7 +182,7 @@ export function onDrop(source, target) {
         to: target,
         promotion: 'q'
     };
-    
+
     // check we are not trying to make an illegal pawn move to the 8th or 1st rank,
     // so the promotion dialog doesn't pop up unnecessarily
     if (!valid_moves.some(move => move.startsWith(source + target))) {
@@ -189,7 +191,7 @@ export function onDrop(source, target) {
         config.draggable = true;
         return 'snapback';
     }
-    
+
     var source_rank = source.substring(2, 1);
     var target_rank = target.substring(2, 1);
     var source_column = source.substring(0, 1);
@@ -201,7 +203,7 @@ export function onDrop(source, target) {
     console.log(target_type);
 
     //change the opacity of the squares
-    if ((piece.search(/^w/) && color == 'w')||(piece.search(/^b/) && color == 'b')) {
+    if ((piece.search(/^w/) && color == 'w') || (piece.search(/^b/) && color == 'b')) {
         var squareSource = $('#myBoard .square-' + source);
         var squareTarget = $('#myBoard .square-' + target);
         squareTarget.css('opacity', 1);
@@ -212,8 +214,8 @@ export function onDrop(source, target) {
 
     if (piece === 'p' &&
         (
-        (source_rank === '7' && target_rank === '8') ||
-        (source_rank === '2' && target_rank === '1')
+            (source_rank === '7' && target_rank === '8') ||
+            (source_rank === '2' && target_rank === '1')
         ) &&
         (source_column === target_column ? target_type === null : true) &&
         (source_column != target_column ? target_type !== null : true)
@@ -302,7 +304,7 @@ export function makeMove(game, move_cfg, promotion = false) {
 }
 
 export function lightsOn(gg) {
-    if (color == gg){
+    if (color == gg) {
         config.draggable = false;
         window.addEventListener("click", function (event) {
             if ((event.target.classList.contains("square-55d63")) && (light == false)) {
@@ -357,25 +359,28 @@ export function lightsOff() {
                 'filter': 'grayscale(50%) blur(2px) brightness(0.8)'
             });
             var piece = square.find('img[data-piece]');
-            
-            
+
+
             if (piece.length > 0) {
                 var dataPieceValue = piece.attr('data-piece');
 
                 //check for white pieces
-                if (dataPieceValue && dataPieceValue.startsWith(color, 0)) {
+                if (dataPieceValue && dataPieceValue.startsWith(color)) {
                     square.css({
                         'opacity': '1',
                         'filter': 'none'
                     });
-                    piece.css('opacity', '1');
+                    piece.css({
+                        'opacity': '1'
+                    });
                 }
                 else {
                     piece.css({
-                    'opacity': '0' ,
-                    'z-index': '0',
-                    'pointer-events': 'none'
-                });}
+                        'opacity': '0',
+                        'z-index': '0',
+                        'pointer-events': 'none'
+                    });
+                }
             }
             y++;
         }
@@ -385,7 +390,7 @@ export function lightsOff() {
 }
 
 export function resign(rematch = false) {
-    
+
     config.draggable = false;
     console.log('light ' + light);
     if (light && !game.is_over) lightsOff();
@@ -401,7 +406,7 @@ export function resign(rematch = false) {
         squareTarget.css('filter', 'none');
     });
     lightsOff()
-    
+
     game.reset();
     board.start();
     //avoid trying to send the message while the page is loading
@@ -409,53 +414,38 @@ export function resign(rematch = false) {
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
+/**
+ * Flips the side of the chessboard and initializes it.
+ * 
+ * @param {string} c - The color to set the chessboard orientation to 
+ *                     ('b' for black, 'w' for white).
+ * @return void
+ */
 export function flipSide(c) {
-    color = c;
-    
-    //try to get the style element that hides the pieces
-    var styleElement = document.getElementById('dynamic-style')
-    //remove the style element if it exists to avoid adding confilicting styles
-    if(styleElement){
-        styleElement.parentNode.removeChild(styleElement);
-        styleElement = document.createElement('style');
-        styleElement.id = 'dynamic-style';
-    }
-    //create a new style element
-    styleElement = document.createElement('style');
-    styleElement.id = 'dynamic-style';
+    color = c; // Set global colour
 
-    console.log('This is the color: ' + c);
-    if (c === 'b'){
+    // Remove eventual pre-existent CSS classes, in order to avoid colliding previous and new ruleset
+    $('#myBoard').removeClass('black-side white-side');
+
+    // Change the chessboard.js orientation bases on parameter
+    if (c === 'b') {
         board.orientation('black');
-
-        // Define the CSS rule
-        var cssRule = 'img[data-piece^="w"] { pointer-events: none; opacity: 0; }';
-
-
-        // Append the CSS rule to the style element
-        styleElement.appendChild(document.createTextNode(cssRule));
-
-        // Append the style element to the head of the document
-        document.head.appendChild(styleElement);
-    }
-    else if (c === 'w') {
+        $('#myBoard').addClass('black-side');
+    } else if (c === 'w') {
         board.orientation('white');
-        
-        // Define the CSS rule
-        var cssRule = 'img[data-piece^="b"] { pointer-events: none; opacity: 0; }';
-
-        // Append the CSS rule to the style element
-        styleElement.appendChild(document.createTextNode(cssRule));
-
-        // Append the style element to the head of the document
-        document.head.appendChild(styleElement);
+        $('#myBoard').addClass('white-side');
     }
+
     lightsOff();
-    //make sure that the board position is correct
+
+    // Make sure that the board is initialized correctly
     board.start();
 }
 
+
+
 board = Chessboard('myBoard', config)
+
 
 $("#promote-to").selectable({
     stop: function () {

@@ -172,7 +172,7 @@ a:hover {
 
 .nsm7Bb-HzV7m-LgbsSe,
 .nsm7Bb-HzV7m-LgbsSe-MJoBVe,
-.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.uaxL4e-RbRzK{
+.nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.uaxL4e-RbRzK {
     font-size: 25px !important;
     width: 100% !important;
     ;
@@ -191,7 +191,7 @@ a:hover {
     color: #6096BA !important;
 }
 
-.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{
+.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY {
     height: 30px !important;
     width: 30px !important;
 }
@@ -200,11 +200,11 @@ a:hover {
     padding: 0px !important;
 }
 
-#gsi_307923_10626{
+#gsi_307923_10626 {
     height: 50px !important;
 }
 
-.board{
+.board {
     width: 650px;
 }
 
@@ -692,7 +692,7 @@ a:hover {
 
 .bot_user,
 .bot_choice,
-.selection_color{
+.selection_color {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -861,27 +861,24 @@ a:hover {
 }
 
 
-/* 
-.scroll_History{
-    border-radius: 4px;
-    margin-bottom: 20px;
-    height: 350px;
-    width: 100%;
-    border: #274C77 2px solid;
-    overflow: auto;
-    background-color: #FFF;
-}
-.heder_scroll{
-    width: 100% !important;
-    background-color: #CACACA;
-    font-weight: bold;
-    display: flex;
-    margin: 0px;
-    padding: 7px;   
-} 
-
-.text_scroll {
-    padding: 7px;
+/* --------PIECES DRAG ANIMATION STUFF--------------- */
+.black-side img[data-piece^="w"] {
+    pointer-events: none;
+    opacity: 0;
 }
 
-*/
+.black-side img[data-piece^="b"] {
+    z-index: 10;
+    opacity: 1;
+}
+
+/* Regole per il lato bianco */
+.white-side img[data-piece^="w"] {
+    pointer-events: none;
+    opacity: 1;
+}
+
+.white-side img[data-piece^="b"] {
+    pointer-events: none;
+    opacity: 0;
+}

@@ -882,3 +882,34 @@ a:hover {
     pointer-events: none;
     opacity: 0;
 }
+
+
+/*----------------SOCIAL ICONS STUFF-----------------*/
+
+.share-container {
+    display: flex;
+    padding: 8px;
+}
+
+.room-code-label {
+    font-size: 1.10rem;
+    font-weight: bold;
+    color: #274C77;
+    margin: 0;
+    padding-right: 18px;
+}
+
+/* Social icons div */
+.social-icons {
+    display: flex;
+    gap: 3px;
+}
+
+/* Single social icons style */
+.social-icon {
+    display: inline-block;
+    font-size: 17px;
+    color: #274C77;
+}
+
+

@@ -21,6 +21,7 @@
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="icon" type="png" href="img/other/logo.png">
     <Title>Silver Bullets</Title>
 </head>
@@ -201,7 +202,47 @@
 
             <div class="container_f">
 
-                <p id="room-code-label"></p> <!-- Room code Placeholder-->
+                <script>
+                    // TODO URL need to be adjusted  on server true purpose (board.html with filled room code form).
+
+                    function share(platform) {
+                        var roomName = document.getElementById("room-code-label").getAttribute("data-room-name");
+                        var shareURL = "";
+                        switch (platform) {
+                            case "twitter":
+                                shareURL = "https://twitter.com/intent/tweet?text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀&url=silverbullets.rocks";
+                                window.open(shareURL, '_blank');
+                                break;
+                            case "whatsapp":
+                                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                                if (isMobile) {
+                                    shareURL = "https://api.whatsapp.com/send?text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀&hashtags=ReconChess";
+                                    window.open(shareURL, '_blank');
+                                }
+                                else {
+                                    alert("WhatsApp sharing is available only on mobile devices.");
+                                }
+                                break;
+                            case "telegram":
+                                shareURL = "https://t.me/share/url?url=silverbullets.rocks&text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀";
+                                window.open(shareURL, '_blank');
+                                break;
+                            default:
+                                console.error("Invalid platform");
+                                return;
+                        }
+                    }
+
+                </script>
+
+                <div class="share-container" id="share-container">
+                    <p id="room-code-label" class="room-code-label"></p> <!-- Room code Placeholder-->
+                    <div class="social-icons">
+                        <a href="#" onclick="share('twitter')" class="social-icon"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" onclick="share('whatsapp')" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" onclick="share('telegram')" class="social-icon"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
 
                 <div id="toast-container" class="toast-container">
                     <div id="header-toast" class="header-toast">Arbiter</div>
@@ -338,32 +379,44 @@
 
     </script>
     <script type="module">
-        import {startConnection, socket} from './js/board.js';
-        import {createWebsocket} from './js/websocket.js';
+        import { startConnection, socket } from './js/board.js';
+        import { createWebsocket } from './js/websocket.js';
         import { generaStringaCasuale } from './js/script.js';
 
         function start() {
             // Ottieni il tipo di avversario selezionato
             let opponentType = document.getElementById("selection_player").getAttribute('value');
             let roomCode = document.getElementById("room-code").value;
+
+            // Check here
             let roomName = roomCode ? roomCode : generaStringaCasuale(6);
 
             let ws_url = opponentType === 'bot' ? 'ws/game' : `ws/multiplayer/${roomName}`;
-            
+
             // Ottieni nuovamente i valori per garantire che siano aggiornati
             let timer = document.getElementById("frutta").value;
             let bot = document.getElementById("bot_choice").getAttribute('value');
             let color = document.getElementById("selection_color").getAttribute('value');
-                
+
             // Effettua le operazioni necessarie per l'inizio del gioco
             $('#intro').css('display', 'none');
             $('#final').css('display', 'block');
 
             console.log("This is the bot: " + bot);
-            if (bot === null) document.getElementById("room-code-label").innerHTML = `Room code: ${roomName}`;
+            if (bot === null) {
+                document.getElementById("room-code-label").innerHTML = `Room code: ${roomName}`;
+                document.getElementById("room-code-label").setAttribute("data-room-name", roomName);
+            }
+            else {
+                // No need to show room code and social icons if we're against a bot
+                var shareContainer = document.getElementById("share-container");
+                if (shareContainer) {
+                    shareContainer.style.display = "none";
+                }
+            }
 
             startConnection(ws_url, timer, bot, color);
-    
+
             document.getElementById("black_name").innerHTML = bot;
         }
 

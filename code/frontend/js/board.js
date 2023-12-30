@@ -30,6 +30,8 @@ document.addEventListener("visibilitychange", () => {
     //when the tab is active send a request for the timers to the backend
     if (document.visibilityState === 'visible')
         console.log('send request for timers')
+
+    // TODO: this burns socket send request by server, check it
     socket.send(JSON.stringify({ action: 'get_active_timer' }));
 });
 
@@ -73,9 +75,7 @@ export function showToast(message, type) {
     });
 }
 
-export function addHelloToast() {
-    showToast('Hello World! 🚀', '');
-}
+/*-----------Arbiter messages--------------*/
 
 export function haveEaten(target) {
     comments = ''
@@ -86,7 +86,6 @@ export function haveEaten(target) {
         comments = "Black captured a white piece ⚫⚔⚪ \n" + comments
     }
     showToast(comments, '');
-    // document.getElementById("History").innerText = comments;
 }
 
 export function showSideToMove(game_turn) {
@@ -98,7 +97,6 @@ export function showSideToMove(game_turn) {
             comments = "opponent's turn . . . 🎭 \n" + comments;
         }
         showToast(comments, '');
-        // document.getElementById("History").innerText = comments;
     }
     else pass = false;
 }
@@ -107,14 +105,12 @@ export function illegalMove() {
     comments = ''
     comments = "illegal move ❌ \n" + comments;
     showToast(comments, '');
-    // document.getElementById("History").innerText = comments;
 }
 
 export function showSense() {
     comments = ''
     comments = "It's your turn to sense 🔦 \n" + comments;
     showToast(comments, '')
-    // document.getElementById("History").innerText = comments;
 }
 
 export function youPassed() {
@@ -122,7 +118,6 @@ export function youPassed() {
     if (game.turn() === 'w') {
         comments = "You passed 😶‍🌫️ \n" + comments;
         showToast(comments, '')
-        // document.getElementById("History").innerText = comments;
     }
 }
 
@@ -131,7 +126,6 @@ export function showGameOver(reason, winner) {
     let result = winner ? 'White won, ' : (winner !== 'None' ? 'black won, ' : 'Draw')
     comments = result + reason + "🏆 \n" + comments;
     showToast(comments, '')
-    // document.getElementById("History").innerText = comments;
 }
 
 export function onDragStart(source, piece) {
@@ -144,6 +138,8 @@ export function onDragStart(source, piece) {
     else if ((color === 'b') && (piece.search(/^w/) !== -1)) return false
     lightsOff();
 }
+
+/*-----------Board movements--------------*/
 
 //update the game board with the move made by the opponent
 export function makeOpponentMove(board_conf) {
@@ -304,6 +300,9 @@ export function makeMove(game, move_cfg, promotion = false) {
 
 }
 
+
+/*-----------Sensing--------------*/
+
 export function lightsOn(gg) {
     if (color == gg) {
         config.draggable = false;
@@ -388,6 +387,8 @@ export function lightsOff() {
     light = false;
 }
 
+/*-----------Rematch and Quit--------------*/
+
 /**
  * Resigns the game.
  * @param {boolean} rematch - Indicates whether a rematch is requested.
@@ -445,7 +446,7 @@ export function flipSide(c) {
     board.start();
 }
 
-
+/*-----------Initialization--------------*/
 
 board = Chessboard('myBoard', config)
 

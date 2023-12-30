@@ -82,11 +82,9 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				console.log('time left')
 				let timer =  data.color === player_color ? player_timer : opponent_timer
 				//update the active timer with the time left sent from the backend
-				if (!game.is_over) {
+				if (!game.is_over && data.time > 0) {
 					start_timer(Math.floor(data.time), timer);
 				}
-				else
-					set_timer(Math.floor(data.time), timer);
 				break
 			case 'turn ended':
 				console.log('turn started')

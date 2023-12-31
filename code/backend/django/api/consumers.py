@@ -77,6 +77,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#send the messages from the player to the client
 		await self.send(text_data=json.dumps(event))
 
+	async def get_username(self):
+		user = self.scope['user']
+		if(user.is_authenticated):
+			return user.username
+		else:
+			print('not logged in')
+
 	async def end_game(self):
 		self.game.end()
 		winner_color = self.game.get_winner_color()

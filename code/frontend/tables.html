@@ -16,6 +16,7 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="icon" type="png" href="img/other/logo.png">
   <title>Statistiche Giocatore e Classifica</title>
+  <script src="js/script.js"></script>
 </head>
 <body>
   
@@ -225,26 +226,12 @@
     div1.parentNode.removeChild(div1);
     div2.parentNode.removeChild(div2);
   }
-
-
-  // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON
-  async function fetchData(url, containerId) {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      // Mostra i dati nel contenitore specificato
-      document.getElementById(containerId).innerHTML = JSON.stringify(data, null, 2);
-    } catch (error) {
-      console.error('Errore durante la richiesta HTTP:', error);
-    }
-  }
-
+  //inclusi da script.js
+  //non so come reperire il nome del giocatore e passarlo come parametro
+  //const playerName = 'username_del_giocatore';  // Sostituisci con lo username del giocatore
   // Effettua richieste HTTP per ottenere statistiche del giocatore e classifica
-  fetchData('player_loc_stats/<str:player_name>/', 'playerStats');
-  fetchData('leaderboard/', 'leaderboard');
-
-  
+  fetchLeaderboard();
+  fetchPlayerLocStats(playerName);
   </script>
 </body>
   

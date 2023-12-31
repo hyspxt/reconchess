@@ -143,24 +143,24 @@ function handleLogin(event) {
     })
 }
 
+ // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per leaderboard
 document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
 
     fetch('leaderboard/')
       .then(response => response.json())
       .then(data => {
         console.log('Classifica dei giocatori:', data);
-        // Manipola i dati della classifica
       })
       .catch(error => console.error('Errore durante la richiesta API:', error));
   })
 
+ // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per statistiche giocatore
   document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerName){
     
     fetch(`player_loc_stats/${playerName}/`)
       .then(response => response.json())
       .then(data => {
         console.log(`Statistiche per ${playerName}:`, data);
-        // Manipola i dati delle statistiche del giocatore
       })
       .catch(error => console.error('Errore durante la richiesta API:', error));
   })

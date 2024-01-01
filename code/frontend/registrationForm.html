@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -26,7 +27,7 @@
         <div class="container_z">
             <div class="form">
                 <header>Sign up</header>
-                <form id="log" onsubmit="handleRegistration(event)"> <!-- Manda i dati in input-->
+                <form id="log"> <!-- Manda i dati in input-->
                     <div class="field input-field">
                         <input name="username" type="text" placeholder="Username" class="input" required>
                     </div>
@@ -50,12 +51,16 @@
                 <div style="display: flex; justify-content:center;">
                     <div id="g_id_onload"
                     data-client_id="613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com"
-                    data-callback="handleCredentialResponse">
+                    data-callback=handleCredentialResponse>
                     </div>
                     <div class="g_id_signin" data-type="standard" data-locale="en-US"></div>
                 </div>
             </div>
         </div>
         <script src="js/script.js"></script>
+        <script type="module">
+            import {handleRegistration} from "./js/utils.js";
+            document.getElementById("log").addEventListener("submit", handleRegistration);
+        </script>
     </body>
 </html>

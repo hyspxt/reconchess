@@ -27,7 +27,7 @@
         <div class="container_z">
             <div class="form">
                 <header>Sign in</header>
-                <form id="log" onsubmit="handleLogin(event)"> <!-- Manda i dati in input-->
+                <form id="log">
                     <div class="field input-field">
                         <input name="email" type="email" placeholder="Email" class="input" required>
                     </div>
@@ -51,5 +51,9 @@
             </div>
         </div>
         <script src="js/script.js"></script>
+        <script type="module">
+            import {handleLogin} from './js/utils.js';
+            document.getElementById("log").addEventListener("submit", handleLogin);
+        </script>
     </body>
 </html>

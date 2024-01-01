@@ -17,6 +17,16 @@ var color
 export function startConnection(url, timer, bot, color) {
     socket = createWebsocket(game, url, document.getElementById("player_timer"), document.getElementById("opponent_timer"));
 
+    //activates when the user switches tabs
+    document.addEventListener("visibilitychange", () => {
+        console.log('visibility changed' + document.visibilityState)
+        //when the tab is active send a request for the timers to the backend
+        if (document.visibilityState === 'visible')
+            console.log('send request for timers')
+
+        socket.send(JSON.stringify({ action: 'get_active_timer' }));
+    });
+
 
     console.log(url, timer, bot, color)
 
@@ -24,16 +34,6 @@ export function startConnection(url, timer, bot, color) {
     setTimeout(() => { socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color })) }, 50);
 
 }
-//activates when the user switches tabs
-document.addEventListener("visibilitychange", () => {
-    console.log('visibility changed' + document.visibilityState)
-    //when the tab is active send a request for the timers to the backend
-    if (document.visibilityState === 'visible')
-        console.log('send request for timers')
-
-    // TODO: this burns socket send request by server, check it
-    socket.send(JSON.stringify({ action: 'get_active_timer' }));
-});
 
 var config = {
     draggable: true,

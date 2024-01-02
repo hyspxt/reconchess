@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.getElementById("log").addEventListener("submit", function () {
-    var email = document.getElementById("email").value;
+    var element = document.getElementById("email");
+    var email = element.innerHTML;
     fetchPlayerUsername(email);
 })
 

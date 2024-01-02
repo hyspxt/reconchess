@@ -103,11 +103,12 @@ function fetchPlayerUsername(playerMail){
         console.error('Indirizzo email del giocatore non valido');
         return;
     }
-    
-    fetch(`/api/player_username/${playerMail}/`)
+    const apiUrl = `/api/player_username/${encodeURIComponent(playerMail)}/`;
+
+    fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Errore durante la richiesta API 1: ${response.statusText}`);
+                throw new Error(`Errore durante la richiesta API ${response.status} - ${response.statusText}`);
             }
             return response.json();
         })
@@ -116,5 +117,7 @@ function fetchPlayerUsername(playerMail){
             username=data
             console.log('username:', username)
         })
-        .catch(error => console.error('Errore durante la richiesta API:', error));
+        .catch(error => {
+            console.error(`Errore durante la richiesta API: ${error.message}`);
+        });
 }

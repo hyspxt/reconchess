@@ -1,4 +1,3 @@
-import {fetchPlayerUsername} from '/utils.js';
 var username
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -75,3 +74,36 @@ function handleCredentialResponse(response) {
         console.log('There was a problem with the AJAX request.', error);
     });
 }
+
+// Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per leaderboard
+document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
+
+    fetch('leaderboard/')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Classifica dei giocatori:', data);
+        })
+        .catch(error => console.error('Errore durante la richiesta API:', error));
+})
+
+// Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per statistiche giocatore
+document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerMail){
+    
+    fetch(`player_loc_stats/${playerMail}/`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(`Statistiche per ${playerMail}:`, data);
+        })
+        .catch(error => console.error('Errore durante la richiesta API:', error));
+})
+
+// Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per username giocatore
+document.addEventListener("DOMContentLoaded", function fetchPlayerUsername(playerMail){
+    
+    fetch(`player_username/${playerMail}/`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(`Username per ${playerMail}:`, data);
+        })
+        .catch(error => console.error('Errore durante la richiesta API:', error));
+})

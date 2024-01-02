@@ -3,8 +3,8 @@ import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lights
 
 var light = false
 export let valid_moves = []
+export let player_color = null
 let currentTime;
-export let player_color = null;
 
 export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 	const WEBSOCKET_URL = window.location.hostname === "localhost" ? `ws://localhost:8000/${ws_url}` : `wss://silverbullets.rocks/${ws_url}`;

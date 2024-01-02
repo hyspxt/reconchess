@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="icon" type="png" href="img/other/logo.png">
+  <title>Statistiche Giocatore e Classifica</title>
+  <script src="js/script.js"></script>
+</head>
+<body>
+  
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+    <a class="navbar-brand" href="home.html">
+        <img src="img/other/logo.png" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
+    </a>
+    <a class="nav-item nav-link btn_rules" href="rules.html">Rules</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    </div>
+    <form class="form-inline">
+        <a class="nav-item nav-link" href="registrationForm.html">Sign up</a>
+        <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
+    </form>
+</nav>
+
+<h1>Statistiche Giocatore e Classifica</h1>
+
+  <div id="playerStatsTable"  class="stats_player">
+    <h2>Statistiche del giocatore</h2>
+
+    <div id="playerStats" class="table_stats_player">
+      <div class="class_stat_player_header">
+        <div class="title_Us">Username</div>
+        <div class="title_Vic">Victories</div>
+        <div class="title_Def">Defeats</div>
+        <div class="title_Drw">Draw</div>
+      </div>
+      <div class="class_stat_player">
+        <div class="Us">Nome</div>
+        <div class="Vic">Vittorie</div>
+        <div class="Def">Sconfitte</div>
+        <div class="Drw">Pareggi</div>
+      </div>
+    </div>
+
+    
+  </div>
+  <form>
+  <button type="button" class="btn" onclick="insert_in_leaderbord('username', 'victories', 'defeats', 'draws', 'elo')">Click me</button>
+  <button type="button" class="btn" onclick="insert_in_leaderbord('username2', 'victories', 'defeats', 'draws', 'elo')">Click me</button>
+  <button type="button" class="btn" onclick="remove_from_leaderboard()">Remove</button>
+  <button type="button" class="btn" onclick="swapContainers(1, 2)">Swap</button>
+  </form>
+  <div id="leaderboardTable" class="stats_leaderboard">
+    <h2>Classifica</h2>
+
+    <div class="class_stat_leaderboard_header">
+      <div class="title_User">Username</div>
+      <div class="title_Vic">Victories</div>
+      <div class="title_Def">Defeats</div>
+      <div class="title_Drw">Draw</div>
+      <div  class="title_Elo">Elo</div>
+    </div>
+
+    <div class="columns_leaderbord">
+      <div id="top10" class="players_position"></div>
+      <div class="number_position">
+        <div id="number1" class="number_top3">1</div>
+        <div id="number2" class="number_top3">2</div>
+        <div id="number3" class="number_top3">3</div>
+        <div id="number4" class="number">4</div>
+        <div id="number5" class="number">5</div>
+        <div id="number6" class="number">6</div>
+        <div id="number7" class="number">7</div>
+        <div id="number8" class="number">8</div>
+        <div id="number9" class="number">9</div>
+        <div id="number10" class="number">10</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  var counter = 0;
+  var players_top10 = new Array(10);
+
+  function insert_in_leaderbord(username, victories, defeats, draws, elo) {
+    if(counter < 10){
+      var playerId = 'container' + new Date().getTime();
+      var playerHTML = `
+      <div id="${playerId}" class="class_leader_player" aria-live="assertive" aria-atomic="true">
+      
+        <div class="User">
+          ${username}
+        </div>
+        <div class="Vic">
+          ${victories}
+        </div>
+        <div class="Def">
+          ${defeats}
+        </div>
+        <div class="Drw">
+          ${draws}
+        </div>
+        <div class="Elo">
+          ${elo}
+        </div>
+      </div>
+      `;
+
+      // Aggiungi il messaggio toast al contenitore
+      $('#top10').append(playerHTML);
+      
+
+      switch(counter){
+        case 0:
+          $('#number1').css('display', 'block');
+          break;
+        case 1:
+          $('#number2').css('display', 'block');
+          break;
+        case 2:
+          $('#number3').css('display', 'block');
+          break;
+        case 3:
+          $('#number4').css('display', 'block');
+          break;
+        case 4:
+          $('#number5').css('display', 'block');
+          break;
+        case 5: 
+          $('#number6').css('display', 'block');
+          break;
+        case 6:
+          $('#number7').css('display', 'block');
+          break;
+        case 7:
+          $('#number8').css('display', 'block');
+          break;
+        case 8:
+          $('#number9').css('display', 'block');
+          break;
+        case 9:
+          $('#number10').css('display', 'block');
+          break;
+      }
+
+      players_top10[counter] = playerId;
+      console.log(players_top10[counter]);
+      counter++;
+    }
+    
+  }
+
+  function remove_from_leaderboard() {
+    if(counter > 0){
+      var playerId = players_top10[counter-1];
+      $('#'+playerId).remove();
+      counter--;
+      switch(counter){
+        case 0:
+          $('#number1').css('display', 'none');
+          break;
+        case 1:
+          $('#number2').css('display', 'none');
+          break;
+        case 2:
+          $('#number3').css('display', 'none');
+          break;
+        case 3:
+          $('#number4').css('display', 'none');
+          break;
+        case 4:
+          $('#number5').css('display', 'none');
+          break;
+        case 5: 
+          $('#number6').css('display', 'none');
+          break;
+        case 6:
+          $('#number7').css('display', 'none');
+          break;
+        case 7:
+          $('#number8').css('display', 'none');
+          break;
+        case 8:
+          $('#number9').css('display', 'none');
+          break;
+        case 9:
+          $('#number10').css('display', 'none');
+          break;
+      }
+    }
+  }
+
+  function swapContainers(firstContainer, secondContainer) {
+    if(firstContainer < 1 || firstContainer > 10 || secondContainer < 1 || secondContainer > 10){
+      return;
+    }
+    var id1 = players_top10[firstContainer-1];
+    var id2 = players_top10[secondContainer-1];
+
+    players_top10[firstContainer-1] = id2;
+    players_top10[secondContainer-1] = id1;
+
+    var div1 = document.getElementById(id1);
+    var div2 = document.getElementById(id2);
+
+    // Clona il primo div e inserisce il clone prima del secondo div
+    var cloneDiv1 = div1.cloneNode(true);
+    div2.parentNode.insertBefore(cloneDiv1, div2);
+
+    // Clona il secondo div e inserisce il clone prima del primo div
+    var cloneDiv2 = div2.cloneNode(true);
+    div1.parentNode.insertBefore(cloneDiv2, div1);
+
+    // Rimuove i div originali
+    div1.parentNode.removeChild(div1);
+    div2.parentNode.removeChild(div2);
+  }
+  //inclusi da script.js
+  //non so come reperire il nome del giocatore e passarlo come parametro
+  //const playerName = 'username_del_giocatore';  // Sostituisci con lo username del giocatore
+  // Effettua richieste HTTP per ottenere statistiche del giocatore e classifica
+  fetchLeaderboard();
+  fetchPlayerLocStats(playerName);
+  </script>
+</body>
+  
+</html>

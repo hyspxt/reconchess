@@ -565,6 +565,123 @@ header {
 }
 
 /* ------------------------ */
+/*LEADERBOARD STUFF*/
+.stats_player,
+.stats_leaderboard{
+    margin-left: 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.title_Us,
+.Us{
+    display: flex;
+    width: 70%;
+    padding: 10px;
+}
+
+.title_User,
+.User {
+    display: flex;
+    width: 60%;
+    padding: 10px;
+}
+
+.title_Vic,
+.Vic,
+.title_Def,
+.Def,
+.title_Drw,
+.Drw,
+.title_Elo,
+.Elo{
+    display: flex;
+    width: 10%;
+    padding: 10px;
+}
+
+.table_stats_player,
+.players_position,
+.number_position {
+    display: flex;
+    flex-direction: column;
+}
+
+.columns_leaderbord{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.table_stats_player,
+.class_stat_player{
+    width: 100%;
+}
+
+
+.players_position {
+    width: 85%;
+    margin-right: 30px;
+}
+
+.number_position{
+    width: 10%;
+}
+
+.class_stat_player_header,
+.class_stat_leaderboard_header {
+    display: flex;
+    flex-direction: row;
+    width: 85%;
+    border-radius: 8px;
+    background-color: #274C77;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: large;
+    margin-bottom: 10px;
+}
+
+.class_stat_player,
+.class_leader_player {
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    color: #274c77;
+}
+
+.class_leader_player{
+    margin-bottom: 12px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.class_stat_player{
+    width: 85%;
+}
+
+.number_top3,
+.number{
+    border-radius: 35px;
+    margin-bottom: 10px;
+    padding: 9px;
+    width: 45px;
+    border: #274C77 2px solid;
+    text-align: center;
+    display: none;
+}
+
+.number_top3{
+    background-color: #6096BA;
+    color: #FFFFFF;
+}
+
+.number{
+    background-color: #FFFFFF;
+}
+
+/* ------------------------ */
 
 
 @media (max-width: 1180px) {

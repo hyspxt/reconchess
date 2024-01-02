@@ -101,11 +101,20 @@ document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playe
 function fetchPlayerUsername(playerMail){
     
     fetch(`player_username/${playerMail}/`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Errore nella richiesta API: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            console.log(`Username per ${playerMail}:`, data);
-            username=data
-            console.log('username:', username)
+             // Assicurati che 'data' contenga un campo 'username'
+             if (data && data.username) {
+                username = data.username;
+                console.log('Username:', username);
+            } else {
+                console.error('Risposta API non valida:', data);
+            }
         })
         .catch(error => console.error('Errore durante la richiesta API:', error));
 }

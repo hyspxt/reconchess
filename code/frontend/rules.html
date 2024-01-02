@@ -13,18 +13,31 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-        <a class="navbar-brand" href="home.html">
-            <img src="img/other/logo.png" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
+    <div class="full d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+        <a href="home.html" class="title mb-3">
+            <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
         </a>
-        <a class="nav-item nav-link btn_rules" href="">Leaderboard</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-        </div>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="board.html" class="nav-link btn_rules" aria-current="page">
+                    Play
+                </a>
+            </li>
+            <li>
+                <a href="rules.html" class="nav-link btn_rules" aria-current="page">
+                    Rules
+                </a>
+            </li>
+            <li>
+                <a href="" class="nav-link">
+                    Leaderboard
+                </a>
+            </li>
+        </ul>
         <form class="form-inline">
-            <a class="nav-item nav-link" href="registrationForm.html">Sign up</a>
             <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
         </form>
-    </nav>
+    </div>
 
     <div class="container mt-5">
         <h1 class="text-center mb-4 rules-title">Regole ReconnassainceBlindChess</h1>

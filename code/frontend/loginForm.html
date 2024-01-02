@@ -12,18 +12,31 @@
         <Title>Silver Bullets</Title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-            <a class="navbar-brand" href="home.html">
+        <div class="full d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+            <a href="home.html" class="title mb-3">
                 <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
             </a>
-            <a class="nav-item nav-link btn_rules" href="rules.html">Rules</a>
-            <a class="nav-item nav-link" href="">Leaderboard</a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            </div>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="board.html" class="nav-link btn_rules" aria-current="page">
+                        Play
+                    </a>
+                </li>
+                <li>
+                    <a href="rules.html" class="nav-link btn_rules" aria-current="page">
+                        Rules
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="nav-link">
+                        Leaderboard
+                    </a>
+                </li>
+            </ul>
             <form class="form-inline">
-                <button type="submit" formaction="registrationForm.html" class="btn btn-outline-success">Sign up</button>
+                <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
             </form>
-        </nav>
+        </div>
         <div class="container_z">
             <div class="form">
                 <header>Sign in</header>
@@ -39,6 +52,9 @@
                         <button type="submit" class="btn btn-primary" id="signin">Sign in</button>
                     </div>
                 </form>
+                <div class="form-link">
+                    <span>Don't have an account? <a href="registrationForm.html"> Register</a></span>
+                </div>
                 <div class="line"></div>
                 <script src="https://accounts.google.com/gsi/client" async defer></script>
                 <div style="display: flex; justify-content:center;">

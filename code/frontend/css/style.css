@@ -13,6 +13,19 @@ header {
     text-align: center;
 }
 
+.full{
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+    background-color: #274C77;
+}
+
+.title{
+    font-size: 20px;
+    color: #FFF;
+    text-decoration: none;
+}
+
 .navbar {
     background-color: #274C77;
 }
@@ -21,26 +34,55 @@ header {
     margin: 0;
 }
 
-.navbar button {
+.form-inline button {
     background-color: #E7ECEF;
     color: #274C77;
     border-radius: 8px;
     border-color: #274C77;
 }
 
-.navbar button:hover {
+.form-inline button:hover {
     background-color: #6096BA;
     border-color: #274C77;
 }
 
-a {
-    color: #D5DBBE;
-
+.form-link{
+    text-align: center;
+    margin-top: 20px;
 }
 
-a:hover {
-    color: #FFF;
+.form-link a{
+    color: #274C77;
+}
 
+.form-link a:hover{
+    text-decoration: underline;
+}
+
+.form-link span{
+    color: #6096BA;
+}
+
+.nav-link {
+    display: block;
+    color: #D5DBBE;
+}
+
+.nav-link:hover {
+    background-color: #6096BA;
+    color: #FFF;
+    border-radius: 1;
+    width: 100%;
+}
+
+.full a:hover {
+    color: #FFF;
+    text-decoration: none;
+}
+
+.container{
+    margin-left: 280px;
+    margin-top: 0px !important;
 }
 
 .container_x,
@@ -68,10 +110,11 @@ a:hover {
 
 .container_z {
     justify-content: center;
+    margin-left: 280px;
 }
 
 .ma {
-    margin-top: 100px;
+    padding-top: 40px;
 }
 
 .black-3c85d {
@@ -205,7 +248,7 @@ a:hover {
 }
 
 .board {
-    width: 650px;
+    width: 550px;
 }
 
 /* ------------------------ */
@@ -500,10 +543,10 @@ a:hover {
 
 .rules-title {
     text-align: center;
-    font-size: 60px;
+    font-size: 55px;
     font-weight: 600;
     color: #274C77;
-    padding-top: 80px;
+    padding-top: 90px;
 }
 
 .rules-subtitle {
@@ -610,7 +653,6 @@ a:hover {
         width: 95% !important;
         margin-left: 10px !important;
         margin-bottom: 0 !important;
-        margin-top: 30px !important;
     }
 
     .question {
@@ -646,12 +688,15 @@ a:hover {
 }
 
 #intro {
-    margin-top: 90px;
+    margin-top: 0px !important;
+    margin-left: 280px;
     display: block;
 }
 
 #final {
     display: none;
+    margin-top: 0px !important;
+    margin-left: 280px;
 }
 
 #selection_bot {
@@ -669,7 +714,8 @@ a:hover {
 .selection_bot,
 .selection_time_color,
 .selection_room {
-    margin: 70px;
+    padding-top: 30px;
+    padding-left: 40px;
     display: flex;
     flex-direction: column;
 }

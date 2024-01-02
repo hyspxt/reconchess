@@ -90,8 +90,8 @@ def player_loc_stats(request, player_email):
 	result = ti.get_player_loc_stats(player_email)
 	return JsonResponse(result)
 
-def player_username(request, player_email):
-	result = ti.get_player_username(player_email)
+def player_username(request, mail):
+	result = ti.get_player_username(mail)
 	return JsonResponse({'username': result})
 
 def leaderboard(request):

@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playe
 })
 
 // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per username giocatore
-document.addEventListener("DOMContentLoaded", function fetchPlayerUsername(playerMail){
+function fetchPlayerUsername(playerMail){
     
     fetch(`player_username/${playerMail}/`)
         .then(response => response.json())
@@ -108,4 +108,4 @@ document.addEventListener("DOMContentLoaded", function fetchPlayerUsername(playe
             console.log('username:', username)
         })
         .catch(error => console.error('Errore durante la richiesta API:', error));
-})
+}

@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("sumbit", function () {
+document.getElementById("log").addEventListener("submit", function () {
     var email = document.getElementById("email").value;
     username = fetchPlayerUsername(email);
     console.log(username);

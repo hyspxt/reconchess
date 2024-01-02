@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -11,22 +12,35 @@
         <Title>Silver Bullets</Title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="height: 56px; align-items: baseline;">
-            <a class="navbar-brand" href="home.html">
+        <div class="full d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+            <a href="home.html" class="title mb-3">
                 <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
             </a>
-            <a class="nav-item nav-link btn_rules" href="rules.html">Rules</a>
-            <a class="nav-item nav-link" href="tables.html">Leaderboard</a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            </div>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="board.html" class="nav-link btn_rules" aria-current="page">
+                        Play
+                    </a>
+                </li>
+                <li>
+                    <a href="rules.html" class="nav-link btn_rules" aria-current="page">
+                        Rules
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="nav-link">
+                        Leaderboard
+                    </a>
+                </li>
+            </ul>
             <form class="form-inline">
                 <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
             </form>
-        </nav>
+        </div>
         <div class="container_z">
             <div class="form">
-                <header>Sign up</header>
-                <form onsubmit="handleRegistration(event)"> <!-- Manda i dati in input-->
+                <header>New account</header>
+                <form id="log"> <!-- Manda i dati in input-->
                     <div class="field input-field">
                         <input name="username" type="text" placeholder="Username" class="input" required>
                     </div>
@@ -42,18 +56,27 @@
                         <i class="bx bx-hide eye-icon"></i>
                     </div>
                     <div class="field">
-                        <button type="submit" class="btn btn-primary" id="signup">Sign up</button>
+                        <button type="submit" class="btn btn-primary" id="signup">Register</button>
                     </div>
                 </form>
+                <div class="form-link">
+                    <span>Already have an account? <a href="loginForm.html"> Sign in</a></span>
+                </div>
                 <div class="line"></div>
                 <script src="https://accounts.google.com/gsi/client" async defer></script>
-                <div id="g_id_onload"
+                <div style="display: flex; justify-content:center;">
+                    <div id="g_id_onload"
                     data-client_id="613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com"
-                    data-callback="handleCredentialResponse">
+                    data-callback=handleCredentialResponse>
+                    </div>
+                    <div class="g_id_signin" data-type="standard" data-locale="en-US"></div>
                 </div>
-                <div class="g_id_signin" data-type="standard" data-locale="en-US"></div>
             </div>
         </div>
         <script src="js/script.js"></script>
+        <script type="module">
+            import {handleRegistration} from "./js/utils.js";
+            document.getElementById("log").addEventListener("submit", handleRegistration);
+        </script>
     </body>
 </html>

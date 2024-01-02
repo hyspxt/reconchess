@@ -1,13 +1,13 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, lightsOff, makeOpponentMove, flipSide} from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, lightsOff, makeOpponentMove, flipSide, updateBoard} from '../js/board.js';
 
 var light = false
 export let valid_moves = []
 export let player_color = null
 let currentTime;
 
-export function createWebsocket(game, player_timer, opponent_timer) {
-	const WEBSOCKET_URL = window.location.hostname === "localhost" ? 'ws://localhost:8000/ws/game' : 'wss://silverbullets.rocks/ws/game'
+export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
+	const WEBSOCKET_URL = window.location.hostname === "localhost" ? `ws://localhost:8000/${ws_url}` : `wss://silverbullets.rocks/${ws_url}`;
 	const socket = new WebSocket(WEBSOCKET_URL);
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
@@ -22,12 +22,13 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				console.log('start game')
 				game.is_over = false;
 				console.log(player_timer)
-
+				game.load(data.board);
+				
 				set_timer(data.time, player_timer);
 				set_timer(data.time, opponent_timer);
-
+				
 				player_color = data.color;
-
+				
 				console.log(player_color)
 				flipSide(player_color);
 				if (player_color === 'b') {
@@ -36,16 +37,13 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 				}
 				break;
 			case 'opponent move':
-				// It is better to check if the turn is w/b alonside fen, but it should go for now.
-				// The problem is basically that given the fact that game.move() is not used anymore, 
-				// the turn (from game.turn()) is not automatically updated, we should do it manually.
+				
 				stop_timer();
 				//use the information from the backend to update the board in the frontend
 				let board = data.board
 				makeOpponentMove(board)
 				if (data.capture_square != null) {
 					haveEaten('w')
-					lightsOff();
 				}
 				break;
 
@@ -69,27 +67,24 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 			case 'invalid move':
 
 				console.log('invalid move')
-				// So, this is a bit tricky. Basically, when the pawn moves diagonally (cause it is possible by its property) 
-				// but if there is no piece the move is and should be illegal. Unfortunately, the move is still valid in 
-				// valid_moves array so the message "Illegal move" is not shown.
-
 				illegalMove()
-				// undoMove();
+
 				break;
 			case 'move result':
 				console.log('move result');
-				game.load(data.board);
+				
 				if (data.captured_opponent_piece) haveEaten('b')
+				game.load(data.board);
+				updateBoard(Chessboard, false);
+				// board.position(game.fen(), false);
 				break;
 			case 'time left':
 				console.log('time left')
 				let timer =  data.color === player_color ? player_timer : opponent_timer
 				//update the active timer with the time left sent from the backend
-				if (!game.is_over) {
+				if (!game.is_over && data.time > 0) {
 					start_timer(Math.floor(data.time), timer);
 				}
-				else
-					set_timer(Math.floor(data.time), timer);
 				break
 			case 'turn ended':
 				console.log('turn started')
@@ -106,13 +101,24 @@ export function createWebsocket(game, player_timer, opponent_timer) {
 
 				break;
 			case 'game over':
+
 				showGameOver(data.reason, data.winner)
 				stop_timer();
+
 				game.load(data.board);
+
+				updateBoard(Chessboard, false);
+
 				//tell the frontend library to stop the game
 				game.is_over = true;
 				light = true;
 				break;
+			case 'rematch':
+				console.log('REMATCH REQUESTED')
+				$('#rematch-modal').modal('show');
+				break;
+			case 'rematch declined':
+				alert('Rematch declined');
 			default:
 				break;
 		}

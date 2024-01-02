@@ -21,27 +21,56 @@
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="icon" type="png" href="img/other/logo.png">
     <Title>Silver Bullets</Title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-        <a class="navbar-brand" href="home.html">
-            <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver
-            Bullets
+    <div class="modal" id="rematch-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Your opponent wants a rematch</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="accept-rematch" class="btn btn-secondary"
+                        data-dismiss="modal">Accept</button>
+                    <button type="button" id="decline-rematch" class="btn btn-danger"
+                        data-dismiss="modal">Decline</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="full d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+        <a href="home.html" class="title mb-3">
+            <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
         </a>
-        <a class="nav-item nav-link btn_rules" href="rules.html">Rules</a>
-        <a class="nav-item nav-link" href="tables.html">Leaderboard</a>
-        <div class="collapse navbar-collapse" id="navbarNav"></div>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="board.html" class="nav-link btn_rules" aria-current="page">
+                    Play
+                </a>
+            </li>
+            <li>
+                <a href="rules.html" class="nav-link btn_rules" aria-current="page">
+                    Rules
+                </a>
+            </li>
+            <li>
+                <a href="" class="nav-link">
+                    Leaderboard
+                </a>
+            </li>
+        </ul>
         <form class="form-inline">
-            <a class="nav-item nav-link" href="registrationForm.html">Sign up</a>
             <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
         </form>
-    </nav>
+    </div>
 
     <div id="intro">
-        <div class="selection_player">
+        <div class="selection_player" id="selection_player">
             <div class="question">Select your opponent</div>
 
             <fieldset class="bot_user">
@@ -67,24 +96,28 @@
 
                 </script>
 
-                
-                    <a id="bot_1" class="bot_x" href="#" onclick="bot_selection(1)" data-toggle="tooltip"
-                        data-placement="bottom" title="I'm just a simple random bot and I do random moves! You're scared huh?">RANDOM</a>
+                <!-- <div class="botton_12"> -->
+                <a id="bot_1" class="bot_x" href="#" onclick="bot_selection(1)" data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="I'm just a simple random bot and I do random moves! You're scared huh?"
+                    value="random">RANDOM</a>
 
 
-                    <a id="bot_2" class="bot_x" href="#" onclick="bot_selection(2)" data-toggle="tooltip"
-                        data-placement="bottom" title="I can't see the board well, but don't underestimate me!">TROUT</a>
+                <a id="bot_2" class="bot_x" href="#" onclick="bot_selection(2)" data-toggle="tooltip"
+                    data-placement="bottom" title="I can't see the board well, but don't underestimate me!"
+                    value="trout">TROUT</a>
 
-                
-                
-                    <a id="bot_3" class="bot_x" href="#" onclick="bot_selection(3)" data-toggle="tooltip"
-                        data-placement="bottom" title="I'M GONNA DESTROY YOU IN 3 MOVES! ">ATTACKER</a>
+                <!--  </div> -->
+                <!--  <div class="botton_34"> -->
+                <a id="bot_3" class="bot_x" href="#" onclick="bot_selection(3)" data-toggle="tooltip"
+                    data-placement="bottom" title="I'M GONNA DESTROY YOU IN 3 MOVES!" value="attacker">ATTACKER</a>
 
-                    <a id="bot_4" class="bot_x" href="#" onclick="bot_selection(4)" data-toggle="tooltip"
-                        data-placement="bottom`" title="Let's play a fair game! Don't cry if you lose!">STRANGEFISH</a>
+                <a id="bot_4" class="bot_x" href="#" onclick="bot_selection(4)" data-toggle="tooltip"
+                    data-placement="bottom" title="Let's play a fair game! Don't cry if you lose!"
+                    value="strangefish">STRANGEFISH</a>
 
-              
-    
+                <!--  </div> -->
+
             </div>
         </div>
 
@@ -103,8 +136,7 @@
                 </a>
             </fieldset>
             <div class="room_bar">
-                <input class="search_r" type="text" placeholder="Room-Code">
-                <button class="search_b">Search</button>
+                <input class="search_r" id="room-code" type="text" placeholder="Room-Code">
             </div>
         </div>
 
@@ -133,8 +165,8 @@
                 </div>
             </div>
         </div>
-        <div class="btn_start">
-            <a id="button_start" class="botton_start" href="#">START</a>
+        <div id="btn_start" class="btn_start">
+            <button id="button_start" class="botton_start" disabled>START</button>
         </div>
     </div>
 
@@ -181,10 +213,56 @@
             </div>
 
             <div class="container_f">
-                <div class="scroll_History">
-                    <div class="heder_scroll">ARBITER</div>
-                    <div id="History" class="text_scroll"></div>
+
+                <script>
+                    // TODO URL need to be adjusted  on server true purpose (board.html with filled room code form).
+
+                    function share(platform) {
+                        var roomName = document.getElementById("room-code-label").getAttribute("data-room-name");
+                        var shareURL = "";
+                        switch (platform) {
+                            case "twitter":
+                                shareURL = "https://twitter.com/intent/tweet?text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀&url=silverbullets.rocks";
+                                window.open(shareURL, '_blank');
+                                break;
+                            case "whatsapp":
+                                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                                if (isMobile) {
+                                    shareURL = "https://api.whatsapp.com/send?text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀&hashtags=ReconChess";
+                                    window.open(shareURL, '_blank');
+                                }
+                                else {
+                                    alert("WhatsApp sharing is available only on mobile devices.");
+                                }
+                                break;
+                            case "telegram":
+                                shareURL = "https://t.me/share/url?url=silverbullets.rocks&text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀";
+                                window.open(shareURL, '_blank');
+                                break;
+                            default:
+                                console.error("Invalid platform");
+                                return;
+                        }
+                    }
+
+                </script>
+
+                <div class="share-container" id="share-container">
+                    <p id="room-code-label" class="room-code-label"></p> <!-- Room code Placeholder-->
+                    <div class="social-icons">
+                        <a href="#" onclick="share('twitter')" class="social-icon"><i
+                                class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" onclick="share('whatsapp')" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" onclick="share('telegram')" class="social-icon"><i class="fab fa-telegram"></i></a>
+                    </div>
                 </div>
+
+                <div id="toast-container" class="toast-container">
+                    <div id="header-toast" class="header-toast">Arbiter</div>
+                    <div id="toast-scroll" class="toast-scroll"></div>
+                </div>
+
+
                 <button type="submit" class="btn_rematch" id="btn_rematch">RE-MATCH</button>
                 <div class="btn_qp">
                     <button type="submit" class="btn_quit" id="btn_quit">QUIT</button>
@@ -194,9 +272,15 @@
         </div>
 
     </div>
-
     <script>
+        let botHuman = null;
+        let bot = null;
+        let room = null;
+        let piece = null;
+        let time = null;
+
         function botton_bot() {
+            botHuman = true;
             $('.a_bot').css('background-color', '#274C80')
             $('.selection_bot').css('display', 'block')
             $('.a_human').css('background-color', '#E7ECEF')
@@ -204,11 +288,12 @@
             $('.room_bar').css('display', 'none')
             $('.a_newR').css('background-color', '#E7ECEF')
             $('.a_oldR').css('background-color', '#E7ECEF')
+            $('#selection_player').attr('value', 'bot')
 
         }
-    </script>
-    <script>
+
         function botton_human() {
+            botHuman = true;
             $('.a_human').css('background-color', '#274C80')
             $('.a_bot').css('background-color', '#E7ECEF')
             $('.selection_bot').css('display', 'none')
@@ -216,10 +301,11 @@
             $('.bot_x').css('background-color', '#E7ECEF')
             $('.bot_x').css('color', '#274C77')
             $('.selection_room').css('display', 'block')
+            $('#selection_player').attr('value', 'human')
         }
-    </script>
-    <script>
+
         function bot_selection(n) {
+            bot = true;
             $('.bot_x').css('background-color', '#E7ECEF')
             $('.bot_x').css('color', '#274C77')
             switch (n) {
@@ -258,57 +344,122 @@
             }
             $('.selection_time_color').css('display', 'block')
         }
-    </script>
-    <script>
+
         function botton_white() {
+            piece = true;
+            updateStartButton();
             $('.p_w').css('background-color', '#274C80')
             $('.p_b').css('background-color', '#E7ECEF')
             $('.p_w').parent().attr('value', 'white')
         }
-    </script>
-    <script>
+
         function botton_black() {
+            piece = true;
+            updateStartButton();
             $('.p_b').css('background-color', '#274C80')
             $('.p_w').css('background-color', '#E7ECEF')
             $('.p_b').parent().attr('value', 'black')
         }
-    </script>
-    <script type="module">
-        import {socket} from './js/board.js';        
-        function start() {
-            $('#intro').css('display', 'none')
-            $('#final').css('display', 'block')
-            
-            //get the selected time and the bot
-            let timer = document.getElementById("frutta").value;
-            let bot = document.getElementById("bot_choice").getAttribute('value');
-            let color = document.getElementById("selection_color").getAttribute('value');
-            
-            console.log(timer, bot, color)
 
-            //send the start game message to the server
-            socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color }));
-
-            document.getElementById("black_name").innerHTML = bot;
-        }
-        
-        //set the event listener for the start button
-        document.getElementById("button_start").addEventListener("click", start);
-
-    </script>
-    <script>
         function botton_oldRoom() {
+            room = true;
+            updateStartButton();
             $('.a_newR').css('background-color', '#E7ECEF')
             $('.a_oldR').css('background-color', '#274C80')
             $('.room_bar').css('display', 'block')
+            $('.selection_time_color').css('display', 'none')
         }
-    </script>
-    <script>
+
         function botton_newRoom() {
+            room = true;
+            updateStartButton();
             $('.a_newR').css('background-color', '#274C80')
             $('.a_oldR').css('background-color', '#E7ECEF')
             $('.room_bar').css('display', 'none')
+            $('.selection_time_color').css('display', 'block')
+            $('.selection_color').css('display', 'none')
+            $('.selection_t_c').css('justify-content', 'start')
+
         }
+
+        document.getElementById("frutta").addEventListener("change", function () {
+            time = true;
+            updateStartButton();
+        });
+
+        function updateStartButton() {
+            if ((botHuman && bot && piece && time) || (botHuman && room)) {
+                document.getElementById("button_start").removeAttribute('disabled');
+            } else {
+                document.getElementById("button_start").setAttribute('disabled', true);
+            }
+        }
+
+    </script>
+    <script type="module">
+        import { startConnection, socket } from './js/board.js';
+        import { createWebsocket } from './js/websocket.js';
+        import { generaStringaCasuale } from './js/utils.js';
+
+        function start() {
+            // Ottieni il tipo di avversario selezionato
+            let opponentType = document.getElementById("selection_player").getAttribute('value');
+            let roomCode = document.getElementById("room-code").value;
+
+            // Check here
+            let roomName = roomCode ? roomCode : generaStringaCasuale(6);
+
+            let ws_url = opponentType === 'bot' ? 'ws/game' : `ws/multiplayer/${roomName}`;
+
+            // Ottieni nuovamente i valori per garantire che siano aggiornati
+            let timer = document.getElementById("frutta").value;
+            let bot = document.getElementById("bot_choice").getAttribute('value');
+            let color = document.getElementById("selection_color").getAttribute('value');
+
+            // Effettua le operazioni necessarie per l'inizio del gioco
+            $('#intro').css('display', 'none');
+            $('#final').css('display', 'block');
+
+            console.log("This is the bot: " + bot);
+            if (bot === null) {
+                document.getElementById("room-code-label").innerHTML = `Room code: ${roomName}`;
+                document.getElementById("room-code-label").setAttribute("data-room-name", roomName);
+            }
+            else {
+                // No need to show room code and social icons if we're against a bot
+                var shareContainer = document.getElementById("share-container");
+                if (shareContainer) {
+                    shareContainer.style.display = "none";
+                }
+            }
+
+            startConnection(ws_url, timer, bot, color);
+
+            document.getElementById("black_name").innerHTML = bot;
+        }
+
+        // Aggiungi l'evento per il click sul pulsante START
+        document.getElementById("button_start").addEventListener("click", start);
+        $("#btn_start").click(function () {
+            var button = $("#button_start");
+            if (button.is(":disabled")) {
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'Please ensure all game settings are selected before starting the game.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+            }
+
+            //set the event listener for the start button and the rematch buttons
+            document.getElementById("accept-rematch").addEventListener("click", () => {
+                socket.send(JSON.stringify({ action: 'rematch', accept: true }));
+            });
+            document.getElementById("decline-rematch").addEventListener("click", () => {
+                socket.send(JSON.stringify({ action: 'rematch', accept: false }));
+            });
+
+        });
     </script>
     <script type="module" src="js/timer.js"></script>
     <script type="module" src="js/websocket.js"></script>
@@ -323,6 +474,7 @@
     </script>
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>

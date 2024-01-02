@@ -1,9 +1,10 @@
-import json
 import asyncio
 import chess
+import reconchess.types as rc_types
 from reconchess import Player, Color, WinReason, GameHistory
-from reconchess.types import *
 from channels.layers import get_channel_layer
+
+message_type = 'game.message'
 
 class HumanPlayer(Player):
 	def __init__(self, channel_name, game):
@@ -18,10 +19,10 @@ class HumanPlayer(Player):
 	async def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
 		self.color = color
 		self.color_name = 'w' if color == chess.WHITE else 'b'
-		return await self.channel_layer.send(
+		await self.channel_layer.send(
 			self.channel_name,
 			{
-				'type': 'game.message',
+				'type': message_type,
 				'message': 'game started',
 				'board': board.fen(),
 				'color': self.color_name,
@@ -29,11 +30,11 @@ class HumanPlayer(Player):
 				'time': self.game.get_seconds_left()
 			})
 	
-	async def handle_opponent_move_result(self, captured_my_piece: bool, capture_square: Optional[chess.Square]):
-		return await self.channel_layer.send(
+	async def handle_opponent_move_result(self, captured_my_piece: bool, capture_square: rc_types.Optional[chess.Square]):
+		await self.channel_layer.send(
 			self.channel_name,
 			{
-				'type': 'game.message',
+				'type': message_type,
 				'message': 'opponent move',
 				'capture_square': capture_square,
 				'board': self.game.board.fen()
@@ -43,7 +44,7 @@ class HumanPlayer(Player):
 		await self.channel_layer.send(
 			self.channel_name,
 			{
-				"type": "game.message",
+				"type": message_type,
 				'message': 'your turn to sense',
 				'color': self.color_name,
 				'time': self.game.get_seconds_left()
@@ -64,12 +65,12 @@ class HumanPlayer(Player):
 		self.sense = None
 		return sense
 
-	async def choose_move(self, move_actions: List[chess.Move]) -> chess.Move | None:
+	async def choose_move(self, move_actions: rc_types.List[chess.Move]) -> chess.Move | None:
 		if self.move != 'pass':
 			await self.channel_layer.send(
 				self.channel_name,
 				{
-					'type': 'game.message',
+					'type': message_type,
 					'message': 'your turn to move',
 					'color': self.color_name,
 					'move_actions': [str(move) for move in move_actions]
@@ -81,7 +82,7 @@ class HumanPlayer(Player):
 				await self.channel_layer.send(
 					self.channel_name,
 					{
-						'type': 'game.message',
+						'type': message_type,
 						'message': 'invalid move',
 						'board': self.game.board.fen()
 					})
@@ -106,14 +107,14 @@ class HumanPlayer(Player):
 
 		return move
 	
-	async def handle_move_result(self, requested_move: chess.Move | None, taken_move: chess.Move | None, captured_opponent_piece: bool, capture_square: Square | None):
+	async def handle_move_result(self, requested_move: chess.Move | None, taken_move: chess.Move | None, captured_opponent_piece: bool, capture_square: rc_types.Square | None):
 		#finish the turn
 		self.finished = True
 		#send the move results to the client
-		return await self.channel_layer.send(
+		await self.channel_layer.send(
 			self.channel_name,
 			{
-				'type': 'game.message',
+				'type': message_type,
 				'message': 'move result',
 				'requested_move': str(requested_move),
 				'taken_move': str(taken_move),
@@ -123,7 +124,7 @@ class HumanPlayer(Player):
 			})
 
 	
-	async def handle_game_end(self, winner_color: Optional[Color], win_reason: Optional[WinReason], game_history: GameHistory):
+	async def handle_game_end(self, winner_color: rc_types.Optional[Color], win_reason: rc_types.Optional[WinReason], game_history: GameHistory):
 		self.finished = True
 		win_reason_messages = {
         	WinReason.KING_CAPTURE: 'the king was captured',
@@ -134,11 +135,12 @@ class HumanPlayer(Player):
         	None: 'game over'
     	}
 
-		return await self.channel_layer.send(
+		await self.channel_layer.send(
 			self.channel_name,
 			{
-				'type': 'game.message',
+				'type': message_type,
 				'message': 'game over',
 				'winner': winner_color,
-				'reason': win_reason_messages.get(win_reason)
+				'reason': win_reason_messages.get(win_reason),
+				'board': self.game.board.fen()
 			})

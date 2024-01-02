@@ -16,12 +16,7 @@ urlpatterns = [
 	path('logout/', views.userLogout, name='logout'),
 
 	path('check_login/', views.checkLogin, name='check_login'),
-    
-	path('player_loc_stats/<str:mail>/', views.player_loc_stats, name='player_loc_stats'),
-
-	path('player_username/<str:mail>/', views.player_username, name='player_username'),
-    
-	path('leaderboard/', views.leaderboard, name='leaderboard'),
-	
-	path('social_log/<str:mail>/', views.social_log, name='social_log')
+ 
+	#google id token verification
+	path('googleID/', views.googleID, name='googleID'),
 ]

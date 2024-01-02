@@ -4,9 +4,10 @@ from .forms import RegisterForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from . import tables_interactions as ti
-from .models import Users
-from django.utils import timezone
+from google.auth.transport import requests
+from google.oauth2 import id_token
+
+#TODO: install the 'google-auth' library
 
 @csrf_exempt
 def register(request):
@@ -56,26 +57,27 @@ def checkLogin(request):
 	else:
 		return HttpResponse('No user logged in', content_type='text/plain')
 
-def player_loc_stats(request, player_email):
-	result = ti.get_player_loc_stats(player_email)
-	return JsonResponse(result)
+#verification of google id token
+def googleID(request):
+    
+    id_token_string = request.POST.get('id_token')
 
-def player_username(request, player_email):
-	result = ti.get_player_username(player_email)
-	return JsonResponse({'username': result})
+    client_id = '613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com'
 
-def leaderboard(request):
-    leaderboard_data = ti.get_leaderboard()
-    return JsonResponse({'leaderboard': leaderboard_data})
-
-
-def social_log(request, mail):
     try:
-        # Cerca un utente nel modello User associato a Users
-        user = User.objects.get(email=mail)
-        # Trova l'istanza di Users associata a questo utente
-        users_instance = Users.objects.get(user=user)
-        return JsonResponse({'success': True})
-    except User.DoesNotExist or Users.DoesNotExist:
-        # L'utente o l'istanza di Users non esiste
-        return JsonResponse({'success': False})
+        # Verify the ID Token
+        id_info = id_token.verify_oauth2_token(id_token_string, requests.Request(), client_id)
+
+        user_email = id_info.get('email')
+        user_name = id_info.get('name')
+
+        # Check if the user with the given email already exists in your database
+        user, created = User.objects.get_or_create(email=user_email, defaults={'username': user_email})
+        
+        user = authenticate(request, username=user.email, password=None)
+        login(request, user)
+
+        return JsonResponse({'success': True, 'user_email': user_email, 'user_name': user_name})
+    
+    except ValueError as e:
+        return JsonResponse({'success': False, 'error': str(e)})

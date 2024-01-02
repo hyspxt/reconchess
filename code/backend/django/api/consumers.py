@@ -8,8 +8,7 @@ from reconchess.bots import random_bot, attacker_bot, trout_bot
 from strangefish.strangefish_strategy import StrangeFish2
 from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
-from .models import Users, Matches
-from .tables_interactions import update_loc_stats, save_match_results, update_elo, get_player_loc_stats, get_leaderboard
+from django.contrib.auth.models import AnonymousUser
 
 available_bots = {
 	'random': random_bot.RandomBot,
@@ -23,6 +22,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 		self.game = None
 		self.player = None
 		self.bot = None
+		self.game_task = None
 		await self.accept()
 
 	async def disconnect(self, close_code):
@@ -34,7 +34,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 	async def receive(self, text_data):
 		data = json.loads(text_data)
-		asyncio.create_task(self.handle_action(data))
+		await self.handle_action(data)
 	
 	async def handle_action(self, data):
 		action = data['action']
@@ -43,7 +43,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 			#get the correct chess.COLORS value based on the color string
 			color = chess.COLOR_NAMES.index(data.get('color', 'white')) 
 			bot = available_bots.get(data.get('bot', 'random'))
-			await self.start_game(seconds, color, bot)
+			#create a separete task for the game loop and keep a refernce to it
+			self.game_task = asyncio.create_task(self.start_game(seconds, color, bot))
 		elif action == 'sense':
 			self.player.sense = data['sense']
 		elif action == 'move':
@@ -61,7 +62,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 			#restart the game if the player wants to rematch
 			if data.get('rematch', False): 
-				await self.start_game(seconds=self.game.seconds_per_player, color=self.player.color, bot_constructor=type(self.bot))
+				#start a new game loop task
+				self.game_task = asyncio.create_task(self.start_game(seconds=self.game.seconds_per_player, player_color=self.player.color, bot_constructor=type(self.bot)))
 		elif action == 'get_active_timer':
 			color = 'w' if self.game.turn == chess.WHITE else 'b'
 			await self.send(text_data=json.dumps({
@@ -74,6 +76,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print('invalid action')
 
 	async def game_message(self, event):
+		event.pop('type')
 		#send the messages from the player to the client
 		await self.send(text_data=json.dumps(event))
 
@@ -93,27 +96,11 @@ class GameConsumer(AsyncWebsocketConsumer):
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
 
-		#TODO this is a test, remove later
-		user = self.scope['user']
-		if(user.is_authenticated):
-			user_info = await sync_to_async(Users.objects.get)(user__username=self.scope['user'].username)
-			print(f"{user.username}'s elo score: {user_info.elo_points}")
-		else:
-			print('not logged in')
-		#funziona la stampa e l'aggiornamento delle loc_stats e leaderboard (:
-		player_stats = await get_player_loc_stats(user.email)
-		print(player_stats)
-		await update_loc_stats(user.username, False, True)
-		player_stats2 = await get_player_loc_stats(user.email)
-		print(player_stats2)
-		leaderboard = await get_leaderboard()
-		print(leaderboard)
-		#testing elo update
-		await update_elo(user.username, 'test', False, False, True)
-		print(f"{user.username}'s elo score: {user_info.elo_points}")
-		#await save_match_results('room1', user.username, 'test', True)
-		print('saved')
-		#end test
+		#stop the game loop task if it exists
+		if self.game_task is not None:
+			self.game_task.cancel()
+			self.game_task = None
+
 	
 	async def start_game(self, seconds, player_color: chess.COLORS, bot_constructor):
 		#initialize the game
@@ -122,8 +109,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 		self.bot = bot_constructor()
 
 		#get the username if the player is authenticated otherwise use 'guest'
-		player_name = self.scope['user'].username if self.scope['user'].is_authenticated else 'guest'
-		
+		if self.scope.get('user', AnonymousUser()).is_authenticated:
+			player_name = self.scope['user'].username
+		else: 
+			player_name = 'guest'		
 		#save the player names in a list
 		names = [self.bot.__class__.__name__, player_name]
 		#make sure that the list's order follows the order of chess.COLORS
@@ -201,8 +190,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 		#let the bot choose a move action
 		move = self.bot.choose_move(move_actions, self.game.get_seconds_left())
 		requested_move, taken_move, capture_square = self.game.move(move)
-		print("BOT'S MOVE", taken_move)
-
 		
 		self.bot.handle_move_result(requested_move, taken_move, capture_square is not None, capture_square)
 
@@ -232,7 +219,7 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		
 	async def receive(self, text_data):
 		data = json.loads(text_data)
-		asyncio.create_task(self.handle_action(data))
+		await self.handle_action(data)
 
 	async def handle_action(self, data):
 		#get the name of the channel that sent the message if it exists
@@ -243,11 +230,10 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			return
 		
 		action = data['action']
-		print("DATA:", data)
 
 		if action == 'start_game':
 			seconds = int(data.get('seconds', 900) or 900)
-			await self.start_game(seconds)
+			self.game_task = asyncio.create_task(self.start_game(seconds))
 		elif action == 'sense':
 			#check if the players attribute exists 
 			if hasattr(self, 'players'):
@@ -297,7 +283,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 					#set the resignee to the appropriate color before ending the game
 					self.game._resignee = self.player_colors[data.get('sender', self.channel_name)] 
 					await self.end_game()
-
 			#the game has not started yet
 			elif hasattr(self, 'game') and self.game is None:
 				return
@@ -307,6 +292,38 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				#send the message to the other consumer, the game will be stopped		
 				await self.channel_layer.group_send(self.room_group_name, data)	
 
+			#both consumers should handle rematch requests the same way after the game has ended
+			#the request should be sent to the group only once
+			if data.get('rematch', False) and data.get('sender', self.channel_name) == self.channel_name:
+				await self.channel_layer.group_send(
+					self.room_group_name,
+					{
+						'type': 'game_message',
+						'message': 'rematch',
+						'sender': self.channel_name
+					}
+				)
+		#the game has ended and the players have agreed to a rematch
+		elif action == 'rematch':
+			if hasattr(self, 'players') and data.get('accept', False):
+				self.game_task = asyncio.create_task(self.start_game(self.game.seconds_per_player))
+			elif not data.get('accept', False):
+				await self.channel_layer.group_send(
+					self.room_group_name,
+					{
+						'type': 'game_message',
+						'message': 'rematch declined',
+						'sender': self.channel_name
+					}
+				)
+			else:
+				#add the sender's channel name to the data
+				data.update({'type': 'handle_action', 'sender': self.channel_name})
+				#send the response to the rematch request to the other consumer
+				await self.channel_layer.group_send(
+					self.room_group_name,
+					data
+				)
 		elif action == 'get_active_timer':
 			if hasattr(self, 'players'):
 				color = 'w' if self.game.turn == chess.WHITE else 'b'
@@ -363,6 +380,12 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 
 	#this method is called only for the consumer instance of the player class sending the message
 	async def game_message(self, event):
+		#ignore rematch messages sent by the same consumer
+		if((event['message'] == 'rematch' or event['message'] == 'rematch declined') and event['sender'] == self.channel_name):
+			return
+		#remove the sender and type keys from the event
+		event.pop('sender', None)
+		event.pop('type')
 		#send the messages from the players to the client
 		await self.send(text_data=json.dumps(event))
 
@@ -376,21 +399,12 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		for player in self.players:
 			await player.handle_game_end(winner_color, win_reason, game_history)
 
-		#insert data in db here
-		#save the match results in the database
-		#aggiorno dati vincitore e perdente nel db
-		winner = self.player_names[winner_color]
-		loser = self.player_names[not winner_color]
-		room_name = self.room_group_name
-		draw = False
-		if winner_color == None and win_reason == None:
-			draw = True
-		await update_loc_stats(winner, True, draw)
-		await update_loc_stats(loser, False, draw)
-		await update_elo(winner, loser, True, draw)
-		await update_elo(loser, winner, False, draw)
-		await save_match_results(room_name, winner, loser, draw)
-		##gestire questione await e sync_to_async
+		#stop the game loop task if it exists
+		if self.game_task is not None:
+			self.game_task.cancel()
+			self.game_task = None
+
+		#TODO: insert data in db here
 
 	async def start_game(self, seconds):
 		#the first consumer will not directly handle the game
@@ -438,7 +452,10 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			player = HumanPlayer(channel, self.game)
 			self.players.append(player)
 			#save the player's name and color, use name guest if the player is not authenticated
-			self.player_names.append(self.scope['user'].username if self.scope['user'].is_authenticated else 'guest')
+			if self.scope.get('user', AnonymousUser()).is_authenticated:
+				self.player_names.append(self.scope['user'].username)
+			else:
+				self.player_names.append('guest')
 			self.player_colors[channel] = selected_color
 
 		#if the second player is black reverse the players and player_names lists to match the colors' values (False, True)
@@ -507,7 +524,3 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				'opponent_time': self.game.get_seconds_left(),
 			}
 		)
-
-	async def game_message(self, event):
-		#send the game start message to the players
-		await self.send(text_data=json.dumps(event))

@@ -56,8 +56,8 @@ def checkLogin(request):
 	else:
 		return HttpResponse('No user logged in', content_type='text/plain')
 
-def player_loc_stats(request, player_name):
-	result = ti.get_player_loc_stats(player_name)
+def player_loc_stats(request, player_email):
+	result = ti.get_player_loc_stats(player_email)
 	return JsonResponse(result)
 
 def leaderboard(request):

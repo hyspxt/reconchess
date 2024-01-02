@@ -155,17 +155,16 @@ document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
   })
 
  // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per statistiche giocatore
-  document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerName){
+  document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerMail){
     
-    fetch(`player_loc_stats/${playerName}/`)
+    fetch(`player_loc_stats/${playerMail}/`)
       .then(response => response.json())
       .then(data => {
-        console.log(`Statistiche per ${playerName}:`, data);
+        console.log(`Statistiche per ${playerMail}:`, data);
       })
       .catch(error => console.error('Errore durante la richiesta API:', error));
   })
 
-  
   document.addEventListener("DOMContentLoaded", function checkUserPresenceByMail(mail){
     // Funzione per verificare la presenza di un utente con mail
       try {

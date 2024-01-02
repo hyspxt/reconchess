@@ -101,10 +101,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 		else:
 			print('not logged in')
 		#funziona la stampa e l'aggiornamento delle loc_stats e leaderboard (:
-		player_stats = await get_player_loc_stats(user.username)
+		player_stats = await get_player_loc_stats(user.email)
 		print(player_stats)
 		await update_loc_stats(user.username, False, True)
-		player_stats2 = await get_player_loc_stats(user.username)
+		player_stats2 = await get_player_loc_stats(user.email)
 		print(player_stats2)
 		leaderboard = await get_leaderboard()
 		print(leaderboard)

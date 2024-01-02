@@ -516,7 +516,8 @@ header {
 .rules-container {
     color: #274C77;
     margin: 0 auto;
-    padding-bottom: 80px
+    padding-bottom: 80px;
+    margin-right: 0;
 }
 
 .rules-container p {

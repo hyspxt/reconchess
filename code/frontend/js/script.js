@@ -1,3 +1,6 @@
+import {fetchPlayerUsername} from '/utils.js';
+var username
+
 document.addEventListener("DOMContentLoaded", function() {
     var element = document.getElementById("not_signed_ini6gdrs9oeic0");
     if(element) {
@@ -25,6 +28,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("sumbit", function () {
+    var email = document.getElementById("email").value;
+    username = fetchPlayerUsername(email);
+    console.log(username);
+})
+
 function handleCredentialResponse(response) {
     var id_token = response.credential;
 
@@ -46,6 +55,7 @@ function handleCredentialResponse(response) {
         if (data.success) {
             alert.classList.add("alert-success");
             alert.innerHTML = `Logged in successfully as ${data.user_name}`;
+            window.location.href = "../board.html";
         } else {
             alert.classList.add("alert-danger");
             alert.innerHTML = `Error: ${data.error}`;

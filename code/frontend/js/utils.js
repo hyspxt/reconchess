@@ -59,6 +59,7 @@ export function handleLogin(event) {
 
 		if (response.ok) {
 			alert.classList.add("alert-success");
+			window.location.href = "../board.html";
 		} else {
 			alert.classList.add("alert-danger");
 		}
@@ -98,7 +99,7 @@ export function handleLogin(event) {
   })
 
   // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per username giocatore
-  document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerMail){
+  document.addEventListener("DOMContentLoaded", function fetchPlayerUsername(playerMail){
     
     fetch(`player_username/${playerMail}/`)
       .then(response => response.json())

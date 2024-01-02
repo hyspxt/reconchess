@@ -29,8 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.getElementById("log").addEventListener("submit", function () {
     var email = document.getElementById("email").value;
-    username = fetchPlayerUsername(email);
-    console.log(username);
+    fetchPlayerUsername(email);
 })
 
 function handleCredentialResponse(response) {
@@ -104,6 +103,8 @@ document.addEventListener("DOMContentLoaded", function fetchPlayerUsername(playe
         .then(response => response.json())
         .then(data => {
             console.log(`Username per ${playerMail}:`, data);
+            username=data
+            console.log('username:', username)
         })
         .catch(error => console.error('Errore durante la richiesta API:', error));
 })

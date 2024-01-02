@@ -165,6 +165,17 @@ document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
       .catch(error => console.error('Errore durante la richiesta API:', error));
   })
 
+  // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per username giocatore
+  document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerMail){
+    
+    fetch(`player_username/${playerMail}/`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Username per ${playerMail}:`, data);
+      })
+      .catch(error => console.error('Errore durante la richiesta API:', error));
+  })
+
   document.addEventListener("DOMContentLoaded", function checkUserPresenceByMail(mail){
     // Funzione per verificare la presenza di un utente con mail
       try {

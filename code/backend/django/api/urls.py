@@ -19,6 +19,8 @@ urlpatterns = [
     
 	path('player_loc_stats/<str:mail>/', views.player_loc_stats, name='player_loc_stats'),
 
+	path('player_username/<str:mail>/', views.player_username, name='player_username'),
+    
 	path('leaderboard/', views.leaderboard, name='leaderboard'),
 	
 	path('social_log/<str:mail>/', views.social_log, name='social_log')

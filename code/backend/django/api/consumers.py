@@ -98,6 +98,28 @@ class GameConsumer(AsyncWebsocketConsumer):
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
 
+		#TODO this is a test, remove later
+		user = self.scope['user']
+		if(user.is_authenticated):
+			user_info = await sync_to_async(Users.objects.get)(user__username=self.scope['user'].username)
+			print(f"{user.username}'s elo score: {user_info.elo_points}")
+		else:
+			print('not logged in')
+		#funziona la stampa e l'aggiornamento delle loc_stats e leaderboard (:
+		player_stats = await get_player_loc_stats(user.email)
+		print(player_stats)
+		await update_loc_stats(user.username, False, True)
+		player_stats2 = await get_player_loc_stats(user.email)
+		print(player_stats2)
+		leaderboard = await get_leaderboard()
+		print(leaderboard)
+		#testing elo update
+		await update_elo(user.username, 'test', False, False, True)
+		print(f"{user.username}'s elo score: {user_info.elo_points}")
+		#await save_match_results('room1', user.username, 'test', True)
+		print('saved')
+		#end test
+		
 		#stop the game loop task if it exists
 		if self.game_task is not None:
 			self.game_task.cancel()

@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="icon" type="png" href="img/other/logo.png">
   <title>Statistiche Giocatore e Classifica</title>
-  <script src="js/script.js"></script>
+  <script src="js/utils.js"></script>
 </head>
 <body>
   
@@ -231,7 +231,8 @@
   //const playerName = 'username_del_giocatore';  // Sostituisci con lo username del giocatore
   // Effettua richieste HTTP per ottenere statistiche del giocatore e classifica
   fetchLeaderboard();
-  fetchPlayerLocStats(playerName);
+  fetchPlayerLocStats(playerMail);
+  fetchPlayerUsername(playerMail);
   </script>
 </body>
   

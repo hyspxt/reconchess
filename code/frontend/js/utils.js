@@ -59,7 +59,7 @@ export function handleLogin(event) {
 
 		if (response.ok) {
 			alert.classList.add("alert-success");
-			window.location.href = "../board.html";
+			//window.location.href = "../board.html";
 		} else {
 			alert.classList.add("alert-danger");
 		}

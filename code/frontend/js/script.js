@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playe
 // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per username giocatore
 function fetchPlayerUsername(playerMail){
     
-    fetch(`player_username/${playerMail}/`)
+    fetch(`/api/player_username/${playerMail}/`)
         .then(response => response.json())
         .then(data => {
             console.log(`Username per ${playerMail}:`, data);

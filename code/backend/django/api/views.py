@@ -6,6 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from google.auth.transport import requests
 from google.oauth2 import id_token
+from . import tables_interactions as ti
+from .models import Users
+from django.utils import timezone
 
 #TODO: install the 'google-auth' library
 
@@ -81,3 +84,16 @@ def googleID(request):
     
     except ValueError as e:
         return JsonResponse({'success': False, 'error': str(e)})
+	
+	
+def player_loc_stats(request, player_email):
+	result = ti.get_player_loc_stats(player_email)
+	return JsonResponse(result)
+
+def player_username(request, player_email):
+	result = ti.get_player_username(player_email)
+	return JsonResponse({'username': result})
+
+def leaderboard(request):
+    leaderboard_data = ti.get_leaderboard()
+    return JsonResponse({'leaderboard': leaderboard_data})

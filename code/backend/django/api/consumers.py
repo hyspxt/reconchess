@@ -9,6 +9,8 @@ from strangefish.strangefish_strategy import StrangeFish2
 from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from django.contrib.auth.models import AnonymousUser
+from .models import Users, Matches
+from .tables_interactions import update_loc_stats, save_match_results, update_elo, get_player_loc_stats, get_leaderboard
 
 available_bots = {
 	'random': random_bot.RandomBot,
@@ -404,7 +406,20 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			self.game_task.cancel()
 			self.game_task = None
 
-		#TODO: insert data in db here
+		#insert data in db here
+		#save the match results in the database
+		#aggiorno dati vincitore e perdente nel db
+		winner = self.player_names[winner_color]
+		loser = self.player_names[not winner_color]
+		room_name = self.room_group_name
+		draw = False
+		if winner_color == None and win_reason == None:
+			draw = True
+		await update_loc_stats(winner, True, draw)
+		await update_loc_stats(loser, False, draw)
+		await update_elo(winner, loser, True, draw)
+		await update_elo(loser, winner, False, draw)
+		await save_match_results(room_name, winner, loser, draw)
 
 	async def start_game(self, seconds):
 		#the first consumer will not directly handle the game

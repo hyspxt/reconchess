@@ -19,19 +19,16 @@ export function startConnection(url, timer, bot, color) {
 
     //activates when the user switches tabs
     document.addEventListener("visibilitychange", () => {
-        console.log('visibility changed' + document.visibilityState)
         //when the tab is active send a request for the timers to the backend
-        if (document.visibilityState === 'visible')
-            console.log('send request for timers')
-
-        socket.send(JSON.stringify({ action: 'get_active_timer' }));
+        if (document.visibilityState === 'visible' && socket.readyState == WebSocket.OPEN)
+            socket.send(JSON.stringify({ action: 'get_active_timer' }));
     });
 
 
     console.log(url, timer, bot, color)
 
     //avoid trying to send the message while the page is loading
-    setTimeout(() => { socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color })) }, 50);
+    setTimeout(() => { socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color })) }, 200);
 
 }
 

@@ -407,11 +407,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		for player in self.players:
 			await player.handle_game_end(winner_color, win_reason, game_history)
 
-		#stop the game loop task if it exists
-		if self.game_task is not None:
-			self.game_task.cancel()
-			self.game_task = None
-
 		#insert data in db here
 		#save the match results in the database
 		#aggiorno dati vincitore e perdente nel db
@@ -428,8 +423,15 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		if(loser != 'guest'):
 			await update_loc_stats(loser, False, draw)
 			await update_elo(loser, winner, False, draw)
-			
+		
+		print("GAME ENDING")
 		await save_match_results(room_name, winner, loser, draw)
+
+		#stop the game loop task if it exists
+		if self.game_task is not None:
+			self.game_task.cancel()
+			self.game_task = None
+
 
 	async def start_game(self, seconds):
 		#the first consumer will not directly handle the game
@@ -509,9 +511,7 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				break
 
 		await self.end_game()
-		
-		await self.end_game()
-		
+				
 	async def play_human_turn(self, player, capture_square, move_actions, first_ply):
 		#the human player has started their turn
 		player.finished = False

@@ -78,10 +78,9 @@ def update_loc_stats(player_name, win, draw):
 
 #da chiamare alla fine di una partita contro un altro giocatore
 #se vogliamo tenere traccia di chi vince contro chi
-@sync_to_async
-def save_match_results(roomName, winner, loser, dr):
+async def save_match_results(roomName, winner, loser, dr):
     # Ora inseriamo i dati nella tabella Matches
-    match = (Matches.objects.get)(room_name=roomName, finished=False)
+    match = await sync_to_async(Matches.objects.get)(room_name=roomName, finished=False)
     match.finished = True
     match.draw = dr
     if dr:
@@ -91,7 +90,7 @@ def save_match_results(roomName, winner, loser, dr):
         match.winner = winner
         match.loser = loser
     # Salva l'oggetto Matches nel database
-    match.save()
+    await sync_to_async(match.save)()
 
 #da chiamare dopo aver sfidato un umano
 #calcola i punti elo alla fine di ogni partita per il player1; Utilizziamo l'ELO FSI

@@ -442,7 +442,7 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			user = 'guest'
 			if(self.scope['user'].is_authenticated):
 				user = self.scope['user'].username
-			match = await sync_to_async(Matches.objects.create)(room_name = self.room_group_name, player1=user)
+			match = await sync_to_async(Matches.objects.create)(room_name = self.room_group_name, player1=user, seconds=seconds)
 			await sync_to_async(match.save)()
 			
 			self.players[0] = self.channel_name
@@ -455,6 +455,8 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			user = self.scope['user'].username
 		match.player2 = user
 		await sync_to_async(match.save)()
+
+		seconds = match.seconds
 
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.players = []

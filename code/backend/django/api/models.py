@@ -18,4 +18,5 @@ class Matches(models.Model):
     winner = models.CharField(max_length=50, null=True)
     loser = models.CharField(max_length=50, null=True)
     draw = models.BooleanField(null=True)
+    seconds = models.IntegerField(null=True)
     finished = models.BooleanField(default=False)

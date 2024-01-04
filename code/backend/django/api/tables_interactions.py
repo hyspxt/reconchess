@@ -3,9 +3,8 @@ from django.db.models import F
 import asyncio
 from asgiref.sync import sync_to_async
 
-@sync_to_async
 def get_player_loc_stats(player_email):
-    player =(Users.objects.get)(user__email=player_email)
+    player = Users.objects.get(user__email=player_email)
         
     # Ottieni le statistiche del giocatore
     name = player.user.username
@@ -21,8 +20,7 @@ def get_player_loc_stats(player_email):
             'n_draws': draws
     }
 
-    # Ottieni lo username
-@sync_to_async
+# Ottieni lo username
 def get_player_username(player_email):
     player_email = "test2@example.com"
     player = Users.objects.get(user__email=player_email)
@@ -30,7 +28,6 @@ def get_player_username(player_email):
     return name
 
 
-@sync_to_async
 def get_leaderboard():
     # Ottenere i dati per i primi 10 giocatori
     try:
@@ -65,16 +62,15 @@ def get_leaderboard():
         raise  # Rilancia l'eccezione per ottenere la traccia completa
 
 #aggiorna il numero di w/l/d nella tabella Users 
-@sync_to_async
-def update_loc_stats(player_name, win, draw):
-    u = (Users.objects.get)(user__username=player_name)
+async def update_loc_stats(player_name, win, draw):
+    u = await sync_to_async(Users.objects.get)(user__username=player_name)
     if win:
         u.n_wins += 1
     elif not win and not draw:
         u.n_lost += 1
     else:  # draw=True
         u.n_draws += 1
-    u.save()
+    await sync_to_async(u.save)()
 
 #da chiamare alla fine di una partita contro un altro giocatore
 #se vogliamo tenere traccia di chi vince contro chi
@@ -97,25 +93,27 @@ async def save_match_results(roomName, winner, loser, dr):
 #Vittoria = 1 punto
 #Patta = 0,5 punti
 #Sconfitta  = 0 punti.
-@sync_to_async
-def update_elo(player_name, opponent, win, los, dr):
-    u = (Users.objects.get)(user__username = player_name)
-    v = (Users.objects.get)(user__username = opponent)
+async def update_elo(player_name, opponent, win, dr):
+    u = await sync_to_async(Users.objects.get)(user__username = player_name)
+    try:
+        v = await sync_to_async(Users.objects.get)(user__username = opponent)
+    except Users.DoesNotExist:
+        v = None
     #calcolo nuovi punti elo
     #new_elo_points = sync_to_async(calculate_elo)(u.elo_points, v.elo_points, win, los, dr)
     K=30 #secondo rergole FSI
     #calcolo punteggio attuale
-    if win: actual_score = 1
-    elif los: actual_score = 0
-    else: actual_score = 0.5 #draw
+    if dr: actual_score = 0.5 #draw
+    elif win: actual_score = 1
+    else: actual_score = 0 #loss
     #calcolo punteggio atteso
-    rb = v.elo_points
+    rb = v.elo_points if v is not None else 1440 #use default elo if the opponent is a guest
     ra = u.elo_points
     expected_score = 1 / (1+10**((rb-ra)/400))
     new_elo=ra+(K*(actual_score-expected_score))
     #aggiorno punti dei giocatori in tabella Users
     u.elo_points = new_elo
-    u.save()
+    await sync_to_async(u.save)()
 
 def social_log(mail):
     try:

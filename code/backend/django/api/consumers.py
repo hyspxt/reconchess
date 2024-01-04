@@ -9,8 +9,8 @@ from strangefish.strangefish_strategy import StrangeFish2
 from .HumanPlayer import HumanPlayer
 from asgiref.sync import sync_to_async
 from django.contrib.auth.models import AnonymousUser
-from .models import Users, Matches
-from .tables_interactions import update_loc_stats, save_match_results, update_elo, get_player_loc_stats, get_leaderboard
+from .models import Matches
+from .tables_interactions import update_loc_stats, save_match_results, update_elo
 
 available_bots = {
 	'random': random_bot.RandomBot,
@@ -424,7 +424,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			await update_loc_stats(loser, False, draw)
 			await update_elo(loser, winner, False, draw)
 		
-		print("GAME ENDING")
 		await save_match_results(room_name, winner, loser, draw)
 
 		#stop the game loop task if it exists
@@ -449,10 +448,11 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			return
 		
 		match = await sync_to_async(Matches.objects.get)(room_name=self.room_group_name, finished=False)
-		print(match)
-		user = 'guest'
-		if(self.scope['user'].is_authenticated):
+		if self.scope.get('user', AnonymousUser()).is_authenticated:
 			user = self.scope['user'].username
+		else:
+			user = 'guest'
+
 		match.player2 = user
 		await sync_to_async(match.save)()
 
@@ -460,9 +460,10 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.players = []
-		self.player_names = []
+		self.player_names = [match.player1, match.player2]
 		#dictionary using channel names as keys for player colors
 		self.player_colors = {}
+
 		
 		selected_color = None
 
@@ -473,15 +474,10 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			#the second player gets the opposite color
 			else:
 				selected_color = not selected_color
-			
-			#instanctiate a player for each channel
+
+			#instantiate a player for each channel
 			player = HumanPlayer(channel, self.game)
 			self.players.append(player)
-			#save the player's name and color, use name guest if the player is not authenticated
-			if self.scope.get('user', AnonymousUser()).is_authenticated:
-				self.player_names.append(self.scope['user'].username)
-			else:
-				self.player_names.append('guest')
 			self.player_colors[channel] = selected_color
 
 		#if the second player is black reverse the players and player_names lists to match the colors' values (False, True)

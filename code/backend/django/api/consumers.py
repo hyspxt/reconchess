@@ -97,28 +97,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 		
 		await self.player.handle_game_end(winner_color, win_reason, game_history)
 		self.bot.handle_game_end(winner_color, win_reason, game_history)
-
-		#TODO this is a test, remove later
-		user = self.scope['user']
-		if(user.is_authenticated):
-			user_info = await sync_to_async(Users.objects.get)(user__username=self.scope['user'].username)
-			print(f"{user.username}'s elo score: {user_info.elo_points}")
-		else:
-			print('not logged in')
-		#funziona la stampa e l'aggiornamento delle loc_stats e leaderboard (:
-		player_stats = await get_player_loc_stats(user.email)
-		print(player_stats)
-		await update_loc_stats(user.username, False, True)
-		player_stats2 = await get_player_loc_stats(user.email)
-		print(player_stats2)
-		leaderboard = await get_leaderboard()
-		print(leaderboard)
-		#testing elo update
-		await update_elo(user.username, 'test', False, False, True)
-		print(f"{user.username}'s elo score: {user_info.elo_points}")
-		#await save_match_results('room1', user.username, 'test', True)
-		print('saved')
-		#end test
 		
 		#stop the game loop task if it exists
 		if self.game_task is not None:
@@ -330,6 +308,12 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		#the game has ended and the players have agreed to a rematch
 		elif action == 'rematch':
 			if hasattr(self, 'players') and data.get('accept', False):
+				current_match = await sync_to_async(Matches.objects.filter)(room_name=self.room_group_name)
+				current_match = await sync_to_async(current_match.first)()
+				player1 = current_match.player1
+				player2 = current_match.player2	
+				match = await sync_to_async(Matches.objects.create)(room_name = self.room_group_name, player1=player1, player2=player2)
+				await sync_to_async(match.save)()
 				self.game_task = asyncio.create_task(self.start_game(self.game.seconds_per_player))
 			elif not data.get('accept', False):
 				await self.channel_layer.group_send(
@@ -437,10 +421,14 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		draw = False
 		if winner_color == None and win_reason == None:
 			draw = True
-		await update_loc_stats(winner, True, draw)
-		await update_loc_stats(loser, False, draw)
-		await update_elo(winner, loser, True, draw)
-		await update_elo(loser, winner, False, draw)
+		#only update the player's information if they are logged in
+		if(winner != 'guest'):
+			await update_loc_stats(winner, True, draw)
+			await update_elo(winner, loser, True, draw)
+		if(loser != 'guest'):
+			await update_loc_stats(loser, False, draw)
+			await update_elo(loser, winner, False, draw)
+			
 		await save_match_results(room_name, winner, loser, draw)
 
 	async def start_game(self, seconds):
@@ -457,17 +445,14 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			
 			self.players[0] = self.channel_name
 			return
-
+		
 		match = await sync_to_async(Matches.objects.get)(room_name=self.room_group_name, finished=False)
-		print(match.player1)
+		print(match)
 		user = 'guest'
 		if(self.scope['user'].is_authenticated):
 			user = self.scope['user'].username
-		print(user)
 		match.player2 = user
-		print(match.player2)
 		await sync_to_async(match.save)()
-		print('saved2')
 
 		self.game = LocalGame(seconds_per_player=seconds)
 		self.players = []

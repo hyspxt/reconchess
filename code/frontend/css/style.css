@@ -63,6 +63,10 @@ header {
     color: #6096BA;
 }
 
+.nav-item {
+    padding-bottom: 15px;
+}
+
 .nav-link {
     display: block;
     color: #D5DBBE;
@@ -71,6 +75,8 @@ header {
 .nav-link:hover {
     background-color: #6096BA;
     color: #FFF;
+    transform: scale(1.1);
+    transition: font-size 0.6s;
     border-radius: 1;
     width: 100%;
 }
@@ -218,7 +224,6 @@ header {
 .nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.uaxL4e-RbRzK {
     font-size: 25px !important;
     width: 100% !important;
-    ;
     height: 50px !important;
     border-radius: 10px !important;
     background-color: #FFF !important;
@@ -1076,4 +1081,20 @@ header {
     color: #274C77;
 }
 
+.items-center {
+    display: flex;
+    align-items: center;
+}
 
+/*----------------SVG STUFF-----------------*/
+.nav-link svg {
+    vertical-align: middle;
+    margin-bottom: 2px;
+    margin-right: 5px;
+}
+
+.form-inline svg {
+    vertical-align: middle;
+    margin-bottom: 2px;
+    margin-right: 5px;
+}

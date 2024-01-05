@@ -315,9 +315,9 @@
         $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #btn_signIn, #left_a').css('display', 'none');
         $('#right_a').css('display', 'block');
         $('#nav_colomn').css('width', '90px');
-        $('#nav_colomn').css('transition', 'width 1s');
+        $('#nav_colomn').css('transition', 'width 0.5s');
         $('.container_a').css('margin-left', '120px');
-        $('.container_a').css('transition', 'margin-left 1s');
+        $('.container_a').css('transition', 'margin-left 0.5s');
         $('#title_nav_pic').css('margin-right', '0');
         $('.nav-link, .title_nav').css('justify-content', 'center');
         nav_small = true;
@@ -327,13 +327,15 @@
         $('#nav_colomn').css('width', '250px');
         $('.container_a').css('margin-left', '280px');
         $('.nav-link, .title_nav').css('justify-content', 'start');
-        setTimeout(sigIn_btn, 1000);
+        setTimeout(sigIn_btn, 500);
         nav_small = false;
     }
   }
 
   function sigIn_btn(){
-    $('#btn_signIn').css('display', 'block');
+    if(!nav_small){
+      $('#btn_signIn').css('display', 'block');
+    }
   }
   </script>
 </body>

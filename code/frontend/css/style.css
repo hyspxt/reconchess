@@ -68,7 +68,8 @@ header {
 }
 
 .nav-link {
-    display: block;
+    display: flex;
+    flex-direction: row;
     color: #D5DBBE;
 }
 
@@ -119,6 +120,12 @@ header {
     margin-left: 280px;
 }
 
+.container_a {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    margin-left: 280px;
+}
 .ma {
     padding-top: 40px;
 }
@@ -553,6 +560,7 @@ header {
     font-weight: 600;
     color: #274C77;
     padding-top: 90px;
+    overflow-wrap: break-word;
 }
 
 .rules-subtitle {
@@ -964,6 +972,27 @@ header {
     font-size: 1.75rem;
 }
 
+#btn_nav_play,
+#btn_nav_lead,
+#btn_nav_rules,
+#btn_nav_collapse,
+#btn_nav_home,
+#btn_signIn {
+    display: block;
+}
+
+.btn_nav_home{
+    overflow: visible;
+    white-space: nowrap;
+}
+
+#left_a{
+    display: block;
+}
+
+#right_a{
+    display: none;
+}
 
 
 /* --------TOAST STUFF--------------- */

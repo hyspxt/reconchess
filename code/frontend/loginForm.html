@@ -89,10 +89,19 @@
                 </ul>
                 
                 <div class="d-flex align-items-center">
-                    <form class="form-inline mt-auto" id="btn_signIn">
-                        <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
-                    </form>
-                </div>
+                    {% if request.user.is_authenticated %}
+                        <p>You're logged in as {{ request.user.username }}</p>
+                        <form class="form-inline mt-auto" id="btn_signOut" method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger">Sign out</button>
+                        </form>
+                    {% else %}
+                        <form class="form-inline mt-auto" id="btn_signIn" action="{% url 'login' %}">
+                            <button type="submit" class="btn btn-outline-success">Sign in</button>
+                        </form>
+                    {% endif %}
+                </div>                
+                
             </div>
         </aside>
 

@@ -446,7 +446,7 @@ export function flipSide(c) {
 /*-----------Initialization--------------*/
 
 board = Chessboard('myBoard', config)
-
+$(window).on('resize', board.resize);
 
 $("#promote-to").selectable({
     stop: function () {

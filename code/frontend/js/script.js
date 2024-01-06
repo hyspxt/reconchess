@@ -126,11 +126,11 @@ function checkLogin() {
     fetch('/api/check_login/')
         .then(response => response.json())
         .then(data => {
-            const loginDiv = document.querySelector('.d-flex.align-items-center');
+            const loginDiv = document.querySelector('.user');
             if (data.loggedIn) {
                 loginDiv.innerHTML = `
-                    <p>You're logged in as ${data.username}</p>
-                    <form class="form-inline mt-auto" id="btn_signOut" method="post" action="/api/logouot">
+                    <p>You're logged in as <span style="color: #FFF;">${data.username}</span></p>
+                    <form class="form-inline mt-auto" id="btn_signOut" method="post" action="/api/logout">
                         <button type="submit" class="btn btn-outline-danger">Sign out</button>
                     </form>
                 `;

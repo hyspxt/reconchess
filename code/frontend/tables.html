@@ -28,10 +28,10 @@
                   class="d-inline-block align-top mr-2">
               <span id="btn_nav_home" class="h4 m-0 items-center btn_nav_home" style="color: #cacaca">Silver Bullets</span>
           </a>
-          <hr style="border-color: #cacaca; height: 2px;">
+          <hr id="linea" style="border-color: #cacaca; height: 2px;">
       </div>
 
-      <ul class="nav nav-pills flex-column mb-auto">
+      <ul id="nav_btn" class="nav nav-pills flex-column mb-auto">
           <li class="nav-item">
               <a href="board.html" class="nav-link" aria-current="page">
                   <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
@@ -154,182 +154,245 @@
   </div>
 </div>
 
-<script type="module" src="js/script.js"></script>
+  <script type="module" src="js/script.js"></script>
 
-<script>
-  var counter = 0;
-  var players_top10 = new Array(10);
-  let nav_small = false;
+  <script>
+    var counter = 0;
+    var players_top10 = new Array(10);
+    let nav_small = false;
 
-  function insert_in_leaderbord(username, victories, defeats, draws, elo) {
-    if(counter < 10){
-      var playerId = 'container' + new Date().getTime();
-      var playerHTML = `
-      <div id="${playerId}" class="class_leader_player" aria-live="assertive" aria-atomic="true">
-      
-        <div class="User">
-          ${username}
+    function insert_in_leaderbord(username, victories, defeats, draws, elo) {
+      if(counter < 10){
+        var playerId = 'container' + new Date().getTime();
+        var playerHTML = `
+        <div id="${playerId}" class="class_leader_player" aria-live="assertive" aria-atomic="true">
+        
+          <div class="User">
+            ${username}
+          </div>
+          <div class="Vic">
+            ${victories}
+          </div>
+          <div class="Def">
+            ${defeats}
+          </div>
+          <div class="Drw">
+            ${draws}
+          </div>
+          <div class="Elo">
+            ${elo}
+          </div>
         </div>
-        <div class="Vic">
-          ${victories}
-        </div>
-        <div class="Def">
-          ${defeats}
-        </div>
-        <div class="Drw">
-          ${draws}
-        </div>
-        <div class="Elo">
-          ${elo}
-        </div>
-      </div>
-      `;
+        `;
 
-      // Aggiungi il messaggio toast al contenitore
-      $('#top10').append(playerHTML);
-      
+        // Aggiungi il messaggio toast al contenitore
+        $('#top10').append(playerHTML);
+        
 
-      switch(counter){
-        case 0:
-          $('#number1').css('display', 'block');
-          break;
-        case 1:
-          $('#number2').css('display', 'block');
-          break;
-        case 2:
-          $('#number3').css('display', 'block');
-          break;
-        case 3:
-          $('#number4').css('display', 'block');
-          break;
-        case 4:
-          $('#number5').css('display', 'block');
-          break;
-        case 5: 
-          $('#number6').css('display', 'block');
-          break;
-        case 6:
-          $('#number7').css('display', 'block');
-          break;
-        case 7:
-          $('#number8').css('display', 'block');
-          break;
-        case 8:
-          $('#number9').css('display', 'block');
-          break;
-        case 9:
-          $('#number10').css('display', 'block');
-          break;
+        switch(counter){
+          case 0:
+            $('#number1').css('display', 'block');
+            break;
+          case 1:
+            $('#number2').css('display', 'block');
+            break;
+          case 2:
+            $('#number3').css('display', 'block');
+            break;
+          case 3:
+            $('#number4').css('display', 'block');
+            break;
+          case 4:
+            $('#number5').css('display', 'block');
+            break;
+          case 5: 
+            $('#number6').css('display', 'block');
+            break;
+          case 6:
+            $('#number7').css('display', 'block');
+            break;
+          case 7:
+            $('#number8').css('display', 'block');
+            break;
+          case 8:
+            $('#number9').css('display', 'block');
+            break;
+          case 9:
+            $('#number10').css('display', 'block');
+            break;
+        }
+
+        players_top10[counter] = playerId;
+        console.log(players_top10[counter]);
+        counter++;
       }
+      
+    }
 
-      players_top10[counter] = playerId;
-      console.log(players_top10[counter]);
-      counter++;
+    function remove_from_leaderboard() {
+      if(counter > 0){
+        var playerId = players_top10[counter-1];
+        $('#'+playerId).remove();
+        counter--;
+        switch(counter){
+          case 0:
+            $('#number1').css('display', 'none');
+            break;
+          case 1:
+            $('#number2').css('display', 'none');
+            break;
+          case 2:
+            $('#number3').css('display', 'none');
+            break;
+          case 3:
+            $('#number4').css('display', 'none');
+            break;
+          case 4:
+            $('#number5').css('display', 'none');
+            break;
+          case 5: 
+            $('#number6').css('display', 'none');
+            break;
+          case 6:
+            $('#number7').css('display', 'none');
+            break;
+          case 7:
+            $('#number8').css('display', 'none');
+            break;
+          case 8:
+            $('#number9').css('display', 'none');
+            break;
+          case 9:
+            $('#number10').css('display', 'none');
+            break;
+        }
+      }
+    }
+
+    function swapContainers(firstContainer, secondContainer) {
+      if(firstContainer < 1 || firstContainer > 10 || secondContainer < 1 || secondContainer > 10){
+        return;
+      }
+      var id1 = players_top10[firstContainer-1];
+      var id2 = players_top10[secondContainer-1];
+
+      players_top10[firstContainer-1] = id2;
+      players_top10[secondContainer-1] = id1;
+
+      var div1 = document.getElementById(id1);
+      var div2 = document.getElementById(id2);
+
+      // Clona il primo div e inserisce il clone prima del secondo div
+      var cloneDiv1 = div1.cloneNode(true);
+      div2.parentNode.insertBefore(cloneDiv1, div2);
+
+      // Clona il secondo div e inserisce il clone prima del primo div
+      var cloneDiv2 = div2.cloneNode(true);
+      div1.parentNode.insertBefore(cloneDiv2, div1);
+
+      // Rimuove i div originali
+      div1.parentNode.removeChild(div1);
+      div2.parentNode.removeChild(div2);
+    }
+    //inclusi da script.js
+    //non so come reperire il nome del giocatore e passarlo come parametro
+    //const playerName = 'username_del_giocatore';  // Sostituisci con lo username del giocatore
+    // Effettua richieste HTTP per ottenere statistiche del giocatore e classifica
+    fetchLeaderboard();
+    fetchPlayerLocStats(playerMail);
+    fetchPlayerUsername(playerMail);
+
+    function smalernav(){
+      if(!nav_small){
+          $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #btn_signIn, #left_a').css('display', 'none');
+          $('#right_a').css('display', 'block');
+          $('#nav_colomn').css('width', '90px');
+          $('#nav_colomn').css('transition', 'width 0.5s');
+          $('.container_a').css('margin-left', '120px');
+          $('.container_a').css('transition', 'margin-left 0.5s');
+          $('.title_nav_pic').css('margin-right', '0');
+          $('.nav-link, .title_nav').css('justify-content', 'center');
+          nav_small = true;
+      } else {
+          $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'block');
+          $('#right_a').css('display', 'none');
+          $('#nav_colomn').css('transition', 'width 0.5s');
+          $('#nav_colomn').css('width', '250px');
+          $('.container_a').css('margin-left', '280px');
+          $('.nav-link, .title_nav').css('justify-content', 'start');
+          setTimeout(sigIn_btn, 500);
+          nav_small = false;
+      }
+    }
+
+    function sigIn_btn(){
+      if(!nav_small){
+        $('#btn_signIn').css('display', 'block');
+      }
     }
     
-  }
+    resize_nav();
+    $(window).resize(function(){
+        resize_nav();
+    });
 
-  function remove_from_leaderboard() {
-    if(counter > 0){
-      var playerId = players_top10[counter-1];
-      $('#'+playerId).remove();
-      counter--;
-      switch(counter){
-        case 0:
-          $('#number1').css('display', 'none');
-          break;
-        case 1:
-          $('#number2').css('display', 'none');
-          break;
-        case 2:
-          $('#number3').css('display', 'none');
-          break;
-        case 3:
-          $('#number4').css('display', 'none');
-          break;
-        case 4:
-          $('#number5').css('display', 'none');
-          break;
-        case 5: 
-          $('#number6').css('display', 'none');
-          break;
-        case 6:
-          $('#number7').css('display', 'none');
-          break;
-        case 7:
-          $('#number8').css('display', 'none');
-          break;
-        case 8:
-          $('#number9').css('display', 'none');
-          break;
-        case 9:
-          $('#number10').css('display', 'none');
-          break;
-      }
+    function resize_nav(){
+        console.log('resize called');
+        var width = $(window).width();
+        if(width < 1180){
+            $('#nav_colomn').removeClass('flex-column');
+            $('#nav_btn').removeClass('flex-column');
+            $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
+            $('#nav_btn').removeClass('ml-auto flex-row');
+            $('aside').addClass('flex-row');
+            $('.title_nav_pic').css('margin-top', '16px');
+            $('#nav_btn').css('justify-content', 'center');
+            $('#nav_colomn').css('width', '100%');
+            $('#nav_colomn').css('height', '60px');
+            $('#nav_colomn').css('overflow', 'hidden');
+            $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
+            $('#btn_signIn').removeClass('mt-auto');
+            $('#nav_colomn').css('justify-content', 'space-between');
+            $('#nav_colomn').css('align-items', 'center');
+            $('#nav_colomn').css('transition', 'width 0s');
+
+            if(nav_small){
+                $('#btn_signIn').css('display', 'block');
+            }
+            $('.container_a').css('margin-top', '50px');
+            $('.container_a').css('margin-left', '0px');
+
+        } else {
+            $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
+            $('#nav_btn').removeClass('fixed-top');
+            $('#nav_btn').removeClass('flex-row');
+            $('#nav_colomn').addClass('flex-column');
+            $('#nav_btn').addClass('flex-column');
+            $('aside').removeClass('flex-row');
+            $('.title_nav_pic').css('margin-top', '0');
+            $('#nav_btn').css('justify-content', 'start');
+            $('#nav_colomn').css('height', '100%');
+            $('#nav_colomn').css('overflow', 'auto');
+            $('#right_a').css('display', 'none');
+            $('#btn_signIn').addClass('mt-auto');
+            $('#nav_colomn').css('justify-content', 'start');
+            $('#nav_colomn').css('align-items', 'start');
+            $('#nav_colomn').css('transition', 'width 0s');
+
+            if(nav_small){
+                $('.container_a').css('margin-left', '120px');
+                $('#nav_colomn').css('width', '90px');
+                $('#right_a, #linea').css('display', 'block');
+                $('#btn_signIn').css('display', 'none');
+            } else {
+                $('.container_a').css('margin-left', '280px');
+                $('#nav_colomn').css('width', '250px');
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #linea').css('display', 'block');
+            }
+            $('.container_a').css('margin-top', '0');
+        }
     }
-  }
-
-  function swapContainers(firstContainer, secondContainer) {
-    if(firstContainer < 1 || firstContainer > 10 || secondContainer < 1 || secondContainer > 10){
-      return;
-    }
-    var id1 = players_top10[firstContainer-1];
-    var id2 = players_top10[secondContainer-1];
-
-    players_top10[firstContainer-1] = id2;
-    players_top10[secondContainer-1] = id1;
-
-    var div1 = document.getElementById(id1);
-    var div2 = document.getElementById(id2);
-
-    // Clona il primo div e inserisce il clone prima del secondo div
-    var cloneDiv1 = div1.cloneNode(true);
-    div2.parentNode.insertBefore(cloneDiv1, div2);
-
-    // Clona il secondo div e inserisce il clone prima del primo div
-    var cloneDiv2 = div2.cloneNode(true);
-    div1.parentNode.insertBefore(cloneDiv2, div1);
-
-    // Rimuove i div originali
-    div1.parentNode.removeChild(div1);
-    div2.parentNode.removeChild(div2);
-  }
-  //inclusi da script.js
-  //non so come reperire il nome del giocatore e passarlo come parametro
-  //const playerName = 'username_del_giocatore';  // Sostituisci con lo username del giocatore
-  // Effettua richieste HTTP per ottenere statistiche del giocatore e classifica
-  fetchLeaderboard();
-  fetchPlayerLocStats(playerMail);
-  fetchPlayerUsername(playerMail);
-
-  function smalernav(){
-    if(!nav_small){
-        $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #btn_signIn, #left_a').css('display', 'none');
-        $('#right_a').css('display', 'block');
-        $('#nav_colomn').css('width', '90px');
-        $('#nav_colomn').css('transition', 'width 0.5s');
-        $('.container_a').css('margin-left', '120px');
-        $('.container_a').css('transition', 'margin-left 0.5s');
-        $('#title_nav_pic').css('margin-right', '0');
-        $('.nav-link, .title_nav').css('justify-content', 'center');
-        nav_small = true;
-    } else {
-        $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'block');
-        $('#right_a').css('display', 'none');
-        $('#nav_colomn').css('width', '250px');
-        $('.container_a').css('margin-left', '280px');
-        $('.nav-link, .title_nav').css('justify-content', 'start');
-        setTimeout(sigIn_btn, 500);
-        nav_small = false;
-    }
-  }
-
-  function sigIn_btn(){
-    if(!nav_small){
-      $('#btn_signIn').css('display', 'block');
-    }
-  }
   </script>
 </body>
-  
+
 </html>

@@ -129,8 +129,8 @@ function checkLogin() {
             const loginDiv = document.querySelector('.user');
             if (data.loggedIn) {
                 loginDiv.innerHTML = `
-                    <p>You're logged in as <span style="color: #FFF;">${data.username}</span></p>
-                    <form class="form-inline mt-auto" id="btn_signOut" method="post" action="/api/logout">
+                    <p>You're logged in as <span style="color: #FFF;">${data.username}</span></p><br>
+                    <form class="form-inline mt-auto" id="btn_signOut" method="post" action="/api/logout/">
                         <button type="submit" class="btn btn-outline-danger">Sign out</button>
                     </form>
                 `;

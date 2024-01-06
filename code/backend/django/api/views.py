@@ -48,7 +48,7 @@ def userLogin(request):
 	else:
 		return HttpResponseBadRequest(content='Invalid request method!', content_type='text/plain')
 
-
+@csrf_exempt
 def userLogout(request):
 	logout(request)
 	return HttpResponse('User logged out successfully!', content_type='text/plain')

@@ -90,6 +90,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 			print('not logged in')
 
 	async def end_game(self):
+		#avoid trying to end a game that's already over
+		if self.game.is_over():
+			return
+		
 		self.game.end()
 		winner_color = self.game.get_winner_color()
 		win_reason = self.game.get_win_reason()
@@ -311,10 +315,11 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 				current_match = await sync_to_async(Matches.objects.filter)(room_name=self.room_group_name)
 				current_match = await sync_to_async(current_match.first)()
 				player1 = current_match.player1
-				player2 = current_match.player2	
-				match = await sync_to_async(Matches.objects.create)(room_name = self.room_group_name, player1=player1, player2=player2)
+				player2 = current_match.player2
+				seconds = current_match.seconds
+				match = await sync_to_async(Matches.objects.create)(room_name = self.room_group_name, player1=player1, player2=player2, seconds=seconds)
 				await sync_to_async(match.save)()
-				self.game_task = asyncio.create_task(self.start_game(self.game.seconds_per_player))
+				self.game_task = asyncio.create_task(self.start_game(seconds))
 			elif not data.get('accept', False):
 				await self.channel_layer.group_send(
 					self.room_group_name,
@@ -399,6 +404,10 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 
 
 	async def end_game(self):
+		#avoid trying to end and save the result of a game that's already over
+		if self.game.is_over():
+			return
+		
 		self.game.end()
 		winner_color = self.game.get_winner_color()
 		win_reason = self.game.get_win_reason()

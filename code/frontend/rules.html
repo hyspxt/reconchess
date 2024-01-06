@@ -96,77 +96,79 @@
             </div>
         </div>
     </aside>
+    <div class="container_r">
+        <div class="container mt-5">
+            <h1 class="text-center mb-4 rules-title">Regole ReconnassainceBlindChess</h1>
 
-    <div class="container mt-5 container_r">
-        <h1 class="text-center mb-4 rules-title">Regole ReconnassainceBlindChess</h1>
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="rules-container">
+                        <div class="rules-logo-container">
+                            <div class="rule-line"></div>
+                            <img src="img/other/logo.png" class="rules-logo"> </img>
+                            <div class="rule-line"></div>
+                        </div>
 
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="rules-container">
-                    <div class="rules-logo-container">
-                        <div class="rule-line"></div>
-                        <img src="img/other/logo.png" class="rules-logo"> </img>
-                        <div class="rule-line"></div>
+
+                        <h2 class="rules-subtitle">Regole Principali</h2>
+                        <p> <b>Reconnaissance Blind Chess</b> (RBC) é una variante degli scacchi progettata con l'intenzione
+                            di mantenere il gioco il piú simile possibile
+                            allo stile tradizionale, aggiungendo una certa dose di incertezza e <b>sensing</b> esplicito.
+                        </p>
+                        <p> RBC si presenta come la versione ortodossa, ma presenta alcune fondamentali differenze: </p>
+                        <ol>
+                            <li>I giocatori NON possono vedere esplicitamente i pezzi avversari.</li>
+                            <li>Prima di effettuare qualsiasi mossa, il giocatore di turno effettura l'operazione di
+                                <b>sensing</b>, cioé seleziona un'area 3x3 sulla scacchiera da "scoprire". Il giocatore
+                                viene quindi informato della corretta e reale configurazione dei pezzi sulla scacchiera
+                                nella suddetta area. <br> L'avversario non saprá in quali caselle vengono effettuati i
+                                sense.
+                            </li>
+                            <li>Quando un giocatore cattura un pezzo, si viene informati della effettiva cattura, ma senza
+                                specificare quale pezzo é stato mangiato.</li>
+
+
+
+                            <li>Se un giocatore prova a muovere un pezzo in lungo (i.e. alfieri) ma sul percorso é presente
+                                un pezzo avversario, la cattura viene effettuata e il pezzo si ferma sulla casella dove essa
+                                é avvenuta.
+                                Il giocatore di turno viene a conoscenza della casella in cui il pezzo si é posizionato, ma
+                                entrambi vengono a conoscenza della cattura.
+                            </li>
+                            <li>
+                                Se un giocatore prova ad eseguire una mossa illegale, come muovere un pedone diagonalmente
+                                su una casella vuota, oppure <b>arroccare</b> attraverso un pezzo non consentiti, si viene
+                                informati che la mossa non é valida e <b>il proprio turno finisce</b>.
+                                L'arrocco é possibile anche se si é tecnicamente sotto scacco, in quanto non si ha
+                                l'informazione completa sulla scacchiera.
+                            </li>
+                            <li>
+                                É possibile passare il turno senza effettuare alcuna mossa.
+                            </li>
+
+                        </ol>
+
+                        <h2 class="rules-subtitle">Scacco e vittoria</h2>
+                        <p>
+                            Non esiste il concetto di <b>scacco</b>, poiché i giocatori potrebbero non essere a
+                            conoscenza delle posizioni utili per determinarlo. Un giocatore vince catturando il re
+                            nemico oppure quando l'avversario termina il tempo a
+                            disposizione. Ogni giocatore inizia con 15 minuti per eseguire mosse e guadana 5 secondi
+                            dopo il proprio turno.
+                        </p>
+
+                        <h2 class="rules-subtitle">Patta</h2>
+                        <p>
+                            Una partita viene dichiarata automaticamente patta dopo 50 turni senza una mossa di un
+                            pedone o una cattura, similmente alla regola delle 50 mosse negli scacchi tradizionali.
+                            Non é peró nessario in questo caso che entrambi i giocatori la richiedano.
+                        </p>
                     </div>
-
-
-                    <h2 class="rules-subtitle">Regole Principali</h2>
-                    <p> <b>Reconnaissance Blind Chess</b> (RBC) é una variante degli scacchi progettata con l'intenzione
-                        di mantenere il gioco il piú simile possibile
-                        allo stile tradizionale, aggiungendo una certa dose di incertezza e <b>sensing</b> esplicito.
-                    </p>
-                    <p> RBC si presenta come la versione ortodossa, ma presenta alcune fondamentali differenze: </p>
-                    <ol>
-                        <li>I giocatori NON possono vedere esplicitamente i pezzi avversari.</li>
-                        <li>Prima di effettuare qualsiasi mossa, il giocatore di turno effettura l'operazione di
-                            <b>sensing</b>, cioé seleziona un'area 3x3 sulla scacchiera da "scoprire". Il giocatore
-                            viene quindi informato della corretta e reale configurazione dei pezzi sulla scacchiera
-                            nella suddetta area. <br> L'avversario non saprá in quali caselle vengono effettuati i
-                            sense.
-                        </li>
-                        <li>Quando un giocatore cattura un pezzo, si viene informati della effettiva cattura, ma senza
-                            specificare quale pezzo é stato mangiato.</li>
-
-
-
-                        <li>Se un giocatore prova a muovere un pezzo in lungo (i.e. alfieri) ma sul percorso é presente
-                            un pezzo avversario, la cattura viene effettuata e il pezzo si ferma sulla casella dove essa
-                            é avvenuta.
-                            Il giocatore di turno viene a conoscenza della casella in cui il pezzo si é posizionato, ma
-                            entrambi vengono a conoscenza della cattura.
-                        </li>
-                        <li>
-                            Se un giocatore prova ad eseguire una mossa illegale, come muovere un pedone diagonalmente
-                            su una casella vuota, oppure <b>arroccare</b> attraverso un pezzo non consentiti, si viene
-                            informati che la mossa non é valida e <b>il proprio turno finisce</b>.
-                            L'arrocco é possibile anche se si é tecnicamente sotto scacco, in quanto non si ha
-                            l'informazione completa sulla scacchiera.
-                        </li>
-                        <li>
-                            É possibile passare il turno senza effettuare alcuna mossa.
-                        </li>
-
-                    </ol>
-
-                    <h2 class="rules-subtitle">Scacco e vittoria</h2>
-                    <p>
-                        Non esiste il concetto di <b>scacco</b>, poiché i giocatori potrebbero non essere a
-                        conoscenza delle posizioni utili per determinarlo. Un giocatore vince catturando il re
-                        nemico oppure quando l'avversario termina il tempo a
-                        disposizione. Ogni giocatore inizia con 15 minuti per eseguire mosse e guadana 5 secondi
-                        dopo il proprio turno.
-                    </p>
-
-                    <h2 class="rules-subtitle">Patta</h2>
-                    <p>
-                        Una partita viene dichiarata automaticamente patta dopo 50 turni senza una mossa di un
-                        pedone o una cattura, similmente alla regola delle 50 mosse negli scacchi tradizionali.
-                        Non é peró nessario in questo caso che entrambi i giocatori la richiedano.
-                    </p>
                 </div>
             </div>
         </div>
     </div>
+    
 
 </body>
 <script>
@@ -177,9 +179,9 @@
             $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #btn_signIn, #left_a').css('display', 'none');
             $('#right_a').css('display', 'block');
             $('#nav_colomn').css('width', '90px');
-            $('#nav_colomn').css('transition', 'width 1s');
-            $('.container').css('margin-left', '120px');
-            $('.container').css('transition', 'margin-left 1s');
+            $('#nav_colomn').css('transition', 'width 0.5s');
+            $('.container_r').css('margin-left', '120px');
+            $('.container_r').css('transition', 'margin-left 0.5s');
             $('#title_nav_pic').css('margin-right', '0');
             $('.nav-link, .title_nav').css('justify-content', 'center');
             nav_small = true;
@@ -189,13 +191,15 @@
             $('#nav_colomn').css('width', '250px');
             $('.container_r').css('margin-left', '280px');
             $('.nav-link, .title_nav').css('justify-content', 'start');
-            setTimeout(sigIn_btn, 1000);
+            setTimeout(sigIn_btn, 500);
             nav_small = false;
         }
     }
 
     function sigIn_btn(){
-        $('#btn_signIn').css('display', 'block');
+        if(!nav_small){
+            $('#btn_signIn').css('display', 'block');
+        }
     }
 </script>
 

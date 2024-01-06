@@ -101,7 +101,7 @@
                 </li>
                 <!-- test -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link" aria-current="page" onclick="smalernav()">
+                    <a href="#" class="nav-link" aria-current="page" onclick="smallernav()">
                         <svg id="left_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#D5DBBE" class="bi bi-chevron-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
                         </svg>
@@ -242,9 +242,7 @@
         </div>
         <div class="container_x ma">
 
-            <div class="container_y"></div>
-
-            <div>
+            <div class="container_y">
                 <div class="black_player">
                     <div class="user_black_info">
                         <img src="img/other/woman.png" alt="id_pic_b" class="pic_b">
@@ -455,14 +453,14 @@
             }
         }
 
-        function smalernav(){
+        function smallernav(){
             if(!nav_small){
                 $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #btn_signIn, #left_a').css('display', 'none');
                 $('#right_a').css('display', 'block');
                 $('#nav_colomn').css('width', '90px');
-                $('#nav_colomn').css('transition', 'width 1s');
+                $('#nav_colomn').css('transition', 'width 0.5s');
                 $('#intro, #final').css('margin-left', '120px');
-                $('#intro, #final').css('transition', 'margin-left 1s');
+                $('#intro, #final').css('transition', 'margin-left 0.5s');
                 $('#title_nav_pic').css('margin-right', '0');
                 $('.nav-link, .title_nav').css('justify-content', 'center');
                 nav_small = true;
@@ -472,13 +470,15 @@
                 $('#nav_colomn').css('width', '250px');
                 $('#intro, #final').css('margin-left', '280px');
                 $('.nav-link, .title_nav').css('justify-content', 'start');
-                setTimeout(sigIn_btn, 1000);
+                setTimeout(sigIn_btn, 500);
                 nav_small = false;
             }
         }
 
         function sigIn_btn(){
-            $('#btn_signIn').css('display', 'block');
+            if(!nav_small){
+                $('#btn_signIn').css('display', 'block');
+            }
         }
 
     </script>

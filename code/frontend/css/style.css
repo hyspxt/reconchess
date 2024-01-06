@@ -88,16 +88,19 @@ header {
 }
 
 .container{
-    margin-left: 280px;
     margin-top: 0px !important;
 }
 
 .container_x,
-.container_y,
 .container_f,
 .container_z {
     display: flex;
     align-items: center;
+}
+
+.container_y{
+    display: flex;
+    align-items: start;
 }
 
 .container_f {
@@ -120,9 +123,17 @@ header {
     margin-left: 280px;
 }
 
+.container_r {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around !important;
+    margin-left: 250px;
+}
+
 .container_a {
     display: flex;
-    align-items: start;
+    align-items: center;
     flex-direction: column;
     margin-left: 280px;
 }
@@ -260,7 +271,7 @@ header {
 }
 
 .board {
-    width: 550px;
+    width: 650px;
 }
 
 /* ------------------------ */
@@ -448,6 +459,8 @@ header {
     align-items: end;
     float: right;
     flex-direction: row-reverse;
+    align-self: end;
+    justify-self: end;
 }
 
 .user_black_info,
@@ -586,20 +599,20 @@ header {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 85%;
 }
 
 .title_Us,
 .Us{
     display: flex;
-    width: 70%;
+    width: 55%;
     padding: 10px;
 }
 
 .title_User,
 .User {
     display: flex;
-    width: 60%;
+    width: 40%;
     padding: 10px;
 }
 
@@ -612,7 +625,7 @@ header {
 .title_Elo,
 .Elo{
     display: flex;
-    width: 10%;
+    width: 15%;
     padding: 10px;
 }
 
@@ -636,19 +649,19 @@ header {
 
 
 .players_position {
-    width: 85%;
+    width: 90%;
     margin-right: 30px;
 }
 
 .number_position{
-    width: 10%;
+    width: 7%;
 }
 
 .class_stat_player_header,
 .class_stat_leaderboard_header {
     display: flex;
     flex-direction: row;
-    width: 85%;
+    width: 90%;
     border-radius: 8px;
     background-color: #274C77;
     color: #ffffff;
@@ -672,7 +685,7 @@ header {
 }
 
 .class_stat_player{
-    width: 85%;
+    width: 90%;
 }
 
 .number_top3,
@@ -746,10 +759,6 @@ header {
     .scroll_Rules,
     .scroll_Players {
         margin-bottom: 20px;
-    }
-
-    .ma {
-        margin-top: 100px;
     }
 
     .black_id,

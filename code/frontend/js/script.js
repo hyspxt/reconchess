@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.getElementById("log").addEventListener("submit", function () {
+document.getElementById("log")?.addEventListener("submit", function () {
     var email = document.getElementById("email").value;
     console.log("email: ", email);
     fetchPlayerUsername(email);

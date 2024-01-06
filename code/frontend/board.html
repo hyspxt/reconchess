@@ -44,9 +44,9 @@
     </div>
 
     <aside>
-        <div id="nav_colomn" class="full d-flex flex-column flex-shrink-0 p-3" style="width: 250px;">
+        <div id="nav_colomn" class="full d-flex flex-column flex-shrink-0 p-3">
             <div class="mb-3">
-                <a href="/" class="d-flex align-items-center title_nav">
+                <a id="linea" href="/" class="d-flex align-items-center title_nav">
                     <img class="title_nav_pic" src="img/other/logo.png" alt="logo" width="50" height="50"
                         class="d-inline-block align-top mr-2">
                     <span id="btn_nav_home" class="h4 m-0 items-center btn_nav_home" style="color: #cacaca">Silver Bullets</span>
@@ -54,7 +54,7 @@
                 <hr style="border-color: #cacaca; height: 2px;">
             </div>
 
-            <ul class="nav nav-pills flex-column mb-auto">
+            <ul id="nav_btn" class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a href="board.html" class="nav-link" aria-current="page">
                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
@@ -117,7 +117,7 @@
 
             </ul>
             
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-end" id="btn_sigIn_div">
                 <form class="form-inline mt-auto" id="btn_signIn">
                     <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
                 </form>
@@ -480,6 +480,68 @@
                 $('#btn_signIn').css('display', 'block');
             }
         }
+        
+        resize_nav();
+        $(window).resize(function(){
+            resize_nav();
+        });
+
+        function resize_nav(){
+            console.log('resize called');
+            var width = $(window).width();
+            if(width < 1180){
+                $('#nav_colomn').removeClass('flex-column');
+                $('#nav_btn').removeClass('flex-column');
+                $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
+                $('#nav_btn').removeClass('ml-auto flex-row');
+                $('aside').addClass('flex-row');
+                $('#linea').css('margin-top', '3px');
+                $('#linea').addClass('fixed-top');
+                $('#nav_btn').addClass('fixed-top');
+                $('#nav_btn').css('justify-content', 'center');
+                $('#nav_btn').css('margin-top', '10px');
+                $('#nav_colomn').css('width', '100%');
+                $('#nav_colomn').css('height', '60px');
+                $('#nav_colomn').css('overflow', 'hidden');
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a').css('display', 'none');
+                $('#btn_signIn').removeClass('mt-auto');
+                $('#nav_colomn').css('justify-content', 'end');
+                $('#nav_colomn').css('align-items', 'center');
+
+                $('.container_x, .selection_player').css('margin-top', '50px');
+                $('#intro, #final').css('margin-left', '0px');
+
+            } else {
+                $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
+                $('#nav_btn').removeClass('fixed-top');
+                $('#nav_btn').removeClass('flex-row');
+                $('#nav_colomn').addClass('flex-column');
+                $('#nav_btn').addClass('flex-column');
+                $('aside').removeClass('flex-row');
+                $('#linea').css('margin-top', '0');
+                $('#linea').removeClass('fixed-top');
+                $('#nav_btn').removeClass('fixed-top');
+                $('#nav_btn').css('justify-content', 'start');
+                $('#nav_btn').css('margin-top', '0');
+                $('#nav_colomn').css('width', '250px');
+                $('#nav_colomn').css('height', '100%');
+                $('#nav_colomn').css('overflow', 'auto');
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'block');
+                $('#right_a').css('display', 'none');
+                $('#btn_signIn').addClass('mt-auto');
+                $('#nav_colomn').css('justify-content', 'start');
+                $('#nav_colomn').css('align-items', 'start');
+
+                if(nav_small){
+                    $('#intro, #final').css('margin-left', '120px');
+                } else {
+                    $('#intro, #final').css('margin-left', '280px');
+                }
+                $('.container_x, .selection_player').css('margin-top', '0');
+            }
+        }
+
+
 
     </script>
     <script type="module">

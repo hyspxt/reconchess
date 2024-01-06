@@ -271,7 +271,7 @@ header {
 }
 
 .board {
-    width: 650px;
+    width: 600px;
 }
 
 /* ------------------------ */
@@ -730,7 +730,6 @@ header {
     }
 
     .board {
-        order: 1;
         width: 320px;
     }
 
@@ -1001,6 +1000,10 @@ header {
 
 #right_a{
     display: none;
+}
+
+#nav_colomn{
+    width: 250px;
 }
 
 

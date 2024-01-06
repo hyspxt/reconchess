@@ -302,6 +302,9 @@
     fetchPlayerLocStats(playerMail);
     fetchPlayerUsername(playerMail);
 
+  </script>
+  <script>
+
     function smalernav(){
       if(!nav_small){
           $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #btn_signIn, #left_a').css('display', 'none');
@@ -376,7 +379,7 @@
             $('#right_a').css('display', 'none');
             $('#btn_signIn').addClass('mt-auto');
             $('#nav_colomn').css('justify-content', 'start');
-            $('#nav_colomn').css('align-items', 'start');
+            $('#nav_colomn').css('align-content', 'start');
             $('#nav_colomn').css('transition', 'width 0s');
 
             if(nav_small){

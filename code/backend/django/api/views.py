@@ -55,11 +55,11 @@ def userLogout(request):
 
 #cheks if user a user is currently logged in returns the username if so
 def checkLogin(request):
-	if request.user.is_authenticated:
-		return HttpResponse(f'user {request.user.username} is currently logged in', content_type='text/plain')
-	else:
-		return HttpResponse('No user logged in', content_type='text/plain')
-
+    if request.user.is_authenticated:
+        return JsonResponse({'loggedIn': True, 'username': request.user.username})
+    else:
+        return JsonResponse({'loggedIn': False})
+    
 #verification of google id token
 def googleID(request):
     

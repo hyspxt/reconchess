@@ -121,3 +121,28 @@ function fetchPlayerUsername(playerMail){
             console.error(`Errore durante la richiesta API: ${error.message}`);
         });
 }
+
+function checkLogin() {
+    fetch('/api/check_login/')
+        .then(response => response.json())
+        .then(data => {
+            const loginDiv = document.querySelector('.d-flex.align-items-center');
+            if (data.loggedIn) {
+                loginDiv.innerHTML = `
+                    <p>You're logged in as ${data.username}</p>
+                    <form class="form-inline mt-auto" id="btn_signOut" method="post" action="/api/logouot">
+                        <button type="submit" class="btn btn-outline-danger">Sign out</button>
+                    </form>
+                `;
+            } else {
+                loginDiv.innerHTML = `
+                    <form class="form-inline mt-auto" id="btn_signIn">
+                        <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
+                    </form>
+                `;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+window.onload = checkLogin;

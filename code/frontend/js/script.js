@@ -1,10 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var element = document.getElementById("not_signed_ini6gdrs9oeic0");
-    if(element) {
-        element.innerHTML = "Sign in with Google";
-    }
-});
-
+//change eye icon when clicked
 document.addEventListener("DOMContentLoaded", function () {
     const eyeIcons = document.querySelectorAll(".eye-icon");
 
@@ -25,6 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    var element = document.getElementById("not_signed_ini6gdrs9oeic0");
+    if(element) {
+        element.innerHTML = "Sign in with Google";
+    }
+});
+
 window.handleGoogleLogin = function(response) {
     console.log('Google login response', response);
     var id_token = response.credential;
@@ -39,7 +40,7 @@ window.handleGoogleLogin = function(response) {
             id_token: id_token
         })
     })
-    .then(response => response.json())  // Parse the JSON response
+    .then(response => response.json())
     .then(data => {
         const alert = document.createElement("div");
         alert.classList.add("alert", "mt-3", "text-center");
@@ -47,7 +48,7 @@ window.handleGoogleLogin = function(response) {
         if (data.success) {
             alert.classList.add("alert-success");
             alert.innerHTML = `Logged in successfully as ${data.user_name}`;
-            window.location.href = "../board.html";
+            location.reload();
         } else {
             alert.classList.add("alert-danger");
             alert.innerHTML = `Error: ${data.error}`;

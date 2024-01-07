@@ -94,6 +94,8 @@ def googleID(request):
 	except ValueError as e:
 		return JsonResponse({'success': False, 'error': str(e)})
 
+
+#generate a unique username from the given email
 def generate_username(email):
 	username = email.split('@')[0]
 	count = User.objects.filter(username__startswith=username).count()

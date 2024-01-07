@@ -166,17 +166,19 @@ function handleLogout(event){
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    const nav = document.querySelector('full');
-    nav.addEventListener('click', (event) => {
-        const aLeaderboard = document.querySelector('#a-leaderboard');
-        if (event.target === aLeaderboard && aLeaderboard.classList.contains('disabled')) {
-            event.preventDefault();
+    const aLeaderboard = document.querySelector('#a-leaderboard');
+    aLeaderboard.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (aLeaderboard.classList.contains('disabled')) {
             Swal.fire({
                 title: 'Oops...',
                 text: 'This option is not available yet, please log in to unlock this feature.',
                 icon: 'warning',
                 confirmButtonText: 'OK'
             });
+        }
+        else {
+            window.location.href = aLeaderboard.href;
         }
     });
 });

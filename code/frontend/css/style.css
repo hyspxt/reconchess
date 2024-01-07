@@ -911,6 +911,7 @@ header {
 
 .disabled {
     cursor: default;
+    color: #707070;
 }
 
 .bot_x {

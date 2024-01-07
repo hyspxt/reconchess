@@ -552,24 +552,6 @@
                 $('.container_x, .selection_player').css('margin-top', '0');
             }
         }
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const aLeaderboard = document.querySelector('#a-leaderboard');
-            aLeaderboard.addEventListener('click', (event) => {
-                event.preventDefault();
-                if (aLeaderboard.classList.contains('disabled')) {
-                    Swal.fire({
-                        title: 'Oops...',
-                        text: 'This option is not available yet, please log in to unlock this feature.',
-                        icon: 'warning',
-                        confirmButtonText: 'OK'
-                    });
-                }
-                else {
-                    window.location.href = aLeaderboard.href;
-                }
-            });
-        });
     </script>
     <script type="module">
         import { startConnection, socket } from './js/board.js';

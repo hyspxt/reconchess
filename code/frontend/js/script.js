@@ -164,3 +164,19 @@ function handleLogout(event){
         })
         .catch(error => console.error('Error:', error));
 }
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const nav = document.querySelector('full');
+    nav.addEventListener('click', (event) => {
+        const aLeaderboard = document.querySelector('#a-leaderboard');
+        if (event.target === aLeaderboard && aLeaderboard.classList.contains('disabled')) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Oops...',
+                text: 'This option is not available yet, please log in to unlock this feature.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+});

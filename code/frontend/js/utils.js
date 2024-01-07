@@ -59,7 +59,6 @@ export function handleLogin(event) {
 
 		if (response.ok) {
 			alert.classList.add("alert-success");
-			location.reload();
 		} else {
 			alert.classList.add("alert-danger");
 		}

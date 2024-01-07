@@ -48,7 +48,6 @@ window.handleGoogleLogin = function(response) {
         if (data.success) {
             alert.classList.add("alert-success");
             alert.innerHTML = `Logged in successfully as ${data.user_name}`;
-            location.reload();
         } else {
             alert.classList.add("alert-danger");
             alert.innerHTML = `Error: ${data.error}`;

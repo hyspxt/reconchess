@@ -81,8 +81,11 @@ def googleID(request):
 		username = generate_username(user_email)
 
 		# Check if the user with the given email already exists in your database
-		user, created = User.objects.get_or_create(email=user_email, defaults={'username': username})
-		
+		user, created = User.objects.get_or_create(email=user_email)
+		if created:
+			user.username = username
+			user.save()
+  
         # Manually log in the user by setting the user in the request's session
 		request.session[SESSION_KEY] = user.id
         

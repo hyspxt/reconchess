@@ -122,6 +122,7 @@ function fetchPlayerUsername(playerMail){
         });
 }
 
+window.onload = checkLogin;
 function checkLogin() {
     fetch('/api/check_login/')
         .then(response => response.json())
@@ -131,7 +132,7 @@ function checkLogin() {
                 loginDiv.innerHTML = `
                     <div><p>You're logged in as <span style="color: #FFF;">${data.username}</span></p></div>
                     <div>
-                        <form class="form-inline mt-auto" id="btn_signOut" method="post" action="/api/logout/">
+                        <form class="form-inline mt-auto" id="btn_signOut" method="post">
                             <button type="submit" class="btn btn-outline-danger">Sign out</button>
                         </form>
                     </div>
@@ -147,4 +148,17 @@ function checkLogin() {
         .catch(error => console.error('Error:', error));
 }
 
-window.onload = checkLogin;
+document.getElementById('btn_signOut').addEventListener('submit', handleLogout);
+
+function handleLogout(event){
+    event.preventDefault();
+    fetch('/api/logout/')
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error('Logout failed');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}

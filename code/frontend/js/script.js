@@ -1,5 +1,3 @@
-var username
-
 document.addEventListener("DOMContentLoaded", function() {
     var element = document.getElementById("not_signed_ini6gdrs9oeic0");
     if(element) {
@@ -27,13 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.getElementById("log")?.addEventListener("submit", function () {
-    var email = document.getElementById("email").value;
-    console.log("email: ", email);
-    fetchPlayerUsername(email);
-})
-
-function handleCredentialResponse(response) {
+window.handleGoogleLogin = function(response) {
     var id_token = response.credential;
 
     // Send the id_token to Django server
@@ -122,6 +114,7 @@ function fetchPlayerUsername(playerMail){
         });
 }
 
+//check if there is a user logged in and change the navbar accordingly
 window.onload = checkLogin;
 function checkLogin() {
     fetch('/api/check_login/')
@@ -137,6 +130,7 @@ function checkLogin() {
                         </form>
                     </div>
                 `;
+                document.getElementById('btn_signOut').addEventListener('submit', handleLogout);
             } else {
                 loginDiv.innerHTML = `
                     <form class="form-inline mt-auto" id="btn_signIn">
@@ -147,8 +141,6 @@ function checkLogin() {
         })
         .catch(error => console.error('Error:', error));
 }
-
-document.getElementById('btn_signOut').addEventListener('submit', handleLogout);
 
 function handleLogout(event){
     event.preventDefault();

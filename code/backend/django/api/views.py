@@ -64,30 +64,32 @@ def checkLogin(request):
 #verification of google id token
 @csrf_exempt
 def googleID(request):
-    data = json.loads(request.body)
-    id_token_string = data.get('id_token')
+	data = json.loads(request.body)
+	id_token_string = data.get('id_token')
 
-    client_id = '613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com'
-
-    try:
-        # Verify the ID Token
-        id_info = id_token.verify_oauth2_token(id_token_string, requests.Request(), client_id)
-
-        user_email = id_info.get('email')
-        user_name = id_info.get('name')
-
-        # Check if the user with the given email already exists in your database
-        user, created = User.objects.get_or_create(email=user_email, defaults={'username': user_email})
-        
-        user = authenticate(request, username=user.email, password=None)
-        login(request, user)
-
-        return JsonResponse({'success': True, 'user_email': user_email, 'user_name': user_name})
+	client_id = '613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com'
     
-    except ValueError as e:
-        return JsonResponse({'success': False, 'error': str(e)})
-	
-	
+	try:
+		# Verify the ID Token
+		id_info = id_token.verify_oauth2_token(id_token_string, requests.Request(), client_id)
+		user_email = id_info.get('email')
+		user_name = id_info.get('name')
+
+		# Check if the user with the given email already exists in your database
+		user, created = User.objects.get_or_create(email=user_email, defaults={'username': user_email})
+		
+		user = authenticate(request, username=user.email)
+		if user is not None:
+			login(request, user)
+		else:
+			# Handle case where user could not be authenticated
+			return JsonResponse({'success': False, 'error': 'Could not authenticate user'})
+
+		return JsonResponse({'success': True, 'user_email': user_email, 'user_name': user_name})
+
+	except ValueError as e:
+		return JsonResponse({'success': False, 'error': str(e)})
+
 def player_loc_stats(request, player_email):
 	result = ti.get_player_loc_stats(player_email)
 	return JsonResponse(result)

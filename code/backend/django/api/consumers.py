@@ -91,9 +91,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 	async def end_game(self):
 		#avoid trying to end a game that's already over
-		if self.game.is_over():
-			return
-		
+  
 		self.game.end()
 		winner_color = self.game.get_winner_color()
 		win_reason = self.game.get_win_reason()
@@ -405,8 +403,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 
 	async def end_game(self):
 		#avoid trying to end and save the result of a game that's already over
-		if self.game.is_over():
-			return
 		
 		self.game.end()
 		winner_color = self.game.get_winner_color()

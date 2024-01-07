@@ -61,6 +61,7 @@ def checkLogin(request):
         return JsonResponse({'loggedIn': False})
     
 #verification of google id token
+@csrf_exempt
 def googleID(request):
     
     id_token_string = request.POST.get('id_token')

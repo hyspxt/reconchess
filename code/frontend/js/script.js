@@ -122,6 +122,9 @@ function checkLogin() {
         .then(response => response.json())
         .then(data => {
             const loginDiv = document.querySelector('.user');
+            const boardUserDiv = document.querySelector('.white_id');
+            const aHuman = document.querySelector('.a_human');
+            const aLeaderboard = document.querySelector('#a-leaderboard');
             if (data.loggedIn) {
                 loginDiv.innerHTML = `
                     <div><p>You're logged in as <span style="color: #FFF;">${data.username}</span></p></div>
@@ -132,12 +135,18 @@ function checkLogin() {
                     </div>
                 `;
                 document.getElementById('btn_signOut').addEventListener('submit', handleLogout);
+                boardUserDiv.innerHTML = `${data.username}`;
+                aHuman.classList.remove('disabled');
+                aLeaderboard.classList.remove('disabled');
             } else {
                 loginDiv.innerHTML = `
                     <form class="form-inline mt-auto" id="btn_signIn">
                         <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
                     </form>
                 `;
+                boardUserDiv.innerHTML = `Player 1`;
+                aHuman.classList.add('disabled');
+                aLeaderboard.classList.add('disabled');
             }
         })
         .catch(error => console.error('Error:', error));

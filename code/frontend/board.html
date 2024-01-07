@@ -81,7 +81,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="tables.html" class="nav-link" aria-current="page">
+                    <a href="tables.html" id="a-leaderboard" class="nav-link" aria-current="page">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-trophy" viewBox="0 0 16 16">
                             <path
@@ -253,7 +253,7 @@
                 <div class="white_player">
                     <div class="user_white_info">
                         <img src="img/other/man.png" alt="id_pic_w" class="pic_w">
-                        <div id="white_name" class="white_id">Player 1</div>
+                        <div id="white_name" class="white_id"></div>
                     </div>
                     <div class="timer_div_w">
                         <div class="timer_title">: Timer</div>
@@ -347,15 +347,27 @@
         }
 
         function botton_human() {
-            botHuman = true;
-            $('.a_human').css('background-color', '#274C80')
-            $('.a_bot').css('background-color', '#E7ECEF')
-            $('.selection_bot').css('display', 'none')
-            $('.selection_time_color').css('display', 'none')
-            $('.bot_x').css('background-color', '#E7ECEF')
-            $('.bot_x').css('color', '#274C77')
-            $('.selection_room').css('display', 'block')
-            $('#selection_player').attr('value', 'human')
+            //if the link has the class disabled it doesn't work and it shows an alert
+            if ($('.a_human').hasClass('disabled')) {
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'This option is not available yet, please log in to unlock this feature.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            else {
+                botHuman = true;
+                $('.a_human').css('background-color', '#274C80')
+                $('.a_bot').css('background-color', '#E7ECEF')
+                $('.selection_bot').css('display', 'none')
+                $('.selection_time_color').css('display', 'none')
+                $('.bot_x').css('background-color', '#E7ECEF')
+                $('.bot_x').css('color', '#274C77')
+                $('.selection_room').css('display', 'block')
+                $('#selection_player').attr('value', 'human')
+            }
         }
 
         function bot_selection(n) {
@@ -541,8 +553,23 @@
             }
         }
 
-
-
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const aLeaderboard = document.querySelector('#a-leaderboard');
+            aLeaderboard.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (aLeaderboard.classList.contains('disabled')) {
+                    Swal.fire({
+                        title: 'Oops...',
+                        text: 'This option is not available yet, please log in to unlock this feature.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                }
+                else {
+                    window.location.href = aLeaderboard.href;
+                }
+            });
+        });
     </script>
     <script type="module">
         import { startConnection, socket } from './js/board.js';

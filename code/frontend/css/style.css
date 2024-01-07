@@ -909,6 +909,11 @@ header {
     height: 120px;
 }
 
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
 .bot_x {
     display: flex;
     flex-direction: row;

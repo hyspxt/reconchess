@@ -9,6 +9,7 @@ from google.oauth2 import id_token
 from . import tables_interactions as ti
 from .models import Users
 from django.utils import timezone
+import json
 
 #TODO: install the 'google-auth' library
 
@@ -63,8 +64,8 @@ def checkLogin(request):
 #verification of google id token
 @csrf_exempt
 def googleID(request):
-    
-    id_token_string = request.POST.get('id_token')
+    data = json.loads(request.body)
+    id_token_string = data.get('id_token')
 
     client_id = '613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com'
 

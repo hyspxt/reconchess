@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 window.handleGoogleLogin = function(response) {
+    console.log('Google login response', response);
     var id_token = response.credential;
 
     // Send the id_token to Django server

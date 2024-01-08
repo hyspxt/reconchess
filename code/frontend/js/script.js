@@ -69,31 +69,31 @@ window.handleGoogleLogin = function(response) {
 }
 
 // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per leaderboard
-document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
+export function fetchLeaderboard() {
 
-    fetch('/api/leaderboard/')
+    return fetch('/api/leaderboard/')
         .then(response => response.json())
         .then(data => {
             console.log('Classifica dei giocatori:', data);
             return data;
         })
         .catch(error => console.error('Errore durante la richiesta API:', error));
-});
+}
 
 // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per statistiche giocatore
-document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(player){
+export function fetchPlayerLocStats(player){
     
-    fetch(`/api/player_loc_stats/${encodeURIComponent(player)}/`)
+    return fetch(`/api/player_loc_stats/${encodeURIComponent(player)}/`)
         .then(response => response.json())
         .then(data => {
             console.log(`Statistiche per ${player}:`, data);
             return data;
         })
         .catch(error => console.error('Errore durante la richiesta API:', error));
-})
+}
 
 // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per username giocatore
-function fetchPlayerUsername(playerMail){
+export function fetchPlayerUsername(playerMail){
     if (!playerMail) {
         console.error('Indirizzo email del giocatore non valido');
         return;
@@ -119,8 +119,8 @@ function fetchPlayerUsername(playerMail){
 
 //check if there is a user logged in and change things accordingly
 window.onload = checkLogin;
-function checkLogin() {
-    fetch('/api/check_login/')
+export function checkLogin() {
+    return fetch('/api/check_login/')
         .then(response => response.json())
         .then(data => {
             const loginDiv = document.querySelector('.user');

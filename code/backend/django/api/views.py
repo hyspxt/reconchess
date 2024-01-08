@@ -59,10 +59,10 @@ def userLogout(request):
 #cheks if user a user is currently logged in returns the username if so
 def checkLogin(request):
 	if request.user.is_authenticated:
-		return JsonResponse({'loggedIn': True, 'username': request.user.username})
+		return JsonResponse({'loggedIn': True, 'username': request.user.username, 'email': request.user.email})
 	elif SESSION_KEY in request.session:
 		user = User.objects.get(id=request.session[SESSION_KEY])
-		return JsonResponse({'loggedIn': True, 'username': user.username})
+		return JsonResponse({'loggedIn': True, 'username': user.username, 'email': user.email})
 	else:
 		return JsonResponse({'loggedIn': False})
     

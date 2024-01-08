@@ -16,7 +16,6 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="icon" type="png" href="img/other/logo.png">
   <title>Statistiche Giocatore e Classifica</title>
-  <script src="js/utils.js"></script>
 </head>
 <body>
   
@@ -154,39 +153,40 @@
     </div>
   </div>
 </div>
-
+  <script type="module" src="js/utils.js"></script>
   <script type="module" src="js/script.js"></script>
 
-  <script>
+  <script type="module">
+    import { fetchPlayerLocStats, fetchLeaderboard, checkLogin } from './js/script.js';
     var counter = 0;
     var players_top10 = new Array(10);
     let nav_small = false;
 
-function insert_row(username, victories, defeats, draws, elo) {
-  var playerId = 'container' + new Date().getTime();
-        var playerHTML = `
-        <div id="${playerId}" class="class_stat_player" aria-live="assertive" aria-atomic="true">
-        
-          <div class="User">
-            ${username}
-          </div>
-          <div class="Vic">
-            ${victories}
-          </div>
-          <div class="Def">
-            ${defeats}
-          </div>
-          <div class="Drw">
-            ${draws}
-          </div>
-          <div class="Elo">
-            ${elo}
-          </div>
-        </div>
-        `;
-        document.getElementById('tableContainer').insertAdjacentHTML('beforeend', playerHTML);
-        document.getElementById(playerId).style.display = 'block';
-}
+    function insert_row(username, victories, defeats, draws, elo) {
+      var playerId = 'container' + new Date().getTime();
+          var playerHTML = `
+            <div id="${playerId}" class="class_stat_player" aria-live="assertive" aria-atomic="true">
+            
+              <div class="User">
+                ${username}
+              </div>
+              <div class="Vic">
+                ${victories}
+              </div>
+              <div class="Def">
+                ${defeats}
+              </div>
+              <div class="Drw">
+                ${draws}
+              </div>
+              <div class="Elo">
+                ${elo}
+              </div>
+            </div>
+          `;
+          document.getElementById('tableContainer').insertAdjacentHTML('beforeend', playerHTML);
+          document.getElementById(playerId).style.display = 'block';
+    }
 
     function insert_in_leaderboard(username, victories, defeats, draws, elo) {
       if(counter < 10){
@@ -324,23 +324,24 @@ function insert_row(username, victories, defeats, draws, elo) {
 
     // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
   window.onload = function () {
-    const User = 'guest'
-    checkLogin().then(user => { User = user.username; })
-    //TODO: non so come prendere l'email del giocatore
-    // Sostituisci 'playerMail' con il vero indirizzo email del giocatore
-    //const playerMail = 'email_del_giocatore';
+    let User = 'guest'
+    checkLogin().then(user => { 
+      User = user.username; 
+      playerMail = user.email;
+
+      fetchPlayerLocStats(User).then((stats) => {
+          insert_row(stats.username, stats.victories, stats.defeats, stats.draws, stats.elo);
+      });
+    });
 
     fetchLeaderboard().then(leaderboardData => {
+      console.log("leaderboardData: ", leaderboardData);
       // Itera sui dati della leaderboard per inserirli nella tabella HTML
       leaderboardData.forEach(player => {
         insert_in_leaderboard(player.username, player.victories, player.defeats, player.draws, player.elo);
       });
     });
-    fetchPlayerLocStats(User).then((stats) => {
-      // Inserisco la riga delle statistiche del giocatore
-      insert_row(stats.username, stats.victories, stats.defeats, stats.draws, stats.elo);
-    });
-}
+  }
 
   </script>
   <script>

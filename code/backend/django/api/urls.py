@@ -20,7 +20,7 @@ urlpatterns = [
 	#google id token verification
 	path('googleID/', views.googleID, name='googleID'),
     
-	path('player_loc_stats/<str:mail>/', views.player_loc_stats, name='player_loc_stats'),
+	path('player_loc_stats/<str:player_name>/', views.player_loc_stats, name='player_loc_stats'),
 
 	path('player_username/<str:mail>/', views.player_username, name='player_username'),
     

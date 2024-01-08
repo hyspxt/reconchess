@@ -111,12 +111,14 @@
           <div class="title_Vic">Victories</div>
           <div class="title_Def">Defeats</div>
           <div class="title_Drw">Draw</div>
+          <div class="title_Elo">Elo</div>
         </div>
         <div class="class_stat_player">
           <div class="Us">Nome</div>
           <div class="Vic">Vittorie</div>
           <div class="Def">Sconfitte</div>
           <div class="Drw">Pareggi</div>
+          <div class="Elo">Elo</div>
         </div>
       </div>
 
@@ -160,7 +162,33 @@
     var players_top10 = new Array(10);
     let nav_small = false;
 
-    function insert_in_leaderbord(username, victories, defeats, draws, elo) {
+function insert_row(username, victories, defeats, draws, elo) {
+  var playerId = 'container' + new Date().getTime();
+        var playerHTML = `
+        <div id="${playerId}" class="class_stat_player" aria-live="assertive" aria-atomic="true">
+        
+          <div class="User">
+            ${username}
+          </div>
+          <div class="Vic">
+            ${victories}
+          </div>
+          <div class="Def">
+            ${defeats}
+          </div>
+          <div class="Drw">
+            ${draws}
+          </div>
+          <div class="Elo">
+            ${elo}
+          </div>
+        </div>
+        `;
+        document.getElementById('tableContainer').insertAdjacentHTML('beforeend', playerHTML);
+        document.getElementById(playerId).style.display = 'block';
+}
+
+    function insert_in_leaderboard(username, victories, defeats, draws, elo) {
       if(counter < 10){
         var playerId = 'container' + new Date().getTime();
         var playerHTML = `
@@ -293,13 +321,26 @@
       div1.parentNode.removeChild(div1);
       div2.parentNode.removeChild(div2);
     }
-    //inclusi da script.js
-    //non so come reperire il nome del giocatore e passarlo come parametro
-    //const playerName = 'username_del_giocatore';  // Sostituisci con lo username del giocatore
-    // Effettua richieste HTTP per ottenere statistiche del giocatore e classifica
-    fetchLeaderboard();
-    fetchPlayerLocStats(playerMail);
-    fetchPlayerUsername(playerMail);
+
+    // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
+  window.onload = function () {
+    const User = 'guest'
+    checkLogin().then(user => { User = user.username; })
+    //TODO: non so come prendere l'email del giocatore
+    // Sostituisci 'playerMail' con il vero indirizzo email del giocatore
+    //const playerMail = 'email_del_giocatore';
+
+    fetchLeaderboard().then(leaderboardData => {
+      // Itera sui dati della leaderboard per inserirli nella tabella HTML
+      leaderboardData.forEach(player => {
+        insert_in_leaderboard(player.username, player.victories, player.defeats, player.draws, player.elo);
+      });
+    });
+    fetchPlayerLocStats(User).then((stats) => {
+      // Inserisco la riga delle statistiche del giocatore
+      insert_row(stats.username, stats.victories, stats.defeats, stats.draws, stats.elo);
+    });
+}
 
   </script>
   <script>

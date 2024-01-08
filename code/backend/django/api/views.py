@@ -103,8 +103,8 @@ def generate_username(email):
 		username = '{}{}'.format(username, count + 1)
 	return username
 
-def player_loc_stats(request, player_email):
-	result = ti.get_player_loc_stats(player_email)
+def player_loc_stats(request, player_username):
+	result = ti.get_player_loc_stats(player_username)
 	return JsonResponse(result)
 
 def player_username(request, mail):

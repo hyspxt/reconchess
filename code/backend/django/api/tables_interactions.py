@@ -22,7 +22,6 @@ def get_player_loc_stats(player_email):
 
 # Ottieni lo username
 def get_player_username(player_email):
-    #player_email = "test2@example.com"
     player = Users.objects.get(user__email=player_email)
     name = player.user.username
     return name

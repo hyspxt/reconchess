@@ -75,9 +75,10 @@ document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
         .then(response => response.json())
         .then(data => {
             console.log('Classifica dei giocatori:', data);
+            return data;
         })
         .catch(error => console.error('Errore durante la richiesta API:', error));
-})
+});
 
 // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per statistiche giocatore
 document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerMail){
@@ -86,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playe
         .then(response => response.json())
         .then(data => {
             console.log(`Statistiche per ${playerMail}:`, data);
+            return data;
         })
         .catch(error => console.error('Errore durante la richiesta API:', error));
 })

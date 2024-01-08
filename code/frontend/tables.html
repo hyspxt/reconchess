@@ -111,12 +111,14 @@
           <div class="title_Vic">Victories</div>
           <div class="title_Def">Defeats</div>
           <div class="title_Drw">Draw</div>
+          <div class="title_Elo">Elo</div>
         </div>
         <div class="class_stat_player">
           <div class="Us">Nome</div>
           <div class="Vic">Vittorie</div>
           <div class="Def">Sconfitte</div>
           <div class="Drw">Pareggi</div>
+          <div class="Elo">Elo</div>
         </div>
       </div>
 
@@ -333,7 +335,7 @@ function insert_row(username, victories, defeats, draws, elo) {
       leaderboardData.forEach(player => {
         insert_in_leaderboard(player.username, player.victories, player.defeats, player.draws, player.elo);
       });
-});
+    });
     fetchPlayerLocStats(User).then((stats) => {
       // Inserisco la riga delle statistiche del giocatore
       insert_row(stats.username, stats.victories, stats.defeats, stats.draws, stats.elo);

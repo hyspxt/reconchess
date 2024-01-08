@@ -115,7 +115,7 @@ function fetchPlayerUsername(playerMail){
         });
 }
 
-//check if there is a user logged in and change the navbar accordingly
+//check if there is a user logged in and change things accordingly
 window.onload = checkLogin;
 function checkLogin() {
     fetch('/api/check_login/')
@@ -148,6 +148,7 @@ function checkLogin() {
                 aHuman.classList.add('disabled');
                 aLeaderboard.classList.add('disabled');
             }
+            disableleaderboard();
         })
         .catch(error => console.error('Error:', error));
 }
@@ -165,8 +166,10 @@ function handleLogout(event){
         .catch(error => console.error('Error:', error));
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
+//disable leaderboard if noone is logged in
+function disableleaderboard(){
     const aLeaderboard = document.querySelector('#a-leaderboard');
+    console.log(aLeaderboard);
     aLeaderboard.addEventListener('click', (event) => {
         event.preventDefault();
         if (aLeaderboard.classList.contains('disabled')) {
@@ -181,4 +184,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
             window.location.href = aLeaderboard.href;
         }
     });
-});
+};

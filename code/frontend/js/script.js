@@ -81,12 +81,12 @@ document.addEventListener("DOMContentLoaded", function fetchLeaderboard () {
 });
 
 // Funzione per effettuare una richiesta HTTP e gestire la risposta JSON per statistiche giocatore
-document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(playerMail){
+document.addEventListener("DOMContentLoaded", function fetchPlayerLocStats(player){
     
-    fetch(`/api/player_loc_stats/${encodeURIComponent(playerMail)}/`)
+    fetch(`/api/player_loc_stats/${encodeURIComponent(player)}/`)
         .then(response => response.json())
         .then(data => {
-            console.log(`Statistiche per ${playerMail}:`, data);
+            console.log(`Statistiche per ${player}:`, data);
             return data;
         })
         .catch(error => console.error('Errore durante la richiesta API:', error));

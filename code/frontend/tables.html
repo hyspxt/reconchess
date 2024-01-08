@@ -322,9 +322,11 @@ function insert_row(username, victories, defeats, draws, elo) {
 
     // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
   window.onload = function () {
-
+    const User = 'guest'
+    checkLogin().then(user => { User = user.username; })
+    //TODO: non so come prendere l'email del giocatore
     // Sostituisci 'playerMail' con il vero indirizzo email del giocatore
-    const playerMail = 'email_del_giocatore';
+    //const playerMail = 'email_del_giocatore';
 
     fetchLeaderboard().then(leaderboardData => {
       // Itera sui dati della leaderboard per inserirli nella tabella HTML
@@ -332,12 +334,10 @@ function insert_row(username, victories, defeats, draws, elo) {
         insert_in_leaderboard(player.username, player.victories, player.defeats, player.draws, player.elo);
       });
 });
-fetchPlayerLocStats(playerMail).then((stats) => {
+    fetchPlayerLocStats(User).then((stats) => {
       // Inserisco la riga delle statistiche del giocatore
       insert_row(stats.username, stats.victories, stats.defeats, stats.draws, stats.elo);
     });
-
-    fetchPlayerUsername(playerMail);
 }
 
   </script>

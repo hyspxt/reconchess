@@ -3,8 +3,8 @@ from django.db.models import F
 import asyncio
 from asgiref.sync import sync_to_async
 
-def get_player_loc_stats(player_email):
-    player = Users.objects.get(user__email=player_email)
+def get_player_loc_stats(player_name):
+    player = Users.objects.get(user__username=player_name)
         
     # Ottieni le statistiche del giocatore
     name = player.user.username

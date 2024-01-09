@@ -162,22 +162,22 @@
     var players_top10 = new Array(10);
     let nav_small = false;
 
-    function insert_row(username, victories, defeats, draws, elo) {
+    function insert_row(player_name, n_wins, n_lost, n_draws, elo) {
       var playerId = 'container' + new Date().getTime();
           var playerHTML = `
             <div id="${playerId}" class="class_stat_player" aria-live="assertive" aria-atomic="true">
             
               <div class="User">
-                ${username}
+                ${player_name}
               </div>
               <div class="Vic">
-                ${victories}
+                ${n_wins}
               </div>
               <div class="Def">
-                ${defeats}
+                ${n_lost}
               </div>
               <div class="Drw">
-                ${draws}
+                ${n_draws}
               </div>
               <div class="Elo">
                 ${elo}
@@ -188,23 +188,23 @@
           document.getElementById(playerId).style.display = 'block';
     }
 
-    function insert_in_leaderboard(username, victories, defeats, draws, elo) {
+    function insert_in_leaderboard(player_name, n_wins, n_lost, n_draws, elo) {
       if(counter < 10){
         var playerId = 'container' + new Date().getTime();
         var playerHTML = `
         <div id="${playerId}" class="class_leader_player" aria-live="assertive" aria-atomic="true">
         
           <div class="User">
-            ${username}
+            ${player_name}
           </div>
           <div class="Vic">
-            ${victories}
+            ${n_wins}
           </div>
           <div class="Def">
-            ${defeats}
+            ${n_lost}
           </div>
           <div class="Drw">
-            ${draws}
+            ${n_draws}
           </div>
           <div class="Elo">
             ${elo}
@@ -326,11 +326,12 @@
   window.onload = function () {
     let User = 'guest';
     checkLogin().then(user => { 
+      console.log("user: ", user);
       User = `${user.username}`;
       playerMail = `${user.user_mail}`;
 
       fetchPlayerLocStats(User).then((stats) => {
-          insert_row(`${stats.username}`, `${stats.victories}`, `${stats.defeats}`, `${stats.draws}`, `${stats.elo}`);
+          insert_row(`${stats.player_name}`, `${stats.n_wins}`, `${stats.n_lost}`, `${stats.n_draws}`, `${stats.elo}`);
       });
     });
 
@@ -338,7 +339,7 @@
       console.log("leaderboardData: ", leaderboardData);
       // Itera sui dati della leaderboard per inserirli nella tabella HTML
       leaderboardData.leaderboard.forEach(player => {
-        insert_in_leaderboard(`${player.username}`, `${player.victories}`, `${player.defeats}`, `${player.draws}`, `${player.elo}`);
+        insert_in_leaderboard(`${player.player_name}`, `${player.n_wins}`, `${player.n_lost}`, `${player.n_draws}`, `${player.elo}`);
       });
     });
   }

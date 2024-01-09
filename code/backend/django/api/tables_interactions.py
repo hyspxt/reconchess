@@ -11,13 +11,15 @@ def get_player_loc_stats(player_name):
     wins = player.n_wins
     lost = player.n_lost
     draws = player.n_draws
+    elo = player.elo_points
 
     # Restituisci un dizionario con le informazioni
     return {
             'player_name':name,
             'n_wins': wins,
             'n_lost': lost,
-            'n_draws': draws
+            'n_draws': draws,
+            'elo': elo
     }
 
 # Ottieni lo username

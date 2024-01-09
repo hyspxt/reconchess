@@ -332,7 +332,7 @@
         playerMail = user.email;
 
         fetchPlayerLocStats(User).then((stats) => {
-            insert_row(stats.player_username, stats.n_wins, stats.n_lost, stats.n_draws, stats.elo);
+            insert_row(stats.player_name, stats.n_wins, stats.n_lost, stats.n_draws, stats.elo);
         });
       });
 

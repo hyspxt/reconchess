@@ -165,7 +165,7 @@
     function insert_row(player_name, n_wins, n_lost, n_draws, elo) {
       var playerId = 'container' + new Date().getTime();
           var playerHTML = `
-            <div id="${playerId}" class="class_stat_player" aria-live="assertive" aria-atomic="true">
+            <div id="${playerId}" class="class_stat_player" class="row" aria-live="assertive" aria-atomic="true">
             
               <div class="User">
                 ${player_name}
@@ -185,7 +185,7 @@
             </div>
           `;
           document.getElementById('playerStats').insertAdjacentHTML('beforeend', playerHTML);
-          document.getElementById(playerId).style.display = 'block';
+          document.getElementById(playerId).style.display = 'flex';
     }
 
     function insert_in_leaderboard(player_name, n_wins, n_lost, n_draws, elo) {

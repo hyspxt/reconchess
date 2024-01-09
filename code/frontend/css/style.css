@@ -651,11 +651,6 @@ header {
 
 .table_stats_player,
 .class_stat_player{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
     width: 100%;
 }
 

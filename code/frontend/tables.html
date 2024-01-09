@@ -324,13 +324,13 @@
 
     // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
   window.onload = function () {
-    let User = 'guest'
+    let User = 'guest';
     checkLogin().then(user => { 
-      User = user.username; 
-      playerMail = user.email;
+      User = `${user.username}`;
+      playerMail = `${user.email}`;
 
       fetchPlayerLocStats(User).then((stats) => {
-          insert_row(stats.username, stats.victories, stats.defeats, stats.draws, stats.elo);
+          insert_row(`${stats.username}`, `${stats.victories}`, `${stats.defeats}`, `${stats.draws}`, `${stats.elo}`);
       });
     });
 
@@ -338,7 +338,7 @@
       console.log("leaderboardData: ", leaderboardData);
       // Itera sui dati della leaderboard per inserirli nella tabella HTML
       leaderboardData.forEach(player => {
-        insert_in_leaderboard(player.username, player.victories, player.defeats, player.draws, player.elo);
+        insert_in_leaderboard(`${player.username}`, `${player.victories}`, `${player.defeats}`, `${player.draws}`, `${player.elo}`);
       });
     });
   }

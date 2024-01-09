@@ -327,7 +327,7 @@
     let User = 'guest';
     checkLogin().then(user => { 
       User = `${user.username}`;
-      playerMail = `${user.email}`;
+      playerMail = `${user.user_mail}`;
 
       fetchPlayerLocStats(User).then((stats) => {
           insert_row(`${stats.username}`, `${stats.victories}`, `${stats.defeats}`, `${stats.draws}`, `${stats.elo}`);
@@ -337,7 +337,7 @@
     fetchLeaderboard().then(leaderboardData => {
       console.log("leaderboardData: ", leaderboardData);
       // Itera sui dati della leaderboard per inserirli nella tabella HTML
-      leaderboardData.forEach(player => {
+      leaderboardData.leaderboard.forEach(player => {
         insert_in_leaderboard(`${player.username}`, `${player.victories}`, `${player.defeats}`, `${player.draws}`, `${player.elo}`);
       });
     });

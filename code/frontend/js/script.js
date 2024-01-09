@@ -151,6 +151,7 @@ export function checkLogin() {
                 aLeaderboard.classList.add('disabled');
             }
             disableleaderboard();
+            return data;
         })
         .catch(error => console.error('Error:', error));
 }

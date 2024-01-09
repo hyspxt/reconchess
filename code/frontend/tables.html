@@ -9,7 +9,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
         crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 
@@ -94,65 +94,65 @@
       </ul>
       
       <div class="user d-flex flex-column align-items-center"></div>
-  </div>
-</aside>
+    </div>
+  </aside>
 
-<div>
-  <div class="container_a">
-    <h1 style="margin-top: 30px; padding-right: 70px;">Statistiche Giocatore e Classifica</h1>
+  <div>
+    <div class="container_a">
+      <h1 style="margin-top: 30px; padding-right: 70px;">Statistiche Giocatore e Classifica</h1>
 
-    <div id="playerStatsTable"  class="stats_player">
-      <h2>Statistiche del giocatore</h2>
+      <div id="playerStatsTable"  class="stats_player">
+        <h2>Statistiche del giocatore</h2>
 
-      <div id="playerStats" class="table_stats_player">
-        <div class="class_stat_player_header">
-          <div class="title_Us">Username</div>
+        <div id="playerStats" class="table_stats_player">
+          <div class="class_stat_player_header">
+            <div class="title_Us">Username</div>
+            <div class="title_Vic">Victories</div>
+            <div class="title_Def">Defeats</div>
+            <div class="title_Drw">Draw</div>
+            <div class="title_Elo">Elo</div>
+          </div>
+          <div class="class_stat_player">
+            <div class="Us">Nome</div>
+            <div class="Vic">Vittorie</div>
+            <div class="Def">Sconfitte</div>
+            <div class="Drw">Pareggi</div>
+            <div class="Elo">Elo</div>
+          </div>
+        </div>
+
+        
+      </div>
+
+      <div id="leaderboardTable" class="stats_leaderboard">
+        <h2>Classifica</h2>
+
+        <div class="class_stat_leaderboard_header">
+          <div class="title_User">Username</div>
           <div class="title_Vic">Victories</div>
           <div class="title_Def">Defeats</div>
           <div class="title_Drw">Draw</div>
-          <div class="title_Elo">Elo</div>
+          <div  class="title_Elo">Elo</div>
         </div>
-        <div class="class_stat_player">
-          <div class="Us">Nome</div>
-          <div class="Vic">Vittorie</div>
-          <div class="Def">Sconfitte</div>
-          <div class="Drw">Pareggi</div>
-          <div class="Elo">Elo</div>
-        </div>
-      </div>
 
-      
-    </div>
-
-    <div id="leaderboardTable" class="stats_leaderboard">
-      <h2>Classifica</h2>
-
-      <div class="class_stat_leaderboard_header">
-        <div class="title_User">Username</div>
-        <div class="title_Vic">Victories</div>
-        <div class="title_Def">Defeats</div>
-        <div class="title_Drw">Draw</div>
-        <div  class="title_Elo">Elo</div>
-      </div>
-
-      <div class="columns_leaderbord">
-        <div id="top10" class="players_position"></div>
-        <div class="number_position">
-          <div id="number1" class="number_top3">1</div>
-          <div id="number2" class="number_top3">2</div>
-          <div id="number3" class="number_top3">3</div>
-          <div id="number4" class="number">4</div>
-          <div id="number5" class="number">5</div>
-          <div id="number6" class="number">6</div>
-          <div id="number7" class="number">7</div>
-          <div id="number8" class="number">8</div>
-          <div id="number9" class="number">9</div>
-          <div id="number10" class="number">10</div>
+        <div class="columns_leaderbord">
+          <div id="top10" class="players_position"></div>
+          <div class="number_position">
+            <div id="number1" class="number_top3">1</div>
+            <div id="number2" class="number_top3">2</div>
+            <div id="number3" class="number_top3">3</div>
+            <div id="number4" class="number">4</div>
+            <div id="number5" class="number">5</div>
+            <div id="number6" class="number">6</div>
+            <div id="number7" class="number">7</div>
+            <div id="number8" class="number">8</div>
+            <div id="number9" class="number">9</div>
+            <div id="number10" class="number">10</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
   <script type="module" src="js/utils.js"></script>
   <script type="module" src="js/script.js"></script>
 
@@ -323,26 +323,26 @@
     }
 
     // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
-  window.onload = function () {
-    let User = 'guest';
-    checkLogin().then(user => { 
-      console.log("user: ", user);
-      User = `${user.username}`;
-      playerMail = `${user.user_mail}`;
+    window.onload = function () {
+      let User = 'guest';
+      checkLogin().then(user => { 
+        console.log("user: ", user);
+        User = user.user_name;
+        playerMail = user.user_mail;
 
-      fetchPlayerLocStats(User).then((stats) => {
-          insert_row(`${stats.player_name}`, `${stats.n_wins}`, `${stats.n_lost}`, `${stats.n_draws}`, `${stats.elo}`);
+        fetchPlayerLocStats(User).then((stats) => {
+            insert_row(stats.player_name, stats.n_wins, stats.n_lost, stats.n_draws, stats.elo);
+        });
       });
-    });
 
-    fetchLeaderboard().then(leaderboardData => {
-      console.log("leaderboardData: ", leaderboardData);
-      // Itera sui dati della leaderboard per inserirli nella tabella HTML
-      leaderboardData.leaderboard.forEach(player => {
-        insert_in_leaderboard(`${player.player_name}`, `${player.n_wins}`, `${player.n_lost}`, `${player.n_draws}`, `${player.elo}`);
+      fetchLeaderboard().then(leaderboardData => {
+        console.log("leaderboardData: ", leaderboardData);
+        // Itera sui dati della leaderboard per inserirli nella tabella HTML
+        leaderboardData.leaderboard.forEach(player => {
+          insert_in_leaderboard(player.player_name, player.n_wins, player.n_lost, player.n_draws, player.elo);
+        });
       });
-    });
-  }
+    }
 
   </script>
   <script>

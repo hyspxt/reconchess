@@ -124,8 +124,6 @@ export function checkLogin() {
         .then(response => response.json())
         .then(data => {
             const loginDiv = document.querySelector('.user');
-            const boardUserDiv = document.querySelector('.white_id');
-            const aHuman = document.querySelector('.a_human');
             const aLeaderboard = document.querySelector('#a-leaderboard');
             if (data.loggedIn) {
                 loginDiv.innerHTML = `
@@ -137,8 +135,6 @@ export function checkLogin() {
                     </div>
                 `;
                 document.getElementById('btn_signOut').addEventListener('submit', handleLogout);
-                boardUserDiv.innerHTML = `${data.username}`;
-                aHuman.classList.remove('disabled');
                 aLeaderboard.classList.remove('disabled');
             } else {
                 loginDiv.innerHTML = `
@@ -146,8 +142,6 @@ export function checkLogin() {
                         <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
                     </form>
                 `;
-                boardUserDiv.innerHTML = `Player 1`;
-                aHuman.classList.add('disabled');
                 aLeaderboard.classList.add('disabled');
             }
             disableleaderboard();

@@ -113,8 +113,6 @@
                         </div>
                     </a>
                 </li>
-                
-
             </ul>
             
             <div class="user d-flex flex-column align-items-center"></div>
@@ -320,7 +318,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <script>
         let botHuman = null;
@@ -557,6 +554,7 @@
         import { startConnection, socket } from './js/board.js';
         import { createWebsocket } from './js/websocket.js';
         import { generaStringaCasuale } from './js/utils.js';
+        import { checkLogin} from './js/script.js';
 
         function start() {
             // Ottieni il tipo di avversario selezionato
@@ -617,6 +615,23 @@
             });
 
         });
+
+        //check if there is a user logged in and change things accordingly
+        window.onload = function () {
+            checkLogin().then(data => {
+                const boardUserDiv = document.querySelector('.white_id');
+                const aHuman = document.querySelector('.a_human');
+                if (data.loggedIn) {
+                    boardUserDiv.innerHTML = `${data.username}`;
+                    aHuman.classList.remove('disabled');
+                }
+                else{
+                    boardUserDiv.innerHTML = `Player 1`;
+                    aHuman.classList.add('disabled');
+                }
+            });
+        }
+
     </script>
     <script type="module" src="js/timer.js"></script>
     <script type="module" src="js/websocket.js"></script>

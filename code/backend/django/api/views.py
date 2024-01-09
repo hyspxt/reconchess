@@ -89,7 +89,7 @@ def googleID(request):
         # Manually log in the user by setting the user in the request's session
 		request.session[SESSION_KEY] = user.id
         
-		return JsonResponse({'success': True, 'user_email': user_email, 'user_name': username})
+		return JsonResponse({'success': True,  'username': user.username, 'email': user_email})
 
 	except ValueError as e:
 		return JsonResponse({'success': False, 'error': str(e)})

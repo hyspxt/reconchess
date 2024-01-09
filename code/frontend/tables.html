@@ -325,10 +325,11 @@
     // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
     window.onload = function () {
       let User = 'guest';
+      let playerMail = 'guest@example.com';
       checkLogin().then(user => { 
         console.log("user: ", user);
-        User = user.user_name;
-        playerMail = user.user_mail;
+        User = user.username;
+        playerMail = user.email;
 
         fetchPlayerLocStats(User).then((stats) => {
             insert_row(stats.player_name, stats.n_wins, stats.n_lost, stats.n_draws, stats.elo);

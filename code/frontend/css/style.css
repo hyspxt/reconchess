@@ -651,6 +651,8 @@ header {
 
 .table_stats_player,
 .class_stat_player{
+    display: flex;
+    flex-direction: row;
     width: 100%;
 }
 

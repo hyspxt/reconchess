@@ -106,19 +106,13 @@
 
         <div id="playerStats" class="table_stats_player">
           <div class="class_stat_player_header">
-            <div class="title_Us">Username</div>
+            <div class="title_User">Username</div>
             <div class="title_Vic">Victories</div>
             <div class="title_Def">Defeats</div>
             <div class="title_Drw">Draw</div>
             <div class="title_Elo">Elo</div>
           </div>
-          <div class="class_stat_player">
-            <div class="Us">Nome</div>
-            <div class="Vic">Vittorie</div>
-            <div class="Def">Sconfitte</div>
-            <div class="Drw">Pareggi</div>
-            <div class="Elo">Elo</div>
-          </div>
+      
         </div>
 
         
@@ -160,7 +154,6 @@
     import { fetchPlayerLocStats, fetchLeaderboard, checkLogin } from './js/script.js';
     var counter = 0;
     var players_top10 = new Array(10);
-    let nav_small = false;
 
     function insert_row(player_name, n_wins, n_lost, n_draws, elo) {
       var playerId = 'container' + new Date().getTime();
@@ -347,6 +340,7 @@
 
   </script>
   <script>
+    let nav_small = false;
 
     function smalernav(){
       if(!nav_small){

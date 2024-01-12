@@ -266,7 +266,7 @@
 
                 <script>
                     // TODO URL need to be adjusted  on server true purpose (board.html with filled room code form).
-
+                    let nav_small = false;
                     function share(platform) {
                         var roomName = document.getElementById("room-code-label").getAttribute("data-room-name");
                         var shareURL = "";
@@ -498,7 +498,7 @@
         import { generaStringaCasuale } from './js/utils.js';
         import { checkLogin} from './js/script.js';
 
-        let nav_small = false;
+        
         const codeLength = 6;
 
         function check_code(roomName) {
@@ -624,6 +624,7 @@
         });
 
         function resize_nav(){
+            
             console.log('resize called');
             var width = $(window).width();
             if(width < 1180){

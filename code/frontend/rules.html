@@ -73,7 +73,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link" aria-current="page" onclick="smalernav()">
+                    <a href="#" class="nav-link" aria-current="page" id="collapse">
                         <svg id="left_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#D5DBBE" class="bi bi-chevron-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
                         </svg>
@@ -273,6 +273,9 @@
             });
         }
     }
+    document.getElementById("collapse").addEventListener("click", () => smalernav());
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 </html>

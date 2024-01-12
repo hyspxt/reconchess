@@ -339,7 +339,9 @@
     }
 
   </script>
-  <script>
+  <script type="module">
+
+    import { checkLogin} from './js/script.js'
     let nav_small = false;
 
     function smalernav(){
@@ -402,6 +404,12 @@
             $('.container_a').css('margin-top', '50px');
             $('.container_a').css('margin-left', '0px');
 
+            checkLogin().then(data => {
+                if (data.loggedIn) {
+                    $('#name_user').css('display', 'none');
+                }
+            });
+
         } else {
             $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
             $('#nav_btn').removeClass('fixed-top');
@@ -430,6 +438,12 @@
                 $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #linea').css('display', 'block');
             }
             $('.container_a').css('margin-top', '0');
+
+            checkLogin().then(data => {
+                if (data.loggedIn) {
+                    $('#name_user').css('display', 'block');
+                }
+            });
         }
     }
   </script>

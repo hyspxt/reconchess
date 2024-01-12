@@ -411,7 +411,6 @@ export function resign(rematch = false) {
 
     if (light && !game.is_over) lightsOff();
 
-    lightsOff()
     game.reset();
     board.start();
     //avoid trying to send the message while the page is loading
@@ -429,6 +428,7 @@ export function resign(rematch = false) {
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
     });
+    lightsOff()
 }
 
 /**

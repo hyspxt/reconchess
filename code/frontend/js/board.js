@@ -408,7 +408,16 @@ export function lightsOff() {
 export function resign(rematch = false) {
     config.draggable = false;
     console.log('light ' + light);
+
     if (light && !game.is_over) lightsOff();
+
+    lightsOff()
+    game.reset();
+    board.start();
+    //avoid trying to send the message while the page is loading
+    if (socket.readyState == WebSocket.OPEN)
+        socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
+
     //reset fog
     if (color == 'w') var squares = ['a1', 'a2', 'b1', 'b2', 'c1se', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
     else var squares = ['a7', 'a8', 'b7', 'b8', 'c7', 'c8', 'd7', 'd8', 'e7', 'e8', 'f7', 'f8', 'g7', 'g8', 'h7', 'h8'];
@@ -420,13 +429,6 @@ export function resign(rematch = false) {
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
     });
-    lightsOff()
-
-    game.reset();
-    board.start();
-    //avoid trying to send the message while the page is loading
-    if (socket.readyState == WebSocket.OPEN)
-        socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 }
 
 /**

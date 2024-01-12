@@ -1,244 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="Content-Language" content="en">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="google-signin-client_id" content="613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com">
-        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="icon" type="png" href="img/other/logo.png">
-        <Title>Silver Bullets</Title>
-    </head>
-    <body>
-        <aside>
-            <div id="nav_colomn" class="full d-flex flex-column flex-shrink-0 p-3" style="width: 250px;">
-                <div class="mb-3">
-                    <a href="/" class="d-flex align-items-center title_nav">
-                        <img class="title_nav_pic" src="img/other/logo.png" alt="logo" width="50" height="50"
-                            class="d-inline-block align-top mr-2">
-                        <span id="btn_nav_home" class="h4 m-0 items-center btn_nav_home" style="color: #cacaca">Silver Bullets</span>
-                    </a>
-                    <hr id="linea" style="border-color: #cacaca; height: 2px;">
-                </div>
-    
-                <ul id="nav_btn" class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a href="board.html" class="nav-link" aria-current="page">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
-                                class="bi bi-play" viewBox="0 0 16 16">
-                                <path
-                                    d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z" />
-                            </svg>
-                            <div id="btn_nav_play">
-                                Play
-                            </div>
-                        </a>
-                    </li>
-    
-                    <li class="nav-item">
-                        <a href="rules.html" class="nav-link" aria-current="page">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-book" viewBox="0 0 16 16">
-                                <path
-                                    d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
-                            </svg>
-                            <div id="btn_nav_rule">
-                                Rules
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="tables.html" id="a-leaderboard" class="nav-link" aria-current="page">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-trophy" viewBox="0 0 16 16">
-                                <path
-                                    d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935M3.504 1q.01.775.056 1.469c.13 2.028.457 3.546.87 4.667C5.294 9.48 6.484 10 7 10a.5.5 0 0 1 .5.5v2.61a1 1 0 0 1-.757.97l-1.426.356a.5.5 0 0 0-.179.085L4.5 15h7l-.638-.479a.5.5 0 0 0-.18-.085l-1.425-.356a1 1 0 0 1-.757-.97V10.5A.5.5 0 0 1 9 10c.516 0 1.706-.52 2.57-2.864.413-1.12.74-2.64.87-4.667q.045-.694.056-1.469z" />
-                            </svg>
-                            
-                            <div id="btn_nav_lead">
-                                Leaderboard
-                            </div>
-                        </a>
-                    </li>
-                    
-                    <!-- Separators -->
-                    <li class="nav-item">
-                    </li>
-                    <li class="nav-item">
-                    </li>
-    
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" aria-current="page" onclick="smalernav()">
-                            <svg id="left_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#D5DBBE" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-                            </svg>
-                            <svg id="right_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#D5DBBE" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
-                            </svg>
-                            <div id="btn_nav_collapse">
-                                Collapse
-                            </div>
-                        </a>
-                    </li>
-                    
-    
-                </ul>
-                
-                <div class="user d-flex flex-column align-items-center"></div>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="icon" type="png" href="img/other/logo.png">
+    <Title>Silver Bullets</Title>
+</head>
+
+<body>
+    <aside>
+        <div id="nav_colomn" class="full d-flex flex-column flex-shrink-0 p-3" style="width: 250px;">
+            <div class="mb-3">
+                <a href="/" class="d-flex align-items-center title_nav">
+                    <img class="title_nav_pic" src="img/other/logo.png" alt="logo" width="50" height="50"
+                        class="d-inline-block align-top mr-2">
+                    <span id="btn_nav_home" class="h4 m-0 items-center btn_nav_home" style="color: #cacaca">Silver
+                        Bullets</span>
+                </a>
+                <hr id="linea" style="border-color: #cacaca; height: 2px;">
             </div>
-        </aside>
-        <div class="container_z">
-            <div class="form">
-                <header>New account</header>
-                <form id="log"> <!-- Manda i dati in input-->
-                    <div class="field input-field">
-                        <input name="username" type="text" placeholder="Username" class="input" required>
-                    </div>
-                    <div class="field input-field">
-                        <input name="email" type="email" placeholder="Email" class="input" required>
-                    </div>
-                    <div class="field">
-                        <input name="password1" type="password" placeholder="Create password" class="password" required>
-                        <i class="bx bx-hide eye-icon"></i>
-                    </div>
-                    <div class="field">
-                        <input name="password2" type="password" placeholder="Confirm password" class="password" required>
-                        <i class="bx bx-hide eye-icon"></i>
-                    </div>
-                    <div class="field">
-                        <button type="submit" class="btn btn-primary" id="signup">Register</button>
-                    </div>
-                </form>
-                <div class="form-link">
-                    <span>Already have an account? <a href="loginForm.html"> Sign in</a></span>
+
+            <ul id="nav_btn" class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="board.html" class="nav-link" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
+                            class="bi bi-play" viewBox="0 0 16 16">
+                            <path
+                                d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z" />
+                        </svg>
+                        <div id="btn_nav_play">
+                            Play
+                        </div>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="rules.html" class="nav-link" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-book" viewBox="0 0 16 16">
+                            <path
+                                d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+                        </svg>
+                        <div id="btn_nav_rule">
+                            Rules
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tables.html" id="a-leaderboard" class="nav-link" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-trophy" viewBox="0 0 16 16">
+                            <path
+                                d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935M3.504 1q.01.775.056 1.469c.13 2.028.457 3.546.87 4.667C5.294 9.48 6.484 10 7 10a.5.5 0 0 1 .5.5v2.61a1 1 0 0 1-.757.97l-1.426.356a.5.5 0 0 0-.179.085L4.5 15h7l-.638-.479a.5.5 0 0 0-.18-.085l-1.425-.356a1 1 0 0 1-.757-.97V10.5A.5.5 0 0 1 9 10c.516 0 1.706-.52 2.57-2.864.413-1.12.74-2.64.87-4.667q.045-.694.056-1.469z" />
+                        </svg>
+
+                        <div id="btn_nav_lead">
+                            Leaderboard
+                        </div>
+                    </a>
+                </li>
+
+                <!-- Separators -->
+                <li class="nav-item">
+                </li>
+                <li class="nav-item">
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link" aria-current="page">
+                        <svg id="left_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#D5DBBE"
+                            class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                        <svg id="right_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#D5DBBE"
+                            class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                        <div id="btn_nav_collapse">
+                            Collapse
+                        </div>
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <div class="user d-flex flex-column align-items-center"></div>
+        </div>
+    </aside>
+    <div class="container_z">
+        <div class="form">
+            <header>New account</header>
+            <form id="log"> <!-- Manda i dati in input-->
+                <div class="field input-field">
+                    <input name="username" type="text" placeholder="Username" class="input" required>
                 </div>
-                <div class="line"></div>
-                <script src="https://accounts.google.com/gsi/client" async defer></script>
-                <div style="display: flex; justify-content:center;">
-                    <div id="g_id_onload"
+                <div class="field input-field">
+                    <input name="email" type="email" placeholder="Email" class="input" required>
+                </div>
+                <div class="field">
+                    <input name="password1" type="password" placeholder="Create password" class="password" required>
+                    <i class="bx bx-hide eye-icon"></i>
+                </div>
+                <div class="field">
+                    <input name="password2" type="password" placeholder="Confirm password" class="password" required>
+                    <i class="bx bx-hide eye-icon"></i>
+                </div>
+                <div class="field">
+                    <button type="submit" class="btn btn-primary" id="signup">Register</button>
+                </div>
+            </form>
+            <div class="form-link">
+                <span>Already have an account? <a href="loginForm.html"> Sign in</a></span>
+            </div>
+            <div class="line"></div>
+            <script src="https://accounts.google.com/gsi/client" async defer></script>
+            <div style="display: flex; justify-content:center;">
+                <div id="g_id_onload"
                     data-client_id="613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com"
                     data-callback=handleCredentialResponse>
-                    </div>
-                    <div class="g_id_signin" data-type="standard" data-locale="en-US"></div>
                 </div>
+                <div class="g_id_signin" data-type="standard" data-locale="en-US"></div>
             </div>
         </div>
-        <script type="module">
+    </div>
+    <script type="module">
 
-            import { checkLogin} from './js/script.js'
-            let nav_small = false;
+        import { checkLogin } from './js/script.js'
+        let nav_small = false;
 
-            function smalernav(){
-                if(!nav_small){
-                    $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, .user, #left_a').css('display', 'none');
-                    $('#right_a').css('display', 'block');
-                    $('#nav_colomn').css('width', '90px');
-                    $('#nav_colomn').css('transition', 'width 0.5s');
-                    $('.container_z').css('margin-left', '120px');
-                    $('.container_z').css('transition', 'margin-left 0.5s');
-                    $('.title_nav_pic').css('margin-right', '0');
-                    $('.nav-link, .title_nav').css('justify-content', 'center');
-                    nav_small = true;
-                } else {
-                    $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'block');
-                    $('#right_a').css('display', 'none');
-                    $('#nav_colomn').css('width', '250px');
-                    $('#nav_colomn').css('transition', 'width 0.5s');
-                    $('.container_z').css('margin-left', '280px');
-                    $('.nav-link, .title_nav').css('justify-content', 'start');
-                    setTimeout(sigIn_btn, 500);
-                    nav_small = false;
-                }
+        function smalernav() {
+            if (!nav_small) {
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, .user, #left_a').css('display', 'none');
+                $('#right_a').css('display', 'block');
+                $('#nav_colomn').css('width', '90px');
+                $('#nav_colomn').css('transition', 'width 0.5s');
+                $('.container_z').css('margin-left', '120px');
+                $('.container_z').css('transition', 'margin-left 0.5s');
+                $('.title_nav_pic').css('margin-right', '0');
+                $('.nav-link, .title_nav').css('justify-content', 'center');
+                nav_small = true;
+            } else {
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'block');
+                $('#right_a').css('display', 'none');
+                $('#nav_colomn').css('width', '250px');
+                $('#nav_colomn').css('transition', 'width 0.5s');
+                $('.container_z').css('margin-left', '280px');
+                $('.nav-link, .title_nav').css('justify-content', 'start');
+                setTimeout(sigIn_btn, 500);
+                nav_small = false;
             }
+        }
 
-            function sigIn_btn(){
-                if(!nav_small){
+        function sigIn_btn() {
+            if (!nav_small) {
+                $('.user').css('display', 'block');
+            }
+        }
+
+        resize_nav();
+        $(window).resize(function () {
+            resize_nav();
+        });
+
+        function resize_nav() {
+            console.log('resize called');
+            var width = $(window).width();
+            if (width < 1180) {
+                $('#nav_colomn').removeClass('flex-column');
+                $('#nav_btn').removeClass('flex-column');
+                $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
+                $('#nav_btn').removeClass('ml-auto flex-row');
+                $('aside').addClass('flex-row');
+                $('.title_nav_pic').css('margin-top', '16px');
+                $('#nav_btn').css('justify-content', 'center');
+                $('#nav_colomn').css('width', '100%');
+                $('#nav_colomn').css('height', '60px');
+                $('#nav_colomn').css('overflow', 'hidden');
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
+                $('.user').removeClass('mt-auto');
+                $('#nav_colomn').css('justify-content', 'space-between');
+                $('#nav_colomn').css('align-items', 'center');
+                $('#nav_colomn').css('transition', 'width 0s');
+
+                if (nav_small) {
                     $('.user').css('display', 'block');
                 }
-            }
+                $('.container_z').css('margin-top', '50px');
+                $('.container_z').css('margin-left', '0px');
 
-            resize_nav();
-            $(window).resize(function(){
-                resize_nav();
-            });
-
-            function resize_nav(){
-                console.log('resize called');
-                var width = $(window).width();
-                if(width < 1180){
-                    $('#nav_colomn').removeClass('flex-column');
-                    $('#nav_btn').removeClass('flex-column');
-                    $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
-                    $('#nav_btn').removeClass('ml-auto flex-row');
-                    $('aside').addClass('flex-row');
-                    $('.title_nav_pic').css('margin-top', '16px');
-                    $('#nav_btn').css('justify-content', 'center');
-                    $('#nav_colomn').css('width', '100%');
-                    $('#nav_colomn').css('height', '60px');
-                    $('#nav_colomn').css('overflow', 'hidden');
-                    $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
-                    $('.user').removeClass('mt-auto');
-                    $('#nav_colomn').css('justify-content', 'space-between');
-                    $('#nav_colomn').css('align-items', 'center');
-                    $('#nav_colomn').css('transition', 'width 0s');
-
-                    if(nav_small){
-                        $('.user').css('display', 'block');
+                checkLogin().then(data => {
+                    if (data.loggedIn) {
+                        $('#name_user').css('display', 'none');
                     }
-                    $('.container_z').css('margin-top', '50px');
-                    $('.container_z').css('margin-left', '0px');
+                });
 
-                    checkLogin().then(data => {
-                if (data.loggedIn) {
-                    $('#name_user').css('display', 'none');
-                }
-            });
+            } else {
+                $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
+                $('#nav_btn').removeClass('fixed-top');
+                $('#nav_btn').removeClass('flex-row');
+                $('#nav_colomn').addClass('flex-column');
+                $('#nav_btn').addClass('flex-column');
+                $('aside').removeClass('flex-row');
+                $('.title_nav_pic').css('margin-top', '0');
+                $('#nav_btn').css('justify-content', 'start');
+                $('#nav_colomn').css('height', '100%');
+                $('#nav_colomn').css('overflow', 'auto');
+                $('#right_a').css('display', 'none');
+                $('.user').addClass('mt-auto');
+                $('#nav_colomn').css('justify-content', 'start');
+                $('#nav_colomn').css('align-content', 'start');
+                $('#nav_colomn').css('transition', 'width 0s');
 
+                if (nav_small) {
+                    $('.container_z').css('margin-left', '120px');
+                    $('#nav_colomn').css('width', '90px');
+                    $('#right_a, #linea').css('display', 'block');
+                    $('.user').css('display', 'none');
                 } else {
-                    $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
-                    $('#nav_btn').removeClass('fixed-top');
-                    $('#nav_btn').removeClass('flex-row');
-                    $('#nav_colomn').addClass('flex-column');
-                    $('#nav_btn').addClass('flex-column');
-                    $('aside').removeClass('flex-row');
-                    $('.title_nav_pic').css('margin-top', '0');
-                    $('#nav_btn').css('justify-content', 'start');
-                    $('#nav_colomn').css('height', '100%');
-                    $('#nav_colomn').css('overflow', 'auto');
-                    $('#right_a').css('display', 'none');
-                    $('.user').addClass('mt-auto');
-                    $('#nav_colomn').css('justify-content', 'start');
-                    $('#nav_colomn').css('align-content', 'start');
-                    $('#nav_colomn').css('transition', 'width 0s');
+                    $('.container_z').css('margin-left', '280px');
+                    $('#nav_colomn').css('width', '250px');
+                    $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #linea').css('display', 'block');
+                }
+                $('.container_z').css('margin-top', '0');
 
-                    if(nav_small){
-                        $('.container_z').css('margin-left', '120px');
-                        $('#nav_colomn').css('width', '90px');
-                        $('#right_a, #linea').css('display', 'block');
-                        $('.user').css('display', 'none');
-                    } else {
-                        $('.container_z').css('margin-left', '280px');
-                        $('#nav_colomn').css('width', '250px');
-                        $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #linea').css('display', 'block');
+                checkLogin().then(data => {
+                    if (data.loggedIn) {
+                        $('#name_user').css('display', 'block');
                     }
-                    $('.container_z').css('margin-top', '0');
-
-                    checkLogin().then(data => {
-                if (data.loggedIn) {
-                    $('#name_user').css('display', 'block');
-                }
-            });
-                }
+                });
             }
-        </script>
-        <script type="module" src="js/script.js"></script>
-        <script type="module">
-            import {handleRegistration} from "./js/utils.js";
-            document.getElementById("log").addEventListener("submit", handleRegistration);
-        </script>
-    </body>
+        }
+        document.getElementById("collapse").addEventListener("click", () => smalernav());
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script type="module" src="js/script.js"></script>
+    <script type="module">
+        import { handleRegistration } from "./js/utils.js";
+        document.getElementById("log").addEventListener("submit", handleRegistration);
+    </script>
+</body>
+
 </html>

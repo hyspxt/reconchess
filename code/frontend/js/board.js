@@ -452,7 +452,7 @@ export function flipSide(c) {
 /*-----------Initialization--------------*/
 
 export function set_names(enemy_name) {
-    $('#enemy_name').text(enemy_name);
+    $('#enemy_name').innerHTML(enemy_name);
     console.log("the enemy name is " + enemy_name);
     }
 

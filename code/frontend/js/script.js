@@ -127,7 +127,7 @@ export function checkLogin() {
             const aLeaderboard = document.querySelector('#a-leaderboard');
             if (data.loggedIn) {
                 loginDiv.innerHTML = `
-                    <div><p>Welcome <span style="color: #FFF;">${data.username}</span> !</p></div>
+                    <div id="name_user"><p>Welcome <span style="color: #FFF;">${data.username}</span> !</p></div>
                     <div>
                         <form class="form-inline mt-auto" id="btn_signOut" method="post">
                             <button type="submit" class="btn btn-outline-danger">Sign out</button>

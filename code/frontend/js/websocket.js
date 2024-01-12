@@ -83,6 +83,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				game.load(data.board);
 				updateBoard(Chessboard, false);
 				// board.position(game.fen(), false);
+				showSideToMove(data.color);
 				break;
 			case 'time left':
 				console.log('time left')
@@ -95,7 +96,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 			case 'turn ended':
 				console.log('turn started')
 				console.log("COLOR:", data.color)
-				showSideToMove(data.color);
+				
 				//the turn is over, get the time left and stop the timer
 				stop_timer();
 				//round the remaining time down to the nearest integer

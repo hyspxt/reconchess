@@ -126,3 +126,12 @@ def social_log(mail):
     except Users.DoesNotExist or Users.DoesNotExist:
         # L'utente o l'istanza di Users non esiste
         return False
+    
+def search_room(room_name):
+    try:
+        # Cerca un match con il nome della stanza
+        match = Matches.objects.get(room_name=f"game_{room_name}", finished=False)
+        return True
+    except Matches.DoesNotExist:
+        # L'utente o l'istanza di Users non esiste
+        return False

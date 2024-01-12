@@ -24,5 +24,7 @@ urlpatterns = [
 
 	path('player_username/<str:mail>/', views.player_username, name='player_username'),
     
-	path('leaderboard/', views.leaderboard, name='leaderboard')
+	path('leaderboard/', views.leaderboard, name='leaderboard'),
+
+	path('rooms/<str:room_name>/', views.search_room, name='rooms')
 ]

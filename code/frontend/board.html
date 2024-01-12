@@ -171,7 +171,7 @@
             </div>
         </div>
 
-        <div class="selection_room">
+        <div id=selection_room class="selection_room">
             <div class="question">Create a new room or insert a room-code</div>
 
             <fieldset class="bot_user">
@@ -431,6 +431,7 @@
             $('.a_oldR').css('background-color', '#274C80')
             $('.room_bar').css('display', 'block')
             $('.selection_time_color').css('display', 'none')
+            $('#selection_room').attr('value', 'old')
         }
 
         function botton_newRoom() {
@@ -442,6 +443,7 @@
             $('.selection_time_color').css('display', 'block')
             $('.selection_color').css('display', 'none')
             $('.selection_t_c').css('justify-content', 'start')
+            $('#selection_room').attr('value', 'new')
 
         }
 
@@ -556,13 +558,56 @@
         import { generaStringaCasuale } from './js/utils.js';
         import { checkLogin} from './js/script.js';
 
+        const codeLength = 6;
+
+        function check_code(roomName) {
+            if (roomName.length !== codeLength) {
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'Please enter a valid room code.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
+
+            return fetch(`api/rooms/${roomName}`)
+                .then(response => {
+                    if (response.status === 404) {
+                        Swal.fire({
+                            title: 'Oops...',
+                            text: 'The room code you entered does not exist.',
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        });
+                        return false;
+                    }
+                    return true;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                     Swal.fire({
+                        title: 'Oops...',
+                        text: 'Something went wrong. Please try again later',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                    return false;
+                });
+
+        }
+
         function start() {
             // Ottieni il tipo di avversario selezionato
             let opponentType = document.getElementById("selection_player").getAttribute('value');
-            let roomCode = document.getElementById("room-code").value;
-
-            // Check here
-            let roomName = roomCode ? roomCode : generaStringaCasuale(6);
+            let roomSelection = document.getElementById("selection_room").getAttribute('value');
+            let roomName = roomSelection === 'old' ? document.getElementById("room-code").value : generaStringaCasuale(codeLength);
+            
+            // controlla se il codice inserito è valido
+            if (roomSelection ==='old' && !check_code(roomName)) {
+                console.log("test", check_code(roomName))
+                return;
+            }
 
             let ws_url = opponentType === 'bot' ? 'ws/game' : `ws/multiplayer/${roomName}`;
 

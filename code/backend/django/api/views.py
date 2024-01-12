@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from .forms import RegisterForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
@@ -114,3 +114,9 @@ def player_username(request, mail):
 def leaderboard(request):
     leaderboard_data = ti.get_leaderboard()
     return JsonResponse({'leaderboard': leaderboard_data})
+
+def search_room(request, room_name):
+	if ti.search_room(room_name):
+		return HttpResponse('Room found!', content_type='text/plain')
+	else:
+		return HttpResponseNotFound('Room not found!', content_type='text/plain')

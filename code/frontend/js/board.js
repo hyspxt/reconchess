@@ -32,6 +32,12 @@ export function startConnection(url, timer, bot, color) {
 
 }
 
+window.addEventListener('beforeunload', function (e) {
+    //show the confirm dialog only if the game is not over
+    if(socket.readyState == WebSocket.OPEN && !game.is_over)
+       e.preventDefault();
+});
+
 var config = {
     draggable: true,
     position: 'start',

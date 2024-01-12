@@ -88,7 +88,7 @@ def googleID(request):
   
         # Manually log in the user by setting the user in the request's session
 		request.session[SESSION_KEY] = user.id
-		user = User.objects.get(id=request.session[SESSION_KEY])
+		login(request, user)
         
 		return JsonResponse({'success': True,  'username': user.username, 'email': user_email})
 

@@ -1,7 +1,7 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, lightsOff, makeOpponentMove, flipSide, updateBoard, set_names} from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, makeOpponentMove, flipSide, updateBoard, set_names, light} from '../js/board.js';
 
-var light = false
+
 export let valid_moves = []
 export let player_color = null
 export let enemy_name = null
@@ -102,7 +102,8 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				set_timer(Math.floor(data.opponent_time), opponent_timer);
 
 				start_timer(data.opponent_time, opponent_timer)
-
+				light = true;
+				
 				break;
 			case 'game over':
 

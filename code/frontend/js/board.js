@@ -8,11 +8,12 @@ export let socket = null;
 var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
 var promotion_dialog = $('#promotion-dialog')
 var promoting = false
-var light = false
+export var light = false
 var letters, part2 = null
 var comments = ""
 var pass = false
 var color
+var is_moving;
 
 export function startConnection(url, timer, bot, color) {
     socket = createWebsocket(game, url, document.getElementById("player_timer"), document.getElementById("opponent_timer"));
@@ -96,12 +97,15 @@ export function showSideToMove(game_turn) {
     if (pass == false) {
         if (game_turn === player_color) {
             comments = "It's your turn to move ♟️ \n" + comments;
+            
+
         } else {
             comments = "opponent's turn . . . 🎭 \n" + comments;
         }
         showToast(comments, '');
     }
     else pass = false;
+    is_moving = game_turn;
 }
 
 export function illegalMove() {
@@ -136,6 +140,8 @@ export function onDragStart(source, piece) {
 
     // do not pick up pieces if the game is over
     if (game.game_over() || game.is_over) return false
+
+    if(is_moving !== color) return false
 
     if ((color === 'w') && (piece.search(/^b/) !== -1)) return false
     else if ((color === 'b') && (piece.search(/^w/) !== -1)) return false

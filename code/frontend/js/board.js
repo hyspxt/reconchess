@@ -409,7 +409,6 @@ export function resign(rematch = false) {
     config.draggable = false;
     console.log('light ' + light);
 
-    if (light && !game.is_over) lightsOff();
 
     game.reset();
     board.start();
@@ -418,7 +417,6 @@ export function resign(rematch = false) {
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 
     
-    lightsOff()
 }
 
 /**

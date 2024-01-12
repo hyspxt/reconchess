@@ -321,15 +321,12 @@
             </div>
         </div>
     </div>
-    <script type="module">
-
-        import { checkLogin} from './js/script.js'
+    <script>
         let botHuman = null;
         let bot = null;
         let room = null;
         let piece = null;
         let time = null;
-        let nav_small = false;
 
         function botton_bot() {
             botHuman = true;
@@ -463,118 +460,15 @@
                 document.getElementById("button_start").setAttribute('disabled', true);
             }
         }
-
-        function smallernav(){
-            if(!nav_small){
-                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'none');
-                $(' .user').css('display', 'none')
-                $('#right_a').css('display', 'block');
-                $('#nav_colomn').css('width', '90px');
-                $('#nav_colomn').css('transition', 'width 0.5s');
-                $('#intro, #final').css('margin-left', '120px');
-                $('#intro, #final').css('transition', 'margin-left 0.5s');
-                $('.title_nav_pic').css('margin-right', '0');
-                $('.nav-link, .title_nav').css('justify-content', 'center');
-                nav_small = true;
-            } else {
-                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'block');
-                $('#right_a').css('display', 'none');
-                $('#nav_colomn').css('width', '250px');
-                $('#nav_colomn').css('transition', 'width 0.5s');
-                $('#intro, #final').css('margin-left', '280px');
-                $('.nav-link, .title_nav').css('justify-content', 'start');
-                setTimeout(sigIn_btn, 500);
-                nav_small = false;
-            }
-        }
-
-        function sigIn_btn(){
-            if(!nav_small){
-                $('.user').css('display', 'block');
-            }
-        }
-        
-        resize_nav();
-        $(window).resize(function(){
-            resize_nav();
-        });
-
-        function resize_nav(){
-            console.log('resize called');
-            var width = $(window).width();
-            if(width < 1180){
-                $('#nav_colomn').removeClass('flex-column');
-                $('#nav_btn').removeClass('flex-column');
-                $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
-                $('#nav_btn').removeClass('ml-auto flex-row');
-                $('aside').addClass('flex-row');
-                $('.title_nav_pic').css('margin-top', '16px');
-                $('#nav_btn').css('justify-content', 'center');
-                $('#nav_colomn').css('width', '100%');
-                $('#nav_colomn').css('height', '60px');
-                $('#nav_colomn').css('overflow', 'hidden');
-                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
-                $('.user').removeClass('mt-auto');
-                $('#nav_colomn').css('justify-content', 'space-between');
-                $('#nav_colomn').css('align-items', 'center');
-                $('#nav_colomn').css('transition', 'width 0s');
-
-
-                if(nav_small){
-                    $('.user').css('display', 'block');
-                }
-                $('.container_x, .selection_player').css('margin-top', '50px');
-                $('#intro, #final').css('margin-left', '0px');
-
-                checkLogin().then(data => {
-                if (data.loggedIn) {
-                    $('#name_user').css('display', 'none');
-                }
-                });
-            } else {
-        
-                $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
-                $('#nav_btn').removeClass('fixed-top');
-                $('#nav_btn').removeClass('flex-row');
-                $('#nav_colomn').addClass('flex-column');
-                $('#nav_btn').addClass('flex-column');
-                $('aside').removeClass('flex-row');
-                $('.title_nav_pic').css('margin-top', '0');
-                $('#nav_btn').css('justify-content', 'start');
-                $('#nav_colomn').css('height', '100%');
-                $('#nav_colomn').css('overflow', 'auto');
-                $('#right_a').css('display', 'none');
-                $('.user').addClass('mt-auto');
-                $('#nav_colomn').css('justify-content', 'start');
-                $('#nav_colomn').css('align-content', 'start');
-                $('#nav_colomn').css('transition', 'width 0s');
-
-                if(nav_small){
-                    $('#intro, #final').css('margin-left', '120px');
-                    $('#nav_colomn').css('width', '90px');
-                    $('#right_a, #linea').css('display', 'flex');
-                    $('.user').css('display', 'none');
-                } else {
-                    $('#intro, #final').css('margin-left', '280px');
-                    $('#nav_colomn').css('width', '250px');
-                    $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #linea').css('display', 'block');
-                }
-                $('.container_x, .selection_player').css('margin-top', '0');
-
-                checkLogin().then(data => {
-                if (data.loggedIn) {
-                    $('#name_user').css('display', 'block');
-                }
-            });
-            }
-        }
     </script>
+    
     <script type="module">
         import { startConnection, socket } from './js/board.js';
         import { createWebsocket } from './js/websocket.js';
         import { generaStringaCasuale } from './js/utils.js';
         import { checkLogin} from './js/script.js';
 
+        let nav_small = false;
         const codeLength = 6;
 
         function check_code(roomName) {
@@ -692,6 +586,111 @@
                     aHuman.classList.add('disabled');
                 }
             });
+        }
+
+        function smallernav(){
+            if(!nav_small){
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'none');
+                $(' .user').css('display', 'none')
+                $('#right_a').css('display', 'block');
+                $('#nav_colomn').css('width', '90px');
+                $('#nav_colomn').css('transition', 'width 0.5s');
+                $('#intro, #final').css('margin-left', '120px');
+                $('#intro, #final').css('transition', 'margin-left 0.5s');
+                $('.title_nav_pic').css('margin-right', '0');
+                $('.nav-link, .title_nav').css('justify-content', 'center');
+                nav_small = true;
+            } else {
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'block');
+                $('#right_a').css('display', 'none');
+                $('#nav_colomn').css('width', '250px');
+                $('#nav_colomn').css('transition', 'width 0.5s');
+                $('#intro, #final').css('margin-left', '280px');
+                $('.nav-link, .title_nav').css('justify-content', 'start');
+                setTimeout(sigIn_btn, 500);
+                nav_small = false;
+            }
+        }
+
+        function sigIn_btn(){
+            if(!nav_small){
+                $('.user').css('display', 'block');
+            }
+        }
+        
+        resize_nav();
+        $(window).resize(function(){
+            resize_nav();
+        });
+
+        function resize_nav(){
+            console.log('resize called');
+            var width = $(window).width();
+            if(width < 1180){
+                $('#nav_colomn').removeClass('flex-column');
+                $('#nav_btn').removeClass('flex-column');
+                $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
+                $('#nav_btn').removeClass('ml-auto flex-row');
+                $('aside').addClass('flex-row');
+                $('.title_nav_pic').css('margin-top', '16px');
+                $('#nav_btn').css('justify-content', 'center');
+                $('#nav_colomn').css('width', '100%');
+                $('#nav_colomn').css('height', '60px');
+                $('#nav_colomn').css('overflow', 'hidden');
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
+                $('.user').removeClass('mt-auto');
+                $('#nav_colomn').css('justify-content', 'space-between');
+                $('#nav_colomn').css('align-items', 'center');
+                $('#nav_colomn').css('transition', 'width 0s');
+
+
+                if(nav_small){
+                    $('.user').css('display', 'block');
+                }
+                $('.container_x, .selection_player').css('margin-top', '50px');
+                $('#intro, #final').css('margin-left', '0px');
+
+                checkLogin().then(data => {
+                if (data.loggedIn) {
+                    $('#name_user').css('display', 'none');
+                }
+                });
+            } else {
+        
+                $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
+                $('#nav_btn').removeClass('fixed-top');
+                $('#nav_btn').removeClass('flex-row');
+                $('#nav_colomn').addClass('flex-column');
+                $('#nav_btn').addClass('flex-column');
+                $('aside').removeClass('flex-row');
+                $('.title_nav_pic').css('margin-top', '0');
+                $('#nav_btn').css('justify-content', 'start');
+                $('#nav_colomn').css('height', '100%');
+                $('#nav_colomn').css('overflow', 'auto');
+                $('#right_a').css('display', 'none');
+                $('.user').addClass('mt-auto');
+                $('#nav_colomn').css('justify-content', 'start');
+                $('#nav_colomn').css('align-content', 'start');
+                $('#nav_colomn').css('transition', 'width 0s');
+
+                if(nav_small){
+                    $('#intro, #final').css('margin-left', '120px');
+                    $('#nav_colomn').css('width', '90px');
+                    $('#right_a, #linea').css('display', 'flex');
+                    $('.user').css('display', 'none');
+                } else {
+                    $('#intro, #final').css('margin-left', '280px');
+                    $('#nav_colomn').css('width', '250px');
+                    $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #linea').css('display', 'block');
+                }
+                $('.container_x, .selection_player').css('margin-top', '0');
+
+                checkLogin().then(data => {
+                if (data.loggedIn) {
+                    $('#name_user').css('display', 'block');
+                }
+            });
+            }
         }
 
     </script>

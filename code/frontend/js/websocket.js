@@ -40,7 +40,6 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 					start_timer(data.time, opponent_timer)
 				}
 				resetFog();
-				lightsOff();
 				break;
 			case 'opponent move':
 				

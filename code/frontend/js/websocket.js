@@ -28,6 +28,9 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				set_timer(data.time, opponent_timer);
 				
 				player_color = data.color;
+				enemy_name = data.opponent_name;
+
+				set_name(enemy_name);
 				
 				console.log(player_color)
 				flipSide(player_color);

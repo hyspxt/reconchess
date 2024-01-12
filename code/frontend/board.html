@@ -55,6 +55,17 @@
             </div>
 
             <ul id="nav_btn" class="nav nav-pills flex-column mb-auto">
+
+                
+
+                <li class="nav-item">
+                    <a id="panino" class="nav-link" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                        </svg>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a href="board.html" class="nav-link" aria-current="page">
                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
@@ -462,7 +473,7 @@
 
         function smallernav(){
             if(!nav_small){
-                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #btn_signIn, #left_a').css('display', 'none');
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, .user, #left_a').css('display', 'none');
                 $('#right_a').css('display', 'block');
                 $('#nav_colomn').css('width', '90px');
                 $('#nav_colomn').css('transition', 'width 0.5s');
@@ -485,7 +496,7 @@
 
         function sigIn_btn(){
             if(!nav_small){
-                $('#btn_signIn').css('display', 'block');
+                $('.user').css('display', 'block');
             }
         }
         
@@ -515,7 +526,7 @@
                 $('#nav_colomn').css('transition', 'width 0s');
 
                 if(nav_small){
-                    $('#btn_signIn').css('display', 'block');
+                    $('.user').css('display', 'block');
                 }
                 $('.container_x, .selection_player').css('margin-top', '50px');
                 $('#intro, #final').css('margin-left', '0px');

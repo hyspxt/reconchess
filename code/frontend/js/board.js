@@ -451,6 +451,11 @@ export function flipSide(c) {
 
 /*-----------Initialization--------------*/
 
+export function set_names(enemy_name) {
+    $('#enemy_name').text(enemy_name);
+    console.log("the enemy name is " + enemy_name);
+    }
+
 board = Chessboard('myBoard', config)
 $(window).on('resize', board.resize);
 

@@ -1,5 +1,5 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, makeOpponentMove, flipSide, updateBoard, set_names, lightsOff} from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, makeOpponentMove, flipSide, updateBoard, set_names, lightsOff, resetFog} from '../js/board.js';
 
 
 export let valid_moves = []
@@ -39,6 +39,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 					showSideToMove('w');
 					start_timer(data.time, opponent_timer)
 				}
+				resetFog();
 				lightsOff();
 				break;
 			case 'opponent move':

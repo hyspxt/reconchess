@@ -417,17 +417,7 @@ export function resign(rematch = false) {
     if (socket.readyState == WebSocket.OPEN)
         socket.send(JSON.stringify({ action: 'resign', rematch: rematch }));
 
-    //reset fog
-    if (color == 'w') var squares = ['a1', 'a2', 'b1', 'b2', 'c1se', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
-    else var squares = ['a7', 'a8', 'b7', 'b8', 'c7', 'c8', 'd7', 'd8', 'e7', 'e8', 'f7', 'f8', 'g7', 'g8', 'h7', 'h8'];
-    $('#myBoard .square-55d63').css('opacity', 0.4)
-    $('#myBoard .square-55d63').css('filter', 'grayscale(50%) blur(2px) brightness(0.8)')
-
-    squares.forEach(function (square) {
-        var squareTarget = $('#myBoard .square-' + square);
-        squareTarget.css('opacity', 1);
-        squareTarget.css('filter', 'none');
-    });
+    
     lightsOff()
 }
 
@@ -485,3 +475,17 @@ $("#promote-to").selectable({
         });
     }
 });
+
+export function resetFog(){
+    //reset fog
+    if (color == 'w') var squares = ['a1', 'a2', 'b1', 'b2', 'c1se', 'c2', 'd1', 'd2', 'e1', 'e2', 'f1', 'f2', 'g1', 'g2', 'h1', 'h2'];
+    else var squares = ['a7', 'a8', 'b7', 'b8', 'c7', 'c8', 'd7', 'd8', 'e7', 'e8', 'f7', 'f8', 'g7', 'g8', 'h7', 'h8'];
+    $('#myBoard .square-55d63').css('opacity', 0.4)
+    $('#myBoard .square-55d63').css('filter', 'grayscale(50%) blur(2px) brightness(0.8)')
+
+    squares.forEach(function (square) {
+        var squareTarget = $('#myBoard .square-' + square);
+        squareTarget.css('opacity', 1);
+        squareTarget.css('filter', 'none');
+    });
+}

@@ -29,7 +29,7 @@ export function startConnection(url, timer, bot, color) {
     console.log(url, timer, bot, color)
 
     //avoid trying to send the message while the page is loading
-    setTimeout(() => { socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color })) }, 1000);
+    setTimeout(() => { socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color })) }, 500);
 
 }
 

@@ -1,5 +1,5 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, makeOpponentMove, flipSide, updateBoard, set_names, light} from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, makeOpponentMove, flipSide, updateBoard, set_names} from '../js/board.js';
 
 
 export let valid_moves = []
@@ -66,7 +66,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				valid_moves = data.move_actions;
 				console.log('your valid moves' + valid_moves)
 				console.log('your turn to move')
-				light = true;
+
 				break;
 			case 'invalid move':
 
@@ -102,7 +102,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				set_timer(Math.floor(data.opponent_time), opponent_timer);
 
 				start_timer(data.opponent_time, opponent_timer)
-				light = true;
+
 				
 				break;
 			case 'game over':
@@ -116,7 +116,6 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 
 				//tell the frontend library to stop the game
 				game.is_over = true;
-				light = true;
 				break;
 			case 'rematch':
 				console.log('REMATCH REQUESTED')

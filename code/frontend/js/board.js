@@ -8,7 +8,7 @@ export let socket = null;
 var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
 var promotion_dialog = $('#promotion-dialog')
 var promoting = false
-export var light = false
+var light = false
 var letters, part2 = null
 var comments = ""
 var pass = false
@@ -97,10 +97,11 @@ export function showSideToMove(game_turn) {
     if (pass == false) {
         if (game_turn === player_color) {
             comments = "It's your turn to move ♟️ \n" + comments;
-            
+            light = false;
 
         } else {
             comments = "opponent's turn . . . 🎭 \n" + comments;
+            light = true;
         }
         showToast(comments, '');
     }
@@ -132,7 +133,8 @@ export function showGameOver(reason, winner) {
     comments = ''
     let result = winner ? 'White won, ' : (winner !== 'None' ? 'black won, ' : 'Draw')
     comments = result + reason + "🏆 \n" + comments;
-    showToast(comments, '')
+    showToast(comments, '');
+    light = true;
 }
 
 export function onDragStart(source, piece) {

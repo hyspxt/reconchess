@@ -1,5 +1,5 @@
 import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, lightsOff, makeOpponentMove, flipSide, updateBoard} from '../js/board.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, lightsOff, makeOpponentMove, flipSide, updateBoard, set_names} from '../js/board.js';
 
 var light = false
 export let valid_moves = []
@@ -31,7 +31,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				player_color = data.color;
 				enemy_name = data.opponent_name;
 
-				set_name(enemy_name);
+				set_names(enemy_name);
 				
 				console.log(player_color)
 				flipSide(player_color);

@@ -59,9 +59,10 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				showSense()
 				console.log(data.color);
 				lightsOn(data.color);
+				showSideToMove(data.color);
 				break;
 			case 'your turn to move':
-				showSideToMove(data.color);
+				
 
 				valid_moves = data.move_actions;
 				console.log('your valid moves' + valid_moves)

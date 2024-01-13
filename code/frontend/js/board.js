@@ -202,20 +202,20 @@ export function onDrop(source, target) {
         return 'snapback';
     }
 
-    var source_rank = source.substring(2, 1);
-    var target_rank = target.substring(2, 1);
-    var source_column = source.substring(0, 1);
-    var target_column = target.substring(0, 1);
+    let source_rank = source.substring(2, 1);
+    let target_rank = target.substring(2, 1);
+    let source_column = source.substring(0, 1);
+    let target_column = target.substring(0, 1);
     console.log('source column: ' + source_column);
     console.log('target column: ' + target_column);
-    var piece = game.get(source).type;
-    var target_type = game.get(target);
+    let piece = game.get(source).type;
+    let target_type = game.get(target);
     console.log(target_type);
 
     //change the opacity of the squares
     if ((piece.search(/^w/) && color == 'w') || (piece.search(/^b/) && color == 'b')) {
-        var squareSource = $('#myBoard .square-' + source);
-        var squareTarget = $('#myBoard .square-' + target);
+        let squareSource = $('#myBoard .square-' + source);
+        let squareTarget = $('#myBoard .square-' + target);
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
         squareSource.css('opacity', 0.4);
@@ -323,10 +323,10 @@ export function lightsOn(gg) {
         window.addEventListener("click", function (event) {
             if ((event.target.classList.contains("square-55d63")) && (light == false)) {
                 var position = event.target.getAttribute("data-square");
-                var part1 = position.substring(0, 1);
-                var part1Ascii = part1.charCodeAt(0);
-                var prec
-                var suc = String.fromCharCode(part1Ascii + 1);
+                let part1 = position.substring(0, 1);
+                let part1Ascii = part1.charCodeAt(0);
+                let prec
+                let suc = String.fromCharCode(part1Ascii + 1);
 
                 if (part1 != 'a') prec = String.fromCharCode(part1Ascii - 1);
                 else prec = null;
@@ -334,10 +334,10 @@ export function lightsOn(gg) {
                 letters = [prec, part1, suc];
                 part2 = position.substring(position.length - 1);
                 //turn on light
-                var i = 0;
+                let i = 0;
                 part2--;
                 while (i < 3) {
-                    var j = 0;
+                    let j = 0;
                     while (j < 3) {
                         var square = $('#myBoard .square-' + letters[j] + part2);
                         square.css('opacity', 1);
@@ -360,10 +360,10 @@ export function lightsOn(gg) {
 }
 
 export function lightsOff() {
-    var i = 0;
-    var letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
+    let i = 0;
+    let letters = ["a", "b", "c", "d", "e", "f", "g", "h"]
     while (i < 8) {
-        var y = 0;
+        let y = 0;
         while (y < 8) {
             var square = $('#myBoard .square-' + letters[y] + (i + 1));
             square.css({

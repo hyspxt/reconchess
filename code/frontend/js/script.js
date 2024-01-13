@@ -62,6 +62,11 @@ window.handleGoogleLogin = function(response) {
         }
 
         form.after(alert);
+        
+        //reroute the user to the board page
+        if (response.ok) {
+            window.location.href = "/board.html";
+        }
     })
     .catch(error => {
         console.log('There was a problem with the AJAX request.', error);

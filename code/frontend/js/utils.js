@@ -37,6 +37,11 @@ export function handleRegistration(event) {
 			nextElement.remove();
 		}
 		event.target.after(alert);
+
+		//reroute the user to the board page
+		if (response.ok) {
+			window.location.href = "/board.html";
+		}
 	})
 		.catch(error => {
 			console.error(error);
@@ -72,5 +77,10 @@ export function handleLogin(event) {
 			nextElement.remove();
 		}
 		event.target.after(alert);
+
+		//reroute the user to the board page
+		if (response.ok) {
+			window.location.href = "/board.html";
+		}
 	})
 }

@@ -1,5 +1,5 @@
-import { updateTimer, stop_timer, start_timer, set_timer } from '../js/timer.js';
-import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, makeOpponentMove, flipSide, updateBoard, set_names, lightsOff, resetFog} from '../js/board.js';
+import { stop_timer, start_timer, set_timer } from '../js/timer.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, makeOpponentMove, flipSide, updateBoard, set_names, resetFog} from '../js/board.js';
 
 
 export let valid_moves = []
@@ -82,7 +82,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				if (data.captured_opponent_piece) haveEaten('b')
 				game.load(data.board);
 				updateBoard(Chessboard, false);
-				// board.position(game.fen(), false);
+				
 				showSideToMove(data.color);
 				break;
 			case 'time left':

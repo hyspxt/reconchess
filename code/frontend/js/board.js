@@ -178,7 +178,7 @@ export function passTurn() {
     tokens[1] = game.turn() == game.WHITE ? game.BLACK : game.WHITE
     tokens[3] = '-' // reset the en passant square 
     game.load(tokens.join(' '))
-    //TODO: change this to check for the player's turn not just white
+  
     if (game.turn() === game.BLACK) {
         socket.send(JSON.stringify({ action: 'pass' }));
         console.log('you passed');

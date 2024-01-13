@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    var element = document.getElementById("not_signed_ini6gdrs9oeic0");
+    let element = document.getElementById("not_signed_ini6gdrs9oeic0");
     if(element) {
         element.innerHTML = "Sign in with Google";
     }
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 window.handleGoogleLogin = function(response) {
     console.log('Google login response', response);
-    var id_token = response.credential;
+    let id_token = response.credential;
 
     // Send the id_token to Django server
     fetch('/api/googleID/', {

@@ -15,7 +15,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 	}
 	
 	socket.onmessage = function (event) {
-		var data = JSON.parse(event.data)
+		let data = JSON.parse(event.data)
 
 		console.log(data)
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js
@@ -126,6 +126,7 @@ export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 				break;
 			case 'rematch declined':
 				alert('Rematch declined');
+				break;
 			default:
 				break;
 		}

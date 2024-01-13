@@ -4,6 +4,8 @@ from api.consumers import GameConsumer
 from server.asgi import application
 import chess
 
+game_over = 'game over'
+
 class TestSingleplayer(TestCase):
 	async def connect(self):
 		communicator = WebsocketCommunicator(GameConsumer.as_asgi(), "/ws/game")
@@ -111,7 +113,7 @@ class TestSingleplayer(TestCase):
 
 		await communicator.send_json_to(({'action': 'resign'}))
 		self.assertDictContainsSubset({
-			'message': 'game over',
+			'message': game_over,
 			'winner': False,
 			'reason': 'white resigned'
 		}, await communicator.receive_json_from(), )
@@ -129,7 +131,7 @@ class TestSingleplayer(TestCase):
 
 		await communicator.send_json_to(({'action': 'resign', 'rematch': True}))
 		self.assertDictContainsSubset({
-			'message': 'game over',
+			'message': game_over,
 			'winner': False,
 			'reason': 'white resigned'
 		}, await communicator.receive_json_from(), )
@@ -151,7 +153,7 @@ class TestSingleplayer(TestCase):
 		await communicator.receive_json_from()
 	
 		self.assertDictContainsSubset({
-			'message': 'game over',
+			'message': game_over,
 			'winner': False,
 			'reason': 'timeout'
 		}, await communicator.receive_json_from(timeout=1.5))

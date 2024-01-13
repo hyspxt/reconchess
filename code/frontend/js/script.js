@@ -57,7 +57,7 @@ window.handleGoogleLogin = function(response) {
         const form = document.getElementById('log');
         const nextElement = form.nextElementSibling;
 
-        if (nextElement && nextElement.classList.contains("alert")) {
+        if (nextElement?.classList.contains("alert")) {
             nextElement.remove();
         }
 
@@ -109,7 +109,7 @@ export function fetchPlayerUsername(playerMail){
         })
         .then(data => {
             console.log(`Username per ${playerMail}:`, data);
-            username=data
+            let username=data
             console.log('username:', username)
         })
         .catch(error => {

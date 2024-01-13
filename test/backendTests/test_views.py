@@ -8,7 +8,8 @@ from api.models import Matches
 from django.contrib.sessions.middleware import SessionMiddleware
 import json
 
-
+test_email = 'testuser@example.com'
+application_json = 'application/json'
 
 class RegisterViewTest(TestCase):
     def setUp(self):
@@ -59,7 +60,7 @@ class RegisterViewTest(TestCase):
 class UserLoginTestCase(TestCase):
     def setUp(self):
 
-        self.user_email = 'testuser@example.com'
+        self.user_email = test_email
         # Create a test user
         self.user = User.objects.create_user(
             username='testuser',
@@ -124,7 +125,7 @@ class GoogleLoginTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.client_id = '613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com'
-        self.user_email = 'testuser@example.com'
+        self.user_email = test_email
         self.username = 'testuser'  # Assume generate_username works correctly
         self.id_token_string = 'mock_id_token'
         self.middleware = SessionMiddleware(lambda request: None)
@@ -139,14 +140,14 @@ class GoogleLoginTest(TestCase):
     @patch('api.views.id_token.verify_oauth2_token')
     def test_google_oauth2_service(self, mock_verify):
         mock_verify.return_value = {'email': self.user_email}
-        request = self.factory.post(self.login_url, json.dumps({'id_token': self.id_token_string}), content_type='application/json')
+        request = self.factory.post(self.login_url, json.dumps({'id_token': self.id_token_string}), content_type=application_json)
         self.add_session(request)
         response = google_id(request)
         self.assertEqual(response.status_code, 200)
         mock_verify.assert_called_once_with(self.id_token_string, ANY, self.client_id)
 
     def test_user_creation(self):
-        request = self.factory.post(self.login_url, json.dumps({'id_token': self.id_token_string}), content_type='application/json')
+        request = self.factory.post(self.login_url, json.dumps({'id_token': self.id_token_string}), content_type=application_json)
         self.add_session(request)
         with patch(self.token, return_value={'email': self.user_email}):
             response = google_id(request)
@@ -156,7 +157,7 @@ class GoogleLoginTest(TestCase):
 
     def test_existing_user_login(self):
         User.objects.create(email=self.user_email, username=self.username)
-        request = self.factory.post(self.login_url, json.dumps({'id_token': self.id_token_string}), content_type='application/json')
+        request = self.factory.post(self.login_url, json.dumps({'id_token': self.id_token_string}), content_type=application_json)
         self.add_session(request)
         with patch(self.token, return_value={'email': self.user_email}):
             response = google_id(request)
@@ -164,7 +165,7 @@ class GoogleLoginTest(TestCase):
             self.assertEqual(User.objects.count(), 1)  # No new user should be created
 
     def test_invalid_token(self):
-        request = self.factory.post(self.login_url, json.dumps({'id_token': 'invalid_token'}), content_type='application/json')
+        request = self.factory.post(self.login_url, json.dumps({'id_token': 'invalid_token'}), content_type=application_json)
         self.add_session(request)
         with patch(self.token, side_effect=ValueError('Invalid Token')):
             response = google_id(request)
@@ -174,7 +175,7 @@ class GoogleLoginTest(TestCase):
 class DBViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user_email = 'testuser@example.com'
+        self.user_email = test_email
 
         # Create a test user
         User.objects.create_user(

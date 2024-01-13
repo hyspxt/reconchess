@@ -123,7 +123,7 @@ def social_log(mail):
         # Trova l'istanza di Users associata a questo utente
         users_instance = Users.objects.get(user__username=user)
         return True
-    except Users.DoesNotExist or Users.DoesNotExist:
+    except Users.DoesNotExist:
         # L'utente o l'istanza di Users non esiste
         return False
     

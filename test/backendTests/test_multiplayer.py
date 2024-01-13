@@ -1,15 +1,23 @@
-from django.test import TestCase
+from django.test import TransactionTestCase
 from channels.testing import WebsocketCommunicator
-from channels.routing import URLRouter
+from channels.routing import URLRouter, ProtocolTypeRouter
+from channels.auth import AuthMiddlewareStack
 from api.routing import websocket_urlpatterns
 import chess
 
 # create a new application for testing
-test_application = URLRouter(websocket_urlpatterns)
+test_application = ProtocolTypeRouter({
+    'websocket': AuthMiddlewareStack(
+        URLRouter(
+            websocket_urlpatterns
+        )
+    ),
+})
 
-class TestMultiplayer(TestCase):
+class TestMultiplayer(TransactionTestCase):
 	async def connect(self, room_name):
 		communicator = WebsocketCommunicator(test_application, f"/ws/multiplayer/{room_name}")
+
 		connected, _ = await communicator.connect()
 		self.assertTrue(connected)
 		return communicator
@@ -24,6 +32,7 @@ class TestMultiplayer(TestCase):
 		return response
 	
 	async def get_colors(self, communicator1, communicator2):
+		
 		response = await communicator1.receive_json_from()
 		whitePlayer = communicator1 if response['color'] == 'w' else communicator2
 		blackPlayer = communicator2 if response['color'] == 'w' else communicator1
@@ -53,6 +62,7 @@ class TestMultiplayer(TestCase):
 			'board': chess.STARTING_FEN,
 			'time': 900
 		}, response)
+
 		#set the expected color communicator1 depending on the color of communicator2
 		color1 = 'w' if response['color'] == 'b' else 'b'
 		
@@ -73,13 +83,15 @@ class TestMultiplayer(TestCase):
 			'message': 'game over',
 			'reason': ('white ' if color1 == 'w' else 'black ') + 'resigned'
 		}, await communicator2.receive_json_from())
-		await communicator2.disconnect()
+		await communicator2.disconnect() 
+		
 
 	async def test_turn(self):
 		communicator1 = await self.connect('turn')
+		await self.start_game(communicator1)
 		communicator2 = await self.connect('turn')
-
 		await self.start_game(communicator2)
+
 		whitePlayer, blackPlayer = await self.get_colors(communicator1, communicator2)
 
 		board = chess.Board()
@@ -129,14 +141,15 @@ class TestMultiplayer(TestCase):
 
 		await communicator1.disconnect()
 		await communicator2.disconnect()
-	
+
 	async def test_pass(self):
 		communicator1 = await self.connect('pass')
+		await self.start_game(communicator1)
+
 		communicator2 = await self.connect('pass')
-
 		await self.start_game(communicator2)
-		whitePlayer, blackPlayer = await self.get_colors(communicator1, communicator2)
 
+		whitePlayer, blackPlayer = await self.get_colors(communicator1, communicator2)
 		board = chess.Board()
 		for player in [whitePlayer, blackPlayer]:
 			if player == blackPlayer: await self.begin_black_turn(blackPlayer, board)
@@ -160,14 +173,15 @@ class TestMultiplayer(TestCase):
 
 		await communicator1.disconnect()
 		await communicator2.disconnect()
-
+		
 	async def test_resign(self):
 		communicator1 = await self.connect('resign')
+		await self.start_game(communicator1)
+
 		communicator2 = await self.connect('resign')
-
 		await self.start_game(communicator2)
-		whitePlayer, _ = await self.get_colors(communicator1, communicator2)
 
+		whitePlayer, _ = await self.get_colors(communicator1, communicator2)
 		await whitePlayer.receive_json_from()
 		await whitePlayer.send_json_to({
 			'action': 'resign'
@@ -188,8 +202,9 @@ class TestMultiplayer(TestCase):
 
 	async def test_rematch(self):
 		communicator1 = await self.connect('rematch')
+		await self.start_game(communicator1)
+
 		communicator2 = await self.connect('rematch')
-		
 		await self.start_game(communicator2)
 		white, _ = await self.get_colors(communicator1, communicator2)
 		#receive the sense message for white
@@ -229,19 +244,19 @@ class TestMultiplayer(TestCase):
 
 	async def test_timeout(self):
 		communicator1 = await self.connect('timeout')
-		communicator2 = await self.connect('timeout')
-
-		await communicator2.send_json_to({
+		await communicator1.send_json_to({
 			'action': 'start_game',
 			'seconds': 1
 		})
+		await communicator1.receive_json_from()
 
+		communicator2 = await self.connect('timeout')
+		await communicator2.send_json_to({'action': 'start_game'})
 		await communicator2.receive_json_from()
 
 		white, _ = await self.get_colors(communicator1, communicator2)
 		#receive the sense message for white
 		await white.receive_json_from()
-
 		self.assertDictContainsSubset({
 			'message': 'game over',
 			'reason': 'timeout'
@@ -254,5 +269,3 @@ class TestMultiplayer(TestCase):
 
 		await communicator1.disconnect()
 		await communicator2.disconnect()
-
-

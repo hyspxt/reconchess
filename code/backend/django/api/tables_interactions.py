@@ -75,9 +75,8 @@ async def update_loc_stats(player_name, win, draw):
 
 #da chiamare alla fine di una partita contro un altro giocatore
 #se vogliamo tenere traccia di chi vince contro chi
-async def save_match_results(roomName, winner, loser, dr):
+async def save_match_results(match, winner, loser, dr):
     # Ora inseriamo i dati nella tabella Matches
-    match = await sync_to_async(Matches.objects.get)(room_name=roomName, finished=False)
     match.finished = True
     match.draw = dr
     if dr:

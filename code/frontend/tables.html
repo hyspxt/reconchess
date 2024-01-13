@@ -452,7 +452,8 @@
         });
       }
     }
-    window.addEventListener('resize', () => resize_nav());
+    window.addEventListener('load', () => resize_nav()); // This thing might break something, so remove it if it does
+    // window.addEventListener('resize', () => resize_nav());
     document.getElementById("collapse").addEventListener("click", () => smalernav());
 
   </script>

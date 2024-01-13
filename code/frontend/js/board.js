@@ -5,15 +5,17 @@ export var board = null
 export let game = new Chess()
 var fen, promote_to
 export let socket = null;
-var piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
-var promotion_dialog = $('#promotion-dialog')
-var promoting = false
-var light = false
-var letters, part2 = null
-var comments = ""
-var pass = false
-var color
-var is_moving;
+
+// If something breaks, change these with var
+let piece_theme = 'img/chesspieces/wikipedia/{piece}.png'
+let promotion_dialog = $('#promotion-dialog')
+let promoting = false
+let light = false
+let letters, part2 = null
+let comments = ""
+let pass = false
+let color
+let is_moving;
 
 export function startConnection(url, timer, bot, color) {
     socket = createWebsocket(game, url, document.getElementById("player_timer"), document.getElementById("opponent_timer"));
@@ -49,8 +51,9 @@ var config = {
 
 
 export function showToast(message, type) {
-    var toastId = new Date().getTime();
-    var toastHTML = `
+    // Here again, change with var if something breaks
+    let toastId = new Date().getTime();
+    let toastHTML = `
 <div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="500000">
 <div class="toast-header">
     <strong class="mr-auto">${type}</strong>
@@ -70,7 +73,7 @@ export function showToast(message, type) {
     // Mostra il messaggio toast
     $('#' + toastId).toast('show');
 
-    var toastContainer = document.getElementById('toast-scroll');
+    let toastContainer = document.getElementById('toast-scroll');
     toastContainer.scrollTop = toastContainer.scrollHeight;
 
     // Rimuovi il messaggio toast dopo che è stato nascosto

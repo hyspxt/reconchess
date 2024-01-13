@@ -149,7 +149,6 @@
 
                 </script>
 
-                <!-- <div class="botton_12"> -->
                 <a id="bot_1" class="bot_x" href="#" onclick="bot_selection(1)" data-toggle="tooltip"
                     data-placement="bottom"
                     title="I'm just a simple random bot and I do random moves! You're scared huh?"
@@ -160,16 +159,12 @@
                     data-placement="bottom" title="I can't see the board well, but don't underestimate me!"
                     value="trout">TROUT</a>
 
-                <!--  </div> -->
-                <!--  <div class="botton_34"> -->
                 <a id="bot_3" class="bot_x" href="#" onclick="bot_selection(3)" data-toggle="tooltip"
                     data-placement="bottom" title="I'M GONNA DESTROY YOU IN 3 MOVES!" value="attacker">ATTACKER</a>
 
                 <a id="bot_4" class="bot_x" href="#" onclick="bot_selection(4)" data-toggle="tooltip"
                     data-placement="bottom" title="Let's play a fair game! Don't cry if you lose!"
                     value="strangefish">STRANGEFISH</a>
-
-                <!--  </div> -->
 
             </div>
         </div>
@@ -267,7 +262,6 @@
             <div class="container_f">
 
                 <script>
-                    // TODO URL need to be adjusted  on server true purpose (board.html with filled room code form).
                     let nav_small = false;
                     function share(platform) {
                         var roomName = document.getElementById("room-code-label").getAttribute("data-room-name");
@@ -496,7 +490,7 @@
     
     <script type="module">
         import { startConnection, socket } from './js/board.js';
-        import { createWebsocket } from './js/websocket.js';
+        // createWebSocket import
         import { generaStringaCasuale } from './js/utils.js';
         import { checkLogin} from './js/script.js';
 

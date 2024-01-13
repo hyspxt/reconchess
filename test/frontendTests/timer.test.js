@@ -1,4 +1,4 @@
-import { updateTimer, stop_timer, start_timer, set_timer } from '../../code/frontend/js/timer';
+import { updateTimer, start_timer, set_timer } from '../../code/frontend/js/timer';
 import { JSDOM } from 'jsdom';
 const dom = new JSDOM('<!DOCTYPE html><html><body><div id="timer"></div></body></html>');
 

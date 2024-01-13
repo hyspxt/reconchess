@@ -6,6 +6,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - SECRET_KEY=django-insecure-!qog!vd-xf)9v_2zmg#vks=sr(9z)i%w(v!z3mfpp97tk(s1n0
       - DB_USER=myuser
       - DB_PASSWORD=123
       - DB_NAME=mydb

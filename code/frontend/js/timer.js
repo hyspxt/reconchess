@@ -34,7 +34,7 @@ export function updateTimer(time, element) {
 		seconds = Math.ceil(time % 60);
 		if (minutes === 0 && seconds === 0) {
 			element.innerText = `00:00`;
-			stop_timer(element);
+			stop_timer();  // if something breaks, switch this with stop_timer(element);
 			return;
 		}
 		else if (seconds === 0 && minutes > 0) {

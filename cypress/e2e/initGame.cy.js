@@ -30,7 +30,7 @@ describe('Game initialization', () => {
     cy.get('[data-square="d5"]').click();
     cy.get('[data-square="c2"]').trigger('mousedown', { which: 1 });
     cy.get('[data-square="c4"]').trigger('mousemove');
-    cy.get('[data-square="c4"]').trigger('mouseup'), {force: true};
+    cy.get('[data-square="c4"]').trigger('mouseup', { force: true });
   })
 
   it('Play as black', () => {

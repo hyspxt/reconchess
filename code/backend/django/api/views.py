@@ -12,6 +12,7 @@ from django.utils import timezone
 import json
 
 SESSION_KEY = 'user_id'
+type_text = 'text/plain'
 
 @csrf_exempt
 def register(request):
@@ -20,17 +21,17 @@ def register(request):
 			form = RegisterForm(request.POST)
 			if(form.is_valid()):
 				form.save()
-				return HttpResponse('User created successfully!', content_type='text/plain')
+				return HttpResponse('User created successfully!', content_type=type_text)
 			#send error message
-			return HttpResponseBadRequest(content=form.errors.as_text(), content_type='text/plain')
+			return HttpResponseBadRequest(content=form.errors.as_text(), content_type=type_text)
 		except Exception as e:
 			print(str(e))
-			return HttpResponseBadRequest(content="something went wrong, please try again", content_type='text/plain')
+			return HttpResponseBadRequest(content="something went wrong, please try again", content_type=type_text)
 	else:
-		return HttpResponseBadRequest(content='Invalid request method!', content_type='text/plain')
+		return HttpResponseBadRequest(content='Invalid request method!', content_type=type_text)
 
 @csrf_exempt
-def userLogin(request):
+def user_login(request):
 	if( request.method == 'POST' ):
 		try:
 			email = request.POST['email']
@@ -40,24 +41,24 @@ def userLogin(request):
 			user = authenticate(request, username=user.username, password=password)
 			if user is not None:
 				login(request, user)
-				return HttpResponse('User logged in successfully!', content_type='text/plain')
+				return HttpResponse('User logged in successfully!', content_type=type_text)
 			else:
-				return HttpResponseBadRequest(content='Invalid email or password!', content_type='text/plain')
+				return HttpResponseBadRequest(content='Invalid email or password!', content_type=type_text)
 		except Exception as e:
 			print(str(e))
-			return HttpResponseBadRequest(content="something went wrong, please try again", content_type='text/plain')
+			return HttpResponseBadRequest(content="something went wrong, please try again", content_type=type_text)
 	else:
-		return HttpResponseBadRequest(content='Invalid request method!', content_type='text/plain')
+		return HttpResponseBadRequest(content='Invalid request method!', content_type=type_text)
 
 @csrf_exempt
-def userLogout(request):
+def user_logout(request):
 	logout(request)
 	if  SESSION_KEY in request.session:
 		del request.session[SESSION_KEY]
-	return HttpResponse('User logged out successfully!', content_type='text/plain')
+	return HttpResponse('User logged out successfully!', content_type=type_text)
 
 #cheks if user a user is currently logged in returns the username if so
-def checkLogin(request):
+def check_login(request):
 	if request.user.is_authenticated:
 		return JsonResponse({'loggedIn': True, 'username': request.user.username, 'email': request.user.email})
 	elif SESSION_KEY in request.session:
@@ -68,7 +69,7 @@ def checkLogin(request):
     
 #verification of google id token
 @csrf_exempt
-def googleID(request):
+def google_id(request):
 	data = json.loads(request.body)
 	id_token_string = data.get('id_token')
 
@@ -104,20 +105,20 @@ def generate_username(email):
 		username = '{}{}'.format(username, count + 1)
 	return username
 
-def player_loc_stats(request, player_name):
+def player_loc_stats(_, player_name):
 	result = ti.get_player_loc_stats(player_name)
 	return JsonResponse(result)
 
-def player_username(request, mail):
+def player_username(_, mail):
 	result = ti.get_player_username(mail)
 	return JsonResponse({'username': result})
 
-def leaderboard(request):
+def leaderboard(_):
     leaderboard_data = ti.get_leaderboard()
     return JsonResponse({'leaderboard': leaderboard_data})
 
-def search_room(request, room_name):
+def search_room(_, room_name):
 	if ti.search_room(room_name):
-		return HttpResponse('Room found!', content_type='text/plain')
+		return HttpResponse('Room found!', content_type=type_text)
 	else:
-		return HttpResponseNotFound('Room not found!', content_type='text/plain')
+		return HttpResponseNotFound('Room not found!', content_type=type_text)

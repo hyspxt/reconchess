@@ -12,11 +12,11 @@ class Users(models.Model): # Django crea in automatico il campo id
     n_lost = models.IntegerField(default=0) 
 
 class Matches(models.Model):
-    room_name = models.CharField(max_length=50, null=True)
-    player1 = models.CharField(max_length=50, null=True)
-    player2 = models.CharField(max_length=50, null=True)
-    winner = models.CharField(max_length=50, null=True)
-    loser = models.CharField(max_length=50, null=True)
+    room_name = models.CharField(max_length=50, blank=True)
+    player1 = models.CharField(max_length=50, blank=True)
+    player2 = models.CharField(max_length=50, blank=True)
+    winner = models.CharField(max_length=50, blank=True)
+    loser = models.CharField(max_length=50, blank=True)
     draw = models.BooleanField(null=True)
     seconds = models.IntegerField(null=True)
     finished = models.BooleanField(default=False)

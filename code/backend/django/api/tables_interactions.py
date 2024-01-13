@@ -69,7 +69,7 @@ async def update_loc_stats(player_name, win, draw):
         u.n_wins += 1
     elif not win and not draw:
         u.n_lost += 1
-    else:  # draw=True
+    else:
         u.n_draws += 1
     await sync_to_async(u.save)()
 
@@ -120,7 +120,7 @@ def social_log(mail):
         # Cerca un utente nel modello User associato a Users
         user = Users.objects.get(user__email=mail)
         # Trova l'istanza di Users associata a questo utente
-        users_instance = Users.objects.get(user__username=user)
+        Users.objects.get(user__username=user)
         return True
     except Users.DoesNotExist:
         # L'utente o l'istanza di Users non esiste
@@ -129,7 +129,7 @@ def social_log(mail):
 def search_room(room_name):
     try:
         # Cerca un match con il nome della stanza
-        match = Matches.objects.get(room_name=f"game_{room_name}", finished=False)
+        Matches.objects.get(room_name=f"game_{room_name}", finished=False)
         return True
     except Matches.DoesNotExist:
         # L'utente o l'istanza di Users non esiste

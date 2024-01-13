@@ -41,7 +41,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 	async def handle_action(self, data):
 		action = data['action']
 		if action == 'start_game':
-			seconds = int(data.get('seconds', 900) or 900)
+			seconds = int(data.get('seconds', 900))
 			#get the correct chess.COLORS value based on the color string
 			color = chess.COLOR_NAMES.index(data.get('color', 'white')) 
 			bot = available_bots.get(data.get('bot', 'random'))

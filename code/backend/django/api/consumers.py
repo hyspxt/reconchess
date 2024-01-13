@@ -402,9 +402,16 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 
 
 	async def end_game(self):
-		#avoid trying to end and save the result of a game that's already over
-		
 		self.game.end()
+
+		try:
+			# Cerca un match con il nome della stanza
+			room_name = self.room_group_name
+			match = await sync_to_async(Matches.objects.get)(room_name=room_name, finished=False)
+		except Matches.DoesNotExist:
+			# il match non esiste o è già stato terminato
+			return
+		
 		winner_color = self.game.get_winner_color()
 		win_reason = self.game.get_win_reason()
 		game_history = self.game.get_game_history()
@@ -417,7 +424,7 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		#aggiorno dati vincitore e perdente nel db
 		winner = self.player_names[winner_color]
 		loser = self.player_names[not winner_color]
-		room_name = self.room_group_name
+		
 		draw = False
 		if winner_color == None and win_reason == None:
 			draw = True
@@ -429,7 +436,7 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			await update_loc_stats(loser, False, draw)
 			await update_elo(loser, winner, False, draw)
 		
-		await save_match_results(room_name, winner, loser, draw)
+		await save_match_results(match, winner, loser, draw)
 
 		#stop the game loop task if it exists
 		if self.game_task is not None:
@@ -449,7 +456,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 			match = await sync_to_async(Matches.objects.create)(room_name = self.room_group_name, player1=user, seconds=seconds)
 			await sync_to_async(match.save)()
 			
-			self.players[0] = self.channel_name
 			return
 		
 		match = await sync_to_async(Matches.objects.get)(room_name=self.room_group_name, finished=False)
@@ -469,7 +475,6 @@ class MultiplayerGameConsumer(AsyncWebsocketConsumer):
 		#dictionary using channel names as keys for player colors
 		self.player_colors = {}
 
-		
 		selected_color = None
 
 		for channel in self.channel_layer.groups[self.room_group_name]:

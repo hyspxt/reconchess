@@ -1,76 +1,727 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="icon" type="png" href="img/other/logo.png">
-        <Title>Silver Bullets</Title>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-            <a class="navbar-brand" href="board.html">
-                <img src="img/other/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> Silver Bullets
-            </a>
-            <div class="collapse navbar-collapse" id="navbarNav"></div>
-            <form class="form-inline">
-                <a class="nav-item nav-link" href="rules.html">Rules</a>
-                <a class="nav-item nav-link" href="registrationForm.html">Sign up</a>
-                <button type="submit" formaction="loginForm.html" class="btn btn-outline-success">Sign in</button>
-            </form>
-        </nav>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+        integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
+        integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"
+        integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"
+        integrity="sha384-UM1JrZIpBwVf5jj9dTKVvGiiZPZTLVoq4sfdvIe9SBumsvCuv6AHDNtEiIb5h1kU"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"
+        integrity="sha384-ovZOciNc/R4uUo2fCVS1oDT0vIBuaou1d39yqL4a9xFdZAYDswCgrJ6tF8ShkqzF"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="icon" type="png" href="img/other/logo.png">
+    <Title>Silver Bullets</Title>
+</head>
+
+<body>
+    <div class="modal" id="rematch-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Your opponent wants a rematch</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="accept-rematch" class="btn btn-secondary"
+                        data-dismiss="modal">Accept</button>
+                    <button type="button" id="decline-rematch" class="btn btn-danger"
+                        data-dismiss="modal">Decline</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <aside>
+        <div id="nav_colomn" class="full d-flex flex-column flex-shrink-0 p-3">
+            <div class="mb-3">
+                <a href="/" class="d-flex align-items-center title_nav" id="button_home">
+                    <img class="title_nav_pic" src="img/other/logo.png" alt="logo" width="50" height="50"
+                        class="d-inline-block align-top mr-2">
+                    <span id="btn_nav_home" class="h4 m-0 items-center btn_nav_home" style="color: #cacaca">Silver
+                        Bullets</span>
+                </a>
+                <hr id="linea" style="border-color: #cacaca; height: 2px;">
+            </div>
+
+            <ul id="nav_btn" class="nav nav-pills flex-column mb-auto">
+
+
+                <li class="nav-item">
+                    <a href="board.html" class="nav-link" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
+                            class="bi bi-play" viewBox="0 0 16 16">
+                            <path
+                                d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z" />
+                        </svg>
+                        <div id="btn_nav_play">
+                            Play
+                        </div>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="rules.html" class="nav-link" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-book" viewBox="0 0 16 16">
+                            <path
+                                d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+                        </svg>
+                        <div id="btn_nav_rule">
+                            Rules
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tables.html" id="a-leaderboard" class="nav-link" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-trophy" viewBox="0 0 16 16">
+                            <path
+                                d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935M3.504 1q.01.775.056 1.469c.13 2.028.457 3.546.87 4.667C5.294 9.48 6.484 10 7 10a.5.5 0 0 1 .5.5v2.61a1 1 0 0 1-.757.97l-1.426.356a.5.5 0 0 0-.179.085L4.5 15h7l-.638-.479a.5.5 0 0 0-.18-.085l-1.425-.356a1 1 0 0 1-.757-.97V10.5A.5.5 0 0 1 9 10c.516 0 1.706-.52 2.57-2.864.413-1.12.74-2.64.87-4.667q.045-.694.056-1.469z" />
+                        </svg>
+
+                        <div id="btn_nav_lead">
+                            Leaderboard
+                        </div>
+                    </a>
+                </li>
+
+                <!-- Separators -->
+                <li class="nav-item">
+                </li>
+                <li class="nav-item">
+                </li>
+                <!-- test -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link" aria-current="page" onclick="smallernav()">
+                        <svg id="left_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#D5DBBE"
+                            class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                        <svg id="right_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#D5DBBE"
+                            class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                        <div id="btn_nav_collapse">
+                            Collapse
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="user d-flex flex-column align-items-center"></div>
+        </div>
+    </aside>
+
+    <div id="intro">
+        <div class="selection_player" id="selection_player">
+            <div class="question">Select your opponent</div>
+
+            <fieldset class="bot_user">
+                <legend style="display: none;"></legend>
+                <a class="a_bot" href="#" onclick="botton_bot()">
+                    <img src="img/other/robot.png" alt="bot" width="100" height="100" class="d-inline-block align-top">
+                </a>
+
+                <a class="a_human" href="#" onclick="botton_human()">
+                    <img src="img/other/happy.png" alt="human" width="100" height="100"
+                        class="d-inline-block align-top">
+                </a>
+            </fieldset>
+        </div>
+
+        <div class="selection_bot" id="selection_bot">
+            <div class="question">Select the level of your bot opponent</div>
+
+            <div id="bot_choice" class="bot_choice">
+                <script>
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip();
+                    });
+
+                </script>
+
+                <a id="bot_1" class="bot_x" href="#" onclick="bot_selection(1)" data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="I'm just a simple random bot and I do random moves! You're scared huh?"
+                    value="random">RANDOM</a>
+
+
+                <a id="bot_2" class="bot_x" href="#" onclick="bot_selection(2)" data-toggle="tooltip"
+                    data-placement="bottom" title="I can't see the board well, but don't underestimate me!"
+                    value="trout">TROUT</a>
+
+                <a id="bot_3" class="bot_x" href="#" onclick="bot_selection(3)" data-toggle="tooltip"
+                    data-placement="bottom" title="I'M GONNA DESTROY YOU IN 3 MOVES!" value="attacker">ATTACKER</a>
+
+                <a id="bot_4" class="bot_x" href="#" onclick="bot_selection(4)" data-toggle="tooltip"
+                    data-placement="bottom" title="Let's play a fair game! Don't cry if you lose!"
+                    value="strangefish">STRANGEFISH</a>
+
+            </div>
+        </div>
+
+        <div id=selection_room class="selection_room">
+            <div class="question">Create a new room or insert a room-code</div>
+
+            <fieldset class="bot_user">
+                <legend style="display: none;"></legend>
+                <a class="a_newR" href="#" onclick="botton_newRoom()">
+                    <img src="img/other/icons8-più-480.png" alt="bot" width="90" height="90"
+                        class="d-inline-block align-top">
+                </a>
+
+                <a class="a_oldR" href="#" onclick="botton_oldRoom()">
+                    <img src="img/other/icons8-porta-80.png" alt="human" width="100" height="100"
+                        class="d-inline-block align-top">
+                </a>
+            </fieldset>
+            <div class="room_bar">
+                <input class="search_r" id="room-code" type="text" placeholder="Room-Code">
+            </div>
+        </div>
+
+        <div class="selection_time_color" id="selection_time_color">
+            <div class="question">Select the playing time and player's color</div>
+            <div class="selection_t_c">
+                <div class="dropdown-container">
+                    <select class="drop" id="frutta" name="frutta">
+                        <option class="drop_font" value="" disabled selected>Select timer</option>
+                        <option class="drop_font" value="900">15</option>
+                        <option class="drop_font" value="600">10</option>
+                        <option class="drop_font" value="300">5</option>
+                        <option class="drop_font" value="150 ">2.30</option>
+                    </select>
+                </div>
+                <div id="selection_color" class="selection_color">
+                    <a class="p_w" href="#" onclick="botton_white()">
+                        <img src="img/chesspieces/wikipedia/wP.png" alt="bot" width="100"
+                            class="d-inline-block align-top">
+                    </a>
+
+                    <a class="p_b" href="#" onclick="botton_black()">
+                        <img src="img/chesspieces/wikipedia/bP.png" alt="human" width="100"
+                            class="d-inline-block align-top">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="btn_start" class="btn_start">
+            <button id="button_start" class="botton_start" disabled>START</button>
+        </div>
+    </div>
+
+    <div id="final">
+
         <div id="promotion-dialog">
             <ol id="promote-to">
-                <li class="ui-state-default"><span class="piece-name">q</span><img class="promotion-piece-q promotion-piece" alt="queen"/></li>
-                <li class="ui-state-default"><span class="piece-name">r</span><img class="promotion-piece-r promotion-piece" alt="rook"/></li>
-                <li class="ui-state-default"><span class="piece-name">n</span><img class="promotion-piece-n promotion-piece" alt="knight"/></li>
-                <li class="ui-state-default"><span class="piece-name">b</span><img class="promotion-piece-b promotion-piece" alt="bishop"/></li>  
+                <li class="ui-state-default"><span class="piece-name">q</span><img
+                        class="promotion-piece-q promotion-piece" alt="queen" /></li>
+                <li class="ui-state-default"><span class="piece-name">r</span><img
+                        class="promotion-piece-r promotion-piece" alt="rook" /></li>
+                <li class="ui-state-default"><span class="piece-name">n</span><img
+                        class="promotion-piece-n promotion-piece" alt="knight" /></li>
+                <li class="ui-state-default"><span class="piece-name">b</span><img
+                        class="promotion-piece-b promotion-piece" alt="bishop" /></li>
             </ol>
-          </div>
-        <div class="container_x ma">
-            <div class="container_y" >
-                <div class="timer_div">
-                    <div class="timer_title">Timer :</div>
-                    <div class="timer">00:00</div>
-                </div>
-                <div class="btn_tbl">
-                    <div class="btn_qr">
-                        <button type="submit" class="btn_quit" onclick="resign()">QUIT</button>
-                        <button type="submit" class="btn_rematch" onclick="resign(true)">RE-MATCH</button>
-
-                    </div>
-                    <div class="btn_ur">
-                        <button type="submit" class="btn_undo" onclick="passTurn()">PASS</button>
-                </div>
-            </div>
-            </div>
-            <div id="myBoard" class="board"></div>
-            <div class="container_f">
-                <div class="scroll_History">
-                    <div class="heder_scroll">Umpire</div>
-                    <div id="History" class="text_scroll"></div>
-                </div>
-                <div class="timer_div">
-                    <div class="timer_title">Timer :</div>
-                    <div id="timer" class="timer">00:00</div>
-                </div>
-                
         </div>
-        <script src="js/timer.js"></script>
-        <script src="js/websocket.js"></script>
-        <script src="js/board.js"></script>
-    </body>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <div class="container_x ma">
+
+            <div class="container_y">
+                <div class="black_player">
+                    <div class="user_black_info">
+
+                        <div id="black_name" class="black_id">Player 2</div>
+                    </div>
+                    <div class="timer_div_b">
+                        <div class="timer_title">Timer :</div>
+                        <div class="timer" id="opponent_timer">00:00</div>
+                    </div>
+                </div>
+                <div id="myBoard" class="board"></div>
+                <div class="white_player">
+                    <div class="user_white_info">
+
+                        <div id="white_name" class="white_id"></div>
+                    </div>
+                    <div class="timer_div_w">
+                        <div class="timer_title">: Timer</div>
+                        <div class="timer" id="player_timer">00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container_f">
+
+                <script>
+                    let nav_small = false;
+                    function share(platform) {
+                        var roomName = document.getElementById("room-code-label").getAttribute("data-room-name");
+                        var shareURL = "";
+                        switch (platform) {
+                            case "twitter":
+                                shareURL = "https://twitter.com/intent/tweet?text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀&url=silverbullets.rocks";
+                                window.open(shareURL, '_blank');
+                                break;
+                            case "whatsapp":
+                                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                                if (isMobile) {
+                                    shareURL = "https://api.whatsapp.com/send?text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀&hashtags=ReconChess";
+                                    window.open(shareURL, '_blank');
+                                }
+                                else {
+                                    alert("WhatsApp sharing is available only on mobile devices.");
+                                }
+                                break;
+                            case "telegram":
+                                shareURL = "https://t.me/share/url?url=silverbullets.rocks&text=👋 Hey! Do you want to play ReconChess with me? 🔦♟️ This is my room code! -> " + roomName + " 🚀";
+                                window.open(shareURL, '_blank');
+                                break;
+                            default:
+                                console.error("Invalid platform");
+                                return;
+                        }
+                    }
+
+                </script>
+
+                <div class="share-container" id="share-container">
+                    <p id="room-code-label" class="room-code-label"></p> <!-- Room code Placeholder-->
+                    <div class="social-icons">
+                        <a href="#" onclick="share('twitter')" class="social-icon"><i
+                                class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" onclick="share('whatsapp')" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" onclick="share('telegram')" class="social-icon"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div id="toast-container" class="toast-container">
+                    <div id="header-toast" class="header-toast">Arbiter</div>
+                    <div id="toast-scroll" class="toast-scroll"></div>
+                </div>
+
+
+                <button type="submit" class="btn_rematch" id="btn_rematch">RE-MATCH</button>
+                <div class="btn_qp">
+                    <button type="submit" class="btn_quit" id="btn_quit">QUIT</button>
+                    <button type="submit" class="btn_undo" id="btn_undo">PASS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let botHuman = null;
+        let bot = null;
+        let room = null;
+        let piece = null;
+        let time = null;
+
+        function botton_bot() {
+            botHuman = true;
+            $('.a_bot').css('background-color', '#274C80')
+            $('.selection_bot').css('display', 'block')
+            $('.a_human').css('background-color', '#E7ECEF')
+            $('.selection_color').css('display', 'flex')
+            $('.selection_t_c').css('justify-content', 'space-around')
+            $('.selection_time_color').css('display', 'none')
+            $('.selection_room').css('display', 'none')
+            $('.room_bar').css('display', 'none')
+            $('.a_newR').css('background-color', '#E7ECEF')
+            $('.a_oldR').css('background-color', '#E7ECEF')
+            $('#selection_player').attr('value', 'bot')
+
+        }
+
+        function botton_human() {
+            //if the link has the class disabled it doesn't work and it shows an alert
+            if ($('.a_human').hasClass('disabled')) {
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'This option is not available yet, please log in to unlock this feature.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            else {
+                botHuman = true;
+                $('.a_human').css('background-color', '#274C80')
+                $('.a_bot').css('background-color', '#E7ECEF')
+                $('.selection_bot').css('display', 'none')
+                $('.selection_time_color').css('display', 'none')
+                $('.bot_x').css('background-color', '#E7ECEF')
+                $('.bot_x').css('color', '#274C77')
+                $('.selection_room').css('display', 'block')
+                $('#selection_player').attr('value', 'human')
+            }
+        }
+
+        function bot_selection(n) {
+            bot = true;
+            $('.bot_x').css('background-color', '#E7ECEF')
+            $('.bot_x').css('color', '#274C77')
+            switch (n) {
+                case 1:
+                    $('#bot_1').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    //add the selected value to the element's parent
+                    $('#bot_1').parent().attr('value', 'random')
+                    break;
+                case 2:
+                    $('#bot_2').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    //add the selected value to the element's parent
+                    $('#bot_2').parent().attr('value', 'trout')
+                    break;
+                case 3:
+                    $('#bot_3').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    //add the selected value to the element's parent
+                    $('#bot_3').parent().attr('value', 'attacker')
+                    break;
+                case 4:
+                    $('#bot_4').css({
+                        'background-color': '#274C80',
+                        'color': '#FFF'
+                    })
+                    //add the selected value to the element's parent
+                    $('#bot_4').parent().attr('value', 'strangefish')
+                    break;
+            }
+            $('.selection_time_color').css('display', 'block')
+        }
+
+        function botton_white() {
+            piece = true;
+            updateStartButton();
+            $('.p_w').css('background-color', '#274C80')
+            $('.p_b').css('background-color', '#E7ECEF')
+            $('.p_w').parent().attr('value', 'white')
+        }
+
+        function botton_black() {
+            piece = true;
+            updateStartButton();
+            $('.p_b').css('background-color', '#274C80')
+            $('.p_w').css('background-color', '#E7ECEF')
+            $('.p_b').parent().attr('value', 'black')
+        }
+
+        function botton_oldRoom() {
+            room = true;
+            updateStartButton();
+            $('.a_newR').css('background-color', '#E7ECEF')
+            $('.a_oldR').css('background-color', '#274C80')
+            $('.room_bar').css('display', 'block')
+            $('.selection_time_color').css('display', 'none')
+            $('#selection_room').attr('value', 'old')
+        }
+
+        function botton_newRoom() {
+            room = true;
+            updateStartButton();
+            $('.a_newR').css('background-color', '#274C80')
+            $('.a_oldR').css('background-color', '#E7ECEF')
+            $('.room_bar').css('display', 'none')
+            $('.selection_time_color').css('display', 'block')
+            $('.selection_color').css('display', 'none')
+            $('.selection_t_c').css('justify-content', 'start')
+            $('#selection_room').attr('value', 'new')
+
+        }
+
+        document.getElementById("frutta").addEventListener("change", function () {
+            time = true;
+            updateStartButton();
+        });
+
+        function updateStartButton() {
+            if ((botHuman && bot && piece && time) || (botHuman && room)) {
+                document.getElementById("button_start").removeAttribute('disabled');
+            } else {
+                document.getElementById("button_start").setAttribute('disabled', true);
+            }
+        }
+
+        function smallernav() {
+            if (!nav_small) {
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'none');
+                $(' .user').css('display', 'none')
+                $('#right_a').css('display', 'block');
+                $('#nav_colomn').css('width', '90px');
+                $('#nav_colomn').css('transition', 'width 0.5s');
+                $('#intro, #final').css('margin-left', '120px');
+                $('#intro, #final').css('transition', 'margin-left 0.5s');
+                $('.title_nav_pic').css('margin-right', '0');
+                $('.nav-link, .title_nav').css('justify-content', 'center');
+                nav_small = true;
+            } else {
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'block');
+                $('#right_a').css('display', 'none');
+                $('#nav_colomn').css('width', '250px');
+                $('#nav_colomn').css('transition', 'width 0.5s');
+                $('#intro, #final').css('margin-left', '280px');
+                $('.nav-link, .title_nav').css('justify-content', 'start');
+                setTimeout(sigIn_btn, 500);
+                nav_small = false;
+            }
+        }
+
+        function sigIn_btn() {
+            if (!nav_small) {
+                $('.user').css('display', 'block');
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { startConnection, socket } from './js/board.js';
+        // createWebSocket import
+        import { generaStringaCasuale } from './js/utils.js';
+        import { checkLogin } from './js/script.js';
+
+
+        const codeLength = 6;
+
+        function check_code(roomName) {
+            if (roomName.length !== codeLength) {
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'Please enter a valid room code.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
+
+            return fetch(`api/rooms/${roomName}`)
+                .then(response => {
+                    if (response.status === 404) {
+                        Swal.fire({
+                            title: 'Oops...',
+                            text: 'The room code you entered does not exist.',
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        });
+                        return false;
+                    }
+                    return true;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Oops...',
+                        text: 'Something went wrong. Please try again later',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                    return false;
+                });
+
+        }
+
+        function start() {
+            // Ottieni il tipo di avversario selezionato
+            let opponentType = document.getElementById("selection_player").getAttribute('value');
+            let roomSelection = document.getElementById("selection_room").getAttribute('value');
+            let roomName = roomSelection === 'old' ? document.getElementById("room-code").value : generaStringaCasuale(codeLength);
+
+            // controlla se il codice inserito è valido
+            if (roomSelection === 'old' && !check_code(roomName)) {
+                console.log("test", check_code(roomName))
+                return;
+            }
+
+            let ws_url = opponentType === 'bot' ? 'ws/game' : `ws/multiplayer/${roomName}`;
+
+            // Ottieni nuovamente i valori per garantire che siano aggiornati
+            let timer = document.getElementById("frutta").value;
+            let bot = document.getElementById("bot_choice").getAttribute('value');
+            let color = document.getElementById("selection_color").getAttribute('value');
+
+            // Effettua le operazioni necessarie per l'inizio del gioco
+            $('#intro').css('display', 'none');
+            $('#final').css('display', 'block');
+
+            console.log("This is the bot: " + bot);
+            if (bot === null) {
+                document.getElementById("room-code-label").innerHTML = `Room code: ${roomName}`;
+                document.getElementById("room-code-label").setAttribute("data-room-name", roomName);
+            }
+            else {
+                // No need to show room code and social icons if we're against a bot
+                var shareContainer = document.getElementById("share-container");
+                if (shareContainer) {
+                    shareContainer.style.display = "none";
+                }
+            }
+
+            startConnection(ws_url, timer, bot, color);
+
+            document.getElementById("black_name").innerHTML = bot;
+        }
+
+        // Aggiungi l'evento per il click sul pulsante START
+        document.getElementById("button_start").addEventListener("click", start);
+        $("#btn_start").click(function () {
+            var button = $("#button_start");
+            if (button.is(":disabled")) {
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'Please ensure all game settings are selected before starting the game.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+            }
+
+            //set the event listener for the start button and the rematch buttons
+            document.getElementById("accept-rematch").addEventListener("click", () => {
+                socket.send(JSON.stringify({ action: 'rematch', accept: true }));
+            });
+            document.getElementById("decline-rematch").addEventListener("click", () => {
+                socket.send(JSON.stringify({ action: 'rematch', accept: false }));
+            });
+
+        });
+
+        //check if there is a user logged in and change things accordingly
+        window.onload = function () {
+            checkLogin().then(data => {
+                const boardUserDiv = document.querySelector('.white_id');
+                const aHuman = document.querySelector('.a_human');
+                if (data.loggedIn) {
+                    boardUserDiv.innerHTML = `${data.username}`;
+                    aHuman.classList.remove('disabled');
+                }
+                else {
+                    boardUserDiv.innerHTML = `Player 1`;
+                    aHuman.classList.add('disabled');
+                }
+            });
+        }
+
+        resize_nav();
+        $(window).resize(function () {
+            resize_nav();
+        });
+
+        function resize_nav() {
+
+            console.log('resize called');
+            var width = $(window).width();
+            if (width < 1180) {
+                $('#nav_colomn').removeClass('flex-column');
+                $('#nav_btn').removeClass('flex-column');
+                $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
+                $('#nav_btn').removeClass('ml-auto flex-row');
+                $('aside').addClass('flex-row');
+                $('.title_nav_pic').css('margin-top', '16px');
+                $('#nav_btn').css('justify-content', 'center');
+                $('#nav_colomn').css('width', '100%');
+                $('#nav_colomn').css('height', '60px');
+                $('#nav_colomn').css('overflow', 'hidden');
+                $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
+                $('.user').removeClass('mt-auto');
+                $('#nav_colomn').css('justify-content', 'space-between');
+                $('#nav_colomn').css('align-items', 'center');
+                $('#nav_colomn').css('transition', 'width 0s');
+
+
+                if (nav_small) {
+                    $('.user').css('display', 'block');
+                }
+                $('.container_x, .selection_player').css('margin-top', '50px');
+                $('#intro, #final').css('margin-left', '0px');
+
+                checkLogin().then(data => {
+                    if (data.loggedIn) {
+                        $('#name_user').css('display', 'none');
+                    }
+                });
+            } else {
+
+                $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
+                $('#nav_btn').removeClass('fixed-top');
+                $('#nav_btn').removeClass('flex-row');
+                $('#nav_colomn').addClass('flex-column');
+                $('#nav_btn').addClass('flex-column');
+                $('aside').removeClass('flex-row');
+                $('.title_nav_pic').css('margin-top', '0');
+                $('#nav_btn').css('justify-content', 'start');
+                $('#nav_colomn').css('height', '100%');
+                $('#nav_colomn').css('overflow', 'auto');
+                $('#right_a').css('display', 'none');
+                $('.user').addClass('mt-auto');
+                $('#nav_colomn').css('justify-content', 'start');
+                $('#nav_colomn').css('align-content', 'start');
+                $('#nav_colomn').css('transition', 'width 0s');
+
+                if (nav_small) {
+                    $('#intro, #final').css('margin-left', '120px');
+                    $('#nav_colomn').css('width', '90px');
+                    $('#right_a, #linea').css('display', 'flex');
+                    $('.user').css('display', 'none');
+                } else {
+                    $('#intro, #final').css('margin-left', '280px');
+                    $('#nav_colomn').css('width', '250px');
+                    $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #linea').css('display', 'block');
+                }
+                $('.container_x, .selection_player').css('margin-top', '0');
+
+                checkLogin().then(data => {
+                    if (data.loggedIn) {
+                        $('#name_user').css('display', 'block');
+                    }
+                });
+            }
+        }
+        window.addEventListener('load', () => resize_nav()); // This thing might break something, so remove it if it does
+
+    </script>
+    <script type="module" src="js/timer.js"></script>
+    <script type="module" src="js/websocket.js"></script>
+    <script type="module" src="js/board.js"></script>
+    <script type="module" src="js/script.js"></script>
+
+    <script type="module">
+        import { resign, passTurn } from './js/board.js';
+        document.getElementById("btn_quit").addEventListener("click", () => resign());
+        document.getElementById("btn_rematch").addEventListener("click", () => resign(true));
+        document.getElementById("btn_undo").addEventListener("click", passTurn);
+    </script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"
+integrity="sha384-v5sCAl8qZOHabzoh1+noJcE2yaDE9V/9+mBHgmxFdpiY5chhD/Qf1rQ7igh8ew0q"
+crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
 </html>
-
-

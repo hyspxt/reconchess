@@ -1,74 +1,135 @@
-function createWebsocket() {
-	const socket = new WebSocket('wss://silverbullets.rocks/ws/game') //'silverbullets.rocks/ws/game'
+import { stop_timer, start_timer, set_timer } from '../js/timer.js';
+import { showSense, showSideToMove, showGameOver, illegalMove, haveEaten, lightsOn, board as Chessboard, makeOpponentMove, flipSide, updateBoard, set_names, resetFog} from '../js/board.js';
+
+
+export let valid_moves = []
+export let player_color = null
+export let enemy_name = null
+let currentTime;
+
+export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
+	const WEBSOCKET_URL = window.location.hostname === "localhost" ? `ws://localhost:8000/${ws_url}` : `wss://silverbullets.rocks/${ws_url}`;
+	const socket = new WebSocket(WEBSOCKET_URL);
 	socket.onopen = function () {
 		console.log('websocket is connected ...')
-		socket.send(JSON.stringify({ action: 'start_game' }))
 	}
-
+	
 	socket.onmessage = function (event) {
-		data = JSON.parse(event.data)
+		let data = JSON.parse(event.data)
+
 		console.log(data)
 		switch (data.message) { //metodi da lib front chess.js e chessboard.js
 			case 'game started':
 				console.log('start game')
 				game.is_over = false;
-				set_timer(data.time);
-				break;
-			case 'your turn to sense':
-				console.log('your turn to sense')
-				start_timer()
-				showSense()
-				lightsOn();
-				break;
-			case 'your turn to move':
-				showSideToMove();
-				console.log('your turn to move')
-				break;
-			case 'invalid move':
-				console.log('invalid move')
-				illegalMove()
-				undoMove();
+				console.log(player_timer)
+				game.load(data.board);
+				
+				set_timer(data.time, player_timer);
+				set_timer(data.time, opponent_timer);
+				
+				player_color = data.color;
+				enemy_name = data.opponent_name;
+
+				set_names(enemy_name);
+				
+				console.log(player_color)
+				flipSide(player_color);
+				if (player_color === 'b') {
+					showSideToMove('w');
+					start_timer(data.time, opponent_timer)
+				}
+				resetFog();
 				break;
 			case 'opponent move':
-				showSideToMove()
+				
+				stop_timer();
 				//use the information from the backend to update the board in the frontend
 				let board = data.board
 				makeOpponentMove(board)
-				if(data.capture_square != null){
+				if (data.capture_square != null) {
 					haveEaten('w')
-					lightsOff()
 				}
 				break;
+
+			case 'your turn to sense':
+				console.log('your turn to sense')
+				// data.time qui non é definito
+				console.log('this is current time: ' + currentTime)
+				start_timer(data.time, player_timer);
+				showSense()
+				console.log(data.color);
+				lightsOn(data.color);
+				
+				break;
+			case 'your turn to move':
+				showSideToMove(data.color);
+
+				valid_moves = data.move_actions;
+				console.log('your valid moves' + valid_moves)
+				console.log('your turn to move')
+
+				break;
+			case 'invalid move':
+
+				console.log('invalid move')
+				illegalMove()
+
+				break;
 			case 'move result':
-				console.log('move result')
-				if(data.captured_opponent_piece) haveEaten('b')
-				//TODO: the information that comes from is possibly useless since the board updates itself
-				//it could still be used to show captures in the frontend though
+				console.log('move result');
+				
+				if (data.captured_opponent_piece) haveEaten('b')
+				game.load(data.board);
+				updateBoard(Chessboard, false);
+				
+				showSideToMove(data.color);
 				break;
 			case 'time left':
 				console.log('time left')
-				set_timer(data.game.get_seconds_left())
-				start_timer()
+				let timer =  data.color === player_color ? player_timer : opponent_timer
+				//update the active timer with the time left sent from the backend
+				if (!game.is_over && data.time > 0) {
+					start_timer(Math.floor(data.time), timer);
+				}
+				break
 			case 'turn ended':
-				console.log('turn ended')
+				console.log('turn started')
+				console.log("COLOR:", data.color)
+				
 				//the turn is over, get the time left and stop the timer
 				stop_timer();
 				//round the remaining time down to the nearest integer
-				set_timer(Math.floor(data.time));
+
+				set_timer(Math.floor(data.my_time), player_timer);
+				set_timer(Math.floor(data.opponent_time), opponent_timer);
+
+				start_timer(data.opponent_time, opponent_timer)
+
+				
 				break;
 			case 'game over':
-				console.log(data)
+
 				showGameOver(data.reason, data.winner)
 				stop_timer();
+
+				game.load(data.board);
+
+				updateBoard(Chessboard, false);
+
 				//tell the frontend library to stop the game
 				game.is_over = true;
-				light = true;
+				break;
+			case 'rematch':
+				console.log('REMATCH REQUESTED')
+				$('#rematch-modal').modal('show');
+				break;
+			case 'rematch declined':
+				alert('Rematch declined');
 				break;
 			default:
 				break;
 		}
-
-
 	}
 	socket.onclose = function (event) {
 		console.log('websocket is disconnected ...')

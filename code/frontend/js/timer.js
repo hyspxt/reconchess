@@ -1,44 +1,59 @@
-//expects to receive the initial time in seconds
-function set_timer(time_seconds) {
-	minutes = Math.floor(time_seconds / 60);
-	seconds = time_seconds % 60;
+let minutes;
+let seconds
+let activeTimer
 
-	formattedMinutes = addZero(minutes);
-	formattedSeconds = addZero(seconds);
+export function set_timer(time, element) {
+	minutes = Math.floor(time / 60);
+	seconds = Math.ceil(time % 60);
 
-	document.getElementById('timer').innerText = `${formattedMinutes}:${formattedSeconds}`;
-}
-
-function start_timer() {
-	updateTimer();
-	timer = setInterval(updateTimer, 1000);
-}
-
-function stop_timer() {
-	clearInterval(timer);
-}
-
-function updateTimer() {
-	
-	if (seconds === 0) {
-		minutes--;
-		seconds = 59;
-	} else {
-		seconds--;
-	}
-	
 	const formattedMinutes = addZero(minutes);
 	const formattedSeconds = addZero(seconds);
-	
-	document.getElementById('timer').innerText = `${formattedMinutes}:${formattedSeconds}`;
 
-	if (minutes === 0 && seconds === 0) {
-		stop_timer();
-		return;
+	element.innerText = `${formattedMinutes}:${formattedSeconds}`;
+}
+
+export function start_timer(time, element) {
+	time = updateTimer(time, element);
+	// timer = setInterval(updateTimer, 1000);
+	//stop timer if it is already running
+	if (activeTimer) clearInterval(activeTimer);
+	//start the timer
+
+	activeTimer = setInterval(() => time = updateTimer(time, element), 1000);
+
+}
+
+export function stop_timer() {
+	clearInterval(activeTimer);
+}
+
+export function updateTimer(time, element) {
+
+	if (time >= 0) {
+		minutes = Math.floor(time / 60);
+		seconds = Math.ceil(time % 60);
+		if (minutes === 0 && seconds === 0) {
+			element.innerText = `00:00`;
+			stop_timer();  // if something breaks, switch this with stop_timer(element);
+			return;
+		}
+		else if (seconds === 0 && minutes > 0) {
+			minutes--;
+			seconds = 59;
+		}
+		else {
+			seconds--;
+		}
 	}
+
+	const formattedMinutes = addZero(minutes);
+	const formattedSeconds = addZero(seconds);
+
+	element.innerText = `${formattedMinutes}:${formattedSeconds}`;
+	return (time - 1);
 }
 
 //adds a zero if the value is less than 10
-function addZero(value) {
+export function addZero(value) {
 	return value < 10 ? `0${value}` : value;
 }

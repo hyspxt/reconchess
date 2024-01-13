@@ -1,11 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
+button{
+    border-radius: 10px;
+    border-color: #274C77;
+    color: #274C77;
+    width: 200px;
+}
+button:hover{
+    background-color: #274C77;
+    color: #FFF;
+}
+
 .container{
     display: flex;
     text-align: center;
     justify-content: center;
     margin-top: 200px;
+    flex-direction: column;
+}
+
+.title{
+    display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .btn_home{
@@ -24,7 +41,7 @@
     padding-left: 50px;
     padding-right: 50px;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.2em;
 }
 
 body{
@@ -41,10 +58,8 @@ body{
 
 .center{
     display: flex;
-    float: left;
     padding-top: 40px;
     padding-bottom: 40px;
-    padding-left: 0;
 }
 
 .fontanimation{
@@ -67,8 +82,13 @@ body{
     font-weight: bolder;
 }
 @media (max-width: 1180px) {
+    .title{
+        flex-direction: column;
+    }
+
     .right{
         margin-top: 20px;
+        justify-content: center;
     }
     .fontanimation{
         font-size: 50px;
@@ -79,6 +99,8 @@ body{
     }
     .center{
         float: center;
+        padding-right: 0;
+        justify-content: center;
     }
     .container{
         margin-top: 150px;

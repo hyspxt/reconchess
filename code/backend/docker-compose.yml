@@ -6,14 +6,16 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - SECRET_KEY=django-insecure-!qog!vd-xf)9v_2zmg#vks=sr(9z)i%w(v!z3mfpp97tk(s1n0
       - DB_USER=myuser
       - DB_PASSWORD=123
       - DB_NAME=mydb
       - DB_HOST=postgres
-      - PYTHONPATH=/backendTests
+      - PYTHONPATH=/backendTests:/strangefish2
     volumes:
       - "./django:/django"
       - "../../test/backendTests:/backendTests"
+      - "./strangefish2:/strangefish2"
     command: python3 manage.py runserver 0.0.0.0:8000
     image: app:django
     depends_on:

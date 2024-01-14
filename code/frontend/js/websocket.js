@@ -10,9 +10,6 @@ let currentTime;
 export function createWebsocket(game, ws_url, player_timer, opponent_timer) {
 	const WEBSOCKET_URL = window.location.hostname === "localhost" ? `ws://localhost:8000/${ws_url}` : `wss://silverbullets.rocks/${ws_url}`;
 	const socket = new WebSocket(WEBSOCKET_URL);
-	socket.onopen = function () {
-		console.log('websocket is connected ...')
-	}
 	
 	socket.onmessage = function (event) {
 		let data = JSON.parse(event.data)

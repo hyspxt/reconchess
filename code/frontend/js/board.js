@@ -27,11 +27,14 @@ export function startConnection(url, timer, bot, color) {
             socket.send(JSON.stringify({ action: 'get_active_timer' }));
     });
 
+    //only send the start game request when the socket is open
+    socket.addEventListener('open', () => {
+        socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color }))
 
-    console.log(url, timer, bot, color)
+        //remove the event listener after the game has started to prevent it from being called again
+        socket.removeEventListener('open', () => { });
+    })
 
-    //avoid trying to send the message while the page is loading
-    setTimeout(() => { socket.send(JSON.stringify({ action: 'start_game', seconds: timer, bot: bot, color: color })) }, 500);
 
 }
 

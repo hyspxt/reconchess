@@ -469,7 +469,7 @@
         function smallernav() {
             if (!nav_small) {
                 $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a').css('display', 'none');
-                $(' .user').css('display', 'none')
+                $('.user').css('display', 'none')
                 $('#right_a').css('display', 'block');
                 $('#nav_colomn').css('width', '90px');
                 $('#nav_colomn').css('transition', 'width 0.5s');
@@ -491,7 +491,7 @@
         }
 
         function sigIn_btn() {
-            if (!nav_small) {
+            if (nav_small) {
                 $('.user').css('display', 'block');
             }
         }

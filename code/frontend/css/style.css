@@ -1181,3 +1181,8 @@ header {
     margin-bottom: 2px;
     margin-right: 5px;
 }
+
+#name_user{
+    width: 100%;
+  overflow-wrap: break-word;
+}

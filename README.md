@@ -22,7 +22,28 @@ RBC aggiunge i seguenti elementi agli scacchi classici:
 ReconChess é un paradigma e banco di prova per capire e sperimentare il decision making autonomo strategico attraverso una serie di iterazioni di sensing.
 
 ## Dependencies, Testing, Running
+Il progetto richiede le seguenti dipendenze:
 
+```bash
+asgiref==3.7.2
+Django==4.2.7
+packaging==23.2
+psycopg2-binary==2.9.9
+sqlparse==0.4.4
+daphne==4.0.0
+channels==4.0.0
+reconchess==1.6.9
+coverage==7.3.2
+click==8.1.7
+tqdm==4.66.1
+numpy==1.26.2
+google-api-python-client==2.24.0
+```
+
+Esse vengono installate automaticamente, ma é anche possibile utilizzare il comando:
+```bash
+pip install -r /code/backend/requirements.txt
+```
 
 ## Info
 ### Communicating

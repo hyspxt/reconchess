@@ -22,7 +22,7 @@ RBC aggiunge i seguenti elementi agli scacchi classici:
 ReconChess é un paradigma e banco di prova per capire e sperimentare il decision making autonomo strategico attraverso una serie di iterazioni di sensing.
 
 ## Dependencies, Testing, Running
-Il progetto richiede le seguenti dipendenze:
+L'applicazione richiede le seguenti dipendenze:
 
 ```bash
 asgiref==3.7.2
@@ -51,6 +51,11 @@ Come sistema di comunicazione interno al team, abbiamo preferito garantire la to
 
 ### Agile/Scrum 
 Il team ha sviluppato il progetto seguento la metodologia e i principi agili, in particolare attraverso gli eventi Scrum quali Sprint Review, Sprint Planning, Sprint Retrospective. Piuttosto che seguire la filosofia Daily Scrum (uno Scrum Meeting al giorno), si é optato per Weekly Scrum in modo da venire incontro agli impegni individuali di tutti i membri.
+
+Durante il Sprint Planning, si discute in base agli obiettivi dello sprint corrente e si dividono i compiti tra i membri del team in base alle competenze e alla disponibilità di ciascuno. Cerchiamo di bilanciare il carico di lavoro in modo equo.
+La Sprint Review è un evento per riflettere sul lavoro svolto durante lo sprint.
+Dopo ogni sprint, teniamo una Sprint Retrospective per discutere delle buone pratiche adottate, quelle da migliorare e quelle da rimuovere. Questo ci aiuta a diventare un team più efficace.
+
 
 
 

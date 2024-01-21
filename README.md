@@ -21,7 +21,7 @@ RBC aggiunge i seguenti elementi agli scacchi classici:
 
 ReconChess é un paradigma e banco di prova per capire e sperimentare il decision making autonomo strategico attraverso una serie di iterazioni di sensing.
 
-## Dependencies, Testing, Running
+## Dependencies, Running
 L'applicazione richiede le seguenti dipendenze:
 
 ```bash
@@ -44,6 +44,8 @@ Esse vengono installate automaticamente, ma é anche possibile utilizzare il com
 ```bash
 pip install -r /code/backend/requirements.txt
 ```
+
+L'applicazione é attualmente accessibile su -> silverbullets.rocks
 
 ## Info
 ### Communicating

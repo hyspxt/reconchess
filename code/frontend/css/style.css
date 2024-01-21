@@ -681,7 +681,6 @@ header {
 
 .players_position {
     width: 90%;
-    margin-right: 30px;
 }
 
 .number_position{
@@ -729,6 +728,7 @@ header {
     border: #274C77 2px solid;
     text-align: center;
     display: none;
+    margin-left: 30px;
 }
 
 .number_top3{

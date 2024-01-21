@@ -328,7 +328,7 @@
 
     // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
     window.onload = function () {
-      resize_nav;
+      resize_nav();
       let User = 'guest';
       checkLogin().then(user => {
         console.log("user: ", user);

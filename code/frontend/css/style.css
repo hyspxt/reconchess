@@ -562,6 +562,7 @@ header {
 
 .text-center.mb-4.rules-title{
     overflow-wrap: break-word;
+    width: 100%;
 }
 
 .rules-logo-container {
@@ -624,7 +625,7 @@ header {
 .title_User,
 .User {
     display: flex;
-    width: 40%;
+    width: 28%;
     padding: 10px;
 }
 
@@ -637,7 +638,7 @@ header {
 .title_Elo,
 .Elo{
     display: flex;
-    width: 15%;
+    width: 18%;
     padding: 10px;
 }
 
@@ -712,6 +713,7 @@ header {
 .class_leader_player{
     margin-bottom: 12px;
     transition: transform 0.5s ease-in-out;
+    width: 100%;
 }
 
 .class_stat_player{

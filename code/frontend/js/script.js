@@ -134,8 +134,8 @@ export function checkLogin() {
                 loginDiv.innerHTML = `
                     <div id="name_user"><p>Welcome <span style="color: #FFF;">${data.username}</span> !</p></div>
                     <div>
-                        <form class="form-inline mt-auto" id="btn_signOut" method="post" style=" padding-left: 8px; padding-right: 8px;">
-                            <button type="submit" class="btn btn-outline-danger">Sign out</button>
+                        <form class="form-inline mt-auto" id="btn_signOut" method="post">
+                            <button type="submit" class="btn btn-outline-danger" style="padding-left: 8px; padding-right: 8px;">Sign out</button>
                         </form>
                     </div>
                 `;

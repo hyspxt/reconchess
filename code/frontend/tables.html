@@ -345,6 +345,7 @@
           insert_in_leaderboard(player.player_name, player.n_wins, player.n_lost, player.n_draws, player.elo);
         });
       });
+      resize_nav();
     }
 
   </script>
@@ -382,7 +383,7 @@
       }
     }
 
-    window.onload = resize_nav;
+    
     $(window).resize(function () {
       resize_nav();
     });
@@ -391,6 +392,12 @@
       console.log('resize called');
       var width = $(window).width();
       if (width < 1180) {
+        $('.user').css('display', 'none');
+        checkLogin().then(data => {
+            if (data.loggedIn) {
+                $('#name_user').css('display', 'none');
+            }
+        });
         $('#nav_colomn').removeClass('flex-column');
         $('#nav_btn').removeClass('flex-column');
         $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
@@ -407,12 +414,6 @@
         $('#nav_colomn').addClass('nav_shrink');
         $('#nav_colomn').css('transition', 'width 0s');
 
-        $('.user').css('display', 'none');
-        checkLogin().then(data => {
-            if (data.loggedIn) {
-                $('#name_user').css('display', 'none');
-            }
-        });
         if (nav_small) {
             $('.user').css('display', 'block');
         }
@@ -421,6 +422,11 @@
 
 
       } else {
+        checkLogin().then(data => {
+          if (data.loggedIn) {
+            $('#name_user').css('display', 'block');
+          }
+        });
         $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
         $('#nav_btn').removeClass('fixed-top');
         $('#nav_btn').removeClass('flex-row');
@@ -437,11 +443,6 @@
         $('#nav_colomn').removeClass('nav_shrink');
         $('#nav_colomn').css('transition', 'width 0s');
 
-        checkLogin().then(data => {
-          if (data.loggedIn) {
-            $('#name_user').css('display', 'block');
-          }
-        });
         if (nav_small) {
           $('.container_a').css('margin-left', '120px');
           $('#nav_colomn').css('width', '95px');

@@ -45,7 +45,7 @@ Esse vengono installate automaticamente, ma é anche possibile utilizzare il com
 pip install -r /code/backend/requirements.txt
 ```
 
-L'applicazione é attualmente accessibile su -> [silverbullets.rocks](url)
+L'applicazione é attualmente accessibile su -> [silverbullets.rocks](href)
 
 ## Info
 ### Communicating

@@ -497,3 +497,5 @@ export function resetFog() {
         squareTarget.css('filter', 'none');
     });
 }
+
+

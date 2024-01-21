@@ -562,6 +562,7 @@ header {
 
 .text-center.mb-4.rules-title{
     overflow-wrap: break-word;
+    width: 100%;
 }
 
 .rules-logo-container {
@@ -624,7 +625,7 @@ header {
 .title_User,
 .User {
     display: flex;
-    width: 40%;
+    width: 28%;
     padding: 10px;
 }
 
@@ -637,7 +638,7 @@ header {
 .title_Elo,
 .Elo{
     display: flex;
-    width: 15%;
+    width: 18%;
     padding: 10px;
 }
 
@@ -680,7 +681,6 @@ header {
 
 .players_position {
     width: 90%;
-    margin-right: 30px;
 }
 
 .number_position{
@@ -712,6 +712,7 @@ header {
 .class_leader_player{
     margin-bottom: 12px;
     transition: transform 0.5s ease-in-out;
+    width: 100%;
 }
 
 .class_stat_player{
@@ -727,6 +728,7 @@ header {
     border: #274C77 2px solid;
     text-align: center;
     display: none;
+    margin-left: 30px;
 }
 
 .number_top3{
@@ -889,6 +891,10 @@ header {
     flex-direction: column;
 }
 
+.nav_shrink{
+    align-items: center;
+}
+
 .selection_player,
 .selection_room {
     width: 75%;
@@ -1023,6 +1029,7 @@ header {
 #btn_signIn {
     display: block;
 }
+
 
 .btn_nav_home{
     overflow: visible;

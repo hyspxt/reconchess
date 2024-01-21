@@ -118,8 +118,8 @@
         <div id="playerStats" class="table_stats_player">
           <div class="class_stat_player_header">
             <div class="title_User">Username</div>
-            <div class="title_Vic">Victories</div>
-            <div class="title_Def">Defeats</div>
+            <div class="title_Vic">Victory</div>
+            <div class="title_Def">Defeat</div>
             <div class="title_Drw">Draw</div>
             <div class="title_Elo">Elo</div>
           </div>
@@ -134,8 +134,8 @@
 
         <div class="class_stat_leaderboard_header">
           <div class="title_User">Username</div>
-          <div class="title_Vic">Victories</div>
-          <div class="title_Def">Defeats</div>
+          <div class="title_Vic">Victory</div>
+          <div class="title_Def">Defeat</div>
           <div class="title_Drw">Draw</div>
           <div class="title_Elo">Elo</div>
         </div>
@@ -326,40 +326,14 @@
       div2.parentNode.removeChild(div2);
     }
 
-    // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
-    window.onload = function () {
-      let User = 'guest';
-      let playerMail = 'guest@example.com';
-      checkLogin().then(user => {
-        console.log("user: ", user);
-        User = user.username;
-        playerMail = user.email;
 
-        fetchPlayerLocStats(User).then((stats) => {
-          insert_row(stats.player_name, stats.n_wins, stats.n_lost, stats.n_draws, stats.elo);
-        });
-      });
-
-      fetchLeaderboard().then(leaderboardData => {
-        console.log("leaderboardData: ", leaderboardData);
-        // Itera sui dati della leaderboard per inserirli nella tabella HTML
-        leaderboardData.leaderboard.forEach(player => {
-          insert_in_leaderboard(player.player_name, player.n_wins, player.n_lost, player.n_draws, player.elo);
-        });
-      });
-    }
-
-  </script>
-  <script type="module">
-
-    import { checkLogin } from './js/script.js'
     let nav_small = false;
 
     function smalernav() {
       if (!nav_small) {
         $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, .user, #left_a').css('display', 'none');
         $('#right_a').css('display', 'block');
-        $('#nav_colomn').css('width', '90px');
+        $('#nav_colomn').css('width', '95px');
         $('#nav_colomn').css('transition', 'width 0.5s');
         $('.container_a').css('margin-left', '120px');
         $('.container_a').css('transition', 'margin-left 0.5s');
@@ -384,7 +358,7 @@
       }
     }
 
-    resize_nav();
+    
     $(window).resize(function () {
       resize_nav();
     });
@@ -393,6 +367,12 @@
       console.log('resize called');
       var width = $(window).width();
       if (width < 1180) {
+        $('.user').css('display', 'none');
+        checkLogin().then(data => {
+            if (data.loggedIn) {
+                $('#name_user').css('display', 'none');
+            }
+        });
         $('#nav_colomn').removeClass('flex-column');
         $('#nav_btn').removeClass('flex-column');
         $('#nav_colomn').addClass('flex-row fixed-top navbar-dark');
@@ -406,22 +386,22 @@
         $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
         $('.user').removeClass('mt-auto');
         $('#nav_colomn').css('justify-content', 'space-between');
-        $('#nav_colomn').css('align-items', 'center');
+        $('#nav_colomn').addClass('nav_shrink');
         $('#nav_colomn').css('transition', 'width 0s');
 
         if (nav_small) {
-          $('.user').css('display', 'block');
+            $('.user').css('display', 'block');
         }
         $('.container_a').css('margin-top', '50px');
         $('.container_a').css('margin-left', '0px');
 
-        checkLogin().then(data => {
-          if (data.loggedIn) {
-            $('#name_user').css('display', 'none');
-          }
-        });
 
       } else {
+        checkLogin().then(data => {
+          if (data.loggedIn) {
+            $('#name_user').css('display', 'block');
+          }
+        });
         $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
         $('#nav_btn').removeClass('fixed-top');
         $('#nav_btn').removeClass('flex-row');
@@ -435,12 +415,12 @@
         $('#right_a').css('display', 'none');
         $('.user').addClass('mt-auto');
         $('#nav_colomn').css('justify-content', 'start');
-        $('#nav_colomn').css('align-content', 'start');
+        $('#nav_colomn').removeClass('nav_shrink');
         $('#nav_colomn').css('transition', 'width 0s');
 
         if (nav_small) {
           $('.container_a').css('margin-left', '120px');
-          $('#nav_colomn').css('width', '90px');
+          $('#nav_colomn').css('width', '95px');
           $('#right_a, #linea').css('display', 'block');
           $('.user').css('display', 'none');
         } else {
@@ -450,17 +430,33 @@
         }
         $('.container_a').css('margin-top', '0');
 
-        checkLogin().then(data => {
-          if (data.loggedIn) {
-            $('#name_user').css('display', 'block');
-          }
-        });
       }
     }
     window.addEventListener('load', () => resize_nav()); // This thing might break something, so remove it if it does
     // window.addEventListener('resize', () => resize_nav());
     document.getElementById("collapse").addEventListener("click", () => smalernav());
 
+    // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
+    window.onload = function () {
+      let User = 'guest';
+      checkLogin().then(user => {
+        console.log("user: ", user);
+        User = user.username;
+
+        fetchPlayerLocStats(User).then((stats) => {
+          insert_row(stats.player_name, stats.n_wins, stats.n_lost, stats.n_draws, stats.elo);
+        });
+      });
+
+      fetchLeaderboard().then(leaderboardData => {
+        console.log("leaderboardData: ", leaderboardData);
+        // Itera sui dati della leaderboard per inserirli nella tabella HTML
+        leaderboardData.leaderboard.forEach(player => {
+          insert_in_leaderboard(player.player_name, player.n_wins, player.n_lost, player.n_draws, player.elo);
+        });
+      });
+      resize_nav();
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"
     integrity="sha384-v5sCAl8qZOHabzoh1+noJcE2yaDE9V/9+mBHgmxFdpiY5chhD/Qf1rQ7igh8ew0q"

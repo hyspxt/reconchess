@@ -64,7 +64,7 @@ window.handleGoogleLogin = function(response) {
         form.after(alert);
         
         //reroute the user to the board page
-        if (response.ok) {
+        if (data.success) {
             window.location.href = "/board.html";
         }
     })
@@ -135,7 +135,7 @@ export function checkLogin() {
                     <div id="name_user"><p>Welcome <span style="color: #FFF;">${data.username}</span> !</p></div>
                     <div>
                         <form class="form-inline mt-auto" id="btn_signOut" method="post">
-                            <button type="submit" class="btn btn-outline-danger">Sign out</button>
+                            <button type="submit" class="btn btn-outline-danger" style="padding-left: 8px; padding-right: 8px;">Sign out</button>
                         </form>
                     </div>
                 `;

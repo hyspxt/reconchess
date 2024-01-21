@@ -134,7 +134,7 @@
             <div style="display: flex; justify-content:center;">
                 <div id="g_id_onload"
                     data-client_id="613529435942-nfjfd37rhd01pbqjrkg8tfqa0uvdildg.apps.googleusercontent.com"
-                    data-callback=handleCredentialResponse>
+                    data-callback=handleGoogleLogin>
                 </div>
                 <div class="g_id_signin" data-type="standard" data-locale="en-US"></div>
             </div>
@@ -149,7 +149,7 @@
             if (!nav_small) {
                 $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, .user, #left_a').css('display', 'none');
                 $('#right_a').css('display', 'block');
-                $('#nav_colomn').css('width', '90px');
+                $('#nav_colomn').css('width', '95px');
                 $('#nav_colomn').css('transition', 'width 0.5s');
                 $('.container_z').css('margin-left', '120px');
                 $('.container_z').css('transition', 'margin-left 0.5s');
@@ -169,12 +169,12 @@
         }
 
         function sigIn_btn() {
-            if (!nav_small) {
+            if (nav_small) {
                 $('.user').css('display', 'block');
             }
         }
 
-        resize_nav();
+        window.onload = resize_nav;
         $(window).resize(function () {
             resize_nav();
         });
@@ -196,20 +196,21 @@
                 $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
                 $('.user').removeClass('mt-auto');
                 $('#nav_colomn').css('justify-content', 'space-between');
-                $('#nav_colomn').css('align-items', 'center');
+                $('#nav_colomn').addClass('nav_shrink');
                 $('#nav_colomn').css('transition', 'width 0s');
 
+                $('.user').css('display', 'none');
+                checkLogin().then(data => {
+                    if (data.loggedIn) {
+                        $('#name_user').css('display', 'none');
+                    }
+                });
                 if (nav_small) {
                     $('.user').css('display', 'block');
                 }
                 $('.container_z').css('margin-top', '50px');
                 $('.container_z').css('margin-left', '0px');
 
-                checkLogin().then(data => {
-                    if (data.loggedIn) {
-                        $('#name_user').css('display', 'none');
-                    }
-                });
 
             } else {
                 $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
@@ -225,12 +226,17 @@
                 $('#right_a').css('display', 'none');
                 $('.user').addClass('mt-auto');
                 $('#nav_colomn').css('justify-content', 'start');
-                $('#nav_colomn').css('align-content', 'start');
+                $('#nav_colomn').removeClass('nav_shrink');
                 $('#nav_colomn').css('transition', 'width 0s');
 
+                checkLogin().then(data => {
+                    if (data.loggedIn) {
+                        $('#name_user').css('display', 'block');
+                    }
+                });
                 if (nav_small) {
                     $('.container_z').css('margin-left', '120px');
-                    $('#nav_colomn').css('width', '90px');
+                    $('#nav_colomn').css('width', '95px');
                     $('#right_a, #linea').css('display', 'block');
                     $('.user').css('display', 'none');
                 } else {
@@ -240,11 +246,6 @@
                 }
                 $('.container_z').css('margin-top', '0');
 
-                checkLogin().then(data => {
-                    if (data.loggedIn) {
-                        $('#name_user').css('display', 'block');
-                    }
-                });
             }
         }
         window.addEventListener('load', () => resize_nav()); // This thing might break something, so remove it if it does

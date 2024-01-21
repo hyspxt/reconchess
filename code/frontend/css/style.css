@@ -1183,6 +1183,6 @@ header {
 }
 
 #name_user{
-    width: 100%;
-  overflow-wrap: break-word;
+    width: 120%;
+    overflow-wrap: break-word;
 }

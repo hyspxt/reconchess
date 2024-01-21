@@ -326,27 +326,6 @@
       div2.parentNode.removeChild(div2);
     }
 
-    // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
-    window.onload = function () {
-      resize_nav();
-      let User = 'guest';
-      checkLogin().then(user => {
-        console.log("user: ", user);
-        User = user.username;
-
-        fetchPlayerLocStats(User).then((stats) => {
-          insert_row(stats.player_name, stats.n_wins, stats.n_lost, stats.n_draws, stats.elo);
-        });
-      });
-
-      fetchLeaderboard().then(leaderboardData => {
-        console.log("leaderboardData: ", leaderboardData);
-        // Itera sui dati della leaderboard per inserirli nella tabella HTML
-        leaderboardData.leaderboard.forEach(player => {
-          insert_in_leaderboard(player.player_name, player.n_wins, player.n_lost, player.n_draws, player.elo);
-        });
-      });
-    }
 
     let nav_small = false;
 
@@ -457,6 +436,27 @@
     // window.addEventListener('resize', () => resize_nav());
     document.getElementById("collapse").addEventListener("click", () => smalernav());
 
+    // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
+    window.onload = function () {
+      let User = 'guest';
+      checkLogin().then(user => {
+        console.log("user: ", user);
+        User = user.username;
+
+        fetchPlayerLocStats(User).then((stats) => {
+          insert_row(stats.player_name, stats.n_wins, stats.n_lost, stats.n_draws, stats.elo);
+        });
+      });
+
+      fetchLeaderboard().then(leaderboardData => {
+        console.log("leaderboardData: ", leaderboardData);
+        // Itera sui dati della leaderboard per inserirli nella tabella HTML
+        leaderboardData.leaderboard.forEach(player => {
+          insert_in_leaderboard(player.player_name, player.n_wins, player.n_lost, player.n_draws, player.elo);
+        });
+      });
+      resize_nav();
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"
     integrity="sha384-v5sCAl8qZOHabzoh1+noJcE2yaDE9V/9+mBHgmxFdpiY5chhD/Qf1rQ7igh8ew0q"

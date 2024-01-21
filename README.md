@@ -20,10 +20,9 @@ RBC aggiunge i seguenti elementi agli scacchi classici:
 - Scelte su condizioni di insicurezza.
 
 ReconChess é un paradigma e banco di prova per capire e sperimentare il decision making autonomo strategico attraverso una serie di iterazioni di sensing.
-Piú informazioni a riguardo si possono trovare direttamente nell'applicazione.
 
 ## Dependencies, Testing, Running
-....
+
 
 ## Info
 ### Communicating

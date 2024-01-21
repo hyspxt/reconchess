@@ -328,6 +328,7 @@
 
     // Funzione per ottenere dati del giocatore e della classifica quando la pagina si carica tramite richieste HTTP
     window.onload = function () {
+      resize_nav;
       let User = 'guest';
       checkLogin().then(user => {
         console.log("user: ", user);
@@ -345,7 +346,6 @@
           insert_in_leaderboard(player.player_name, player.n_wins, player.n_lost, player.n_draws, player.elo);
         });
       });
-      resize_nav();
     }
 
     let nav_small = false;

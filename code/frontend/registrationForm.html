@@ -199,14 +199,15 @@
                 $('#nav_colomn').addClass('nav_shrink');
                 $('#nav_colomn').css('transition', 'width 0s');
 
-                if (nav_small) {
-                    $('.user').css('display', 'block');
-                }
+                $('.user').css('display', 'none');
                 checkLogin().then(data => {
                     if (data.loggedIn) {
                         $('#name_user').css('display', 'none');
                     }
                 });
+                if (nav_small) {
+                    $('.user').css('display', 'block');
+                }
                 $('.container_z').css('margin-top', '50px');
                 $('.container_z').css('margin-left', '0px');
 

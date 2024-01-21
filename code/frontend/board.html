@@ -646,9 +646,14 @@
                 $('#btn_nav_play, #btn_nav_rule, #btn_nav_lead, #btn_nav_collapse, #btn_nav_home, #left_a, #right_a, #linea').css('display', 'none');
                 $('.user').removeClass('mt-auto');
                 $('#nav_colomn').css('justify-content', 'space-between');
-                $('#nav_colomn').css('align-items', 'center');
+                $('#nav_colomn').addClass('nav_shrink');
                 $('#nav_colomn').css('transition', 'width 0s');
 
+                checkLogin().then(data => {
+                    if (data.loggedIn) {
+                        $('#name_user').css('display', 'none');
+                    }
+                });
 
                 if (nav_small) {
                     $('.user').css('display', 'block');
@@ -656,11 +661,6 @@
                 $('.container_x, .selection_player').css('margin-top', '50px');
                 $('#intro, #final').css('margin-left', '0px');
 
-                checkLogin().then(data => {
-                    if (data.loggedIn) {
-                        $('#name_user').css('display', 'none');
-                    }
-                });
             } else {
 
                 $('#nav_colomn').removeClass('flex-row fixed-top navbar-dark');
@@ -676,9 +676,14 @@
                 $('#right_a').css('display', 'none');
                 $('.user').addClass('mt-auto');
                 $('#nav_colomn').css('justify-content', 'start');
-                $('#nav_colomn').css('align-content', 'start');
+                $('#nav_colomn').removeClass('nav_shrink');
                 $('#nav_colomn').css('transition', 'width 0s');
 
+                checkLogin().then(data => {
+                    if (data.loggedIn) {
+                        $('#name_user').css('display', 'block');
+                    }
+                });
                 if (nav_small) {
                     $('#intro, #final').css('margin-left', '120px');
                     $('#nav_colomn').css('width', '90px');
@@ -691,11 +696,6 @@
                 }
                 $('.container_x, .selection_player').css('margin-top', '0');
 
-                checkLogin().then(data => {
-                    if (data.loggedIn) {
-                        $('#name_user').css('display', 'block');
-                    }
-                });
             }
         }
         window.addEventListener('load', () => resize_nav()); // This thing might break something, so remove it if it does

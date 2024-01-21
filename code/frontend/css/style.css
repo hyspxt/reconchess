@@ -889,6 +889,10 @@ header {
     flex-direction: column;
 }
 
+.nav_shrink{
+    align-items: center;
+}
+
 .selection_player,
 .selection_room {
     width: 75%;

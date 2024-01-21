@@ -4,17 +4,10 @@
 
 T8 Silver Bullets
 - Patrick Alfieri | @hyspxt | patrick.alfieri@studio.unibo.it | Product Owner
-<<<<<<< HEAD
-- Davide Luccioli | @sgrunf | davide.luccioli@studio.unibo.it | Developer, Scrum Master S0-S1
-- Kaori Jiang | @Kmoon7 | kaori.jiang@studio.unibo.it | Developer
-- Sofia Zanelli | @Sofy_zan | sofia.zanelli3@studio.unibo.it | Developer
-- Giulia Torsani | @giulia-t | giulia.torsani@studio.unibo.it | Developer, Scrum Master S2
-=======
-- Davide Luccioli | @sgrunf | davide.luccioli@studio.unibo.it | Scrum Master S0/S1
-- Kaori Jiang | @Kmoon7 | kaori.jiang@studio.unibo.it | Developer
-- Sofia Zanelli | @Sofy_zan | sofia.zanelli3@studio.unibo.it | Developer
-- Giulia Torsani | @giulia-t | giulia.torsani@studio.unibo.it | Scrum Master S2 | Developer
->>>>>>> 9fb352540ff99b61069e168d5195e0779f6464cb
+- Davide Luccioli | @sgrunf | davide.luccioli@studio.unibo.it | Scrum Master S0/S1/S3/S4 | Backend Developer
+- Kaori Jiang | @Kmoon7 | kaori.jiang@studio.unibo.it | Frontend Developer
+- Sofia Zanelli | @Sofy_zan | sofia.zanelli3@studio.unibo.it | Frontend Developer
+- Giulia Torsani | @giulia-t | giulia.torsani@studio.unibo.it | Scrum Master S2 | Backend-db Developer
 
 ## Description
 Questa repository contiene il progetto di Ingegneria del Software, CdL Informatica 23/24. 

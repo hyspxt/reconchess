@@ -498,7 +498,7 @@
     </script>
 
     <script type="module">
-        import { startConnection, socket } from './js/board.js';
+        import { startConnection, socket, lightOff } from './js/board.js';
         // createWebSocket import
         import { generaStringaCasuale } from './js/utils.js';
         import { checkLogin } from './js/script.js';
@@ -626,6 +626,7 @@
         resize_nav();
         $(window).resize(function () {
             resize_nav();
+            lightOff();
         });
 
         function resize_nav() {

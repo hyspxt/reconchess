@@ -496,4 +496,5 @@ export function resetFog() {
         squareTarget.css('opacity', 1);
         squareTarget.css('filter', 'none');
     });
+    light = true;
 }

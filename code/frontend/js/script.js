@@ -64,7 +64,7 @@ window.handleGoogleLogin = function(response) {
         form.after(alert);
         
         //reroute the user to the board page
-        if (response.ok) {
+        if (data.success) {
             window.location.href = "/board.html";
         }
     })

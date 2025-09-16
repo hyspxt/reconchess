@@ -1,0 +1,231 @@
+game-None.agent DEBUG: "A new StrangeFish player was initialized." from strangefish_mht_core.__init__ line 99 at 2025-09-16 15:42:08,135
+game-None.agent DEBUG: "Creating new instance of StrangeFish2." from strangefish_strategy.__init__ line 200 at 2025-09-16 15:42:08,135
+game-None.agent INFO: "Starting a new game as black against guest." from strangefish_mht_core.handle_game_start line 104 at 2025-09-16 15:42:08,135
+game-None.agent DEBUG: "Loading cached scores from file" from strangefish_strategy.handle_game_start line 241 at 2025-09-16 15:42:08,135
+game-None.agent WARNING: "Parameter `load_score_cache` is True, but the score cache file, b_cache.pk, was not found! Playing without it." from strangefish_strategy.handle_game_start line 246 at 2025-09-16 15:42:08,135
+game-None.agent DEBUG: "Loading opening book from file" from strangefish_strategy.handle_game_start line 257 at 2025-09-16 15:42:08,135
+game-None.agent DEBUG: "No opening book for guest, loading default book" from strangefish_strategy.handle_game_start line 267 at 2025-09-16 15:42:08,135
+game-None.agent WARNING: "Parameter `load_opening_book` is True, but the default opening book, opening_books/opening_B_ALL.pk, was not found! Playing without it." from strangefish_strategy.handle_game_start line 277 at 2025-09-16 15:42:08,135
+game-None.agent DEBUG: "Starting turn 1." from strangefish_mht_core.handle_opponent_move_result line 115 at 2025-09-16 15:42:17,287
+game-None.agent DEBUG: "Opponent's move was not a capture." from strangefish_mht_core.handle_opponent_move_result line 124 at 2025-09-16 15:42:17,287
+game-None.agent DEBUG: "Finished expanding and filtering the set of possible board states. There are 21 possible boards at the start of our turn 1." from strangefish_mht_core.handle_opponent_move_result line 142 at 2025-09-16 15:42:17,296
+game-None.agent DEBUG: "Choosing a sensing square for turn 1 with 21 boards and 900 seconds remaining." from strangefish_mht_core.choose_sense line 155 at 2025-09-16 15:42:17,296
+game-None.agent DEBUG: "In sense phase with 899.99 seconds left. Allowing up to 28.00 seconds for this sense step." from strangefish_strategy.sense_max_outcome line 525 at 2025-09-16 15:42:17,296
+game-None.agent DEBUG: "Sampling from priority 0: 21 boards (100%)" from strangefish_strategy.sense_max_outcome line 541 at 2025-09-16 15:42:17,296
+game-None.agent DEBUG: "Spent 0.6 seconds computing new move scores" from strangefish_strategy.sense_max_outcome line 550 at 2025-09-16 15:42:17,937
+game-None.agent DEBUG: "Had 0 of 21 boards already cached" from strangefish_strategy.sense_max_outcome line 551 at 2025-09-16 15:42:17,937
+game-None.agent DEBUG: "Sampled 21 of 21 boards for sensing." from strangefish_strategy.sense_max_outcome line 552 at 2025-09-16 15:42:17,938
+game-None.agent DEBUG: "Sense values presented as: (score change, move uncertainty, score variance, expected outcome, outcome variance, worst outcome, set reduction, and final combined score)" from strangefish_strategy.sense_max_outcome line 743 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "c2: (   17, 0.68,    21,    10,    34,   -72,    13,   -11)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "f2: (   22, 0.69,    29,    11,    42,   -47,    13,    -6)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "b4: (   16, 0.70,    20,    10,    34,   -72,    13,   -11)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "d4: (   20, 0.74,    17,     9,    29,   -33,    11,    -3)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "e4: (   19, 0.80,    22,     5,    31,   -56,    11,   -12)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "g4: (   21, 0.71,    29,     6,    44,   -52,    13,   -13)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "Finished choosing sense location in 0.653 seconds." from timing.__exit__ line 21 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "Chose to sense d4" from strangefish_mht_core.choose_sense line 167 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "Choosing move for turn 1 from 35 moves over 21 boards with 899.34 seconds remaining." from strangefish_mht_core.choose_move line 207 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "In move phase with 899.34 seconds left. Allowing up to 12.00 seconds for this move step." from strangefish_strategy.move_strategy line 823 at 2025-09-16 15:42:17,949
+game-None.agent DEBUG: "Had 441 of 441 already cached" from strangefish_strategy.move_strategy line 947 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "Spent 0.0 seconds computing new move scores" from strangefish_strategy.move_strategy line 948 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "Sampled 441 of 441 move+board pairs." from strangefish_strategy.move_strategy line 949 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "Move values presented as: (min, mean, max, compound) @ samples" from strangefish_strategy.move_strategy line 964 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "g8h6: ( -120,   -70,     5,   -85) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "g8f6: ( -130,     0,    55,   -39) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "b8c6: ( -110,   -15,    61,   -43) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "b8a6: ( -131,   -71,    13,   -89) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "h7h6: (  -90,   -34,    45,   -51) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "g7g6: (  -59,   -22,    44,   -33) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "f7f6: ( -190,   -83,    20,  -115) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "e7e6: (  -47,     2,    77,   -13) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "d7d6: (  -53,   -21,    45,   -31) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "c7c6: (  -53,   -16,    44,   -27) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "b7b6: (  -92,   -35,    28,   -52) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "a7a6: (  -70,   -19,    63,   -34) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "h7h5: ( -110,   -50,    59,   -68) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "g7g5: ( -266,  -144,   -40,  -181) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "f7f5: ( -200,   -60,    -8,  -102) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "e7e5: ( -146,    -3,    74,   -46) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "d7d5: ( -122,     4,   141,   -34) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "c7c5: (  -54,   -16,    40,   -27) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "b7b5: ( -248,   -87,     1,  -135) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "a7a5: (  -94,   -37,    27,   -54) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "0000: ( -103,   -47,    15,   -64) @ 21" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "Finished choosing move in 0.004145 seconds." from timing.__exit__ line 21 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "The chosen move was e7e6" from strangefish_mht_core.choose_move line 217 at 2025-09-16 15:42:17,953
+game-None.agent DEBUG: "The requested move was e7e6 and the taken move was e7e6." from strangefish_mht_core.handle_move_result line 233 at 2025-09-16 15:42:17,954
+game-None.agent DEBUG: "There were 21 possible boards before filtering and 21 after." from strangefish_mht_core.handle_move_result line 266 at 2025-09-16 15:42:17,954
+game-None.agent DEBUG: "Starting turn 2." from strangefish_mht_core.handle_opponent_move_result line 115 at 2025-09-16 15:42:22,065
+game-None.agent DEBUG: "Opponent's move was not a capture." from strangefish_mht_core.handle_opponent_move_result line 124 at 2025-09-16 15:42:22,065
+game-None.agent DEBUG: "Finished expanding and filtering the set of possible board states. There are 280 possible boards at the start of our turn 2." from strangefish_mht_core.handle_opponent_move_result line 142 at 2025-09-16 15:42:22,072
+game-None.agent DEBUG: "Choosing a sensing square for turn 2 with 280 boards and 904 seconds remaining." from strangefish_mht_core.choose_sense line 155 at 2025-09-16 15:42:22,072
+game-None.agent DEBUG: "In sense phase with 904.32 seconds left. Allowing up to 28.00 seconds for this sense step." from strangefish_strategy.sense_max_outcome line 525 at 2025-09-16 15:42:22,072
+game-None.agent DEBUG: "Sampling from priority 2: 10 boards (4%)" from strangefish_strategy.sense_max_outcome line 541 at 2025-09-16 15:42:22,072
+game-None.agent DEBUG: "Sampling from priority 0: 270 boards (96%)" from strangefish_strategy.sense_max_outcome line 541 at 2025-09-16 15:42:22,478
+game-None.agent DEBUG: "Spent 8.8 seconds computing new move scores" from strangefish_strategy.sense_max_outcome line 550 at 2025-09-16 15:42:30,904
+game-None.agent DEBUG: "Had 0 of 280 boards already cached" from strangefish_strategy.sense_max_outcome line 551 at 2025-09-16 15:42:30,904
+game-None.agent DEBUG: "Sampled 250 of 280 boards for sensing." from strangefish_strategy.sense_max_outcome line 552 at 2025-09-16 15:42:30,904
+game-None.agent DEBUG: "Sense values presented as: (score change, move uncertainty, score variance, expected outcome, outcome variance, worst outcome, set reduction, and final combined score)" from strangefish_strategy.sense_max_outcome line 743 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "b2: (  312, 0.67,   254,    42,    56, -1044,   222,  -141)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "c2: (  382, 0.77,   239,    38,    56, -1044,   233,  -147)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "d2: (  387, 0.61,   229,    46,    67, -1019,   230,  -139)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "e2: (  450, 0.62,   186,    45,    68, -1019,   229,  -147)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "f2: (  389, 0.63,   210,    48,   146,  -977,   230,  -155)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "g2: (  372, 0.71,   220,    27,   195,  -113,   224,   -17)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "b3: (  291, 0.64,   274,    40,    77, -1044,   212,  -147)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "c3: (  266, 0.77,   251,    35,    55, -1044,   215,  -148)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "d3: (  337, 0.62,   230,    43,    57, -1019,   225,  -139)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "e3: (  380, 0.66,   201,    40,    58, -1019,   222,  -147)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "f3: (  354, 0.58,   207,    46,   142,  -982,   215,  -157)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "g3: (  357, 0.68,   221,    25,   193,  -113,   212,   -19)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "b4: (  335, 0.70,   257,    39,    76, -1044,   214,  -150)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "c4: (  320, 0.63,   238,    43,    61, -1019,   217,  -139)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "d4: (  323, 0.64,   228,    44,    61, -1019,   224,  -139)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "e4: (  363, 0.64,   196,    41,    62, -1019,   221,  -148)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "f4: (  381, 0.58,   201,    50,   146,  -982,   217,  -156)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "g4: (  443, 0.74,   184,    47,   194,   -82,   216,     5)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "b5: (  218, 0.62,   236,    40,    85, -1044,   130,  -156)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "g5: (  203, 0.85,   184,    38,   128,  -982,   125,  -167)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "Finished choosing sense location in 8.957 seconds." from timing.__exit__ line 21 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "Chose to sense g4" from strangefish_mht_core.choose_sense line 167 at 2025-09-16 15:42:31,029
+game-None.agent DEBUG: "Choosing move for turn 2 from 43 moves over 280 boards with 895.37 seconds remaining." from strangefish_mht_core.choose_move line 207 at 2025-09-16 15:42:31,030
+game-None.agent DEBUG: "In move phase with 895.37 seconds left. Allowing up to 12.00 seconds for this move step." from strangefish_strategy.move_strategy line 823 at 2025-09-16 15:42:31,030
+game-None.agent DEBUG: "Move choice seems to be converged; breaking loop" from strangefish_strategy.move_strategy line 904 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "Had 8750 of 9800 already cached" from strangefish_strategy.move_strategy line 947 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "Spent 0.2 seconds computing new move scores" from strangefish_strategy.move_strategy line 948 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "Sampled 8886 of 9800 move+board pairs." from strangefish_strategy.move_strategy line 949 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "Move values presented as: (min, mean, max, compound) @ samples" from strangefish_strategy.move_strategy line 964 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "g8e7: (-1076,   -13,   196,  -332) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "g8h6: (-1025,   -25,   596,  -325) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "g8f6: (-1099,    33,   300,  -307) @ 268" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "f8e7: (-1060,     8,   255,  -312) @ 252" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "f8d6: (-1008,   -51,   216,  -338) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "f8c5: (-1114,  -164,   214,  -449) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "f8b4: (-1115,  -134,   171,  -428) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "f8a3: (-1171,  -529,   152,  -721) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "e8e7: (-6959,  -193,   131, -2223) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "d8e7: (-1149,   -82,   147,  -402) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "d8f6: (-1093,   -89,   186,  -390) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "d8g5: (-1900,  -451,   437,  -886) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "d8h4: ( -886,  -305,  6805,  -479) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "b8c6: (-1042,     8,   255,  -307) @ 267" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "b8a6: (-1084,   -30,   517,  -346) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "h7h6: (-1030,    12,   240,  -301) @ 280" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "g7g6: (-1095,   -17,   222,  -340) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "f7f6: (-7062,  -106,   187, -2193) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "d7d6: (-7076,  -130,   213, -2213) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "c7c6: (-1077,     6,   262,  -319) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "b7b6: (-1047,     7,   242,  -309) @ 261" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "a7a6: (-1065,    20,   287,  -305) @ 272" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "e6e5: ( -977,   -26,   256,  -311) @ 256" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "h7h5: (-1066,    -2,   272,  -321) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "g7g5: (-1128,   -93,   206,  -403) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "f7f5: (-7062,   -75,   232, -2171) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "d7d5: (-7076,   -84,   290, -2182) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "c7c5: (-1044,    30,   265,  -292) @ 280" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "b7b5: (-1079,   -52,   220,  -360) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "a7a5: (-1073,     2,   218,  -321) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "e6f5: (-1067,    -1,   253,  -321) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "0000: (-1067,    -1,   253,  -321) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "e6d5: (-1067,     1,   441,  -320) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "b7a6: (-1067,     2,   459,  -319) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "g7h6: (-1067,     2,   483,  -319) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:42:31,305
+game-None.agent DEBUG: "Finished choosing move in 0.2763 seconds." from timing.__exit__ line 21 at 2025-09-16 15:42:31,306
+game-None.agent DEBUG: "The chosen move was h7h6" from strangefish_mht_core.choose_move line 217 at 2025-09-16 15:42:31,306
+game-None.agent DEBUG: "The requested move was h7h6 and the taken move was h7h6." from strangefish_mht_core.handle_move_result line 233 at 2025-09-16 15:42:31,306
+game-None.agent DEBUG: "There were 280 possible boards before filtering and 278 after." from strangefish_mht_core.handle_move_result line 266 at 2025-09-16 15:42:31,308
+game-None.agent DEBUG: "Starting turn 3." from strangefish_mht_core.handle_opponent_move_result line 115 at 2025-09-16 15:42:43,533
+game-None.agent DEBUG: "Opponent's move was not a capture." from strangefish_mht_core.handle_opponent_move_result line 124 at 2025-09-16 15:42:43,533
+game-None.agent DEBUG: "Board set has exceeded limit, storing 230 to process later." from strangefish_mht_core.handle_opponent_move_result line 131 at 2025-09-16 15:42:43,549
+game-None.agent DEBUG: "Currently have 230 boards stored from 1 turns ago." from strangefish_mht_core.repopulate_exhausted_board_set line 310 at 2025-09-16 15:42:43,549
+game-None.agent DEBUG: "Estimate 230 stored old boards would expand into 4864 current boards." from strangefish_mht_core.repopulate_exhausted_board_set line 311 at 2025-09-16 15:42:43,549
+game-None.agent DEBUG: "Finished expanding and filtering the set of possible board states. There are 1015 possible boards at the start of our turn 3." from strangefish_mht_core.handle_opponent_move_result line 142 at 2025-09-16 15:42:43,549
+game-None.agent DEBUG: "Choosing a sensing square for turn 3 with 1015 boards and 900 seconds remaining." from strangefish_mht_core.choose_sense line 155 at 2025-09-16 15:42:43,549
+game-None.agent DEBUG: "In sense phase with 900.07 seconds left. Allowing up to 28.00 seconds for this sense step." from strangefish_strategy.sense_max_outcome line 525 at 2025-09-16 15:42:43,549
+game-None.agent DEBUG: "Sampling from priority 2: 65 boards (6%)" from strangefish_strategy.sense_max_outcome line 541 at 2025-09-16 15:42:43,549
+game-None.agent DEBUG: "Sampling from priority 0: 950 boards (94%)" from strangefish_strategy.sense_max_outcome line 541 at 2025-09-16 15:42:45,670
+game-None.agent DEBUG: "Spent 8.7 seconds computing new move scores" from strangefish_strategy.sense_max_outcome line 550 at 2025-09-16 15:42:52,232
+game-None.agent DEBUG: "Had 0 of 1015 boards already cached" from strangefish_strategy.sense_max_outcome line 551 at 2025-09-16 15:42:52,232
+game-None.agent DEBUG: "Sampled 250 of 1015 boards for sensing." from strangefish_strategy.sense_max_outcome line 552 at 2025-09-16 15:42:52,232
+game-None.agent DEBUG: "Sense values presented as: (score change, move uncertainty, score variance, expected outcome, outcome variance, worst outcome, set reduction, and final combined score)" from strangefish_strategy.sense_max_outcome line 743 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "b2: (  387, 0.84,   323,    64,   117,  -973,  5186,   -14)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "c2: (  448, 0.86,   341,    78,   125,  -974,  5333,     3)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "d2: (  539, 0.78,   362,    83,   121, -1003,  5330,     6)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "e2: (  534, 0.77,   336,    76,   119, -1003,  5391,    -2)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "f2: (  496, 0.61,   321,    68,   155,  -973,  5124,   -23)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "g2: (  482, 0.70,   319,    72,   222,   -98,  5138,   136)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "b3: (  354, 0.79,   304,    53,   111, -1062,  5158,   -44)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "c3: (  346, 0.82,   292,    70,   119,  -974,  5112,   -14)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "d3: (  476, 0.80,   337,    71,   121, -1003,  5172,   -12)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "e3: (  459, 0.76,   307,    76,   119, -1003,  5255,   -10)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "f3: (  454, 0.64,   302,    64,   152, -1003,  4877,   -39)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "g3: (  379, 0.56,   279,    68,   220,   -69,  4648,   123)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "b4: (  448, 0.80,   361,    61,   108, -1062,  5384,   -22)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "c4: (  436, 0.82,   348,    75,   131, -1062,  5361,   -17)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "d4: (  468, 0.79,   334,    74,   126, -1003,  5165,   -11)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "e4: (  451, 0.76,   304,    80,   123, -1003,  5240,    -8)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "f4: (  463, 0.71,   320,    86,   180, -1003,  4999,   -21)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "g4: (  437, 0.61,   305,    90,   239,   -69,  4915,   148)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "b5: (  353, 0.82,   342,    55,   123, -1062,  4014,   -63)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "c5: (  281, 0.71,   314,    59,   112, -1062,  4041,   -59)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "d5: (  188, 0.60,   228,    56,    97, -1062,  3098,   -89)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "e5: (  204, 0.35,   222,    68,    90, -1044,  3049,   -73)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "f5: (  226, 0.63,   255,    80,   182,  -980,  2932,   -74)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "g5: (  239, 0.63,   307,    81,   183,  -980,  3226,   -60)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "g6: (  106, 0.83,   233,    69,   134, -1062,  1376,  -121)" from strangefish_strategy.sense_max_outcome line 749 at 2025-09-16 15:42:52,368
+game-None.agent DEBUG: "Finished choosing sense location in 8.82 seconds." from timing.__exit__ line 21 at 2025-09-16 15:42:52,369
+game-None.agent DEBUG: "Chose to sense g4" from strangefish_mht_core.choose_sense line 167 at 2025-09-16 15:42:52,369
+game-None.agent DEBUG: "Choosing move for turn 3 from 41 moves over 1015 boards with 891.25 seconds remaining." from strangefish_mht_core.choose_move line 207 at 2025-09-16 15:42:52,369
+game-None.agent DEBUG: "In move phase with 891.25 seconds left. Allowing up to 12.00 seconds for this move step." from strangefish_strategy.move_strategy line 823 at 2025-09-16 15:42:52,369
+game-None.agent DEBUG: "Move choice seems to be converged; breaking loop" from strangefish_strategy.move_strategy line 904 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "Had 9750 of 39585 already cached" from strangefish_strategy.move_strategy line 947 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "Spent 9.0 seconds computing new move scores" from strangefish_strategy.move_strategy line 948 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "Sampled 19245 of 39585 move+board pairs." from strangefish_strategy.move_strategy line 949 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "Move values presented as: (min, mean, max, compound) @ samples" from strangefish_strategy.move_strategy line 964 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "h8h7: (-1186,  -106,   474,  -430) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "g8e7: (-1105,    -7,   259,  -336) @ 448" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "g8f6: (-1062,    47,   593,  -286) @ 1015" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "f8e7: ( -995,    11,   291,  -291) @ 923" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "f8d6: (-1026,   -46,   505,  -340) @ 427" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "f8c5: (-1123,  -209,   505,  -483) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "f8b4: (-1127,  -146,   666,  -440) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "f8a3: (-1563,  -441,   666,  -777) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "e8e7: (-6965,  -681,   134, -2566) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "d8e7: (-1129,  -102,   163,  -410) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,519
+game-None.agent DEBUG: "d8f6: (-1040,   -71,   502,  -362) @ 327" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "d8g5: (-1734,  -257,   538,  -700) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "d8h4: ( -977,  -325,  6805,  -521) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "b8c6: (-1014,    15,   559,  -293) @ 883" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "b8a6: (-1086,   -27,   556,  -345) @ 401" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "g7g6: (-1069,   -26,   243,  -339) @ 433" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "f7f6: (-7230,  -310,   150, -2386) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "d7d6: (-7104, -1046,   155, -2863) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "c7c6: (-1078,    14,   261,  -313) @ 625" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "b7b6: (-1050,    12,   306,  -307) @ 694" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "a7a6: (-1041,    28,   332,  -293) @ 897" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "h6h5: (-1113,   -17,   244,  -346) @ 395" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "e6e5: (-7530,   -96,   186, -2326) @ 251" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "g7g5: (-1052,   -58,   224,  -356) @ 348" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "f7f5: (-7231,  -274,   204, -2361) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "d7d5: (-7104, -1007,   241, -2836) @ 250" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "c7c5: (-1044,    32,   347,  -291) @ 929" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "b7b5: (-1057,   -47,   237,  -350) @ 374" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "a7a5: (-1057,     8,   250,  -312) @ 644" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "f7g6: (-1086,     2,   421,  -325) @ 624" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "h6g5: (-1086,    18,   648,  -313) @ 627" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "e6f5: (-1086,     1,   222,  -325) @ 617" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "0000: (-1086,     1,   222,  -325) @ 624" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "c7d6: (-1086,     2,   437,  -325) @ 624" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "g7f6: (-1086,     3,   502,  -324) @ 624" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "e6d5: (-1086,     3,   426,  -324) @ 621" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "b7a6: (-1086,     2,   496,  -324) @ 622" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "b7c6: (-1086,     2,   534,  -325) @ 624" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "d7c6: (-1086,     2,   473,  -325) @ 624" from strangefish_strategy.move_strategy line 966 at 2025-09-16 15:43:01,520
+game-None.agent DEBUG: "Finished choosing move in 9.152 seconds." from timing.__exit__ line 21 at 2025-09-16 15:43:01,521
+game-None.agent DEBUG: "The chosen move was b8c6" from strangefish_mht_core.choose_move line 217 at 2025-09-16 15:43:01,522
+game-None.agent DEBUG: "The requested move was b8c6 and the taken move was b8c6." from strangefish_mht_core.handle_move_result line 233 at 2025-09-16 15:43:01,522
+game-None.agent DEBUG: "There were 1015 possible boards before filtering and 1014 after." from strangefish_mht_core.handle_move_result line 266 at 2025-09-16 15:43:01,566
+game-None.agent INFO: "I won by RESIGN" from strangefish_mht_core.handle_game_end line 370 at 2025-09-16 15:47:29,966
+game-None.agent DEBUG: "During this game, scored 1042 positions at average 0.00112 seconds per score using search depth 7. Engine cache had 5621 hits and 22820 misses." from strangefish_strategy.gameover_strategy line 1055 at 2025-09-16 15:47:29,966
+game-None.agent DEBUG: "Terminating engine." from strangefish_strategy.gameover_strategy line 1063 at 2025-09-16 15:47:29,966
+game-None.agent DEBUG: "Engine exited." from strangefish_strategy.gameover_strategy line 1065 at 2025-09-16 15:47:29,975

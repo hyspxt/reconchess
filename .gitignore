@@ -7,3 +7,4 @@ __pycache__
 cypress
 .sonar-project.properties
 cypress.config.mjs
+postgres-data
